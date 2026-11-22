@@ -1,5 +1,21 @@
 [
   {
+    "slug": "gs-qis-soxl-soxs-note",
+    "title": "Goldman Sachs QIS 리서치 노트 — SOXL·SOXS 1년 3x 반도체 양방향 동적 알파 보고서",
+    "category": "GS QIS Research Note",
+    "summary": "3배 레버리지 변동성 잠식 수리 분석, 23개 카파시 실험(v_51~v_73) 진화 계보, Sealed OOS -73% 폭락장 스트레스 검증 전문 보고서",
+    "updated_at": "2026-11-23 03:40",
+    "extras": []
+  },
+  {
+    "slug": "dual-momentum-spy-qqq",
+    "title": "SPY · QQQ 듀얼 모멘텀 (Dual Momentum) 기준선 백테스트 & gs_quant 리포트",
+    "category": "Baseline · Multi-Asset",
+    "summary": "미국 대표 지수(SPY·QQQ) 상대·절대 듀얼 모멘텀 자산배분 전략의 장기 백테스트 및 gs_quant 롤링 리스크 6단 티어시트",
+    "updated_at": "2026-11-23 03:40",
+    "extras": []
+  },
+  {
     "slug": "engine-versions",
     "title": "퀀트 트레이딩 엔진 세대별 · 버전별 특성 가이드 (Gen 1 ~ Gen 7 · 총 93버전)",
     "category": "Engine Architecture · Docs",
@@ -37,14 +53,6 @@
     ]
   },
   {
-    "slug": "gs-qis-soxl-soxs-note",
-    "title": "Goldman Sachs QIS 리서치 노트 — SOXL·SOXS 1년 3x 반도체 양방향 동적 알파 보고서",
-    "category": "GS QIS Research Note",
-    "summary": "3배 레버리지 변동성 잠식 수리 분석, 23개 카파시 실험(v_51~v_73) 진화 계보, Sealed OOS -73% 폭락장 스트레스 검증 전문 보고서",
-    "updated_at": "2026-11-22 23:40",
-    "extras": []
-  },
-  {
     "slug": "v50-intraday-vwap",
     "title": "오전장 상승 정배열 VWAP 눌림목 1분봉 단타 전략 (v_50 우승 · Calmar 25.45)",
     "category": "Carbon Autoresearch · 1min",
@@ -66,14 +74,6 @@
     "title": "2026-11-19(목) 프리장 스크리너 종목 수익 전략 백테스트 리포트",
     "category": "Premarket · Screener",
     "summary": "2026년 11월 19일 목요일 프리마켓 스크리너 포착 급등주 대상 진입·청산 규칙 검증 및 수익 곡선 백테스트 리포트",
-    "updated_at": "2026-11-22 23:40",
-    "extras": []
-  },
-  {
-    "slug": "dual-momentum-spy-qqq",
-    "title": "SPY · QQQ 듀얼 모멘텀 (Dual Momentum) 기준선 백테스트 & gs_quant 리포트",
-    "category": "Baseline · Multi-Asset",
-    "summary": "미국 대표 지수(SPY·QQQ) 상대·절대 듀얼 모멘텀 자산배분 전략의 장기 백테스트 및 gs_quant 롤링 리스크 6단 티어시트",
     "updated_at": "2026-11-22 23:40",
     "extras": []
   }

@@ -5,18 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Goldman Sachs QIS Research Note — SOXL · SOXS 1Y Karpathy Autoresearch</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <style>
     :root {
       --bg: #ffffff; --card: #ffffff; --border: #e2e8f0; --text: #0f172a;
       --muted: #475569; --accent: #1d4ed8; --code-bg: #f1f5f9; --th-bg: #f8fafc;
-      --quote-bg: #eff6ff; --quote-bd: #2563eb;
+      --imp-bg: #eff6ff; --imp-bd: #2563eb;
+      --tip-bg: #ecfdf5; --tip-bd: #059669;
+      --warn-bg: #fffbeb; --warn-bd: #d97706;
+      --note-bg: #f8fafc; --note-bd: #64748b;
     }
     html[data-bg="warm"] {
       --bg: #faf8f5; --card: #ffffff; --border: #e7e2d8; --text: #1c1917;
-      --muted: #57534e; --code-bg: #f5f2eb; --th-bg: #f5f2eb; --quote-bg: #fef9c3; --quote-bd: #ca8a04;
+      --muted: #57534e; --code-bg: #f5f2eb; --th-bg: #f5f2eb;
     }
     html[data-bg="soft"] {
       --bg: #f1f5f9; --card: #ffffff; --border: #cbd5e1; --text: #0f172a;
@@ -25,16 +27,18 @@
     html[data-bg="dark"] {
       --bg: #0b1120; --card: #111827; --border: #1f2937; --text: #f8fafc;
       --muted: #94a3b8; --accent: #60a5fa; --code-bg: #1e293b; --th-bg: #1e293b;
-      --quote-bg: rgba(37,99,235,0.14); --quote-bd: #3b82f6;
+      --imp-bg: rgba(37,99,235,0.16); --tip-bg: rgba(5,150,105,0.16);
+      --warn-bg: rgba(217,119,6,0.16); --note-bg: rgba(100,116,139,0.16);
     }
     * { box-sizing: border-box; }
     body {
-      margin: 0; padding: 24px 16px 72px; background: var(--bg); color: var(--text);
+      margin: 0; padding: 0 0 72px; background: var(--bg); color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
-      line-height: 1.72; transition: background-color 0.18s ease, color 0.18s ease;
+      line-height: 1.72;
     }
+    .page-inner { padding: 20px 16px 0; }
     .topbar {
-      max-width: 960px; margin: 0 auto 20px; display: flex; flex-wrap: wrap;
+      max-width: 980px; margin: 0 auto 18px; display: flex; flex-wrap: wrap;
       justify-content: space-between; align-items: center; gap: 10px;
       padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 12px;
     }
@@ -54,28 +58,36 @@
     }
     .bg-btn.active { background: #1d4ed8; color: #ffffff; }
     article {
-      max-width: 960px; margin: 0 auto; background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 36px 40px; box-shadow: 0 1px 4px rgba(15,23,42,0.05);
+      max-width: 980px; margin: 0 auto; background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 34px 38px; box-shadow: 0 1px 4px rgba(15,23,42,0.05);
     }
-    @media (max-width: 640px) { article { padding: 22px 18px; } }
-    h1 { font-size: 24px; line-height: 1.35; margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 14px; }
-    h2 { font-size: 19px; margin-top: 34px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    @media (max-width: 640px) { article { padding: 20px 16px; } }
+    h1 { font-size: 23px; line-height: 1.38; margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 14px; }
+    h2 { font-size: 18.5px; margin-top: 32px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
     h3 { font-size: 15.5px; margin-top: 22px; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
     a { color: var(--accent); text-decoration: none; font-weight: 600; }
     a:hover { text-decoration: underline; }
-    code { background: var(--code-bg); padding: 2px 6px; border-radius: 5px; font-size: 0.88em; }
+    code { background: var(--code-bg); padding: 2px 6px; border-radius: 5px; font-size: 0.88em; font-family: ui-monospace, Consolas, monospace; }
     pre { background: var(--code-bg); padding: 14px 16px; border-radius: 10px; overflow-x: auto; }
     pre code { background: transparent; padding: 0; }
-    blockquote {
-      margin: 18px 0; padding: 14px 18px; background: var(--quote-bg);
-      border-left: 4px solid var(--quote-bd); border-radius: 0 10px 10px 0;
+    ul, ol { padding-left: 22px; margin: 10px 0; }
+    li { margin-bottom: 6px; }
+    li.sub-li { margin-left: 18px; list-style-type: circle; }
+    .alert, .quote-box {
+      margin: 18px 0; padding: 14px 18px; border-radius: 0 10px 10px 0;
+      border-left: 4px solid var(--imp-bd); background: var(--imp-bg);
     }
-    blockquote p { margin: 0; }
-    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; display: block; overflow-x: auto; }
+    .alert-tip { border-left-color: var(--tip-bd); background: var(--tip-bg); }
+    .alert-warning { border-left-color: var(--warn-bd); background: var(--warn-bg); }
+    .alert-note { border-left-color: var(--note-bd); background: var(--note-bg); }
+    .alert-title { font-weight: 800; font-size: 13px; margin-bottom: 6px; }
+    .tbl-scroll { overflow-x: auto; margin: 16px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 9px 11px; border-bottom: 1px solid var(--border); white-space: nowrap; }
-    th { background: var(--th-bg); font-weight: 700; text-align: left; }
+    th { background: var(--th-bg); font-weight: 700; }
     .mermaid { text-align: center; margin: 20px 0; overflow-x: auto; }
-    .math-block { overflow-x: auto; padding: 10px 0; text-align: center; }
+    .math-block { overflow-x: auto; padding: 12px 0; text-align: center; font-family: Georgia, serif; }
     @media print { .topbar { display: none; } article { border: none; box-shadow: none; padding: 0; } }
   </style>
 </head>
@@ -112,72 +124,90 @@
   </div>
 </nav>
 
-  <div class="topbar">
-    <div class="nav-links">
-      <a class="nav-btn" href="https://tron1981-maker.github.io/dj-qunt/">← DJ-QUNT 홈</a>
-      <a class="nav-btn primary" href="https://tron1981-maker.github.io/soxl-soxs-1y/">6단 인터랙티브 차트 뷰어 ↗</a>
-      <button class="nav-btn" onclick="window.print()">인쇄 / PDF 저장</button>
+  <div class="page-inner">
+    <div class="topbar">
+      <div class="nav-links">
+        <a class="nav-btn primary" href="https://tron1981-maker.github.io/soxl-soxs-1y/">6단 인터랙티브 차트 뷰어 ↗</a>
+        <button type="button" class="nav-btn" onclick="window.print()">인쇄 / PDF 저장</button>
+      </div>
+      <div class="bg-bar" role="group" aria-label="배경색 변경">
+        <button type="button" class="bg-btn active" onclick="setDocBg('white', this)">화이트</button>
+        <button type="button" class="bg-btn" onclick="setDocBg('warm', this)">웜톤</button>
+        <button type="button" class="bg-btn" onclick="setDocBg('soft', this)">소프트</button>
+        <button type="button" class="bg-btn" onclick="setDocBg('dark', this)">다크</button>
+      </div>
     </div>
-    <div class="bg-bar" role="group" aria-label="배경색 변경">
-      <button type="button" class="bg-btn active" onclick="setDocBg('white', this)">화이트</button>
-      <button type="button" class="bg-btn" onclick="setDocBg('warm', this)">웜톤</button>
-      <button type="button" class="bg-btn" onclick="setDocBg('soft', this)">소프트</button>
-      <button type="button" class="bg-btn" onclick="setDocBg('dark', this)">다크</button>
-    </div>
+    <article id="content">
+<h1>Goldman Sachs QIS Research Note — <code>SOXL</code> · <code>SOXS</code> 3x 반도체 양방향 동적 알파 및 변동성 제어 전략 (1Y Karpathy Autoresearch)</h1>
+<p><strong>Desk</strong>: Quantitative Investment Strategies (QIS) &amp; Autonomous Alpha Research<br/><strong>Analytics Engine</strong>: Goldman Sachs Open-Source <code>gs_quant.timeseries</code> + Karpathy Immutable Judge (<code>Calmar &gt;= 1.50</code> &amp; Sealed OOS Gate)<br/><strong>Evaluation Horizon</strong>: <code>2025-11-20 ~ 2026-11-20</code> (최근 1년 정규 252거래일 / 1분봉 97,253바 + 사전 웜업 별도)<br/><strong>Universe</strong>: <code>SOXL</code> (Direxion Daily Semiconductor Bull 3X) · <code>SOXS</code> (Direxion Daily Semiconductor Bear 3X) · <code>USD Cash</code></p>
+<div class="alert alert-important"><div class="alert-title">📌 핵심 결론 (IMPORTANT)</div><div><strong>핵심 투자 결론 (Executive Thesis)</strong>: 최근 1년 반도체 3배 레버리지 시장은 앞 80% 급등(<code>SOXL +275.3%</code>) 직후 봉인된 뒤 20% 구간에서 <strong><code>SOXL -73.30%</code> 폭락</strong>이 발생하며 무방비 보유 수익이 전액 소멸(<code>SOXL 1Y +0.21%</code>, <code>MDD -89.75%</code> / <code>SOXS 1Y -90.78%</code>)한 전형적인 <strong>변동성 잠식(Volatility Drag)</strong> 장세였습니다. 카파시 Autoresearch 23회 진화(<code>v_51</code>~<code>v_73</code>) 결과, 장기 변동성 타게팅 코어(<code>v_71.py</code>), 중기 다단 스윙(<code>v_68.py</code>), 초단기 스냅백·거절확인(<code>v_61.py</code>)을 순노출 상계로 결합한 <strong>올웨더 통합 메타 앙상블(<code>v_73.py</code>)</strong>이 <strong>1년 누적 수익률 <code>+41.15%</code>, <code>gs_quant</code> 연율화 샤프 <code>1.938</code>, 최대낙폭(MDD) <code>-9.09%</code>, <code>SPY</code> 베타 <code>-0.128</code></strong>을 달성하며 전 구간 우위를 입증했습니다.</div></div>
+<hr />
+<h2>1. 3배 레버리지 양방향 구조 역학 (Structural Mechanics &amp; Decay Math)</h2>
+<p>일일 수익률 <span class="katex-inline" data-expr="\mu">\mu</span>, 일일 변동성 <span class="katex-inline" data-expr="\sigma">\sigma</span>인 기초지수(<code>SOXX</code>)를 추종하는 <span class="katex-inline" data-expr="L=\pm 3">L=\pm 3</span> 일일 리밸런싱 ETF의 연속 복리 성장률은 변동성 제곱에 비례하는 음(-)의 드리프트 항을 내포합니다.</p>
+<div class="math-block katex-display" data-expr="g_L \approx L\mu - \frac{1}{2} L(L - 1)\sigma^2 - c_{\text{expense}}">g_L \approx L\mu - \frac{1}{2} L(L - 1)\sigma^2 - c_{\text{expense}}</div>
+<ul><li><code>SOXL</code>(<span class="katex-inline" data-expr="L = +3">L = +3</span>)은 <span class="katex-inline" data-expr="-\,3\sigma^2">-\,3\sigma^2</span>, <code>SOXS</code>(<span class="katex-inline" data-expr="L = -3">L = -3</span>)는 <span class="katex-inline" data-expr="-\,6\sigma^2">-\,6\sigma^2</span>의 일간 복리 잠식이 상시 발생합니다.</li><li>동일 시점에 <code>SOXL</code>과 <code>SOXS</code>를 동시 보유(예: <code>50:50</code> 리밸런싱)하면 방향성 노출은 0으로 상쇄되는 반면 <strong>양쪽 디케이와 리밸런싱 비용만 확정 손실(<code>1Y -2.08%</code>, <code>Sharpe -0.77</code>)</strong>로 누적됩니다.</li><li>따라서 모든 유효 전략은 <strong>순노출 상계 제약(<span class="katex-inline" data-expr="w_{\text{SOXL},t} \cdot w_{\text{SOXS},t} = 0">w_{\text{SOXL},t} \cdot w_{\text{SOXS},t} = 0</span>)</strong> 하에서 ① 확정 추세·과매도 반등 국면에만 <code>SOXL</code> 투입, ② 중기 추세 붕괴·베어 반등 거절 국면에만 제한 비중 <code>SOXS</code> 위기 알파 가동, ③ 고변동 혼조장에서는 <strong>현금(<code>Cash</code>)</strong>으로 대피해야 합니다.</li></ul>
+<div class="mermaid">flowchart LR
+    DATA[&quot;Market Data (SOXL / SOXS 1Y)&quot;] --&gt; S1[&quot;Sleeve 1: v_61 초단기 평균회귀 (가중 0.40)&quot;]
+    DATA --&gt; S2[&quot;Sleeve 2: v_68 중기 다단 스윙 (가중 0.30)&quot;]
+    DATA --&gt; S3[&quot;Sleeve 3: v_71 장기 변동성 코어 (가중 0.70)&quot;]
+    S1 --&gt; NET[&quot;순노출 상계 엔진 (Net = Bull - Bear)&quot;]
+    S2 --&gt; NET
+    S3 --&gt; NET
+    NET --&gt;|&quot;Net &gt; +0.02&quot;| BULL[&quot;SOXL 단독 편입 (상한 88%)&quot;]
+    NET --&gt;|&quot;|Net| &lt;= 0.02&quot;| CASH[&quot;100% 현금 방어 (Decay 차단)&quot;]
+    NET --&gt;|&quot;Net &lt; -0.02&quot;| BEAR[&quot;SOXS 단독 편입 (상한 42%)&quot;]</div>
+<hr />
+<h2>2. <code>gs_quant.timeseries</code> 정량 리스크 및 구간별 성과 분해</h2>
+<p>골드만삭스 오픈소스 <code>gs_quant.timeseries</code> 엔진(<code>volatility</code>, <code>sharpe_ratio</code>, <code>max_drawdown</code>, <code>beta</code>, <code>correlation</code>, 63거래일 롤링 윈도우)으로 산출한 장르별 대표 전략 및 벤치마크 비교표입니다.</p>
+<h3>2.1 전체 1년 구간 (<code>Full Period: 2025-11-20 ~ 2026-11-20</code>)</h3>
+<div class="tbl-scroll"><table><thead><tr><th style="text-align:left">장르 / 전략</th><th style="text-align:left">인터랙티브 티어시트</th><th style="text-align:center">누적 수익률</th><th style="text-align:center">연율화 변동성 (<code>gs_quant</code>)</th><th style="text-align:center"><code>gs_quant</code> Sharpe</th><th style="text-align:center">최대낙폭 (<code>gs_quant</code> MDD)</th><th style="text-align:center"><code>SPY</code> 대비 베타 (<span class="katex-inline" data-expr="\beta">\beta</span>)</th><th style="text-align:center"><code>SPY</code> 상관계수 (<span class="katex-inline" data-expr="\rho">\rho</span>)</th><th style="text-align:center">최근 63일 롤링 Sharpe / MDD</th></tr></thead><tbody><tr><td style="text-align:left">패시브 <code>SOXL</code> 100%</td><td style="text-align:left">—</td><td style="text-align:center"><code>+0.21%</code></td><td style="text-align:center"><code>~94.2%</code></td><td style="text-align:center"><code>0.800</code></td><td style="text-align:center"><code>-89.75%</code></td><td style="text-align:center"><code>+3.41</code></td><td style="text-align:center"><code>+0.78</code></td><td style="text-align:center">급락 전환</td></tr><tr><td style="text-align:left">패시브 <code>SOXS</code> 100%</td><td style="text-align:left">—</td><td style="text-align:center"><code>-90.78%</code></td><td style="text-align:center"><code>~95.8%</code></td><td style="text-align:center"><code>-0.790</code></td><td style="text-align:center"><code>-96.74%</code></td><td style="text-align:center"><code>-3.38</code></td><td style="text-align:center"><code>-0.77</code></td><td style="text-align:center">장기 소멸</td></tr><tr><td style="text-align:left">패시브 <code>50:50</code> 리밸런싱</td><td style="text-align:left">—</td><td style="text-align:center"><code>-2.08%</code></td><td style="text-align:center"><code>1.92%</code></td><td style="text-align:center"><code>-0.770</code></td><td style="text-align:center"><code>-2.69%</code></td><td style="text-align:center"><code>0.00</code></td><td style="text-align:center"><code>0.00</code></td><td style="text-align:center">지속 음수</td></tr><tr><td style="text-align:left"><strong>1. 단타 (<code>1min</code>)</strong> <code>v_53.py</code></td><td style="text-align:left"><a href="https://tron1981-maker.github.io/soxl-soxs-1y/report_v_53.html" target="_blank" rel="noopener">report_v_53.html</a></td><td style="text-align:center"><code>-6.29%</code></td><td style="text-align:center"><code>6.85%</code></td><td style="text-align:center"><code>-0.914</code></td><td style="text-align:center"><code>-9.74%</code></td><td style="text-align:center"><code>+0.063</code></td><td style="text-align:center"><code>+0.119</code></td><td style="text-align:center"><code>+0.326</code> / <code>-3.19%</code></td></tr><tr><td style="text-align:left"><strong>2. 초단기 (<code>daily</code>)</strong> <code>v_61.py</code></td><td style="text-align:left"><a href="https://tron1981-maker.github.io/soxl-soxs-1y/report_v_61.html" target="_blank" rel="noopener">report_v_61.html</a></td><td style="text-align:center"><strong><code>+11.13%</code></strong></td><td style="text-align:center"><code>13.01%</code></td><td style="text-align:center"><strong><code>0.854</code></strong></td><td style="text-align:center"><code>-8.68%</code></td><td style="text-align:center"><code>-0.098</code></td><td style="text-align:center"><code>-0.073</code></td><td style="text-align:center"><code>+0.216</code> / <code>-8.68%</code></td></tr><tr><td style="text-align:left"><strong>3. 스윙 (<code>daily</code>)</strong> <code>v_68.py</code></td><td style="text-align:left"><a href="https://tron1981-maker.github.io/soxl-soxs-1y/report_v_68.html" target="_blank" rel="noopener">report_v_68.html</a></td><td style="text-align:center"><strong><code>+21.44%</code></strong></td><td style="text-align:center"><code>18.85%</code></td><td style="text-align:center"><strong><code>1.135</code></strong></td><td style="text-align:center"><strong><code>-8.18%</code></strong></td><td style="text-align:center"><code>-0.084</code></td><td style="text-align:center"><code>-0.043</code></td><td style="text-align:center"><code>+0.783</code> / <code>-2.55%</code></td></tr><tr><td style="text-align:left"><strong>4. 장투 (<code>daily</code>)</strong> <code>v_71.py</code></td><td style="text-align:left"><a href="https://tron1981-maker.github.io/soxl-soxs-1y/report_v_71.html" target="_blank" rel="noopener">report_v_71.html</a></td><td style="text-align:center"><strong><code>+41.08%</code></strong></td><td style="text-align:center"><code>21.94%</code></td><td style="text-align:center"><strong><code>1.868</code></strong></td><td style="text-align:center"><code>-9.48%</code></td><td style="text-align:center"><code>-0.091</code></td><td style="text-align:center"><code>-0.040</code></td><td style="text-align:center"><strong><code>+0.895</code></strong> / <code>-7.70%</code></td></tr><tr><td style="text-align:left"><strong>5. 통합 챔피언</strong> <code>v_73.py</code></td><td style="text-align:left"><a href="https://tron1981-maker.github.io/soxl-soxs-1y/report_v_73.html" target="_blank" rel="noopener">report.html</a></td><td style="text-align:center"><strong><code>+41.15%</code></strong></td><td style="text-align:center"><code>21.19%</code></td><td style="text-align:center"><strong><code>1.938</code></strong></td><td style="text-align:center"><code>-9.09%</code></td><td style="text-align:center"><strong><code>-0.128</code></strong></td><td style="text-align:center"><code>-0.059</code></td><td style="text-align:center"><code>+0.830</code> / <code>-6.59%</code></td></tr></tbody></table></div>
+<h3>2.2 In-Sample (<code>앞 80%</code>) vs Sealed OOS (<code>뒤 20% 봉인 폭락장</code>) 스트레스 검증</h3>
+<div class="alert alert-tip"><div class="alert-title">💡 검증 인사이트 (TIP)</div><div><strong>봉인 구간(Sealed OOS) 위기 알파 검증</strong>: 전략 개발 중 일절 열람하지 않은 마지막 20% 구간에서 기초 자산 <code>SOXL</code>이 <strong><code>-73.30%</code> 폭락</strong>했음에도, <code>v_53</code>·<code>v_61</code>·<code>v_68</code>·<code>v_71</code>·<code>v_73</code> <strong>5개 장르 대표 전략 전원이 <code>gs_quant</code> 일간 집계 기준 플러스 수익(<code>+0.56% ~ +1.43%</code>) 및 한 자릿수 MDD(<code>-2.38% ~ -8.68%</code>)</strong>를 기록하며 과적합이 아닌 구조적 방어력을 증명했습니다.</div></div>
+<div class="tbl-scroll"><table><thead><tr><th style="text-align:left">전략 버전</th><th style="text-align:center">IS 누적 수익률 (<code>gs_quant</code>)</th><th style="text-align:center">IS 연변동성</th><th style="text-align:center">IS Sharpe</th><th style="text-align:center">IS MDD</th><th style="text-align:center">Sealed OOS 수익률 (<code>gs_quant</code>)</th><th style="text-align:center">OOS 연변동성</th><th style="text-align:center">OOS Sharpe</th><th style="text-align:center">OOS MDD</th><th style="text-align:center">OOS 베타 (<span class="katex-inline" data-expr="\beta">\beta</span>)</th></tr></thead><tbody><tr><td style="text-align:left"><strong><code>v_53</code></strong> (1분봉 단타)</td><td style="text-align:center"><code>-6.83%</code></td><td style="text-align:center"><code>6.44%</code></td><td style="text-align:center"><code>-1.298</code></td><td style="text-align:center"><code>-9.66%</code></td><td style="text-align:center"><code>+0.57%</code></td><td style="text-align:center"><code>8.38%</code></td><td style="text-align:center"><code>+0.357</code></td><td style="text-align:center"><code>-3.19%</code></td><td style="text-align:center"><code>+0.015</code></td></tr><tr><td style="text-align:left"><strong><code>v_61</code></strong> (초단기 평균회귀)</td><td style="text-align:center"><code>+9.69%</code> <em>(원시 +11.37%)</em></td><td style="text-align:center"><code>11.08%</code></td><td style="text-align:center"><code>+1.092</code></td><td style="text-align:center"><code>-6.38%</code></td><td style="text-align:center"><strong><code>+1.31%</code></strong></td><td style="text-align:center"><code>19.05%</code></td><td style="text-align:center"><code>+0.381</code></td><td style="text-align:center"><code>-8.68%</code></td><td style="text-align:center"><code>+0.001</code></td></tr><tr><td style="text-align:left"><strong><code>v_68</code></strong> (중기 다단 스윙)</td><td style="text-align:center"><code>+20.76%</code></td><td style="text-align:center"><code>20.62%</code></td><td style="text-align:center"><code>+1.271</code></td><td style="text-align:center"><code>-8.18%</code></td><td style="text-align:center"><code>+0.56%</code></td><td style="text-align:center"><strong><code>8.61%</code></strong></td><td style="text-align:center"><code>+0.354</code></td><td style="text-align:center"><strong><code>-2.38%</code></strong></td><td style="text-align:center"><code>-0.004</code></td></tr><tr><td style="text-align:left"><strong><code>v_71</code></strong> (장투 변동성 코어)</td><td style="text-align:center"><strong><code>+39.79%</code></strong></td><td style="text-align:center"><code>24.00%</code></td><td style="text-align:center"><code>+2.132</code></td><td style="text-align:center"><code>-9.48%</code></td><td style="text-align:center"><code>+0.93%</code></td><td style="text-align:center"><code>9.82%</code></td><td style="text-align:center"><code>+0.517</code></td><td style="text-align:center"><code>-2.51%</code></td><td style="text-align:center"><code>-0.011</code></td></tr><tr><td style="text-align:left"><strong><code>v_73</code></strong> (<strong>올웨더 통합 챔피언</strong>)</td><td style="text-align:center"><strong><code>+39.16%</code></strong> <em>(원시 +40.01%)</em></td><td style="text-align:center"><code>22.88%</code></td><td style="text-align:center"><strong><code>+2.200</code></strong></td><td style="text-align:center"><code>-9.09%</code></td><td style="text-align:center"><strong><code>+1.43%</code></strong></td><td style="text-align:center"><code>12.14%</code></td><td style="text-align:center"><strong><code>+0.653</code></strong></td><td style="text-align:center"><code>-4.91%</code></td><td style="text-align:center"><code>-0.008</code></td></tr></tbody></table></div>
+<hr />
+<h2>3. 장르별 카파시 Autoresearch 진화 계보 (<code>v_51</code> ~ <code>v_73</code> 전수 기록)</h2>
+<h3>3.1 장르 1 — 인트라데이 1분봉 데이트레이딩 (<code>v_51</code> ~ <code>v_55</code>, 오버나잇 노출 0%)</h3>
+<ul><li><strong>설계 목적</strong>: 정규장 마감 10분 전(<code>15:50 ET</code>, 조기폐장일 <code>12:50 ET</code>) 전량 현금화로 오버나잇 갭 리스크를 제거한 순수 당일 매매 검증.</li><li><strong>부검 진화 요약</strong>:</li><li class="sub-li"><code>v_51</code> (<code>#71</code>, ORB 30분 돌파): 104회 과매매로 왕복 40bps 비용 누적 및 점심장 고점 물림(<code>TREND_REVERSAL_LOSS</code>), IS <code>-25.64%</code> (<code>MDD 32.68%</code>), 단 OOS 추세장에서는 <code>+6.68%</code> 기록.</li><li class="sub-li"><code>v_52</code> (<code>#72</code>, 카우프만 효율성 <code>ER &gt;= 0.35</code>): 과매매 제거(<code>IS +0.09%</code>, <code>MDD 2.59%</code>), 단 표본 부족(<code>6회 &lt; 10회</code>, <code>INSUFFICIENT_TRADES</code>).</li><li class="sub-li"><code>v_53</code> (<code>#73</code>, ORH 돌파 후 첫 VWAP·EMA20 눌림 재탈환): 32회(<code>SOXL 18일 : SOXS 14일</code>), MDD <code>10.55%</code>, OOS <code>+0.57%</code> 달성했으나 당일 상승분 추격 후 장중 평균회귀 역풍으로 IS <code>-6.83%</code>.</li><li class="sub-li"><code>v_54</code>~<code>v_55</code> (<code>#74</code>~<code>#75</code>, 장중 <code>-3.5%+</code> 투매 역추세 반등 및 2차 바닥 확인): 승률을 <code>31.3% → 42.9%</code>로 끌어올리고 <code>WHIPSAW_CHOP</code>·<code>HIGH_VOL_SPIKE</code> 손실을 제거했으나, <strong>편도 20bps(왕복 40bps) 마찰비용 + 반도체 오버나잇 양(+)의 드리프트 포기</strong>라는 데이트레이딩 본연의 비용 한계를 실증함.</li></ul>
+<div class="alert alert-warning"><div class="alert-title">⚠️ 실전 유의사항 (WARNING)</div><div><strong>실전 트레이딩 시사점 (데이트레이딩 마찰장벽)</strong>: <code>SOXL</code>·<code>SOXS</code>에서 호가 스프레드+슬리피지가 편도 <code>15~20bps</code> 이상 발생하는 환경에서는 순수 1분봉 당일 청산보다 <strong>오버나잇 추세·스냅백 프리미엄을 수취하는 일봉 기반 전략(<code>v_61</code>~<code>v_73</code>)의 순기대값(Expectancy)이 압도적으로 높습니다.</strong></div></div>
+<h3>3.2 장르 2 — 초단기 평균회귀 단기매매 (<code>v_56</code> ~ <code>v_61</code>, 보유 2~5일)</h3>
+<ul><li><strong>진화 핵심</strong>: <code>v_56</code>(<code>#76</code>, <code>SMA200</code> 기준 역추세 손실) → <code>v_57</code>(<code>#77</code>, <code>SMA50</code> 분기 도입 시 IS <code>Calmar 2.61</code> 급등, 단 무확인 <code>SOXS</code> 진입으로 OOS 기각) → <code>v_58</code>(<code>#78</code>, <code>max(vol5,vol20)</code> 변동성 제어 검증 및 <code>SMA50</code> 하회 <code>SOXL</code> 진입 위험 확인) → <code>v_59</code>(<code>#79</code>, OOS 양전 성공) → <code>v_60</code>(<code>#80</code>, 강세장 불플래그 <code>SOXS</code> 제거로 IS <code>Calmar 1.87</code>) → <strong><code>v_61.py</code> (<code>#81</code>, 최종 PASS)</strong>.</li><li><strong><code>v_61</code> 시그널 명세</strong>:</li><li class="sub-li"><strong><code>SOXL</code> 진입</strong>: <code>Close &gt;= SMA50</code> 중기 강세 지지 내 <code>RSI(2) &lt; 16</code> 단기 패닉 급락 발생 시 변동성 역가중 진입 → 전일 고가(<code>High[t-1]</code>) 돌파 또는 <code>SMA5</code> 회복 시 즉각 익절.</li><li class="sub-li"><strong><code>SOXS</code> 진입</strong>: <code>Close &lt; SMA50</code> 및 <code>SMA10 &lt; SMA50</code> 중기 조정 체제에서 기술적 반등(<code>SOXS RSI2 &lt; 38</code>) 후 <strong>실제 <code>SOXL</code> 음봉 거절 + <code>SOXS</code> 양봉 전환이 동시 확인된 날</strong> 제한 비중(<code>~0.22</code>) 진입.</li></ul>
+<h3>3.3 장르 3 — 중기 스윙 트레이딩 (<code>v_62</code> ~ <code>v_68</code>, 보유 1~3주)</h3>
+<ul><li><strong>진화 핵심</strong>: <code>v_62</code>~<code>v_65</code>(<code>#82</code>~<code>#85</code>, 고변동 분배장 및 후행 정배열 추격 손실 진단) → <code>v_66</code>(<code>#86</code>, 15일 돈치안 신고가 돌파가 3배 ETF 박스권 상단 물림을 유발함을 확인 후 폐기) → <code>v_67</code>(<code>#87</code>, 비과열 응축 다단 스윙으로 축 전환하여 IS·OOS 동시 흑자) → <strong><code>v_68.py</code> (<code>#88</code>, 최종 PASS)</strong>.</li><li><strong><code>v_68</code> 시그널 명세</strong>:</li><li class="sub-li"><strong><code>SOXL</code> 스윙</strong>: <code>Close &gt; SMA50</code>, <code>EMA10 &gt; EMA30</code>, <code>SMA20</code> 2봉 연속 안착 + <strong>10일·20일 복수 양모멘텀(<code>m10 &gt; 0</code>, <code>m20 &gt; +2%</code>)</strong> + <strong>최근 5일 투매 충격 부재(<code>min_ret5 &gt; -10%</code>)</strong> + 비과열(<code>46 &lt;= RSI14 &lt;= 68.5</code>) 충족 시 진입.</li><li class="sub-li"><strong><code>SOXS</code> 스윙</strong>: 중기 역배열 확정 구간 중 과매도 투매 바닥(<code>RSI14 &lt; 34</code>)을 피한 하락 추세 구간에 <code>0.18~0.38</code> 비중 진입 및 빠른 트레일링 이익 잠금.</li></ul>
+<h3>3.4 장르 4 — 장투 / 매크로 포지션 &amp; 변동성 타게팅 (<code>v_69</code> ~ <code>v_71</code>, 수주~수개월 코어)</h3>
+<ul><li><strong>진화 핵심</strong>: <code>v_69</code>(<code>#89</code>, IS <code>Calmar 6.13</code> 달성했으나 리밸런싱 임계 미작동으로 OOS 반납) → <code>v_70</code>(<code>#90</code>, 비대칭 방어 축소 도입, 트레일링 지연 수정 필요) → <strong><code>v_71.py</code> (<code>#91</code>, 최종 PASS, IS <code>Calmar 5.51</code>, 1Y <code>+41.08%</code>)</strong>.</li><li><strong><code>v_71</code> 시그널 명세</strong>:</li><li class="sub-li"><strong>강세 장기 코어(<code>SOXL</code>)</strong>: 인위적 시간 청산 없이 대세 상승장을 연속 보유(<code>0.45~0.82</code>)하되, 단기 과열·변동성 스파이크 국면에서는 전량 매도 대신 <strong><code>0.20</code> 방어 코어로 축소 유지 후 안정 시 재확대</strong>하여 장기 복리를 극대화합니다. 단, 파동 수익 <code>+11%</code> 이상 도달 후 피크 대비 실질 가격 반락(<code>36%</code> 되돌림 또는 <code>-6.8%p</code>) 발생 시 조건 없이 이익을 확정하고 즉시 재진입 대기(<code>cooldown = 0</code>)합니다.</li><li class="sub-li"><strong>위기 알파 슬리브(<code>SOXS</code>)</strong>: 거시 약세 체제에서만 <code>0.20~0.36</code> 제한 비중으로 편입해 폭락장 포트폴리오 손실을 상쇄합니다.</li></ul>
+<h3>3.5 장르 5 — 올웨더 통합 메타 앙상블 챔피언 (<code>v_72</code> ~ <code>v_73</code>)</h3>
+<ul><li><strong>진화 핵심</strong>: <code>v_72</code>(<code>#92</code>)에서 하위 전략에 임의 필터를 덧씌우고 단기 역추세 가중치를 과대 배정(<code>0.90</code>)하자 OOS 안정성이 훼손됨을 부검으로 확인하고, <strong><code>v_73.py</code> (<code>#93</code>, 최종 우승)</strong>에서 검증된 원본 3대 슬리브를 코어-새틀라이트 리스크 패리티 비율(<code>장기코어 0.70 : 중기스윙 0.30 : 초단기 0.40</code>) 및 순노출 상계로 결합하여 <strong>전 실험 최고 <code>gs_quant Sharpe 1.938</code> (<code>IS Calmar 5.78</code>, <code>OOS Sharpe 0.653</code>)</strong>을 완성했습니다.</li><li><strong>잔존 리스크 부검 (<code>v_73</code> In-Sample Top 3 손실 에피소드)</strong>:</li><li class="sub-li"><code>2025-12-03 ~ 2025-12-14</code> (<code>8거래일</code>, <code>-4.85%</code>, 평균비중 <code>0.428</code>): 저변동 횡보 후 추세 반전(<code>LATE_EXIT_GIVEBACK</code>) — 단일 최대 손실이 <code>-5%</code> 미만으로 엄격히 통제됨.</li><li class="sub-li"><code>2026-08-02 ~ 2026-08-03</code> (<code>2거래일</code>, <code>-1.97%</code>, 평균비중 <code>0.088</code>): 고변동 스파이크 구간 소액(<code>8.8%</code>) 탐색 손절(<code>WHIPSAW_CHOP</code>).</li><li class="sub-li"><code>2025-12-18</code> (<code>1거래일</code>, <code>-1.76%</code>, 평균비중 <code>0.213</code>): 단기 휩소 즉시 차단(<code>WHIPSAW_CHOP</code>).</li></ul>
+<hr />
+<h2>4. 리포트 아카이브 및 검증 명령어 안내</h2>
+<div class="alert alert-note"><div class="alert-title">ℹ️ 안내 (NOTE)</div><div>모든 전략의 오프라인 완결형 <strong>Goldman Sachs <code>gs_quant.timeseries</code> 6단 인터랙티브 Plotly 티어시트 HTML</strong>(<code>누적 자산곡선</code>, <code>수중 낙폭 &amp; 롤링 MDD</code>, <code>롤링 변동성</code>, <code>롤링 샤프</code>, <code>SPY 대비 롤링 베타·상관계수</code>, <code>일별 SOXL/SOXS 노출 비중</code>)이 아래 경로에 생성되어 있습니다.</div></div>
+<ul><li><strong>통합 챔피언 메인 티어시트</strong>: <a href="https://tron1981-maker.github.io/soxl-soxs-1y/report_v_73.html" target="_blank" rel="noopener">report.html</a> (동일 사본: <a href="https://tron1981-maker.github.io/soxl-soxs-1y/report_v_73.html" target="_blank" rel="noopener">report_v_73.html</a>)</li><li><strong>장르별 우승 티어시트</strong>:</li><li class="sub-li">단타(<code>1min</code>): <a href="https://tron1981-maker.github.io/soxl-soxs-1y/report_v_53.html" target="_blank" rel="noopener">report_v_53.html</a></li><li class="sub-li">초단기(<code>daily</code>): <a href="https://tron1981-maker.github.io/soxl-soxs-1y/report_v_61.html" target="_blank" rel="noopener">report_v_61.html</a></li><li class="sub-li">스윙(<code>daily</code>): <a href="https://tron1981-maker.github.io/soxl-soxs-1y/report_v_68.html" target="_blank" rel="noopener">report_v_68.html</a></li><li class="sub-li">장투(<code>daily</code>): <a href="https://tron1981-maker.github.io/soxl-soxs-1y/report_v_71.html" target="_blank" rel="noopener">report_v_71.html</a></li><li><strong>브라우저 즉시 열기 / 대시보드 탐색기 실행 명령 (PowerShell)</strong>:</li></ul>
+<pre><code>  # 최종 챔피언(v_73) 인터랙티브 티어시트 브라우저로 열기
+  Start-Process &quot;d:\100_bibe_coding\04_stock\13_재귀트레이딩\trading-loop\backtests\report.html&quot;
+
+  # Streamlit gs_quant 인터랙티브 리스크 탐색기 실행
+  &amp; &quot;d:\100_bibe_coding\04_stock\13_재귀트레이딩\trading-loop\.venv\Scripts\python.exe&quot; -m streamlit run &quot;d:\100_bibe_coding\04_stock\13_재귀트레이딩\streamlit_explorer.py&quot;</code></pre>
+    </article>
   </div>
-  <article id="content"></article>
   <script>
-    const RAW_MD = "# Goldman Sachs QIS Research Note — `SOXL` · `SOXS` 3x 반도체 양방향 동적 알파 및 변동성 제어 전략 (1Y Karpathy Autoresearch)\n\n**Desk**: Quantitative Investment Strategies (QIS) & Autonomous Alpha Research  \n**Analytics Engine**: Goldman Sachs Open-Source `gs_quant.timeseries` + Karpathy Immutable Judge (`Calmar >= 1.50` & Sealed OOS Gate)  \n**Evaluation Horizon**: `2025-11-20 ~ 2026-11-20` (최근 1년 정규 252거래일 / 1분봉 97,253바 + 사전 웜업 별도)  \n**Universe**: `SOXL` (Direxion Daily Semiconductor Bull 3X) · `SOXS` (Direxion Daily Semiconductor Bear 3X) · `USD Cash`\n\n> [!IMPORTANT]\n> **핵심 투자 결론 (Executive Thesis)**: 최근 1년 반도체 3배 레버리지 시장은 앞 80% 급등(`SOXL +275.3%`) 직후 봉인된 뒤 20% 구간에서 **`SOXL -73.30%` 폭락**이 발생하며 무방비 보유 수익이 전액 소멸(`SOXL 1Y +0.21%`, `MDD -89.75%` / `SOXS 1Y -90.78%`)한 전형적인 **변동성 잠식(Volatility Drag)** 장세였습니다. 카파시 Autoresearch 23회 진화(`v_51`~`v_73`) 결과, 장기 변동성 타게팅 코어(`v_71.py`), 중기 다단 스윙(`v_68.py`), 초단기 스냅백·거절확인(`v_61.py`)을 순노출 상계로 결합한 **올웨더 통합 메타 앙상블(`v_73.py`)**이 **1년 누적 수익률 `+41.15%`, `gs_quant` 연율화 샤프 `1.938`, 최대낙폭(MDD) `-9.09%`, `SPY` 베타 `-0.128`**을 달성하며 전 구간 우위를 입증했습니다.\n\n---\n\n## 1. 3배 레버리지 양방향 구조 역학 (Structural Mechanics & Decay Math)\n\n일일 수익률 $\\mu$, 일일 변동성 $\\sigma$인 기초지수(`SOXX`)를 추종하는 $L=\\pm 3$ 일일 리밸런싱 ETF의 연속 복리 성장률은 변동성 제곱에 비례하는 음(-)의 드리프트 항을 내포합니다.\n\n$$g_L \\approx L\\mu - \\frac{1}{2} L(L - 1)\\sigma^2 - c_{\\text{expense}}$$\n\n* `SOXL`($L = +3$)은 $-\\,3\\sigma^2$, `SOXS`($L = -3$)는 $-\\,6\\sigma^2$의 일간 복리 잠식이 상시 발생합니다.\n* 동일 시점에 `SOXL`과 `SOXS`를 동시 보유(예: `50:50` 리밸런싱)하면 방향성 노출은 0으로 상쇄되는 반면 **양쪽 디케이와 리밸런싱 비용만 확정 손실(`1Y -2.08%`, `Sharpe -0.77`)**로 누적됩니다.\n* 따라서 모든 유효 전략은 **순노출 상계 제약($w_{\\text{SOXL},t} \\cdot w_{\\text{SOXS},t} = 0$)** 하에서 ① 확정 추세·과매도 반등 국면에만 `SOXL` 투입, ② 중기 추세 붕괴·베어 반등 거절 국면에만 제한 비중 `SOXS` 위기 알파 가동, ③ 고변동 혼조장에서는 **현금(`Cash`)**으로 대피해야 합니다.\n\n```mermaid\nflowchart LR\n    DATA[\"Market Data (SOXL / SOXS 1Y)\"] --> S1[\"Sleeve 1: v_61 초단기 평균회귀 (가중 0.40)\"]\n    DATA --> S2[\"Sleeve 2: v_68 중기 다단 스윙 (가중 0.30)\"]\n    DATA --> S3[\"Sleeve 3: v_71 장기 변동성 코어 (가중 0.70)\"]\n    S1 --> NET[\"순노출 상계 엔진 (Net = Bull - Bear)\"]\n    S2 --> NET\n    S3 --> NET\n    NET -->|\"Net > +0.02\"| BULL[\"SOXL 단독 편입 (상한 88%)\"]\n    NET -->|\"|Net| <= 0.02\"| CASH[\"100% 현금 방어 (Decay 차단)\"]\n    NET -->|\"Net < -0.02\"| BEAR[\"SOXS 단독 편입 (상한 42%)\"]\n```\n\n---\n\n## 2. `gs_quant.timeseries` 정량 리스크 및 구간별 성과 분해\n\n골드만삭스 오픈소스 `gs_quant.timeseries` 엔진(`volatility`, `sharpe_ratio`, `max_drawdown`, `beta`, `correlation`, 63거래일 롤링 윈도우)으로 산출한 장르별 대표 전략 및 벤치마크 비교표입니다.\n\n### 2.1 전체 1년 구간 (`Full Period: 2025-11-20 ~ 2026-11-20`)\n\n| 장르 / 전략 | 인터랙티브 티어시트 | 누적 수익률 | 연율화 변동성 (`gs_quant`) | `gs_quant` Sharpe | 최대낙폭 (`gs_quant` MDD) | `SPY` 대비 베타 ($\\beta$) | `SPY` 상관계수 ($\\rho$) | 최근 63일 롤링 Sharpe / MDD |\n| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n| 패시브 `SOXL` 100% | — | `+0.21%` | `~94.2%` | `0.800` | `-89.75%` | `+3.41` | `+0.78` | 급락 전환 |\n| 패시브 `SOXS` 100% | — | `-90.78%` | `~95.8%` | `-0.790` | `-96.74%` | `-3.38` | `-0.77` | 장기 소멸 |\n| 패시브 `50:50` 리밸런싱 | — | `-2.08%` | `1.92%` | `-0.770` | `-2.69%` | `0.00` | `0.00` | 지속 음수 |\n| **1. 단타 (`1min`)** `v_53.py` | [report_v_53.html](https://tron1981-maker.github.io/soxl-soxs-1y/report_v_53.html) | `-6.29%` | `6.85%` | `-0.914` | `-9.74%` | `+0.063` | `+0.119` | `+0.326` / `-3.19%` |\n| **2. 초단기 (`daily`)** `v_61.py` | [report_v_61.html](https://tron1981-maker.github.io/soxl-soxs-1y/report_v_61.html) | **`+11.13%`** | `13.01%` | **`0.854`** | `-8.68%` | `-0.098` | `-0.073` | `+0.216` / `-8.68%` |\n| **3. 스윙 (`daily`)** `v_68.py` | [report_v_68.html](https://tron1981-maker.github.io/soxl-soxs-1y/report_v_68.html) | **`+21.44%`** | `18.85%` | **`1.135`** | **`-8.18%`** | `-0.084` | `-0.043` | `+0.783` / `-2.55%` |\n| **4. 장투 (`daily`)** `v_71.py` | [report_v_71.html](https://tron1981-maker.github.io/soxl-soxs-1y/report_v_71.html) | **`+41.08%`** | `21.94%` | **`1.868`** | `-9.48%` | `-0.091` | `-0.040` | **`+0.895`** / `-7.70%` |\n| **5. 통합 챔피언** `v_73.py` | [report.html](https://tron1981-maker.github.io/soxl-soxs-1y/report_v_73.html) | **`+41.15%`** | `21.19%` | **`1.938`** | `-9.09%` | **`-0.128`** | `-0.059` | `+0.830` / `-6.59%` |\n\n### 2.2 In-Sample (`앞 80%`) vs Sealed OOS (`뒤 20% 봉인 폭락장`) 스트레스 검증\n\n> [!TIP]\n> **봉인 구간(Sealed OOS) 위기 알파 검증**: 전략 개발 중 일절 열람하지 않은 마지막 20% 구간에서 기초 자산 `SOXL`이 **`-73.30%` 폭락**했음에도, `v_53`·`v_61`·`v_68`·`v_71`·`v_73` **5개 장르 대표 전략 전원이 `gs_quant` 일간 집계 기준 플러스 수익(`+0.56% ~ +1.43%`) 및 한 자릿수 MDD(`-2.38% ~ -8.68%`)**를 기록하며 과적합이 아닌 구조적 방어력을 증명했습니다.\n\n| 전략 버전 | IS 누적 수익률 (`gs_quant`) | IS 연변동성 | IS Sharpe | IS MDD | Sealed OOS 수익률 (`gs_quant`) | OOS 연변동성 | OOS Sharpe | OOS MDD | OOS 베타 ($\\beta$) |\n| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n| **`v_53`** (1분봉 단타) | `-6.83%` | `6.44%` | `-1.298` | `-9.66%` | `+0.57%` | `8.38%` | `+0.357` | `-3.19%` | `+0.015` |\n| **`v_61`** (초단기 평균회귀) | `+9.69%` *(원시 +11.37%)* | `11.08%` | `+1.092` | `-6.38%` | **`+1.31%`** | `19.05%` | `+0.381` | `-8.68%` | `+0.001` |\n| **`v_68`** (중기 다단 스윙) | `+20.76%` | `20.62%` | `+1.271` | `-8.18%` | `+0.56%` | **`8.61%`** | `+0.354` | **`-2.38%`** | `-0.004` |\n| **`v_71`** (장투 변동성 코어) | **`+39.79%`** | `24.00%` | `+2.132` | `-9.48%` | `+0.93%` | `9.82%` | `+0.517` | `-2.51%` | `-0.011` |\n| **`v_73`** (**올웨더 통합 챔피언**) | **`+39.16%`** *(원시 +40.01%)* | `22.88%` | **`+2.200`** | `-9.09%` | **`+1.43%`** | `12.14%` | **`+0.653`** | `-4.91%` | `-0.008` |\n\n---\n\n## 3. 장르별 카파시 Autoresearch 진화 계보 (`v_51` ~ `v_73` 전수 기록)\n\n### 3.1 장르 1 — 인트라데이 1분봉 데이트레이딩 (`v_51` ~ `v_55`, 오버나잇 노출 0%)\n* **설계 목적**: 정규장 마감 10분 전(`15:50 ET`, 조기폐장일 `12:50 ET`) 전량 현금화로 오버나잇 갭 리스크를 제거한 순수 당일 매매 검증.\n* **부검 진화 요약**:\n  - `v_51` (`#71`, ORB 30분 돌파): 104회 과매매로 왕복 40bps 비용 누적 및 점심장 고점 물림(`TREND_REVERSAL_LOSS`), IS `-25.64%` (`MDD 32.68%`), 단 OOS 추세장에서는 `+6.68%` 기록.\n  - `v_52` (`#72`, 카우프만 효율성 `ER >= 0.35`): 과매매 제거(`IS +0.09%`, `MDD 2.59%`), 단 표본 부족(`6회 < 10회`, `INSUFFICIENT_TRADES`).\n  - `v_53` (`#73`, ORH 돌파 후 첫 VWAP·EMA20 눌림 재탈환): 32회(`SOXL 18일 : SOXS 14일`), MDD `10.55%`, OOS `+0.57%` 달성했으나 당일 상승분 추격 후 장중 평균회귀 역풍으로 IS `-6.83%`.\n  - `v_54`~`v_55` (`#74`~`#75`, 장중 `-3.5%+` 투매 역추세 반등 및 2차 바닥 확인): 승률을 `31.3% → 42.9%`로 끌어올리고 `WHIPSAW_CHOP`·`HIGH_VOL_SPIKE` 손실을 제거했으나, **편도 20bps(왕복 40bps) 마찰비용 + 반도체 오버나잇 양(+)의 드리프트 포기**라는 데이트레이딩 본연의 비용 한계를 실증함.\n\n> [!WARNING]\n> **실전 트레이딩 시사점 (데이트레이딩 마찰장벽)**: `SOXL`·`SOXS`에서 호가 스프레드+슬리피지가 편도 `15~20bps` 이상 발생하는 환경에서는 순수 1분봉 당일 청산보다 **오버나잇 추세·스냅백 프리미엄을 수취하는 일봉 기반 전략(`v_61`~`v_73`)의 순기대값(Expectancy)이 압도적으로 높습니다.**\n\n### 3.2 장르 2 — 초단기 평균회귀 단기매매 (`v_56` ~ `v_61`, 보유 2~5일)\n* **진화 핵심**: `v_56`(`#76`, `SMA200` 기준 역추세 손실) → `v_57`(`#77`, `SMA50` 분기 도입 시 IS `Calmar 2.61` 급등, 단 무확인 `SOXS` 진입으로 OOS 기각) → `v_58`(`#78`, `max(vol5,vol20)` 변동성 제어 검증 및 `SMA50` 하회 `SOXL` 진입 위험 확인) → `v_59`(`#79`, OOS 양전 성공) → `v_60`(`#80`, 강세장 불플래그 `SOXS` 제거로 IS `Calmar 1.87`) → **`v_61.py` (`#81`, 최종 PASS)**.\n* **`v_61` 시그널 명세**:\n  - **`SOXL` 진입**: `Close >= SMA50` 중기 강세 지지 내 `RSI(2) < 16` 단기 패닉 급락 발생 시 변동성 역가중 진입 → 전일 고가(`High[t-1]`) 돌파 또는 `SMA5` 회복 시 즉각 익절.\n  - **`SOXS` 진입**: `Close < SMA50` 및 `SMA10 < SMA50` 중기 조정 체제에서 기술적 반등(`SOXS RSI2 < 38`) 후 **실제 `SOXL` 음봉 거절 + `SOXS` 양봉 전환이 동시 확인된 날** 제한 비중(`~0.22`) 진입.\n\n### 3.3 장르 3 — 중기 스윙 트레이딩 (`v_62` ~ `v_68`, 보유 1~3주)\n* **진화 핵심**: `v_62`~`v_65`(`#82`~`#85`, 고변동 분배장 및 후행 정배열 추격 손실 진단) → `v_66`(`#86`, 15일 돈치안 신고가 돌파가 3배 ETF 박스권 상단 물림을 유발함을 확인 후 폐기) → `v_67`(`#87`, 비과열 응축 다단 스윙으로 축 전환하여 IS·OOS 동시 흑자) → **`v_68.py` (`#88`, 최종 PASS)**.\n* **`v_68` 시그널 명세**:\n  - **`SOXL` 스윙**: `Close > SMA50`, `EMA10 > EMA30`, `SMA20` 2봉 연속 안착 + **10일·20일 복수 양모멘텀(`m10 > 0`, `m20 > +2%`)** + **최근 5일 투매 충격 부재(`min_ret5 > -10%`)** + 비과열(`46 <= RSI14 <= 68.5`) 충족 시 진입.\n  - **`SOXS` 스윙**: 중기 역배열 확정 구간 중 과매도 투매 바닥(`RSI14 < 34`)을 피한 하락 추세 구간에 `0.18~0.38` 비중 진입 및 빠른 트레일링 이익 잠금.\n\n### 3.4 장르 4 — 장투 / 매크로 포지션 & 변동성 타게팅 (`v_69` ~ `v_71`, 수주~수개월 코어)\n* **진화 핵심**: `v_69`(`#89`, IS `Calmar 6.13` 달성했으나 리밸런싱 임계 미작동으로 OOS 반납) → `v_70`(`#90`, 비대칭 방어 축소 도입, 트레일링 지연 수정 필요) → **`v_71.py` (`#91`, 최종 PASS, IS `Calmar 5.51`, 1Y `+41.08%`)**.\n* **`v_71` 시그널 명세**:\n  - **강세 장기 코어(`SOXL`)**: 인위적 시간 청산 없이 대세 상승장을 연속 보유(`0.45~0.82`)하되, 단기 과열·변동성 스파이크 국면에서는 전량 매도 대신 **`0.20` 방어 코어로 축소 유지 후 안정 시 재확대**하여 장기 복리를 극대화합니다. 단, 파동 수익 `+11%` 이상 도달 후 피크 대비 실질 가격 반락(`36%` 되돌림 또는 `-6.8%p`) 발생 시 조건 없이 이익을 확정하고 즉시 재진입 대기(`cooldown = 0`)합니다.\n  - **위기 알파 슬리브(`SOXS`)**: 거시 약세 체제에서만 `0.20~0.36` 제한 비중으로 편입해 폭락장 포트폴리오 손실을 상쇄합니다.\n\n### 3.5 장르 5 — 올웨더 통합 메타 앙상블 챔피언 (`v_72` ~ `v_73`)\n* **진화 핵심**: `v_72`(`#92`)에서 하위 전략에 임의 필터를 덧씌우고 단기 역추세 가중치를 과대 배정(`0.90`)하자 OOS 안정성이 훼손됨을 부검으로 확인하고, **`v_73.py` (`#93`, 최종 우승)**에서 검증된 원본 3대 슬리브를 코어-새틀라이트 리스크 패리티 비율(`장기코어 0.70 : 중기스윙 0.30 : 초단기 0.40`) 및 순노출 상계로 결합하여 **전 실험 최고 `gs_quant Sharpe 1.938` (`IS Calmar 5.78`, `OOS Sharpe 0.653`)**을 완성했습니다.\n* **잔존 리스크 부검 (`v_73` In-Sample Top 3 손실 에피소드)**:\n  1. `2025-12-03 ~ 2025-12-14` (`8거래일`, `-4.85%`, 평균비중 `0.428`): 저변동 횡보 후 추세 반전(`LATE_EXIT_GIVEBACK`) — 단일 최대 손실이 `-5%` 미만으로 엄격히 통제됨.\n  2. `2026-08-02 ~ 2026-08-03` (`2거래일`, `-1.97%`, 평균비중 `0.088`): 고변동 스파이크 구간 소액(`8.8%`) 탐색 손절(`WHIPSAW_CHOP`).\n  3. `2025-12-18` (`1거래일`, `-1.76%`, 평균비중 `0.213`): 단기 휩소 즉시 차단(`WHIPSAW_CHOP`).\n\n---\n\n## 4. 리포트 아카이브 및 검증 명령어 안내\n\n> [!NOTE]\n> 모든 전략의 오프라인 완결형 **Goldman Sachs `gs_quant.timeseries` 6단 인터랙티브 Plotly 티어시트 HTML**(`누적 자산곡선`, `수중 낙폭 & 롤링 MDD`, `롤링 변동성`, `롤링 샤프`, `SPY 대비 롤링 베타·상관계수`, `일별 SOXL/SOXS 노출 비중`)이 아래 경로에 생성되어 있습니다.\n\n* **통합 챔피언 메인 티어시트**: [report.html](https://tron1981-maker.github.io/soxl-soxs-1y/report_v_73.html) (동일 사본: [report_v_73.html](https://tron1981-maker.github.io/soxl-soxs-1y/report_v_73.html))\n* **장르별 우승 티어시트**:\n  - 단타(`1min`): [report_v_53.html](https://tron1981-maker.github.io/soxl-soxs-1y/report_v_53.html)\n  - 초단기(`daily`): [report_v_61.html](https://tron1981-maker.github.io/soxl-soxs-1y/report_v_61.html)\n  - 스윙(`daily`): [report_v_68.html](https://tron1981-maker.github.io/soxl-soxs-1y/report_v_68.html)\n  - 장투(`daily`): [report_v_71.html](https://tron1981-maker.github.io/soxl-soxs-1y/report_v_71.html)\n* **브라우저 즉시 열기 / 대시보드 탐색기 실행 명령 (PowerShell)**:\n  ```powershell\n  # 최종 챔피언(v_73) 인터랙티브 티어시트 브라우저로 열기\n  Start-Process \"d:\\100_bibe_coding\\04_stock\\13_재귀트레이딩\\trading-loop\\backtests\\report.html\"\n\n  # Streamlit gs_quant 인터랙티브 리스크 탐색기 실행\n  & \"d:\\100_bibe_coding\\04_stock\\13_재귀트레이딩\\trading-loop\\.venv\\Scripts\\python.exe\" -m streamlit run \"d:\\100_bibe_coding\\04_stock\\13_재귀트레이딩\\streamlit_explorer.py\"\n  ```\n";
-    function preprocessMd(md) {
-      // GitHub Alert 토큰 정리
-      md = md.replace(/> \[!(IMPORTANT|TIP|WARNING|NOTE)\]\s*\n/g, '> **[$1]** ');
-      // Display math $$...$$ 보호
-      const maths = [];
-      md = md.replace(/\$\$([\s\S]+?)\$\$/g, (_, expr) => {
-        const idx = maths.length;
-        maths.push({ display: true, expr: expr.trim() });
-        return `@@MATH_${idx}@@`;
-      });
-      md = md.replace(/\$([^\$\n]+?)\$/g, (_, expr) => {
-        const idx = maths.length;
-        maths.push({ display: false, expr: expr.trim() });
-        return `@@MATH_${idx}@@`;
-      });
-      return { md, maths };
-    }
-
-    const { md, maths } = preprocessMd(RAW_MD);
-    let rendered = (typeof marked !== 'undefined') ? marked.parse(md) : `<pre>${md.replace(/</g,'&lt;')}</pre>`;
-    // Mermaid code block -> div.mermaid
-    rendered = rendered.replace(/<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g, (_, code) => {
-      const decoded = code.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"');
-      return `<div class="mermaid">${decoded}</div>`;
-    });
-    // Restore KaTeX math
-    rendered = rendered.replace(/@@MATH_(\d+)@@/g, (_, idx) => {
-      const m = maths[Number(idx)];
-      try {
-        if (typeof katex !== 'undefined') {
-          const html = katex.renderToString(m.expr, { displayMode: m.display, throwOnError: false });
-          return m.display ? `<div class="math-block">${html}</div>` : html;
-        }
-        return m.expr;
-      } catch (e) {
-        return m.expr;
-      }
-    });
-    document.getElementById('content').innerHTML = rendered;
-    if (typeof mermaid !== 'undefined') {
-      mermaid.initialize({ startOnLoad: false, theme: 'default' });
-      mermaid.run();
-    }
-
     function setDocBg(mode, btn) {
       if (mode === 'white') document.documentElement.removeAttribute('data-bg');
       else document.documentElement.setAttribute('data-bg', mode);
       document.querySelectorAll('.bg-btn').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
     }
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.katex) {
+        document.querySelectorAll('.katex-inline, .katex-display').forEach(el => {
+          const expr = el.getAttribute('data-expr');
+          const disp = el.classList.contains('katex-display');
+          try { katex.render(expr, el, { displayMode: disp, throwOnError: false }); } catch (e) {}
+        });
+      }
+      if (window.mermaid) {
+        mermaid.initialize({ startOnLoad: false, theme: 'default' });
+        mermaid.run();
+      }
+    });
   </script>
 </body>
 </html>

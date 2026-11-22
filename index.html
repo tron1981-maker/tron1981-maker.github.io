@@ -3,81 +3,156 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Interactive Showcase & Quant Reports — tron1981-maker</title>
+  <title>DJ-QUNT · 개인 퀀트 연구 & 인터랙티브 리포트 허브</title>
   <style>
     :root {
-      --bg: #ffffff; --card: #ffffff; --border: #e2e8f0; --text: #0f172a;
-      --muted: #475569; --accent: #2563eb; --accent-hover: #1d4ed8;
+      --bg: #ffffff; --card: #ffffff; --panel: #f8fafc; --border: #e2e8f0;
+      --text: #0f172a; --muted: #475569; --accent: #1d4ed8; --accent-hover: #1e40af;
       --badge-bg: #eff6ff; --badge-tx: #1d4ed8;
+      --pre-bg: #fff7ed; --pre-tx: #c2410c; --pre-bd: #fed7aa;
+      --reg-bg: #ecfdf5; --reg-tx: #047857; --reg-bd: #a7f3d0;
     }
     html[data-bg="warm"] {
-      --bg: #faf8f5; --card: #ffffff; --border: #e7e2d8; --text: #1c1917; --muted: #57534e;
+      --bg: #faf8f5; --card: #ffffff; --panel: #f5f2eb; --border: #e7e2d8;
+      --text: #1c1917; --muted: #57534e;
     }
     html[data-bg="soft"] {
-      --bg: #f1f5f9; --card: #ffffff; --border: #cbd5e1; --text: #0f172a; --muted: #475569;
+      --bg: #f1f5f9; --card: #ffffff; --panel: #e2e8f0; --border: #cbd5e1;
+      --text: #0f172a; --muted: #475569;
     }
     html[data-bg="dark"] {
-      --bg: #0b1120; --card: #111827; --border: #1f2937; --text: #f8fafc;
-      --muted: #94a3b8; --accent: #3b82f6; --accent-hover: #2563eb;
+      --bg: #0b1120; --card: #111827; --panel: #1e293b; --border: #1f2937;
+      --text: #f8fafc; --muted: #94a3b8; --accent: #3b82f6; --accent-hover: #2563eb;
       --badge-bg: rgba(59,130,246,0.16); --badge-tx: #60a5fa;
+      --pre-bg: rgba(249,115,22,0.16); --pre-tx: #fb923c; --pre-bd: rgba(249,115,22,0.35);
+      --reg-bg: rgba(16,185,129,0.16); --reg-tx: #34d399; --reg-bd: rgba(16,185,129,0.35);
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      margin: 0; padding: 32px 18px 64px; background: var(--bg); color: var(--text);
+      margin: 0; padding: 26px 18px 64px; background: var(--bg); color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Pretendard", sans-serif;
-      transition: background-color 0.18s ease, color 0.18s ease;
+      line-height: 1.55; transition: background-color 0.18s ease, color 0.18s ease;
     }
-    .wrap { max-width: 1060px; margin: 0 auto; }
+    .wrap { max-width: 1140px; margin: 0 auto; }
     header {
-      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
-      gap: 16px; padding-bottom: 22px; border-bottom: 1px solid var(--border); margin-bottom: 26px;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start;
+      gap: 16px; padding: 22px 24px; background: var(--card); border: 1px solid var(--border);
+      border-left: 5px solid var(--accent); border-radius: 16px; margin-bottom: 18px;
+      box-shadow: 0 1px 4px rgba(15,23,42,0.05);
     }
-    .eyebrow { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; }
-    h1 { margin: 6px 0 4px; font-size: 26px; font-weight: 800; }
-    .sub { margin: 0; font-size: 14px; color: var(--muted); }
+    .eyebrow { font-size: 12px; font-weight: 800; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; }
+    h1 { margin: 5px 0 4px; font-size: 26px; font-weight: 800; }
+    .sub { margin: 0; font-size: 13.5px; color: var(--muted); }
     .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
     .bg-bar {
       display: inline-flex; gap: 3px; padding: 4px; border: 1px solid var(--border);
-      border-radius: 10px; background: var(--card);
+      border-radius: 10px; background: var(--bg);
     }
     .bg-btn {
       border: none; background: transparent; color: var(--muted); font-size: 12px;
       font-weight: 600; padding: 6px 10px; border-radius: 7px; cursor: pointer;
     }
     .bg-btn.active { background: var(--accent); color: #ffffff; }
+
+    /* Top 3-Section Anchor Nav */
+    .sec-nav {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
+      position: sticky; top: 10px; z-index: 40; padding: 8px 10px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+    }
+    .nav-pill {
+      text-decoration: none; font-size: 13px; font-weight: 700; color: var(--text);
+      padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel);
+      transition: all 0.14s ease;
+    }
+    .nav-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-pill .num { color: var(--accent); margin-right: 4px; }
+
+    .section { margin-bottom: 40px; scroll-margin-top: 76px; }
+    .sec-head {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
+      gap: 12px; padding-bottom: 12px; border-bottom: 2px solid var(--border); margin-bottom: 18px;
+    }
+    .sec-head h2 { margin: 0; font-size: 20px; font-weight: 800; }
+    .sec-head p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+
+    /* Section 1: Engine Version Cards */
+    .gen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+    .gen-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 16px 18px; display: flex; flex-direction: column; gap: 8px;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.04); transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    .gen-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .gen-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .badge {
+      background: var(--badge-bg); color: var(--badge-tx); font-size: 11px; font-weight: 700;
+      padding: 3px 9px; border-radius: 999px;
+    }
+    .badge-pre { background: var(--pre-bg); color: var(--pre-tx); border: 1px solid var(--pre-bd); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+    .badge-reg { background: var(--reg-bg); color: var(--reg-tx); border: 1px solid var(--reg-bd); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+    .mono { font-family: monospace; }
+    .gen-name { margin: 0; font-size: 15.5px; font-weight: 800; line-height: 1.35; }
+    .gen-desc { margin: 0; font-size: 13px; color: var(--muted); flex-grow: 1; }
+    .gen-champ { font-size: 12px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; }
+
+    /* Section 2: Interactive Reports Grid */
     .search {
       background: var(--card); border: 1px solid var(--border); color: var(--text);
-      padding: 9px 14px; border-radius: 10px; font-size: 13.5px; min-width: 220px; outline: none;
+      padding: 8px 13px; border-radius: 10px; font-size: 13px; min-width: 230px; outline: none;
     }
     .search:focus { border-color: var(--accent); }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
     .card {
       background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 20px; display: flex; flex-direction: column; justify-content: space-between;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
-      transition: transform 0.15s ease, border-color 0.15s ease;
+      padding: 18px 20px; display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.04); transition: transform 0.15s ease, border-color 0.15s ease;
     }
     .card:hover { transform: translateY(-2px); border-color: var(--accent); }
     .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .badge {
-      background: var(--badge-bg); color: var(--badge-tx); font-size: 11px; font-weight: 700;
-      padding: 4px 9px; border-radius: 999px;
-    }
     .date { font-size: 12px; color: var(--muted); font-family: monospace; }
-    .card-title { margin: 0 0 8px; font-size: 18px; line-height: 1.35; }
+    .card-title { margin: 0 0 8px; font-size: 17px; line-height: 1.35; font-weight: 800; }
     .card-title a { color: var(--text); text-decoration: none; }
-    .card-desc { margin: 0 0 18px; font-size: 13.5px; line-height: 1.55; color: var(--muted); flex-grow: 1; }
-    .card-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .card-desc { margin: 0 0 16px; font-size: 13px; color: var(--muted); flex-grow: 1; }
+    .card-actions { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
     .primary-btn {
-      background: var(--accent); color: #fff; text-decoration: none; font-size: 12.5px;
-      font-weight: 600; padding: 8px 13px; border-radius: 8px;
+      background: var(--accent); color: #fff; text-decoration: none; font-size: 12px;
+      font-weight: 600; padding: 7px 12px; border-radius: 8px;
     }
     .primary-btn:hover { background: var(--accent-hover); }
     .extra-btn, .copy-btn {
       background: transparent; border: 1px solid var(--border); color: var(--muted);
-      text-decoration: none; font-size: 12px; padding: 7px 11px; border-radius: 8px; cursor: pointer;
+      text-decoration: none; font-size: 11.5px; padding: 6px 10px; border-radius: 8px; cursor: pointer;
     }
     .extra-btn:hover, .copy-btn:hover { color: var(--text); border-color: var(--muted); }
+
+    /* Section 3: Rankings (Premarket vs Regular) */
+    .rank-controls { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .tab-group { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+    .tab-btn {
+      border: 1px solid var(--border); background: var(--card); color: var(--muted);
+      font-size: 12.5px; font-weight: 700; padding: 7px 13px; border-radius: 9px; cursor: pointer;
+    }
+    .tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .rank-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    .rank-grid.both { grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); }
+    .rank-panel {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 16px 18px; overflow-x: auto; box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+    }
+    .rank-panel h3 { margin: 0 0 12px; font-size: 15.5px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: right; white-space: nowrap; }
+    th:nth-child(1), td:nth-child(1), th:nth-child(2), td:nth-child(2) { text-align: left; }
+    th { background: var(--panel); font-weight: 700; color: var(--muted); }
+    .rank-title { white-space: normal; min-width: 190px; font-size: 12px; color: var(--muted); }
+    .ver-link { color: var(--accent); font-weight: 800; text-decoration: none; }
+    .ver-link:hover { text-decoration: underline; }
+    .pos { color: #059669; font-weight: 700; }
+    .neg { color: #dc2626; font-weight: 700; }
+
     footer {
       margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
       text-align: center; font-size: 13px; color: var(--muted);
@@ -88,9 +163,9 @@
   <div class="wrap">
     <header>
       <div>
-        <div class="eyebrow">GitHub Pages Live Archive</div>
-        <h1>인터랙티브 프로젝트 & 퀀트 리포트 허브</h1>
-        <p class="sub">생성된 인터랙티브 HTML 시각화·백테스트 티어시트·웹 프로토타입 아카이브 (총 6건)</p>
+        <div class="eyebrow">DJ-QUNT · Autonomous Karpathy Quant Lab</div>
+        <h1>DJ-QUNT 퀀트 알고리즘 & 인터랙티브 리포트 허브</h1>
+        <p class="sub">누적 실험 93개 버전 · 심판관 합격 29종 · 공개 리포트 6개 컬렉션 (주소: https://tron1981-maker.github.io/dj-qunt/)</p>
       </div>
       <div class="controls">
         <div class="bg-bar" role="group" aria-label="배경색 변경">
@@ -99,22 +174,49 @@
           <button type="button" class="bg-btn" onclick="setHubBg('soft', this)">소프트</button>
           <button type="button" class="bg-btn" onclick="setHubBg('dark', this)">다크</button>
         </div>
-        <input id="q" class="search" type="search" placeholder="프로젝트·티커·키워드 검색..." oninput="filterCards()" />
       </div>
     </header>
-    <main id="grid" class="grid">
-      
+
+    <nav class="sec-nav" aria-label="홈 섹션 이동">
+      <a class="nav-pill" href="#sec-algo"><span class="num">1.</span>버전별 알고리즘 상세</a>
+      <a class="nav-pill" href="#sec-reports"><span class="num">2.</span>인터랙티브 리포트 리스트</a>
+      <a class="nav-pill" href="#sec-ranking"><span class="num">3.</span>랭킹 (프리장 · 본장 구분)</a>
+    </nav>
+
+    <!-- 1. 버전별 알고리즘 상세 -->
+    <section id="sec-algo" class="section">
+      <div class="sec-head">
+        <div>
+          <h2>1. 버전별 알고리즘 상세 (Gen 1 ~ Gen 7 진화 아키텍처)</h2>
+          <p>각 엔진 세대별 핵심 수리 로직, 대상 시장·타임프레임, 대표 합격 버전을 한눈에 비교합니다.</p>
+        </div>
+        <a href="/engine-versions/" class="primary-btn">전체 93개 버전 상세 백과 열기 ↗</a>
+      </div>
+      <div id="genGrid" class="gen-grid"></div>
+    </section>
+
+    <!-- 2. 인터랙티브 리포트 리스트 -->
+    <section id="sec-reports" class="section">
+      <div class="sec-head">
+        <div>
+          <h2>2. 인터랙티브 리포트 리스트 (총 6건)</h2>
+          <p>Goldman Sachs gs_quant 6단 티어시트, QIS 리서치 노트, 백테스트 시각화 아카이브입니다.</p>
+        </div>
+        <input id="q" class="search" type="search" placeholder="리포트 · 티커 · 키워드 검색..." oninput="filterCards()" />
+      </div>
+      <div id="grid" class="grid">
+        
             <article class="card" data-search="퀀트 트레이딩 엔진 세대별 · 버전별 특성 가이드 (gen 1 ~ gen 7 · 총 93버전) engine architecture · docs vsa 초고빈도(gen 1) → 매크로 etf(gen 2) → svapo(gen 3) → rvol·프리마켓(gen 4~5) → soxl·soxs 멀티장르·올웨더 챔피언 v_73(gen 6~7) 전 세대 특성·장단점·부검 백과">
               <div class="card-top">
                 <span class="badge">Engine Architecture · Docs</span>
                 <span class="date">2026-11-22 23:43</span>
               </div>
-              <h2 class="card-title"><a href="./engine-versions/">퀀트 트레이딩 엔진 세대별 · 버전별 특성 가이드 (Gen 1 ~ Gen 7 · 총 93버전)</a></h2>
+              <h3 class="card-title"><a href="/engine-versions/">퀀트 트레이딩 엔진 세대별 · 버전별 특성 가이드 (Gen 1 ~ Gen 7 · 총 93버전)</a></h3>
               <p class="card-desc">VSA 초고빈도(Gen 1) → 매크로 ETF(Gen 2) → SVAPO(Gen 3) → RVOL·프리마켓(Gen 4~5) → SOXL·SOXS 멀티장르·올웨더 챔피언 v_73(Gen 6~7) 전 세대 특성·장단점·부검 백과</p>
               <div class="card-actions">
-                <a href="./engine-versions/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
+                <a href="/engine-versions/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
                 
-                <button class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/engine-versions/', this)">링크 복사</button>
+                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/engine-versions/', this)">링크 복사</button>
               </div>
             </article>
             
@@ -124,12 +226,12 @@
                 <span class="badge">GS QIS · Karpathy Quant</span>
                 <span class="date">2026-11-22 23:40</span>
               </div>
-              <h2 class="card-title"><a href="./soxl-soxs-1y/">SOXL · SOXS 1년 카파시 Autoresearch 5대 장르 인터랙티브 티어시트</a></h2>
+              <h3 class="card-title"><a href="/soxl-soxs-1y/">SOXL · SOXS 1년 카파시 Autoresearch 5대 장르 인터랙티브 티어시트</a></h3>
               <p class="card-desc">단타(1min)·초단기(v_61)·스윙(v_68)·장투(v_71)·올웨더 통합 챔피언(v_73: 1Y +41.15%, Sharpe 1.94, MDD -9.09%) 6단 비교 뷰어</p>
               <div class="card-actions">
-                <a href="./soxl-soxs-1y/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
-                <a href="./soxl-soxs-1y/report_v_73.html" target="_blank" class="extra-btn">Plotly v_73(통합)</a><a href="./soxl-soxs-1y/report_v_71.html" target="_blank" class="extra-btn">Plotly v_71(장투)</a><a href="./soxl-soxs-1y/report_v_68.html" target="_blank" class="extra-btn">Plotly v_68(스윙)</a><a href="./soxl-soxs-1y/report_v_61.html" target="_blank" class="extra-btn">Plotly v_61(초단기)</a><a href="./soxl-soxs-1y/report_v_53.html" target="_blank" class="extra-btn">Plotly v_53(단타)</a>
-                <button class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/soxl-soxs-1y/', this)">링크 복사</button>
+                <a href="/soxl-soxs-1y/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
+                <a href="/soxl-soxs-1y/report_v_73.html" target="_blank" class="extra-btn">Plotly v_73(통합)</a><a href="/soxl-soxs-1y/report_v_71.html" target="_blank" class="extra-btn">Plotly v_71(장투)</a><a href="/soxl-soxs-1y/report_v_68.html" target="_blank" class="extra-btn">Plotly v_68(스윙)</a><a href="/soxl-soxs-1y/report_v_61.html" target="_blank" class="extra-btn">Plotly v_61(초단기)</a><a href="/soxl-soxs-1y/report_v_53.html" target="_blank" class="extra-btn">Plotly v_53(단타)</a>
+                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/soxl-soxs-1y/', this)">링크 복사</button>
               </div>
             </article>
             
@@ -139,12 +241,12 @@
                 <span class="badge">GS QIS Research Note</span>
                 <span class="date">2026-11-22 23:40</span>
               </div>
-              <h2 class="card-title"><a href="./gs-qis-soxl-soxs-note/">Goldman Sachs QIS 리서치 노트 — SOXL·SOXS 1년 3x 반도체 양방향 동적 알파 보고서</a></h2>
+              <h3 class="card-title"><a href="/gs-qis-soxl-soxs-note/">Goldman Sachs QIS 리서치 노트 — SOXL·SOXS 1년 3x 반도체 양방향 동적 알파 보고서</a></h3>
               <p class="card-desc">3배 레버리지 변동성 잠식 수리 분석, 23개 카파시 실험(v_51~v_73) 진화 계보, Sealed OOS -73% 폭락장 스트레스 검증 전문 보고서</p>
               <div class="card-actions">
-                <a href="./gs-qis-soxl-soxs-note/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
+                <a href="/gs-qis-soxl-soxs-note/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
                 
-                <button class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/gs-qis-soxl-soxs-note/', this)">링크 복사</button>
+                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/gs-qis-soxl-soxs-note/', this)">링크 복사</button>
               </div>
             </article>
             
@@ -154,12 +256,12 @@
                 <span class="badge">Carbon Autoresearch · 1min</span>
                 <span class="date">2026-11-22 23:40</span>
               </div>
-              <h2 class="card-title"><a href="./v50-intraday-vwap/">오전장 상승 정배열 VWAP 눌림목 1분봉 단타 전략 (v_50 우승 · Calmar 25.45)</a></h2>
+              <h3 class="card-title"><a href="/v50-intraday-vwap/">오전장 상승 정배열 VWAP 눌림목 1분봉 단타 전략 (v_50 우승 · Calmar 25.45)</a></h3>
               <p class="card-desc">SMTK·PEPG·SHFS·MI·YMAT 1분봉 오전장 VWAP 눌림목 유동성 흡수 및 고변동성 비대칭 사이징 최종 우승(v_50) 및 선행 비교(v_44·v_49)</p>
               <div class="card-actions">
-                <a href="./v50-intraday-vwap/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
-                <a href="./v50-intraday-vwap/report_v_44.html" target="_blank" class="extra-btn">v_44 선행모델</a><a href="./v50-intraday-vwap/report_v_49.html" target="_blank" class="extra-btn">v_49 부검비교</a>
-                <button class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/v50-intraday-vwap/', this)">링크 복사</button>
+                <a href="/v50-intraday-vwap/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
+                <a href="/v50-intraday-vwap/report_v_44.html" target="_blank" class="extra-btn">v_44 선행모델</a><a href="/v50-intraday-vwap/report_v_49.html" target="_blank" class="extra-btn">v_49 부검비교</a>
+                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/v50-intraday-vwap/', this)">링크 복사</button>
               </div>
             </article>
             
@@ -169,12 +271,12 @@
                 <span class="badge">Premarket · Screener</span>
                 <span class="date">2026-11-22 23:40</span>
               </div>
-              <h2 class="card-title"><a href="./premarket-20261119/">2026-11-19(목) 프리장 스크리너 종목 수익 전략 백테스트 리포트</a></h2>
+              <h3 class="card-title"><a href="/premarket-20261119/">2026-11-19(목) 프리장 스크리너 종목 수익 전략 백테스트 리포트</a></h3>
               <p class="card-desc">2026년 11월 19일 목요일 프리마켓 스크리너 포착 급등주 대상 진입·청산 규칙 검증 및 수익 곡선 백테스트 리포트</p>
               <div class="card-actions">
-                <a href="./premarket-20261119/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
+                <a href="/premarket-20261119/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
                 
-                <button class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/premarket-20261119/', this)">링크 복사</button>
+                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/premarket-20261119/', this)">링크 복사</button>
               </div>
             </article>
             
@@ -184,33 +286,67 @@
                 <span class="badge">Baseline · Multi-Asset</span>
                 <span class="date">2026-11-22 23:40</span>
               </div>
-              <h2 class="card-title"><a href="./dual-momentum-spy-qqq/">SPY · QQQ 듀얼 모멘텀 (Dual Momentum) 기준선 백테스트 &amp; gs_quant 리포트</a></h2>
+              <h3 class="card-title"><a href="/dual-momentum-spy-qqq/">SPY · QQQ 듀얼 모멘텀 (Dual Momentum) 기준선 백테스트 &amp; gs_quant 리포트</a></h3>
               <p class="card-desc">미국 대표 지수(SPY·QQQ) 상대·절대 듀얼 모멘텀 자산배분 전략의 장기 백테스트 및 gs_quant 롤링 리스크 6단 티어시트</p>
               <div class="card-actions">
-                <a href="./dual-momentum-spy-qqq/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
+                <a href="/dual-momentum-spy-qqq/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
                 
-                <button class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/dual-momentum-spy-qqq/', this)">링크 복사</button>
+                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/dual-momentum-spy-qqq/', this)">링크 복사</button>
               </div>
             </article>
             
-    </main>
+      </div>
+    </section>
+
+    <!-- 3. 랭킹 - 프리장, 본장 구분 -->
+    <section id="sec-ranking" class="section">
+      <div class="sec-head">
+        <div>
+          <h2>3. 전략 성과 랭킹 — 프리장 · 본장 구분</h2>
+          <p>SQLite 영구 장부(ledger.db)의 심판관 합격(CONFIRMED_SUCCESS) 전략만 자동 집계하며, 지표별 정렬이 가능합니다.</p>
+        </div>
+      </div>
+      <div class="rank-controls">
+        <div class="tab-group" role="group" aria-label="리그 선택">
+          <button type="button" class="tab-btn active" id="lgBoth" onclick="setLeague('both', this)">📊 프리장 · 본장 함께 보기</button>
+          <button type="button" class="tab-btn" id="lgPre" onclick="setLeague('premarket', this)">🌅 프리장 / 오전장 단타 (8종)</button>
+          <button type="button" class="tab-btn" id="lgReg" onclick="setLeague('regular', this)">🔔 본장 / 일봉·스윙·장투 (8종)</button>
+        </div>
+        <div class="tab-group" role="group" aria-label="정렬 기준">
+          <button type="button" class="tab-btn active" id="srCal" onclick="setSort('calmar', this)">Calmar 순</button>
+          <button type="button" class="tab-btn" id="srSh" onclick="setSort('sharpe', this)">Sharpe 순</button>
+          <button type="button" class="tab-btn" id="srCagr" onclick="setSort('cagr', this)">CAGR 순</button>
+          <button type="button" class="tab-btn" id="srMdd" onclick="setSort('mdd', this)">낮은 MDD 순</button>
+        </div>
+      </div>
+      <div id="rankContainer" class="rank-grid both"></div>
+    </section>
+
     <footer>
       본 내용은 투자 유도글이 아닌, 전동주 개인 연구에 대한 내용입니다.
     </footer>
   </div>
+
   <script>
+    const GENS = [{"gen": "Gen 7", "range": "v_72 ~ v_73", "name": "올웨더 코어-새틀라이트 리스크패리티 통합 엔진", "session": "본장 (Daily)", "assets": "SOXL · SOXS · Cash", "summary": "장기 코어(v_71 0.70) + 중기 스윙(v_68 0.30) + 초단기 스냅백(v_61 0.40)을 순노출 상계(w_SOXL*w_SOXS=0)로 결합해 3배 레버리지 디케이를 원천 제거한 현시점 통합 챔피언.", "champion": "v_73 (1Y +41.15% · Sharpe 1.94 · MDD -9.09%)", "url": "/soxl-soxs-1y/"}, {"gen": "Gen 6", "range": "v_51 ~ v_71", "name": "SOXL·SOXS 3배 반도체 멀티장르(단타·초단기·스윙·장투) 엔진", "session": "본장 (1min / Daily)", "assets": "SOXL · SOXS · Cash", "summary": "Close>=SMA50 체제 분기, max(vol5,vol20) 이중 변동성 타게팅, 과열 시 0.20 방어코어 축소 유지(v_71), 음봉거절 확인형 SOXS(v_61)로 -73% 폭락장 OOS 방어 검증.", "champion": "v_71 (+41.08%) · v_68 (+21.44%) · v_61 (+11.13%)", "url": "/gs-qis-soxl-soxs-note/"}, {"gen": "Gen 5", "range": "v_40 ~ v_50", "name": "Carbon Autoresearch v2 & 프리마켓 VWAP 밑꼬리 흡수 엔진", "session": "프리장 · 오전장 (1min)", "assets": "프리마켓 급등주 (SMTK·PEPG·SHFS·MI·YMAT)", "summary": "상승 정배열(EMA20>EMA60, Close>VWAP) 음봉 눌림목 유동성 공급 진입 + 밑꼬리 흡수 강도(close_pos) · 고변동성 스파이크 차등 비대칭 사이징.", "champion": "v_50 (Calmar 25.45 · Sharpe 2.94 · MDD -1.15%)", "url": "/v50-intraday-vwap/"}, {"gen": "Gen 4", "range": "v_25 ~ v_39", "name": "Cluster 2 RVOL 눌림목 · 뉴스 촉매 · 금리 4대 순환매 엔진", "session": "프리장 · 오전장 (1min)", "assets": "Cluster 2 급등주 · 거시 자산", "summary": "09:35~12:30 오전장 집중 + 엄격 RVOL>=1.25x 단일 게이트 순수 눌림목(v_31) 및 뉴스 촉매 익절·사이징 가중치(v_34)로 OOS 과적합 억제.", "champion": "v_34 (Calmar 12.58) · v_31 (Calmar 10.43)", "url": "/premarket-20261119/"}, {"gen": "Gen 3", "range": "v_01 ~ v_24", "name": "SVAPO 지표 · 유동성 스윕 · 카파시 부검 1기 엔진", "session": "프리장 · 장초반 (1min/3min)", "assets": "SCKT 및 장초반 변동성 종목", "summary": "불변 심판관(run_backtest.py)과 실패 장부(ledger.db) 최초 도입 세대. 24회 손실 부검으로 WHIPSAW_CHOP 및 고점 추격 함정 패턴을 정형화.", "champion": "Gen 4·5 우승 모델의 구조적 부검 토대", "url": "/engine-versions/"}, {"gen": "Gen 2", "range": "Baseline #07~#20", "name": "매크로 골든크로스 · Connors RSI(2) · 듀얼 모멘텀 · 올스타 앙상블", "session": "본장 (Daily 5~8년)", "assets": "SPY · QQQ · TQQQ · GLD · SGOV", "summary": "200MA 거시 체제 필터, 50/200MA 골든크로스, Connors RSI(2), 듀얼 모멘텀, SGOV 4.5% 캐리 및 GLD 15% 오버레이로 2022 폭락장 방어.", "champion": "Gold Leveraged v1.0 (Calmar 2.04 · MDD 7.75%) · Dual Momentum", "url": "/dual-momentum-spy-qqq/"}, {"gen": "Gen 1", "range": "VSA v1.0 ~ v4.0", "name": "초고빈도 VSA Stopping Volume 거래량 정지 흡수 스캘핑 엔진", "session": "본장 초고빈도 (1min/10s)", "assets": "SPY · QQQ · TSLA · NVDA · VSA", "summary": "급락 직후 거래량 폭발·스프레드 축소·아래꼬리 흡수를 4대 가중치 그리드 최적화로 정량화하여 허매수 함정을 제거한 초단타 반등 엔진.", "champion": "VSA v3.2 (승률 95.2%) · v4.0 10초봉 (승률 84.0%)", "url": "/engine-versions/"}];
+    const RANKINGS = {"premarket": [{"id": 70, "ver": "v_50", "rawVer": "v_50", "date": "2026-11-22", "title": "[Carbon Autoresearch v2] 상승정배열 VWAP 눌림 밑꼬리 흡수 강도·고변동 스파이크 비대칭 사이징 및 손절 최적화", "calmar": 25.45, "sharpe": 2.94, "cagr": 29.27, "mdd": 1.15, "winRate": 46.1, "trades": 13, "oos": "PASS | OOS_Sharpe=1.37, OOS_CAGR=18.00%, OOS_MDD=1.74% (2026-11-", "reportUrl": "/v50-intraday-vwap/"}, {"id": 61, "ver": "v_41", "rawVer": "v_41", "date": "2026-11-19", "title": "[장복기 S4_PREMARKET_RELAXED_PULLBACK_PLUS_SWEEP] 프리마켓 검증 종목 하이브리드(정밀 VWAP 눌림목 + ", "calmar": 16.5, "sharpe": 2.75, "cagr": 25.86, "mdd": 1.57, "winRate": 60.0, "trades": 10, "oos": "PASS | OOS_Sharpe=8.94, OOS_CAGR=1968.07%, OOS_MDD=2.94% (2026-1", "reportUrl": "/engine-versions/"}, {"id": 54, "ver": "v_34", "rawVer": "v_34", "date": "2026-11-18", "title": "[v_32 부검 개선] v_31 엄격 게이트(RVOL>=1.25x) 복원 + 학습된 뉴스촉매 사이징·익절 가중치 적용", "calmar": 12.58, "sharpe": 2.13, "cagr": 18.92, "mdd": 1.5, "winRate": 60.0, "trades": 10, "oos": "PASS | OOS_Sharpe=9.12, OOS_CAGR=2398.40%, OOS_MDD=2.30% (2026-1", "reportUrl": "/engine-versions/"}, {"id": 60, "ver": "v_40", "rawVer": "v_40", "date": "2026-11-19", "title": "[장복기 S1_VWAP_RECLAIM_MOMENTUM] VWAP 상향 탈환 & 양봉 수급 흡수 시나리오", "calmar": 10.44, "sharpe": 2.04, "cagr": 17.54, "mdd": 1.68, "winRate": 60.0, "trades": 10, "oos": "PASS | OOS_Sharpe=7.59, OOS_CAGR=1199.06%, OOS_MDD=3.03% (2026-1", "reportUrl": "/engine-versions/"}, {"id": 51, "ver": "v_31", "rawVer": "v_31", "date": "2026-11-18", "title": "[Cluster 2 전용 34일] 순수 눌림목 복원 + 09:35~12:30 RVOL 1.25x", "calmar": 10.43, "sharpe": 2.07, "cagr": 18.44, "mdd": 1.77, "winRate": 60.0, "trades": 10, "oos": "PASS | OOS_Sharpe=7.97, OOS_CAGR=1486.05%, OOS_MDD=2.70% (2026-1", "reportUrl": "/engine-versions/"}, {"id": 64, "ver": "v_44", "rawVer": "v_44", "date": "2026-11-20", "title": "[장복기 S4_PREMARKET_RELAXED_PULLBACK_PLUS_SWEEP] 프리마켓 검증 종목 하이브리드(정밀 VWAP 눌림목 + ", "calmar": 5.85, "sharpe": 1.43, "cagr": 17.44, "mdd": 2.98, "winRate": 53.9, "trades": 13, "oos": "PASS | OOS_Sharpe=5.44, OOS_CAGR=172.52%, OOS_MDD=1.53% (2026-11", "reportUrl": "/v50-intraday-vwap/report_v_44.html"}, {"id": 65, "ver": "v_45", "rawVer": "v_45", "date": "2026-11-20", "title": "[장복기 S2_DAY2_DEEP_DIP_SWEEP] 전일 대량거래 RVOL 왜곡 보정 · 과매도 하단 흡수 스윕 시나리오", "calmar": 4.2, "sharpe": 1.04, "cagr": 13.08, "mdd": 3.11, "winRate": 53.9, "trades": 13, "oos": "PASS | OOS_Sharpe=6.18, OOS_CAGR=208.69%, OOS_MDD=1.44% (2026-11", "reportUrl": "/engine-versions/"}, {"id": 67, "ver": "v_47", "rawVer": "v_47", "date": "2026-11-21", "title": "[장복기 S2_DAY2_DEEP_DIP_SWEEP] 전일 대량거래 RVOL 왜곡 보정 · 과매도 하단 흡수 스윕 시나리오", "calmar": 4.2, "sharpe": 1.04, "cagr": 13.08, "mdd": 3.11, "winRate": 53.9, "trades": 13, "oos": "PASS | OOS_Sharpe=6.18, OOS_CAGR=208.69%, OOS_MDD=1.44% (2026-11", "reportUrl": "/engine-versions/"}], "regular": [{"id": 93, "ver": "v_73", "rawVer": "v_73", "date": "2026-11-22", "title": "올웨더 코어-새틀라이트 리스크패리티 메타 앙상블: 장기코어(v_71 0.70)+중기스윙(v_68 0.30)+초단기(v_61 0.40) 순노출", "calmar": 5.78, "sharpe": 1.96, "cagr": 52.48, "mdd": 9.09, "winRate": 62.5, "trades": 16, "oos": "PASS | OOS_Sharpe=0.39, OOS_CAGR=4.12%, OOS_MDD=4.91% (2026-09-1", "reportUrl": "/soxl-soxs-1y/"}, {"id": 91, "ver": "v_71", "rawVer": "v_71", "date": "2026-11-22", "title": "무기한 장기 강세 동적 변동성 타게팅 SOXL 코어(과열 0.20 축소·재확대) + 거시 약세 SOXS 위기알파", "calmar": 5.51, "sharpe": 1.87, "cagr": 52.19, "mdd": 9.48, "winRate": 66.7, "trades": 9, "oos": "PASS | OOS_Sharpe=0.52, OOS_CAGR=4.66%, OOS_MDD=2.51% (2026-09-1", "reportUrl": "/soxl-soxs-1y/report_v_71.html"}, {"id": 88, "ver": "v_68", "rawVer": "v_68", "date": "2026-11-22", "title": "10·20일 복수 양모멘텀 정렬·5일 분배충격 차단 비과열 다단 스윙 SOXL + 비투매 하락추세 SOXS 스윙", "calmar": 3.26, "sharpe": 1.25, "cagr": 26.69, "mdd": 8.18, "winRate": 66.7, "trades": 9, "oos": "PASS | OOS_Sharpe=0.37, OOS_CAGR=2.80%, OOS_MDD=2.38% (2026-09-1", "reportUrl": "/soxl-soxs-1y/report_v_68.html"}, {"id": 81, "ver": "v_61", "rawVer": "v_61", "date": "2026-11-22", "title": "중기 지지(SMA50) SOXL 과매도 스냅백 + SMA50 하회 베어반등 음봉거절 확인형 SOXS 초단기 평균회귀", "calmar": 2.26, "sharpe": 1.29, "cagr": 14.45, "mdd": 6.38, "winRate": 72.7, "trades": 11, "oos": "PASS | OOS_Sharpe=0.04, OOS_CAGR=-1.04%, OOS_MDD=8.68% (2026-09-", "reportUrl": "/soxl-soxs-1y/report_v_61.html"}, {"id": 20, "ver": "v1.0.0", "rawVer": "v1.0.0", "date": "2026-11-13", "title": "골드 오버레이(GLD 15%) 적응형 레버리지(1.5x 실효) 메타 앙상블 (가설 #20)", "calmar": 2.04, "sharpe": 1.02, "cagr": 15.85, "mdd": 7.75, "winRate": null, "trades": null, "oos": "{\"mdd_target\": \"<10.0%\", \"cagr_target\": \">14.0%\", \"passed\": true", "reportUrl": "/engine-versions/"}, {"id": 10, "ver": "connors_rsi2 v1.0", "rawVer": "strategies/connors_rsi2.py v1.0", "date": "2026-11-12", "title": "SPY Connors RSI(2) 평균회귀 (5.5Y)", "calmar": 1.65, "sharpe": 1.12, "cagr": 8.75, "mdd": 5.3, "winRate": 80.0, "trades": 40, "oos": "SPY: WinRate 80.0% | PF 3.99 | MDD 5.29% | Sharpe 1.34", "reportUrl": "/engine-versions/"}, {"id": 14, "ver": "dual_momentum v1.0", "rawVer": "strategies/dual_momentum.py v1.0", "date": "2026-11-12", "title": "SPY·QQQ 게리 안토나치 듀얼 모멘텀", "calmar": 0.74, "sharpe": 0.91, "cagr": 14.1, "mdd": 19.05, "winRate": 68.0, "trades": 18, "oos": "Dual Momentum: Return +102.1% | MDD 11.9% | Sharpe 1.05", "reportUrl": "/dual-momentum-spy-qqq/"}, {"id": 9, "ver": "macro_golden_cross v1.0", "rawVer": "strategies/macro_golden_cross.py v1.0", "date": "2026-11-12", "title": "SPY·QQQ 50/200MA 골든크로스 (5.5Y)", "calmar": 0.58, "sharpe": 0.84, "cagr": 12.33, "mdd": 21.18, "winRate": 100.0, "trades": 6, "oos": "Portfolio: Return +89.5% | MDD 21.2% | Sharpe 0.84", "reportUrl": "/engine-versions/"}], "total": 93, "passed": 29};
+    let curLeague = 'both';
+    let curSort = 'calmar';
+
     function setHubBg(mode, btn) {
       if (mode === 'white') document.documentElement.removeAttribute('data-bg');
       else document.documentElement.setAttribute('data-bg', mode);
       document.querySelectorAll('.bg-btn').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
     }
+
     function filterCards() {
       const q = document.getElementById('q').value.trim().toLowerCase();
-      document.querySelectorAll('.card').forEach(el => {
+      document.querySelectorAll('#grid .card').forEach(el => {
         el.style.display = (!q || el.dataset.search.includes(q)) ? '' : 'none';
       });
     }
+
     function copyLink(url, btn) {
       navigator.clipboard.writeText(url).then(() => {
         const orig = btn.textContent;
@@ -218,6 +354,99 @@
         setTimeout(() => btn.textContent = orig, 1500);
       });
     }
+
+    function renderGens() {
+      document.getElementById('genGrid').innerHTML = GENS.map(g => {
+        const isPre = g.session.includes('프리장');
+        return `
+          <article class="gen-card">
+            <div class="gen-top">
+              <span class="badge">${g.gen} · ${g.range}</span>
+              <span class="${isPre ? 'badge-pre' : 'badge-reg'}">${g.session}</span>
+            </div>
+            <h3 class="gen-name">${g.name}</h3>
+            <div style="font-size:12px;color:var(--muted);">대상: <b>${g.assets}</b></div>
+            <p class="gen-desc">${g.summary}</p>
+            <div class="gen-champ"><b>🏆 대표:</b> <span class="mono">${g.champion}</span></div>
+            <div style="margin-top:4px;">
+              <a href="${g.url}" class="extra-btn" style="color:var(--accent);border-color:var(--border);font-weight:700;">상세 보기 →</a>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function setLeague(lg, btn) {
+      curLeague = lg;
+      ['lgBoth','lgPre','lgReg'].forEach(id => document.getElementById(id).classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderRankings();
+    }
+
+    function setSort(key, btn) {
+      curSort = key;
+      ['srCal','srSh','srCagr','srMdd'].forEach(id => document.getElementById(id).classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderRankings();
+    }
+
+    function buildRankTable(title, badgeCls, badgeText, list) {
+      const sorted = [...list].sort((a, b) => {
+        if (curSort === 'mdd') return a.mdd - b.mdd;
+        return (b[curSort] || 0) - (a[curSort] || 0);
+      });
+      const medals = ['🥇', '🥈', '🥉'];
+      const rowsHtml = sorted.map((r, idx) => `
+        <tr>
+          <td class="mono" style="font-weight:800;">${medals[idx] || (idx + 1) + '위'}</td>
+          <td>
+            <a class="ver-link mono" href="${r.reportUrl}">${r.ver}</a>
+            <div class="rank-title">${r.title}</div>
+          </td>
+          <td class="mono pos">${r.calmar.toFixed(2)}</td>
+          <td class="mono">${r.sharpe.toFixed(2)}</td>
+          <td class="mono pos">${r.cagr >= 0 ? '+' : ''}${r.cagr.toFixed(1)}%</td>
+          <td class="mono neg">-${r.mdd.toFixed(2)}%</td>
+          <td class="mono">${r.winRate !== null ? r.winRate.toFixed(0) + '%' : '-'}</td>
+        </tr>
+      `).join('');
+
+      return `
+        <div class="rank-panel">
+          <h3><span>${title}</span><span class="${badgeCls}">${badgeText} (${sorted.length}종)</span></h3>
+          <table>
+            <thead>
+              <tr>
+                <th>순위</th>
+                <th>버전 / 전략 요약</th>
+                <th>Calmar</th>
+                <th>Sharpe</th>
+                <th>CAGR</th>
+                <th>MDD</th>
+                <th>승률</th>
+              </tr>
+            </thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderRankings() {
+      const box = document.getElementById('rankContainer');
+      box.className = 'rank-grid' + (curLeague === 'both' ? ' both' : '');
+      let htmlOut = '';
+      if (curLeague === 'both' || curLeague === 'premarket') {
+        htmlOut += buildRankTable('🌅 프리장 · 장전/오전장 단타 랭킹', 'badge-pre', 'Premarket · 1min', RANKINGS.premarket);
+      }
+      if (curLeague === 'both' || curLeague === 'regular') {
+        htmlOut += buildRankTable('🔔 본장 · 정규장 일봉/스윙/장투 랭킹', 'badge-reg', 'Regular · Daily', RANKINGS.regular);
+      }
+      box.innerHTML = htmlOut;
+    }
+
+    renderGens();
+    renderRankings();
   </script>
 </body>
 </html>

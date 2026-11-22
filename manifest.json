@@ -1,5 +1,13 @@
 [
   {
+    "slug": "engine-versions",
+    "title": "퀀트 트레이딩 엔진 세대별 · 버전별 특성 가이드 (Gen 1 ~ Gen 7 · 총 93버전)",
+    "category": "Engine Architecture · Docs",
+    "summary": "VSA 초고빈도(Gen 1) → 매크로 ETF(Gen 2) → SVAPO(Gen 3) → RVOL·프리마켓(Gen 4~5) → SOXL·SOXS 멀티장르·올웨더 챔피언 v_73(Gen 6~7) 전 세대 특성·장단점·부검 백과",
+    "updated_at": "2026-11-22 23:43",
+    "extras": []
+  },
+  {
     "slug": "soxl-soxs-1y",
     "title": "SOXL · SOXS 1년 카파시 Autoresearch 5대 장르 인터랙티브 티어시트",
     "category": "GS QIS · Karpathy Quant",

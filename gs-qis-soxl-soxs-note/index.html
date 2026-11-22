@@ -80,6 +80,38 @@
   </style>
 </head>
 <body data-has-bg-switcher="1">
+
+<style id="dj-qunt-subnav-style">
+  #dj-qunt-subnav {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 9px 16px; border-bottom: 1px solid #e2e8f0; background: #ffffff; color: #0f172a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, sans-serif; font-size: 12.5px;
+    position: sticky; top: 0; z-index: 9990;
+  }
+  #dj-qunt-subnav a {
+    text-decoration: none; color: #334155; font-weight: 600; padding: 5px 10px;
+    border-radius: 7px; border: 1px solid #e2e8f0; background: #f8fafc; transition: all 0.14s ease;
+  }
+  #dj-qunt-subnav a:hover { border-color: #1d4ed8; color: #1d4ed8; }
+  #dj-qunt-subnav a.dj-home-main { background: #1d4ed8; color: #ffffff; border-color: #1d4ed8; font-weight: 700; }
+  #dj-qunt-subnav a.dj-home-main:hover { background: #1e40af; color: #ffffff; }
+  #dj-qunt-subnav .dj-nav-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  html[data-bg="warm"] #dj-qunt-subnav, #appShell[data-bg="warm"] #dj-qunt-subnav { background: #faf8f5; border-color: #e7e2d8; }
+  html[data-bg="soft"] #dj-qunt-subnav, #appShell[data-bg="soft"] #dj-qunt-subnav { background: #f1f5f9; border-color: #cbd5e1; }
+  html[data-bg="dark"] #dj-qunt-subnav, #appShell[data-bg="dark"] #dj-qunt-subnav { background: #111827; border-color: #1f2937; color: #f8fafc; }
+  html[data-bg="dark"] #dj-qunt-subnav a, #appShell[data-bg="dark"] #dj-qunt-subnav a { background: #1e293b; border-color: #334155; color: #e2e8f0; }
+  html[data-bg="dark"] #dj-qunt-subnav a.dj-home-main, #appShell[data-bg="dark"] #dj-qunt-subnav a.dj-home-main { background: #2563eb; border-color: #2563eb; color: #ffffff; }
+  @media print { #dj-qunt-subnav { display: none !important; } }
+</style>
+<nav id="dj-qunt-subnav" data-has-home-nav="1" aria-label="상위 DJ-QUNT 메뉴">
+  <div class="dj-nav-group">
+    <a class="dj-home-main" href="https://tron1981-maker.github.io/dj-qunt/">← DJ-QUNT 홈</a>
+    <a href="https://tron1981-maker.github.io/dj-qunt/#sec-algo">1. 버전별 알고리즘</a>
+    <a href="https://tron1981-maker.github.io/dj-qunt/#sec-reports">2. 리포트 리스트</a>
+    <a href="https://tron1981-maker.github.io/dj-qunt/#sec-ranking">3. 랭킹 (프리장·본장)</a>
+  </div>
+</nav>
+
   <div class="topbar">
     <div class="nav-links">
       <a class="nav-btn" href="https://tron1981-maker.github.io/dj-qunt/">← DJ-QUNT 홈</a>

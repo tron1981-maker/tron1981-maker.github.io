@@ -191,6 +191,8 @@ let bgMode = 'white';
 function setBgMode(mode, btn) {
   bgMode = mode;
   document.getElementById('appShell').setAttribute('data-bg', mode);
+  if (mode === 'white') document.documentElement.removeAttribute('data-bg');
+  else document.documentElement.setAttribute('data-bg', mode);
   document.querySelectorAll('.bg-pill').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   buildTabs();

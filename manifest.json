@@ -1,5 +1,13 @@
 [
   {
+    "slug": "v73-easy-guide",
+    "title": "💡 엔진 #93 v_73 (올웨더 챔피언) 알기 쉬운 완벽 해설",
+    "category": "SOXL/SOXS 3x 레버리지·인버스 양방향 퀀트",
+    "summary": "어려운 퀀트 용어(메타 앙상블 · 순노출 상계 · Calmar · WHIPSAW_CHOP)를 일상 언어로 풀고, 3인의 트레이더 투표 시뮬레이터·1,000만 원 비교·손절 5건 해부를 제공하는 초보자용 완벽 해설 가이드.",
+    "updated_at": "2026-11-23 04:16",
+    "extras": []
+  },
+  {
     "slug": "gs-qis-soxl-soxs-note",
     "title": "Goldman Sachs QIS 리서치 노트 — SOXL·SOXS 1년 3x 반도체 양방향 동적 알파 보고서",
     "category": "GS QIS Research Note",

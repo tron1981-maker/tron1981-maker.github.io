@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>엔진 #93 v_73 알기 쉬운 완벽 해설 — DJ-QUNT</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --card: #ffffff;
+      --panel: #f8fafc;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #1d4ed8;
+      --accent-soft: #eff6ff;
+      --good-bg: #ecfdf5;
+      --good-tx: #047857;
+      --good-bd: #a7f3d0;
+      --warn-bg: #fff7ed;
+      --warn-tx: #c2410c;
+      --warn-bd: #fed7aa;
+      --bad-bg: #fef2f2;
+      --bad-tx: #b91c1c;
+      --bad-bd: #fecaca;
+    }
+    html[data-bg="warm"] {
+      --bg: #faf8f5; --card: #ffffff; --panel: #f5f2eb; --border: #e7e2d8;
+      --text: #1c1917; --muted: #57534e;
+    }
+    html[data-bg="soft"] {
+      --bg: #f1f5f9; --card: #ffffff; --panel: #e2e8f0; --border: #cbd5e1;
+      --text: #0f172a; --muted: #475569;
+    }
+    html[data-bg="dark"] {
+      --bg: #0b1120; --card: #111827; --panel: #1e293b; --border: #1f2937;
+      --text: #f8fafc; --muted: #94a3b8; --accent: #60a5fa; --accent-soft: rgba(59,130,246,0.16);
+      --good-bg: rgba(16,185,129,0.15); --good-tx: #34d399; --good-bd: rgba(16,185,129,0.35);
+      --warn-bg: rgba(249,115,22,0.15); --warn-tx: #fb923c; --warn-bd: rgba(249,115,22,0.35);
+      --bad-bg: rgba(239,68,68,0.15); --bad-tx: #f87171; --bad-bd: rgba(239,68,68,0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0 0 72px; background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
+      line-height: 1.65;
+    }
+    .wrap { max-width: 1160px; margin: 22px auto 0; padding: 0 18px; }
+
+    .hero {
+      background: var(--card); border: 1px solid var(--border); border-left: 6px solid var(--accent);
+      border-radius: 16px; padding: 22px 24px; margin-bottom: 18px;
+      box-shadow: 0 2px 10px rgba(15,23,42,0.04);
+    }
+    .hero-top {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 14px;
+    }
+    .hero-tag {
+      display: inline-block; font-size: 11.5px; font-weight: 800; color: var(--accent);
+      background: var(--accent-soft); padding: 4px 10px; border-radius: 999px; margin-bottom: 8px;
+    }
+    .hero h1 { margin: 0 0 6px; font-size: 24px; font-weight: 900; letter-spacing: -0.02em; }
+    .hero-sub { margin: 0; font-size: 14.5px; color: var(--muted); max-width: 760px; }
+    .hero-kpis {
+      display: grid; grid-template-columns: repeat(4, minmax(115px, 1fr)); gap: 10px; margin-top: 16px;
+    }
+    @media (max-width: 720px) { .hero-kpis { grid-template-columns: repeat(2, 1fr); } }
+    .kpi-box {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 11px 14px;
+    }
+    .kpi-lbl { font-size: 11.5px; color: var(--muted); font-weight: 700; }
+    .kpi-val { font-size: 20px; font-weight: 900; margin-top: 2px; font-family: monospace; }
+    .kpi-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+    .guide-tabs {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+      background: var(--panel); padding: 8px; border-radius: 14px; border: 1px solid var(--border);
+    }
+    .gtab-btn {
+      flex: 1 1 200px; border: 1px solid transparent; background: transparent; color: var(--muted);
+      font-size: 13.5px; font-weight: 800; padding: 10px 14px; border-radius: 10px; cursor: pointer;
+      transition: all 0.14s ease; text-align: center;
+    }
+    .gtab-btn:hover { color: var(--text); background: var(--card); }
+    .gtab-btn.active {
+      background: var(--accent); color: #ffffff; border-color: var(--accent);
+      box-shadow: 0 2px 6px rgba(29,78,216,0.25);
+    }
+    .guide-panel { display: none; }
+    .guide-panel.active { display: block; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 15px;
+      padding: 20px 22px; margin-bottom: 18px; box-shadow: 0 1px 3px rgba(15,23,42,0.03);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 19px; font-weight: 800; }
+    .card h3 { margin: 0 0 8px; font-size: 16px; font-weight: 800; }
+    .card p { margin: 0 0 10px; font-size: 14px; color: var(--muted); }
+    .card p b, .card li b { color: var(--text); }
+
+    .callout {
+      border-radius: 12px; padding: 14px 18px; margin-bottom: 16px; font-size: 14px;
+      border: 1px solid var(--border); background: var(--panel);
+    }
+    .callout.info { background: var(--accent-soft); border-color: rgba(29,78,216,0.28); }
+    .callout.good { background: var(--good-bg); border-color: var(--good-bd); }
+    .callout.warn { background: var(--warn-bg); border-color: var(--warn-bd); }
+
+    .traders-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 18px;
+    }
+    .trader-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .trader-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .weight-badge {
+      background: var(--accent); color: #ffffff; font-size: 12px; font-weight: 800;
+      padding: 4px 10px; border-radius: 999px; font-family: monospace;
+    }
+    .trader-card ul { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--muted); }
+    .trader-card li { margin-bottom: 6px; }
+    .trader-stat {
+      margin-top: auto; background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 9px 12px; font-size: 12.5px; font-family: monospace;
+    }
+
+    /* Interactive Voting Simulator */
+    .sim-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .preset-btn {
+      border: 1px solid var(--border); background: var(--panel); color: var(--text);
+      font-size: 12.5px; font-weight: 700; padding: 8px 13px; border-radius: 9px; cursor: pointer;
+    }
+    .preset-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .preset-btn.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+
+    .sim-sliders { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 18px; }
+    .slider-box {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px;
+    }
+    .slider-top { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+    .slider-box input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+    .slider-hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+    .sim-result {
+      background: var(--panel); border: 2px solid var(--accent); border-radius: 14px; padding: 18px 20px;
+    }
+    .sim-bar-wrap {
+      height: 28px; border-radius: 10px; overflow: hidden; display: flex;
+      border: 1px solid var(--border); background: #cbd5e1; margin: 12px 0;
+    }
+    .bar-soxl { background: #2563eb; color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: width 0.2s; white-space: nowrap; }
+    .bar-soxs { background: #dc2626; color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: width 0.2s; white-space: nowrap; }
+    .bar-cash { background: #94a3b8; color: #0f172a; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: width 0.2s; white-space: nowrap; }
+    .sim-math { font-family: monospace; font-size: 13px; color: var(--text); margin-bottom: 6px; }
+
+    /* Tables & Glossary */
+    .raw-box {
+      background: var(--panel); border: 1px dashed var(--border); border-radius: 12px;
+      padding: 14px 16px; font-size: 12.5px; font-family: monospace; color: var(--muted);
+      overflow-x: auto; margin-bottom: 18px;
+    }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    th { background: var(--panel); font-weight: 800; white-space: nowrap; }
+    .pill-good { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 800; background: var(--good-bg); color: var(--good-tx); border: 1px solid var(--good-bd); }
+    .pill-warn { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 800; background: var(--warn-bg); color: var(--warn-tx); border: 1px solid var(--warn-bd); }
+    .pill-bad { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 800; background: var(--bad-bg); color: var(--bad-tx); border: 1px solid var(--bad-bd); }
+    .mono { font-family: monospace; }
+
+    .money-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-bottom: 18px; }
+    .money-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px;
+    }
+    .money-card.win { border: 2px solid #059669; background: var(--good-bg); }
+    .money-amt { font-size: 24px; font-weight: 900; font-family: monospace; margin: 6px 0 4px; }
+    .btn-link {
+      display: inline-block; text-decoration: none; font-size: 12.5px; font-weight: 700;
+      padding: 6px 11px; border-radius: 8px; background: var(--accent); color: #ffffff;
+    }
+    .btn-link.outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+
+    footer {
+      margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--border);
+      text-align: center; font-size: 13px; color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+<style id="dj-qunt-unified-style">
+  :root {
+    --bg: #ffffff; --panel: #ffffff; --card: #ffffff; --border: #e2e8f0; --card-border: #f1f5f9;
+    --background: #ffffff; --foreground: #0f172a; --text: #0f172a; --muted: #475569; --muted-foreground: #475569;
+    --primary: #1d4ed8; --primary-foreground: #ffffff;
+  }
+  html, body { background-color: #ffffff; margin: 0; }
+  html[data-bg="warm"], html[data-bg="warm"] body { background-color: #faf8f5 !important; color: #1c1917 !important; --bg: #faf8f5; --background: #faf8f5; --panel: #ffffff; --card: #ffffff; --border: #e7e2d8; --text: #1c1917; --foreground: #1c1917; --muted: #57534e; --muted-foreground: #57534e; }
+  html[data-bg="soft"], html[data-bg="soft"] body { background-color: #f1f5f9 !important; color: #0f172a !important; --bg: #f1f5f9; --background: #f1f5f9; --panel: #ffffff; --card: #ffffff; --border: #cbd5e1; --text: #0f172a; --foreground: #0f172a; --muted: #475569; --muted-foreground: #47534e; }
+  html[data-bg="dark"], html[data-bg="dark"] body { background-color: #0b1120 !important; color: #f8fafc !important; --bg: #0b1120; --background: #0b1120; --panel: #111827; --card: #111827; --border: #1f2937; --card-border: #1e293b; --text: #f8fafc; --foreground: #f8fafc; --muted: #94a3b8; --muted-foreground: #94a3b8; --primary: #3b82f6; }
+  html[data-bg="dark"] .header, html[data-bg="dark"] .kpi-card, html[data-bg="dark"] .chart-box, html[data-bg="dark"] .table-card, html[data-bg="dark"] .stat-card, html[data-bg="dark"] .gen-card, html[data-bg="dark"] .filter-bar, html[data-bg="dark"] .table-wrap { background: #111827 !important; border-color: #1f2937 !important; color: #f8fafc !important; }
+  html[data-bg="dark"] h1, html[data-bg="dark"] h2, html[data-bg="dark"] h3, html[data-bg="dark"] .kpi-val, html[data-bg="dark"] table, html[data-bg="dark"] td { color: #f8fafc !important; border-color: #1f2937 !important; }
+  html[data-bg="dark"] th { background: #1e293b !important; color: #e2e8f0 !important; border-color: #334155 !important; }
+  html[data-bg="dark"] tr:hover td { background: #1e293b !important; }
+  html[data-bg="dark"] .autopsy-banner { background: #1e293b !important; border-color: #334155 !important; color: #f8fafc !important; }
+
+  /* 하위 페이지 내부의 중복 배경색 스위처 바 숨김 (통합 헤더의 단일 스위처만 사용) */
+  .bg-pill-bar, .bg-switcher, .topbar .bg-bar, .header .bg-bar { display: none !important; }
+
+  #dj-qunt-unified-header {
+    position: sticky; top: 0; z-index: 9995; background: #ffffff; color: #0f172a;
+    border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(15,23,42,0.06);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
+    line-height: 1.4;
+  }
+  #dj-qunt-unified-header * { box-sizing: border-box; }
+  #dj-qunt-unified-header .dj-u-row1 {
+    max-width: 1460px; margin: 0 auto; padding: 9px 18px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  #dj-qunt-unified-header .dj-u-brand {
+    display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
+    color: #0f172a; font-weight: 900; font-size: 15px;
+  }
+  #dj-qunt-unified-header .dj-u-dot {
+    width: 22px; height: 22px; border-radius: 6px; background: #1d4ed8; color: #ffffff;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;
+  }
+  #dj-qunt-unified-header .dj-u-menus { display: flex; flex-wrap: wrap; gap: 5px; }
+  #dj-qunt-unified-header .dj-u-mbtn {
+    text-decoration: none; font-size: 12.5px; font-weight: 700; color: #475569;
+    padding: 5px 11px; border-radius: 8px; border: 1px solid #e2e8f0; background: #f8fafc;
+  }
+  #dj-qunt-unified-header .dj-u-mbtn:hover { border-color: #1d4ed8; color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-u-mbtn.active { background: #1d4ed8; color: #ffffff; border-color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-u-bgbar {
+    display: inline-flex; gap: 2px; padding: 3px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc;
+  }
+  #dj-qunt-unified-header .dj-u-bgbtn {
+    border: none; background: transparent; color: #475569; font-size: 11.5px; font-weight: 600;
+    padding: 4px 8px; border-radius: 6px; cursor: pointer;
+  }
+  #dj-qunt-unified-header .dj-u-bgbtn.active { background: #1d4ed8; color: #ffffff; }
+
+  #dj-qunt-unified-header .dj-u-row2 {
+    background: #f8fafc; border-top: 1px solid #e2e8f0;
+  }
+  #dj-qunt-unified-header .dj-u-row2-in {
+    max-width: 1460px; margin: 0 auto; padding: 7px 18px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  #dj-qunt-unified-header .dj-bc-trail {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; color: #475569;
+  }
+  #dj-qunt-unified-header .dj-bc-trail a {
+    text-decoration: none; color: #475569; font-weight: 600;
+  }
+  #dj-qunt-unified-header .dj-bc-trail a:hover { color: #1d4ed8; text-decoration: underline; }
+  #dj-qunt-unified-header .dj-bc-cur { color: #0f172a; font-weight: 800; }
+  #dj-qunt-unified-header .dj-sib-group { display: flex; flex-wrap: wrap; gap: 5px; }
+  #dj-qunt-unified-header .dj-sib-btn {
+    text-decoration: none; font-size: 11.5px; font-weight: 600; color: #475569;
+    padding: 3px 9px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff;
+  }
+  #dj-qunt-unified-header .dj-sib-btn:hover { border-color: #1d4ed8; color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-sib-btn.active { background: #eff6ff; color: #1d4ed8; border-color: #1d4ed8; font-weight: 800; }
+
+  html[data-bg="warm"] #dj-qunt-unified-header { background: #faf8f5; border-color: #e7e2d8; }
+  html[data-bg="warm"] #dj-qunt-unified-header .dj-u-row2 { background: #f5f2eb; border-color: #e7e2d8; }
+  html[data-bg="soft"] #dj-qunt-unified-header { background: #f1f5f9; border-color: #cbd5e1; }
+  html[data-bg="soft"] #dj-qunt-unified-header .dj-u-row2 { background: #e2e8f0; border-color: #cbd5e1; }
+  html[data-bg="dark"] #dj-qunt-unified-header { background: #111827; color: #f8fafc; border-color: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-brand,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-cur { color: #f8fafc; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-bgbar,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn { background: #1e293b; border-color: #334155; color: #cbd5e1; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.active { background: #2563eb; border-color: #2563eb; color: #ffffff; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn.active { background: rgba(37,99,235,0.25); border-color: #60a5fa; color: #93c5fd; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-row2 { background: #0b1120; border-color: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-trail,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-trail a { color: #94a3b8; }
+  @media print { #dj-qunt-unified-header { display: none !important; } }
+</style>
+<header id="dj-qunt-unified-header" data-has-home-nav="1" data-has-bg-switcher="1">
+  <div class="dj-u-row1">
+    <a class="dj-u-brand" href="https://tron1981-maker.github.io/dj-qunt/">
+      <span class="dj-u-dot">DJ</span>
+      <span>DJ-QUNT</span>
+    </a>
+    <nav class="dj-u-menus" aria-label="상위 메뉴">
+      <a class="dj-u-mbtn active" href="https://tron1981-maker.github.io/dj-qunt/#algo">1. 버전별 알고리즘</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#reports">2. 인터랙티브 리포트</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-pre">3. 프리장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-reg">4. 본장 랭킹</a>
+    </nav>
+    <div class="dj-u-bgbar" role="group" aria-label="배경색 변경">
+      <button type="button" class="dj-u-bgbtn active" onclick="window.__setDocBg('white', this)">화이트</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('warm', this)">웜톤</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('soft', this)">소프트</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('dark', this)">다크</button>
+    </div>
+  </div>
+  <div class="dj-u-row2">
+    <div class="dj-u-row2-in">
+      <div class="dj-bc-trail"><a href="https://tron1981-maker.github.io/dj-qunt/">🏠 DJ-QUNT 홈</a><span class="dj-sep">›</span><a href="https://tron1981-maker.github.io/dj-qunt/#algo">1. 버전별 알고리즘</a><span class="dj-sep">›</span><span class="dj-bc-cur">[현재] 💡 엔진 v_73 (올웨더 챔피언) 알기 쉬운 완벽 해설</span></div>
+      <div class="dj-sib-group"><a class="dj-sib-btn active" href="/v73-easy-guide/">💡 v_73 쉬운 해설 (현재)</a><a class="dj-sib-btn " href="/soxl-soxs-1y/">📊 6단 차트 티어시트</a><a class="dj-sib-btn " href="/gs-qis-soxl-soxs-note/">📝 GS QIS 연구노트</a><a class="dj-sib-btn " href="/engine-versions/">🧬 전체 93버전 장부</a></div>
+    </div>
+  </div>
+</header>
+<script id="dj-qunt-unified-script">
+  window.__setDocBg = function(mode, btn) {
+    if (mode === 'white') {
+      document.documentElement.removeAttribute('data-bg');
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.setAttribute('data-bg', mode);
+      document.documentElement.classList.toggle('light', mode !== 'dark');
+    }
+    document.querySelectorAll('#dj-qunt-unified-header .dj-u-bgbtn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const shell = document.getElementById('appShell');
+    if (shell) shell.setAttribute('data-bg', mode);
+    if (typeof window.setBgMode === 'function') {
+      try { window.setBgMode(mode, null); } catch (e) {}
+    }
+    if (window.Plotly) {
+      const isDark = mode === 'dark';
+      const paper = isDark ? '#111827' : '#ffffff';
+      const plot = isDark ? '#0b1120' : '#ffffff';
+      const fc = isDark ? '#e2e8f0' : '#0f172a';
+      document.querySelectorAll('.js-plotly-plot').forEach(gd => {
+        try { Plotly.relayout(gd, { paper_bgcolor: paper, plot_bgcolor: plot, 'font.color': fc }); } catch (e) {}
+      });
+    }
+    window.dispatchEvent(new Event('themechange'));
+  };
+  document.documentElement.classList.add('light');
+</script>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <span class="hero-tag">GEN 7 통합 챔피언 · 실험 #93 (v_73.py) 초보자 완벽 가이드</span>
+          <h1>엔진 v_73 쉽게 이해하기: “성격 다른 3인의 반도체 트레이더 합의 시스템”</h1>
+          <p class="hero-sub">
+            어려운 퀀트 용어(<b>리스크패리티 · 메타 앙상블 · 순노출 상계 · Calmar</b>)를 전부 걷어내고,
+            엔진 73번이 매일 장 마감 때 실제로 무슨 생각으로 <b>SOXL(상승 3배)</b>, <b>SOXS(하락 3배)</b>, <b>현금</b> 중 하나를 고르는지 3분 만에 이해할 수 있게 풀어낸 페이지입니다.
+          </p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <a class="btn-link" href="/soxl-soxs-1y/">📊 6단 차트 티어시트 보기 ↗</a>
+          <a class="btn-link outline" href="/dj-qunt/#algo">🧬 전체 버전 장부 돌아가기</a>
+        </div>
+      </div>
+
+      <div class="hero-kpis">
+        <div class="kpi-box">
+          <div class="kpi-lbl">1년 실제 수익률 (SOXL 0.2%일 때)</div>
+          <div class="kpi-val" style="color:#059669;">+41.15%</div>
+          <div class="kpi-sub">연환산(CAGR) +52.48%</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-lbl">1년 내내 최대 마이너스 폭 (MDD)</div>
+          <div class="kpi-val" style="color:#dc2626;">-9.09%</div>
+          <div class="kpi-sub">같은 기간 SOXL은 -89.75% 추락</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-lbl">가성비 점수 (Calmar 비율)</div>
+          <div class="kpi-val" style="color:var(--accent);">5.78배</div>
+          <div class="kpi-sub">합격 기준(1.50배)의 약 3.8배</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-lbl">1년 매매 횟수 · 승률</div>
+          <div class="kpi-val">16회 · 62.5%</div>
+          <div class="kpi-sub">한 달에 약 1.3번만 매매</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="guide-tabs" role="tablist">
+      <button type="button" class="gtab-btn active" id="gbtn-1" onclick="switchGuideTab(1)">1️⃣ 작동 원리 &amp; 투표 시뮬레이터</button>
+      <button type="button" class="gtab-btn" id="gbtn-2" onclick="switchGuideTab(2)">2️⃣ 표에 적힌 암호·용어 1:1 번역기</button>
+      <button type="button" class="gtab-btn" id="gbtn-3" onclick="switchGuideTab(3)">3️⃣ 1,000만 원 비교 &amp; 손절 5건 해부</button>
+      <button type="button" class="gtab-btn" id="gbtn-4" onclick="switchGuideTab(4)">4️⃣ 나에게 맞는 엔진 6종 비교</button>
+    </div>
+
+    <!-- TAB 1: 작동 원리 + 인터랙티브 투표 시뮬레이터 -->
+    <section id="gpanel-1" class="guide-panel active">
+      <div class="callout info">
+        <b>💡 30초 핵심 요약:</b>
+        엔진 73번(<code>v_73</code>)은 직접 매매 기법을 하나만 고집하는 대신, <b>성격이 완전히 다른 3명의 반도체 전문 트레이더(장투파 v_71 · 스윙파 v_68 · 초단기 반등파 v_61)</b>를 고용해 매일 장 마감 종가에 <b>비중 투표</b>를 받습니다.
+        세 사람의 의견을 합산해 <b>상승 쪽이 우세하면 SOXL만 사고, 하락 쪽이 우세하면 SOXS만 사며, 의견이 엇갈리거나 위험하면 100% 현금으로 쉽니다.</b>
+      </div>
+
+      <div class="traders-grid">
+        <article class="trader-card">
+          <div class="trader-head">
+            <h3 style="margin:0;">🧔 트레이더 A: 장투 코어파 (v_71)</h3>
+            <span class="weight-badge">투표 비중 70%</span>
+          </div>
+          <p style="font-size:13px;">큰 추세가 한 번 터지면 몇 주~몇 달씩 끝까지 타고 가는 <b>대들보 역할</b>입니다.</p>
+          <ul>
+            <li><b>SOXL 매수 조건:</b> 50일선 위(+0.5%), 10일선&gt;30일선 정배열, 20일선 2일 연속 안착, 최근 5일 내 -10% 급락 없음, 과열(RSI 68.5 초과) 아님.</li>
+            <li><b>장기 보유 비결 (20% 축소 유지):</b> 중간에 주가가 너무 과열(RSI 77 이상 등)돼도 <b>전량 팔고 끝내지 않고 20%만 남기고 줄여서 버틴 뒤</b>, 열기가 식으면 다시 45~82%로 늘립니다.</li>
+            <li><b>익절·손절 규칙:</b> 수익이 +11% 이상 났다가 고점 수익의 36%(최소 6.8%p)가 꺾이면 <b>즉시 익절 잠금</b>(대기일 0일). -10.5% 도달 또는 50일선 -4% 이탈 시 칼손절.</li>
+            <li><b>SOXS 하락 방어:</b> 50일선 아래(-1%) 역배열일 때만 20~36% 소액 진입(단, 이미 너무 폭락한 투매 바닥 RSI&lt;34 제외, 최대 18일 보유).</li>
+          </ul>
+          <div class="trader-stat">단독 1년 성적: +41.08% · MDD -9.48% · Sharpe 1.87</div>
+        </article>
+
+        <article class="trader-card">
+          <div class="trader-head">
+            <h3 style="margin:0;">🏄 트레이더 B: 중기 스윙파 (v_68)</h3>
+            <span class="weight-badge">투표 비중 30%</span>
+          </div>
+          <p style="font-size:13px;">1~3주짜리 중간 파동을 민첩하게 먹고 빠져서 수익을 보태는 <b>보조 미드필더</b>입니다.</p>
+          <ul>
+            <li><b>SOXL 스윙 진입:</b> 50일선 위 정배열·10일&amp;20일 플러스 모멘텀·5일 내 급락 없음·비과열(RSI 46~68.5)일 때 변동성에 맞춰 16~78% 진입.</li>
+            <li><b>빠른 현금화 규칙:</b> 장투파와 달리 <b>6일 이상 들고 있다가 과열(RSI 78 이상) 음봉이 뜨거나</b>, 24일이 지나 10일선이 깨지면 미련 없이 전량 익절합니다.</li>
+            <li><b>SOXS 스윙 방어:</b> 확정 하락 추세에서 16~38% 비중으로 짧게(최대 15일) 하락 수익을 챙깁니다.</li>
+          </ul>
+          <div class="trader-stat">단독 1년 성적: +21.44% · MDD -8.18% · Sharpe 1.14</div>
+        </article>
+
+        <article class="trader-card">
+          <div class="trader-head">
+            <h3 style="margin:0;">⚡ 트레이더 C: 초단기 반등파 (v_61)</h3>
+            <span class="weight-badge">투표 비중 40%</span>
+          </div>
+          <p style="font-size:13px;">2~6일 만에 치고 빠지며 장투파가 쉬는 틈새를 메우는 <b>특수 스나이퍼</b>입니다.</p>
+          <ul>
+            <li><b>상승장 급락 줍기 (SOXL, 최대 6일):</b> 50일선 위 큰 상승장인데 단기 공포(2일 RSI &lt; 16, 5일선 대비 -2.5% 이상 하락)가 오면 35~60% 매수 → <b>5일선 회복 시 즉시 익절!</b></li>
+            <li><b>하락장 가짜 반등 저격 (SOXS, 최대 4일):</b> 50일선 아래 하락장에서 반등이 나왔다가 <b>오늘 SOXL이 음봉으로 꺾이고 SOXS가 양봉으로 솟은 날(거절 확인)</b>에만 22~42% 진입합니다.</li>
+          </ul>
+          <div class="trader-stat">단독 1년 성적: +11.13% · 승률 72.7% · MDD -8.68%</div>
+        </article>
+      </div>
+
+      <div class="card">
+        <h2>🎛️ 직접 눌러보는 v_73 투표 &amp; 순노출 상계 시뮬레이터</h2>
+        <p>아래 <b>시장 상황 버튼</b>을 누르거나 슬라이더를 움직여 보세요. 3명의 트레이더 의견이 어떻게 합쳐져 최종 <b>SOXL / SOXS / 현금 비중</b>이 결정되는지 실시간으로 계산됩니다. (<code>strategies/v_73.py</code> 실제 수식 그대로 작동)</p>
+
+        <div class="sim-presets">
+          <button type="button" class="preset-btn active" onclick="applyPreset('bull', this)">🚀 1. 대세 상승장 (모두 찬성)</button>
+          <button type="button" class="preset-btn" onclick="applyPreset('dip', this)">⚡ 2. 상승장 속 단기 급락 (초단기 줍기)</button>
+          <button type="button" class="preset-btn" onclick="applyPreset('chop', this)">🌫️ 3. 의견 충돌 횡보장 (현금 대피)</button>
+          <button type="button" class="preset-btn" onclick="applyPreset('crash', this)">📉 4. 후반 -73% 반도체 폭락장 (SOXS 방어)</button>
+        </div>
+
+        <div class="sim-sliders">
+          <div class="slider-box">
+            <div class="slider-top"><span>🧔 v_71 장투파 (× 0.70)</span><span id="lbl-s3" class="mono">+65% SOXL</span></div>
+            <input type="range" id="sl-s3" min="-36" max="82" value="65" oninput="calcVote()" />
+            <div class="slider-hint">음수(-36%~0%) = SOXS 의견 / 양수(0%~+82%) = SOXL 의견</div>
+          </div>
+          <div class="slider-box">
+            <div class="slider-top"><span>🏄 v_68 스윙파 (× 0.30)</span><span id="lbl-s2" class="mono">+55% SOXL</span></div>
+            <input type="range" id="sl-s2" min="-38" max="78" value="55" oninput="calcVote()" />
+            <div class="slider-hint">음수(-38%~0%) = SOXS 의견 / 양수(0%~+78%) = SOXL 의견</div>
+          </div>
+          <div class="slider-box">
+            <div class="slider-top"><span>⚡ v_61 초단기 (× 0.40)</span><span id="lbl-s1" class="mono">0% 관망</span></div>
+            <input type="range" id="sl-s1" min="-42" max="60" value="0" oninput="calcVote()" />
+            <div class="slider-hint">급락 스냅백(최대 +60%) 또는 가짜반등 거절(최대 -42%)</div>
+          </div>
+        </div>
+
+        <div class="sim-result">
+          <div class="sim-math" id="simMathLine">계산 중...</div>
+          <div class="sim-bar-wrap">
+            <div id="barSoxl" class="bar-soxl" style="width:62%;">SOXL 62%</div>
+            <div id="barSoxs" class="bar-soxs" style="width:0%;"></div>
+            <div id="barCash" class="bar-cash" style="width:38%;">현금 38%</div>
+          </div>
+          <div id="simExplain" style="font-size:13.5px;color:var(--text);font-weight:600;"></div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <b>🤔 왜 절대 SOXL과 SOXS를 동시에 사지 않고(상계), SOXS는 최대 42%까지만 사나요?</b><br/>
+        1) 3배 레버리지 ETF는 지수가 제자리에서 오르락내리락만 해도 변동성 수학 때문에 원금이 매일 깎입니다. 실제로 <code>SOXL 50% + SOXS 50%</code>를 동시에 들고 있으면 1년 수익률이 <b>-2.08%(손실 확정)</b>가 됩니다. 그래서 상승 점수에서 하락 점수를 뺀 뒤 <b>이긴 쪽 딱 하나만 매수(순노출 상계)</b>합니다.<br/>
+        2) 하락장에서는 갑자기 +20~30%씩 튀어 오르는 <b>숏스퀴즈 반등</b>이 자주 나옵니다. 그래서 하락 배팅(<code>SOXS</code>)은 계좌를 지키는 방패 용도로 <b>최대 42% 상한</b>을 걸어 두었습니다.
+      </div>
+    </section>
+
+    <!-- TAB 2: 표에 적힌 암호 용어 1:1 번역기 -->
+    <section id="gpanel-2" class="guide-panel">
+      <div class="card">
+        <h2>🔍 테이블에서 보신 바로 그 문장, 1:1로 번역해 드립니다</h2>
+        <p><code>https://tron1981-maker.github.io/dj-qunt/#algo</code> 화면에서 보신 원문입니다:</p>
+        <div class="raw-box">
+          <b>#93 v_73 | GEN7 | CONFIRMED_SUCCESS</b><br/>
+          올웨더 코어-새틀라이트 리스크패리티 메타 앙상블: 장기코어(v_71 0.70)+중기스윙(v_68 0.30)+초단기(v_61 0.40) 순노출 상계<br/>
+          🔬 [VALID_ALPHA] CALMAR=5.7751 (목표 1.50) | IS Sharpe=1.96, MDD=9.09%, 거래수=16회 | 주요 실패 국면: BULL_ABOVE_SMA200 (5/5건) | 핵심 패턴: WHIPSAW_CHOP (3/5건) | 단기 횡보장 노이즈로 진입 후 7봉 이내 손실 청산 반복 -> 진입 확인 버퍼(예: 연속 2봉 종가 확인 또는 밴드 버퍼) 강화 필요<br/>
+          Calmar 5.7751 · CAGR 52.48% · MDD 9.09% · Sharpe 1.9564 · 승률 62.5% · 16회
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:28%;">표에 적힌 어려운 말</th>
+                <th style="width:22%;">쉬운 별명</th>
+                <th>일상 언어로 풀면 무슨 뜻인가요?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>올웨더 코어-새틀라이트 리스크패리티 메타 앙상블</b></td>
+                <td><span class="pill-good">전천후 3인 합체 전략</span></td>
+                <td><b>올웨더</b>(상승장·하락장 다 대응) + <b>코어-새틀라이트</b>(중심 장투 70%에 보조 단타·스윙 결합) + <b>리스크패리티</b>(출렁임이 클 땐 적게, 잔잔할 땐 많이 담기) + <b>메타 앙상블</b>(3개 전략을 하나로 합침).</td>
+              </tr>
+              <tr>
+                <td><b>순노출 상계</b></td>
+                <td><span class="pill-good">찬반 투표 후 한쪽만 매수</span></td>
+                <td>상승 의견(%)에서 하락 의견(%)을 뺀 나머지 차이만큼만 매수합니다. <b>SOXL과 SOXS를 같은 날 동시에 들고 있는 일이 0일</b>이라는 뜻입니다.</td>
+              </tr>
+              <tr>
+                <td><b>CONFIRMED_SUCCESS · VALID_ALPHA</b></td>
+                <td><span class="pill-good">최종 시험 합격!</span></td>
+                <td>개발에 쓴 구간(앞 80%)뿐 아니라, 끝까지 숨겨둔 <b>봉인 시험 구간(뒤 20%, SOXL -73% 폭락장)</b>에서도 살아남아 진짜 실력이 입증되었다는 합격 도장입니다.</td>
+              </tr>
+              <tr>
+                <td><b>Calmar 5.7751 (목표 1.50)</b></td>
+                <td><span class="pill-good">고통 대비 수익 5.78배</span></td>
+                <td>1년 동안 계좌가 겪은 최대 마이너스 폭(<code>MDD 9.09%</code>)을 1이라고 볼 때, 연환산 수익(<code>CAGR 52.48%</code>)이 <b>5.78배</b>나 된다는 뜻입니다. <code>52.48 ÷ 9.09 = 5.7751</code>. 합격선(1.50)을 거의 4배 압도했습니다.</td>
+              </tr>
+              <tr>
+                <td><b>IS Sharpe = 1.96 (1.9564)</b></td>
+                <td><span class="pill-good">기관 최상위 안정성</span></td>
+                <td>계좌가 매일 흔들리는 정도 대비 얼마나 꾸준히 우상향했는지 보여주는 점수입니다. 보통 <b>1.0 이상이면 훌륭하고, 2.0에 가까우면 최상위 헤지펀드 수준</b>입니다. (참고: <code>gs_quant</code> 기준 1년 Sharpe는 <code>1.938</code>)</td>
+              </tr>
+              <tr>
+                <td><b>승률 62.5% · 16회</b></td>
+                <td><span class="pill-good">16번 매매해 10번 승리</span></td>
+                <td>1년 252거래일 동안 딱 <b>16번만 사고팔아서 10번 벌고 6번 작게 손절</b>했습니다. 매일 사고팔며 수수료로 돈을 까먹지 않습니다.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <h3 style="margin-top:0;">❓ 제일 헷갈리신 부분: “합격(CONFIRMED_SUCCESS)인데 왜 <code>주요 실패 국면 · WHIPSAW_CHOP</code>이라고 적혀 있나요?”</h3>
+        <p style="color:var(--text);">
+          전혀 실패했다는 뜻이 아닙니다! 시스템(<code>run_backtest.py</code>)은 전략이 <b>1등으로 합격하더라도 무조건 "가장 아팠던 손실 거래 Top 5"를 자동으로 부검</b>해서 메모를 남기도록 만들어져 있습니다.
+        </p>
+        <ul style="margin:6px 0 0;padding-left:20px;font-size:13.8px;">
+          <li><b><code>BULL_ABOVE_SMA200 (5/5건)</code>:</b> 손절로 끝난 거래 5건이 모두 <b>200일선 위 상승장(BULL)</b>에서 잠깐 진입했다가 나왔다는 뜻입니다. 거꾸로 말하면 <b>폭락장에서 크게 물린 손실은 단 1건도 없었다</b>는 증거입니다.</li>
+          <li><b><code>WHIPSAW_CHOP (3/5건)</code>:</b> 휩소(Whipsaw·톱니처럼 위아래로 흔드는 장세) 노이즈 때문에 진입 후 며칠 안에 잠깐 꺾여서 <b>-0.1% ~ -1.97% 수준에서 작게 손절하고 잘 도망 나왔다</b>는 뜻입니다.</li>
+          <li><b>문장이 중간에 끊겨 보였던 이유:</b> 기존 표가 200글자에서 잘려서 <code>연속 2봉 종가 확</code>으로 끊겼었는데, 전체 원문은 <i>"-> 진입 확인 버퍼(예: 연속 2봉 종가 확인 또는 밴드 버퍼) 강화 필요"</i>라는 AI의 다음 버전 참고용 개선 메모입니다. (현재 표에서도 잘리지 않게 수정 완료했습니다!)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TAB 3: 1,000만 원 실전 비교 & 손절 5건 해부 -->
+    <section id="gpanel-3" class="guide-panel">
+      <div class="card">
+        <h2>💰 내 돈 1,000만 원을 1년 넣었다면? (2025-11-20 ~ 2026-11-20)</h2>
+        <p>최근 1년은 앞 80% 구간에서 반도체가 폭등(<code>SOXL +275.3%</code>)했다가, 마지막 20% 구간에서 <b>SOXL이 -73.30% 대폭락</b>한 잔인한 롤러코스터 장세였습니다. 같은 1,000만 원의 1년 뒤 결과입니다.</p>
+
+        <div class="money-grid">
+          <div class="money-card">
+            <div class="kpi-lbl">SOXL 100% 그냥 보유 (존버)</div>
+            <div class="money-amt">1,002만 원</div>
+            <span class="pill-warn">+0.21% · 최대 -89.75% 폭락</span>
+            <p style="font-size:12.5px;margin-top:8px;">중간에 큰 수익이 나도 안 팔고 버티다가 후반 -73% 폭락을 그대로 맞아 1년 수익이 거의 0원으로 돌아갔습니다.</p>
+          </div>
+          <div class="money-card">
+            <div class="kpi-lbl">SOXS 100% 그냥 보유</div>
+            <div class="money-amt" style="color:#dc2626;">92만 원</div>
+            <span class="pill-bad">-90.78% · 최대 -96.74% 폭락</span>
+            <p style="font-size:12.5px;margin-top:8px;">인버스 3배를 오래 들고 있으면 상승장과 변동성 잠식으로 원금이 거의 소멸합니다.</p>
+          </div>
+          <div class="money-card">
+            <div class="kpi-lbl">SOXL 50% + SOXS 50% 양방향 보유</div>
+            <div class="money-amt">979만 원</div>
+            <span class="pill-bad">-2.08% · Sharpe -0.770</span>
+            <p style="font-size:12.5px;margin-top:8px;">서로 오르내림을 상쇄해도 3배 레버리지 구조적 잠식 때문에 돈이 줄어듭니다.</p>
+          </div>
+          <div class="money-card win">
+            <div class="kpi-lbl" style="color:#047857;font-weight:800;">🏆 엔진 v_73 올웨더 챔피언</div>
+            <div class="money-amt" style="color:#047857;">1,412만 원</div>
+            <span class="pill-good">+41.15% · 최대 -9.09% 방어</span>
+            <p style="font-size:12.5px;margin-top:8px;color:#065f46;">상승장에서 수익을 챙기고, 후반 <b>SOXL -73.3% 폭락장에서도 오히려 +0.82%(gs_quant +1.43%)</b> 수익으로 방어했습니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔬 부검기에 기록된 v_73 손실 거래 Top 5 전수 해부 (<code>autopsy_v_73.json</code> 실측 원문)</h3>
+        <p>1년 16번의 매매 중 손절로 끝난 가장 큰 손실 5건의 실제 기록입니다. 3배 레버리지 ETF를 다루는데도 <b>가장 크게 잃은 거래가 단 -4.85%</b>에 불과하며, 나머지는 1~3일 만에 -0.1% ~ -1.97% 선에서 짧게 잘라냈습니다.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>순위</th>
+                <th>진입일 ~ 청산일</th>
+                <th>보유 기간</th>
+                <th>손익률</th>
+                <th>투입 비중</th>
+                <th>당시 장세 &amp; 원인 태그</th>
+                <th>쉬운 설명</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono"><b>1위</b></td>
+                <td class="mono">2025-12-03 ~ 12-14</td>
+                <td class="mono">8거래일</td>
+                <td class="mono" style="color:#dc2626;font-weight:800;">-4.85%</td>
+                <td class="mono">42.8%</td>
+                <td><span class="pill-warn">LATE_EXIT_GIVEBACK</span></td>
+                <td>장초반 상승 시그널로 +2.76%까지 올랐으나 저변동 횡보 후 꺾이며 계좌 기준 -4.85%에서 추세 이탈 손절.</td>
+              </tr>
+              <tr>
+                <td class="mono"><b>2위</b></td>
+                <td class="mono">2026-08-02 ~ 08-03</td>
+                <td class="mono">2거래일</td>
+                <td class="mono" style="color:#dc2626;font-weight:800;">-1.97%</td>
+                <td class="mono">8.8%</td>
+                <td><span class="pill-warn">WHIPSAW_CHOP</span></td>
+                <td>변동성이 튄 날 <b>비중을 8.8%만 소액 정찰</b>로 들어갔다가 다음 날 바로 꺾여서 -1.97%로 즉시 철수.</td>
+              </tr>
+              <tr>
+                <td class="mono"><b>3위</b></td>
+                <td class="mono">2025-12-18 (당일/1봉)</td>
+                <td class="mono">1거래일</td>
+                <td class="mono" style="color:#dc2626;font-weight:800;">-1.76%</td>
+                <td class="mono">21.3%</td>
+                <td><span class="pill-warn">WHIPSAW_CHOP</span></td>
+                <td>21.3% 비중으로 진입했으나 단기 횡보 노이즈로 바로 밀려 단 1거래일 만에 칼손절.</td>
+              </tr>
+              <tr>
+                <td class="mono"><b>4위</b></td>
+                <td class="mono">2026-03-26 ~ 03-30</td>
+                <td class="mono">3거래일</td>
+                <td class="mono" style="color:#dc2626;font-weight:800;">-0.95%</td>
+                <td class="mono">18.3%</td>
+                <td><span class="pill-warn">LATE_EXIT_GIVEBACK</span></td>
+                <td>진입 후 +3.39%까지 갔다가 눌리면서 3거래일 만에 -0.95% 본전 부근 탈출.</td>
+              </tr>
+              <tr>
+                <td class="mono"><b>5위</b></td>
+                <td class="mono">2026-07-13 ~ 07-14</td>
+                <td class="mono">2거래일</td>
+                <td class="mono" style="color:#dc2626;font-weight:800;">-0.10%</td>
+                <td class="mono">8.8%</td>
+                <td><span class="pill-warn">WHIPSAW_CHOP</span></td>
+                <td>고변동 날 8.8% 소액만 넣었다가 2일 만에 -0.10% 사실상 무손실로 정리.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: 나에게 맞는 엔진 6종 비교 -->
+    <section id="gpanel-4" class="guide-panel">
+      <div class="card">
+        <h2>🧭 나에게 맞는 엔진은 무엇일까? (주요 버전 6종 쉬운 비교)</h2>
+        <p><code>v_73</code> 외에도 성향별로 검증이 끝난 대표 엔진들이 있습니다. <b>프리장·오전장 단타</b>부터 <b>장기 투자</b>까지 한눈에 비교해 보세요.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>엔진 버전</th>
+                <th>별명 / 스타일</th>
+                <th>매매 주기</th>
+                <th>실전 핵심 성적</th>
+                <th>이런 분께 추천합니다</th>
+                <th>상세 차트</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono"><b>#93 v_73</b></td>
+                <td><span class="pill-good">올웨더 통합 챔피언</span></td>
+                <td>일봉 종가 (연 16회)</td>
+                <td class="mono">1Y +41.15% · MDD -9.09% · Sharpe 1.94</td>
+                <td>장투+스윙+단기 반등을 자동으로 섞어 가장 안정적인 수익을 원하는 분</td>
+                <td><a class="btn-link" href="/soxl-soxs-1y/">6단 티어시트 ↗</a></td>
+              </tr>
+              <tr>
+                <td class="mono"><b>#91 v_71</b></td>
+                <td>장투 변동성 코어파</td>
+                <td>일봉 종가 (수주~수개월)</td>
+                <td class="mono">1Y +41.08% · MDD -9.48% · Calmar 5.51</td>
+                <td>단기 매매 없이 큰 반도체 상승 추세만 묵직하게 길게 타고 싶은 분</td>
+                <td><a class="btn-link outline" href="/soxl-soxs-1y/report_v_71.html">티어시트 ↗</a></td>
+              </tr>
+              <tr>
+                <td class="mono"><b>#88 v_68</b></td>
+                <td>중기 다단 스윙파</td>
+                <td>일봉 종가 (1~3주)</td>
+                <td class="mono">1Y +21.44% · MDD -8.18% · Calmar 3.26</td>
+                <td>장기 보유보다 1~3주 단위로 수익을 자주 현금화하며 돌리고 싶은 분</td>
+                <td><a class="btn-link outline" href="/soxl-soxs-1y/report_v_68.html">티어시트 ↗</a></td>
+              </tr>
+              <tr>
+                <td class="mono"><b>#81 v_61</b></td>
+                <td>초단기 스냅백·거절파</td>
+                <td>일봉 종가 (2~6일)</td>
+                <td class="mono">1Y +11.13% · MDD -8.68% · 승률 72.7%</td>
+                <td>짧은 급락 줍기와 하락장 가짜 반등 거절로 높은 승률을 원할 때</td>
+                <td><a class="btn-link outline" href="/soxl-soxs-1y/report_v_61.html">티어시트 ↗</a></td>
+              </tr>
+              <tr>
+                <td class="mono"><b>#73 v_53</b></td>
+                <td>본장 1분봉 단타 (연구용)</td>
+                <td>당일 1분봉 (오버나잇 0%)</td>
+                <td class="mono">1Y -6.29% · MDD -9.74% · OOS +0.57%</td>
+                <td>왕복 40bps 수수료 환경에서 1분봉 SOXL 당일 단타가 왜 불리한지 확인용</td>
+                <td><a class="btn-link outline" href="/soxl-soxs-1y/report_v_53.html">티어시트 ↗</a></td>
+              </tr>
+              <tr>
+                <td class="mono"><b>#70 v_50</b></td>
+                <td>프리장·오전장 1분봉 챔피언</td>
+                <td>09:35~12:30 ET 1분봉</td>
+                <td class="mono">Calmar 25.45 · Sharpe 2.94 · MDD -1.15%</td>
+                <td>프리마켓 거래대금 급등주에서 오전장 VWAP 눌림목 단타에 집중하는 분</td>
+                <td><a class="btn-link outline" href="/v50-intraday-vwap/">티어시트 ↗</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      본 내용은 투자 유도글이 아닌, 전동주 개인 연구에 대한 내용입니다.
+    </footer>
+  </main>
+
+  <script>
+    function switchGuideTab(idx) {
+      [1, 2, 3, 4].forEach(n => {
+        document.getElementById('gbtn-' + n).classList.toggle('active', n === idx);
+        document.getElementById('gpanel-' + n).classList.toggle('active', n === idx);
+      });
+      if (location.hash !== '#tab-' + idx) history.replaceState(null, '', '#tab-' + idx);
+    }
+
+    function applyPreset(name, btn) {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const map = {
+        bull: [65, 55, 0],
+        dip: [35, 0, 52],
+        chop: [20, -25, -22],
+        crash: [-30, -32, -35]
+      };
+      const [v3, v2, v1] = map[name] || [65, 55, 0];
+      document.getElementById('sl-s3').value = v3;
+      document.getElementById('sl-s2').value = v2;
+      document.getElementById('sl-s1').value = v1;
+      calcVote();
+    }
+
+    function fmtSign(v) {
+      if (v > 0) return '+' + v + '% SOXL';
+      if (v < 0) return Math.abs(v) + '% SOXS';
+      return '0% 관망';
+    }
+
+    function calcVote() {
+      const s3 = Number(document.getElementById('sl-s3').value);
+      const s2 = Number(document.getElementById('sl-s2').value);
+      const s1 = Number(document.getElementById('sl-s1').value);
+
+      document.getElementById('lbl-s3').textContent = fmtSign(s3);
+      document.getElementById('lbl-s2').textContent = fmtSign(s2);
+      document.getElementById('lbl-s1').textContent = fmtSign(s1);
+
+      const s3L = Math.max(0, s3) / 100, s3S = Math.max(0, -s3) / 100;
+      const s2L = Math.max(0, s2) / 100, s2S = Math.max(0, -s2) / 100;
+      const s1L = Math.max(0, s1) / 100, s1S = Math.max(0, -s1) / 100;
+
+      const bull = Math.min(0.88, 0.70 * s3L + 0.30 * s2L + 0.40 * s1L);
+      const bear = Math.min(0.42, 0.70 * s3S + 0.30 * s2S + 0.40 * s1S);
+      const net = bull - bear;
+
+      let wL = 0, wS = 0;
+      if (net > 0.02) wL = Math.min(net, 0.88);
+      else if (net < -0.02) wS = Math.min(-net, 0.42);
+      const wC = Math.max(0, 1 - wL - wS);
+
+      const pL = Math.round(wL * 1000) / 10;
+      const pS = Math.round(wS * 1000) / 10;
+      const pC = Math.max(0, Math.round((100 - pL - pS) * 10) / 10);
+
+      document.getElementById('simMathLine').textContent =
+        `상승점수 = ${(bull * 100).toFixed(1)}%  |  하락점수 = ${(bear * 100).toFixed(1)}%  |  순차이(Net) = ${(net * 100).toFixed(1)}%p  =>  최종: ${pL > 0 ? 'SOXL ' + pL + '%' : (pS > 0 ? 'SOXS ' + pS + '%' : '100% 현금')}`;
+
+      const bL = document.getElementById('barSoxl');
+      const bS = document.getElementById('barSoxs');
+      const bC = document.getElementById('barCash');
+      bL.style.width = pL + '%'; bL.textContent = pL >= 8 ? `SOXL ${pL}%` : '';
+      bS.style.width = pS + '%'; bS.textContent = pS >= 8 ? `SOXS ${pS}%` : '';
+      bC.style.width = pC + '%'; bC.textContent = pC >= 8 ? `현금 ${pC}%` : '';
+
+      let msg = '';
+      if (wL > 0) {
+        msg = `📈 <b>상승 우세 판정!</b> 하락 의견을 상쇄하고 남은 만큼만 <b>SOXL ${pL}%</b>를 매수하고, 나머지 <b>${pC}%는 안전 현금</b>으로 둡니다. (SOXS는 0%)`;
+      } else if (wS > 0) {
+        msg = `🛡️ <b>하락 방어(위기 알파) 가동!</b> 폭락 위험 구간으로 판단되어 <b>SOXS ${pS}%</b>(최대 42% 상한)만 매수하고, 나머지 <b>${pC}%는 현금</b>으로 지킵니다. (SOXL은 0%)`;
+      } else {
+        msg = `💤 <b>100% 현금 휴식!</b> 상승·하락 의견 차이(|Net|)가 ±2%p 이내여서 양쪽 다 3배 레버리지 손실(디케이)을 피하기 위해 아무것도 사지 않고 <b>전액 현금 대피</b>했습니다.`;
+      }
+      document.getElementById('simExplain').innerHTML = msg;
+    }
+
+    calcVote();
+    const h = location.hash;
+    if (h && /^#tab-[1-4]$/.test(h)) switchGuideTab(Number(h.replace('#tab-', '')));
+  </script>
+</body>
+</html>

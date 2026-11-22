@@ -4,38 +4,57 @@
   <meta charset="utf-8" />
   <title>GS QIS Interactive Tearsheet — SOXL / SOXS Karpathy Autoresearch</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --background: #0b1120; --card: #111827; --border: #1f2937; --card-border: #1e293b;
-      --foreground: #f8fafc; --muted-foreground: #94a3b8; --primary: #3b82f6; --primary-foreground: #ffffff;
-      --secondary: #1e293b; --secondary-foreground: #e2e8f0; --accent: #3b82f6;
-      --success: #10b981; --warning: #f59e0b; --error: #ef4444;
+    #appShell {
+      --bg-page: #ffffff; --bg-card: #ffffff; --bd-col: #e2e8f0; --bd-sub: #f1f5f9;
+      --tx-main: #0f172a; --tx-muted: #475569; --ac-main: #2563eb; --ac-fg: #ffffff;
+      background-color: var(--bg-page); color: var(--tx-main); min-height: 100vh;
+      transition: background-color 0.18s ease, color 0.18s ease;
     }
-    html.light {
-      --background: #f8fafc; --card: #ffffff; --border: #e2e8f0; --card-border: #f1f5f9;
-      --foreground: #0f172a; --muted-foreground: #64748b; --primary: #2563eb; --primary-foreground: #ffffff;
-      --secondary: #f1f5f9; --secondary-foreground: #0f172a; --accent: #2563eb;
-      --success: #059669; --warning: #d97706; --error: #dc2626;
+    #appShell[data-bg="warm"] {
+      --bg-page: #faf8f5; --bg-card: #ffffff; --bd-col: #e7e2d8; --bd-sub: #f5f2eb;
+      --tx-main: #1c1917; --tx-muted: #57534e;
     }
+    #appShell[data-bg="soft"] {
+      --bg-page: #f1f5f9; --bg-card: #ffffff; --bd-col: #cbd5e1; --bd-sub: #e2e8f0;
+      --tx-main: #0f172a; --tx-muted: #475569;
+    }
+    #appShell[data-bg="dark"] {
+      --bg-page: #0b1120; --bg-card: #111827; --bd-col: #1f2937; --bd-sub: #1e293b;
+      --tx-main: #f8fafc; --tx-muted: #94a3b8; --ac-main: #3b82f6; --ac-fg: #ffffff;
+    }
+    .surf-card { background-color: var(--bg-card); border: 1px solid var(--bd-col); }
+    .sub-div { border-color: var(--bd-sub); }
+    .tx-muted { color: var(--tx-muted); }
+    .bg-pill-bar { display: inline-flex; gap: 3px; padding: 3px; border-radius: 9px; border: 1px solid var(--bd-col); background-color: var(--bg-page); }
+    .bg-pill { padding: 4px 9px; border-radius: 6px; font-size: 11.5px; font-weight: 600; color: var(--tx-muted); cursor: pointer; border: none; background: transparent; }
+    .bg-pill.active { background-color: var(--ac-main); color: var(--ac-fg); }
   </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
-<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-4 md:p-6 m-0 select-none">
+<body class="antialiased m-0 p-0 select-none">
+  <div id="appShell" data-bg="white" data-has-bg-switcher="1" class="p-4 md:p-6">
   <div class="max-w-6xl mx-auto space-y-4">
     <!-- Header -->
-    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <div class="surf-card rounded-xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
       <div>
-        <div class="text-xs font-semibold uppercase tracking-wider text-[var(--primary)]">Goldman Sachs gs_quant.timeseries · Karpathy Judge</div>
+        <div class="text-xs font-semibold uppercase tracking-wider text-blue-600">Goldman Sachs gs_quant.timeseries · Karpathy Judge</div>
         <h1 class="text-lg font-bold mt-0.5">SOXL · SOXS 1년 전 장르 인터랙티브 티어시트 뷰어</h1>
-        <p class="text-xs text-[var(--muted-foreground)] mt-0.5">평가 구간: 2025-11-20 ~ 2026-11-20 (252거래일) · 봉인 구간(Sealed OOS 20%): 2026-09-10 이후 음영 표시</p>
+        <p class="text-xs tx-muted mt-0.5">평가 구간: 2025-11-20 ~ 2026-11-20 (252거래일) · 봉인 구간(Sealed OOS 20%): 2026-09-10 이후 음영 표시</p>
       </div>
       <div class="flex flex-wrap items-center gap-2 text-xs">
-        <label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[var(--border)] cursor-pointer">
-          <input id="chkSoxl" type="checkbox" class="accent-[var(--primary)]" />
+        <div class="bg-pill-bar" role="group" aria-label="배경색 변경">
+          <button type="button" class="bg-pill active" onclick="setBgMode('white', this)">화이트</button>
+          <button type="button" class="bg-pill" onclick="setBgMode('warm', this)">웜톤</button>
+          <button type="button" class="bg-pill" onclick="setBgMode('soft', this)">소프트</button>
+          <button type="button" class="bg-pill" onclick="setBgMode('dark', this)">다크</button>
+        </div>
+        <label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg surf-card cursor-pointer">
+          <input id="chkSoxl" type="checkbox" class="accent-blue-600" />
           <span>SOXL 단순보유 비교선</span>
         </label>
-        <label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[var(--border)] cursor-pointer">
-          <input id="chkLog" type="checkbox" class="accent-[var(--primary)]" />
+        <label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg surf-card cursor-pointer">
+          <input id="chkLog" type="checkbox" class="accent-blue-600" />
           <span>로그 스케일</span>
         </label>
       </div>
@@ -48,24 +67,24 @@
     <div id="kpiGrid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5"></div>
 
     <!-- Live Readout Banner -->
-    <div id="hoverBar" class="bg-[var(--card)] border border-[var(--border)] rounded-lg px-3.5 py-2 text-xs font-mono tabular-nums flex flex-wrap items-center justify-between gap-2">
-      <span class="text-[var(--muted-foreground)]">차트 위에 마우스를 올리면 6개 패널 동기화 일별 수치가 표시됩니다.</span>
+    <div id="hoverBar" class="surf-card rounded-lg px-3.5 py-2 text-xs font-mono tabular-nums flex flex-wrap items-center justify-between gap-2">
+      <span class="tx-muted">차트 위에 마우스를 올리면 6개 패널 동기화 일별 수치가 표시됩니다.</span>
     </div>
 
     <!-- 6 Synchronized Charts -->
-    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3.5 space-y-3">
+    <div class="surf-card rounded-xl p-3.5 space-y-3">
       <div>
         <div class="flex items-center justify-between text-xs mb-1">
           <span class="font-semibold">① 누적 자산곡선 (기준 = 100) — 전략 vs SPY 벤치마크</span>
-          <span class="text-[var(--muted-foreground)]">우측 음영: Sealed OOS (SOXL -73.3% 폭락장)</span>
+          <span class="tx-muted">우측 음영: Sealed OOS (SOXL -73.3% 폭락장)</span>
         </div>
         <canvas id="cEq" class="w-full block" height="210"></canvas>
       </div>
-      <div class="border-t border-[var(--card-border)] pt-2.5">
+      <div class="border-t sub-div pt-2.5">
         <div class="text-xs font-semibold mb-1">② 낙폭 분석 — 수중 낙폭(Underwater %) & gs_quant 63일 롤링 MDD (%)</div>
         <canvas id="cDd" class="w-full block" height="125"></canvas>
       </div>
-      <div class="border-t border-[var(--card-border)] pt-2.5 grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="border-t sub-div pt-2.5 grid grid-cols-1 md:grid-cols-2 gap-3">
         <div>
           <div class="text-xs font-semibold mb-1">③ gs_quant 63일 롤링 연율화 변동성 (%)</div>
           <canvas id="cVol" class="w-full block" height="120"></canvas>
@@ -75,14 +94,14 @@
           <canvas id="cSh" class="w-full block" height="120"></canvas>
         </div>
       </div>
-      <div class="border-t border-[var(--card-border)] pt-2.5">
+      <div class="border-t sub-div pt-2.5">
         <div class="text-xs font-semibold mb-1">⑤ gs_quant SPY 대비 63일 롤링 베타(β) 및 상관계수(ρ)</div>
         <canvas id="cBe" class="w-full block" height="120"></canvas>
       </div>
-      <div class="border-t border-[var(--card-border)] pt-2.5">
+      <div class="border-t sub-div pt-2.5">
         <div class="flex items-center justify-between text-xs mb-1">
           <span class="font-semibold">⑥ 포트폴리오 일별 노출 비중 (SOXL 롱 vs SOXS 인버스, 동시 보유 0일)</span>
-          <span class="text-[var(--muted-foreground)]">잔여 비중 = 100% 현금(Cash)</span>
+          <span class="tx-muted">잔여 비중 = 100% 현금(Cash)</span>
         </div>
         <canvas id="cWt" class="w-full block" height="120"></canvas>
       </div>
@@ -90,11 +109,11 @@
 
     <!-- Split Metrics & Autopsy Tables -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 overflow-x-auto">
+      <div class="surf-card rounded-xl p-4 overflow-x-auto">
         <h2 class="text-sm font-bold mb-2.5">구간별 gs_quant.timeseries 정량 요약 (Full / IS / Sealed OOS)</h2>
         <table class="w-full text-xs text-left border-collapse">
           <thead>
-            <tr class="border-b border-[var(--card-border)] text-[var(--muted-foreground)]">
+            <tr class="border-b sub-div tx-muted">
               <th class="py-1.5 pr-2">구간</th>
               <th class="py-1.5 px-2 text-right">누적수익률</th>
               <th class="py-1.5 px-2 text-right">gs Sharpe</th>
@@ -105,11 +124,11 @@
         </table>
       </div>
 
-      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 overflow-x-auto">
+      <div class="surf-card rounded-xl p-4 overflow-x-auto">
         <h2 class="text-sm font-bold mb-2.5">돈 잃은 거래 부검 (In-Sample Top-5 Losing Autopsy)</h2>
         <table class="w-full text-xs text-left border-collapse">
           <thead>
-            <tr class="border-b border-[var(--card-border)] text-[var(--muted-foreground)]">
+            <tr class="border-b sub-div tx-muted">
               <th class="py-1.5 pr-2">진입 ~ 청산</th>
               <th class="py-1.5 px-2 text-right">보유</th>
               <th class="py-1.5 px-2 text-right">수익률</th>
@@ -121,6 +140,7 @@
         </table>
       </div>
     </div>
+  </div>
   </div>
 
 <script>
@@ -134,26 +154,37 @@ const dates = RAW.d.map(s => `20${s.slice(0,2)}-${s.slice(2,4)}-${s.slice(4,6)}`
 const spy = RAW.spy.map(v => v / 10);
 const soxl = RAW.soxl.map(v => v / 10);
 
+let bgMode = 'white';
+
+function setBgMode(mode, btn) {
+  bgMode = mode;
+  document.getElementById('appShell').setAttribute('data-bg', mode);
+  document.querySelectorAll('.bg-pill').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  buildTabs();
+  updateMeta();
+  drawAll();
+}
+
 function getColors() {
-  const cs = getComputedStyle(document.documentElement);
-  const isLight = document.documentElement.classList.contains('light');
+  const isDark = bgMode === 'dark';
   return {
-    fg: cs.getPropertyValue('--foreground').trim() || (isLight ? '#0f172a' : '#f8fafc'),
-    muted: cs.getPropertyValue('--muted-foreground').trim() || (isLight ? '#64748b' : '#94a3b8'),
-    grid: isLight ? 'rgba(100,116,139,0.16)' : 'rgba(148,163,184,0.16)',
-    oosBg: isLight ? 'rgba(245,158,11,0.10)' : 'rgba(245,158,11,0.12)',
-    oosLine: 'rgba(245,158,11,0.65)',
-    primary: '#3b82f6',
-    spy: '#94a3b8',
-    soxlLine: '#a855f7',
-    dd: '#ef4444',
-    rmdd: '#f97316',
-    vol: '#eab308',
-    sh: '#10b981',
-    beta: '#06b6d4',
-    corr: '#ec4899',
-    wLong: '#22c55e',
-    wShort: '#ef4444'
+    fg: isDark ? '#f8fafc' : '#0f172a',
+    muted: isDark ? '#94a3b8' : '#64748b',
+    grid: isDark ? 'rgba(148,163,184,0.16)' : 'rgba(100,116,139,0.16)',
+    oosBg: isDark ? 'rgba(245,158,11,0.12)' : 'rgba(245,158,11,0.10)',
+    oosLine: 'rgba(217,119,6,0.70)',
+    primary: isDark ? '#3b82f6' : '#1d4ed8',
+    spy: '#64748b',
+    soxlLine: '#9333ea',
+    dd: '#dc2626',
+    rmdd: '#ea580c',
+    vol: '#d97706',
+    sh: '#059669',
+    beta: '#0891b2',
+    corr: '#db2777',
+    wLong: '#16a34a',
+    wShort: '#dc2626'
   };
 }
 
@@ -164,8 +195,8 @@ function buildTabs() {
     const btn = document.createElement('button');
     const active = k === curKey;
     btn.className = active
-      ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)] transition'
-      : 'px-3 py-1.5 rounded-lg text-xs font-medium bg-[var(--card)] border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition';
+      ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white transition'
+      : 'px-3 py-1.5 rounded-lg text-xs font-medium surf-card tx-muted hover:opacity-90 transition';
     btn.textContent = RAW.s[k].lb;
     btn.onclick = () => { curKey = k; buildTabs(); updateMeta(); drawAll(); };
     wrap.appendChild(btn);
@@ -176,18 +207,18 @@ function updateMeta() {
   const st = RAW.s[curKey];
   const k = st.kpi;
   const items = [
-    ['1년 총수익률', `${k.ret >= 0 ? '+' : ''}${k.ret.toFixed(2)}%`, k.ret >= 0 ? 'text-emerald-500' : 'text-rose-500'],
-    ['gs_quant Sharpe', k.sh.toFixed(3), k.sh >= 1 ? 'text-emerald-500' : ''],
-    ['1년 MDD', `-${k.mdd.toFixed(2)}%`, 'text-rose-500'],
-    ['IS Calmar', k.isCalmar.toFixed(2), k.isCalmar >= 1.5 ? 'text-emerald-500' : ''],
-    ['Sealed OOS', `${k.oosRet >= 0 ? '+' : ''}${k.oosRet.toFixed(2)}%`, k.oosRet >= 0 ? 'text-emerald-500' : 'text-rose-500'],
+    ['1년 총수익률', `${k.ret >= 0 ? '+' : ''}${k.ret.toFixed(2)}%`, k.ret >= 0 ? 'text-emerald-600' : 'text-rose-600'],
+    ['gs_quant Sharpe', k.sh.toFixed(3), k.sh >= 1 ? 'text-emerald-600' : ''],
+    ['1년 MDD', `-${k.mdd.toFixed(2)}%`, 'text-rose-600'],
+    ['IS Calmar', k.isCalmar.toFixed(2), k.isCalmar >= 1.5 ? 'text-emerald-600' : ''],
+    ['Sealed OOS', `${k.oosRet >= 0 ? '+' : ''}${k.oosRet.toFixed(2)}%`, k.oosRet >= 0 ? 'text-emerald-600' : 'text-rose-600'],
     ['연율 변동성', `${k.vol.toFixed(1)}%`, ''],
     ['SPY 베타 (β)', k.beta.toFixed(3), ''],
     ['승률 / 에피소드', `${k.winRate.toFixed(0)}% (${k.trades}회)`, '']
   ];
   document.getElementById('kpiGrid').innerHTML = items.map(([label, val, cls]) => `
-    <div class="bg-[var(--card)] border border-[var(--border)] rounded-lg p-2.5">
-      <div class="text-xs text-[var(--muted-foreground)] truncate">${label}</div>
+    <div class="surf-card rounded-lg p-2.5">
+      <div class="text-xs tx-muted truncate">${label}</div>
       <div class="text-sm font-bold font-mono tabular-nums mt-0.5 ${cls}">${val}</div>
     </div>
   `).join('');
@@ -197,21 +228,21 @@ function updateMeta() {
     ['In-Sample (앞 80%)', k.isRet, k.isSh, k.isMdd],
     ['Sealed OOS (뒤 20% 봉인)', k.oosRet, k.oosSh, k.oosMdd]
   ].map(([nm, r, s, m]) => `
-    <tr class="border-b border-[var(--card-border)]">
+    <tr class="border-b sub-div">
       <td class="py-1.5 pr-2 font-sans font-medium">${nm}</td>
-      <td class="py-1.5 px-2 text-right ${r >= 0 ? 'text-emerald-500' : 'text-rose-500'}">${r >= 0 ? '+' : ''}${r.toFixed(2)}%</td>
+      <td class="py-1.5 px-2 text-right ${r >= 0 ? 'text-emerald-600' : 'text-rose-600'}">${r >= 0 ? '+' : ''}${r.toFixed(2)}%</td>
       <td class="py-1.5 px-2 text-right">${s.toFixed(3)}</td>
-      <td class="py-1.5 pl-2 text-right text-rose-500">-${m.toFixed(2)}%</td>
+      <td class="py-1.5 pl-2 text-right text-rose-600">-${m.toFixed(2)}%</td>
     </tr>
   `).join('');
 
   document.getElementById('tblAut').innerHTML = st.aut.map(a => `
-    <tr class="border-b border-[var(--card-border)]">
+    <tr class="border-b sub-div">
       <td class="py-1.5 pr-2">${a.entry_date.slice(5)}~${a.exit_date.slice(5)}</td>
       <td class="py-1.5 px-2 text-right">${a.bars_held}봉</td>
-      <td class="py-1.5 px-2 text-right text-rose-500">${a.return_pct.toFixed(2)}%</td>
+      <td class="py-1.5 px-2 text-right text-rose-600">${a.return_pct.toFixed(2)}%</td>
       <td class="py-1.5 px-2 text-right">${a.mfe_pct >= 0 ? '+' : ''}${a.mfe_pct.toFixed(2)}%</td>
-      <td class="py-1.5 pl-2 font-sans text-[var(--muted-foreground)] truncate">${a.failure_archetype}</td>
+      <td class="py-1.5 pl-2 font-sans tx-muted truncate">${a.failure_archetype}</td>
     </tr>
   `).join('');
 }

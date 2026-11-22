@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interactive Showcase & Quant Reports — tron1981-maker</title>
+  <style>
+    :root {
+      --bg: #0b1120; --card: #111827; --border: #1f2937; --text: #f8fafc;
+      --muted: #94a3b8; --accent: #3b82f6; --accent-hover: #2563eb; --badge-bg: rgba(59,130,246,0.15);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 32px 18px 64px; background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Pretendard", sans-serif;
+    }
+    .wrap { max-width: 1040px; margin: 0 auto; }
+    header {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
+      gap: 16px; padding-bottom: 22px; border-bottom: 1px solid var(--border); margin-bottom: 26px;
+    }
+    .eyebrow { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; }
+    h1 { margin: 6px 0 4px; font-size: 26px; font-weight: 800; }
+    .sub { margin: 0; font-size: 14px; color: var(--muted); }
+    .search {
+      background: var(--card); border: 1px solid var(--border); color: var(--text);
+      padding: 10px 14px; border-radius: 10px; font-size: 14px; min-width: 240px; outline: none;
+    }
+    .search:focus { border-color: var(--accent); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 18px; }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 20px; display: flex; flex-direction: column; justify-content: space-between;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .card:hover { transform: translateY(-2px); border-color: rgba(59,130,246,0.55); }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .badge {
+      background: var(--badge-bg); color: #60a5fa; font-size: 11px; font-weight: 700;
+      padding: 4px 9px; border-radius: 999px;
+    }
+    .date { font-size: 12px; color: var(--muted); font-family: monospace; }
+    .card-title { margin: 0 0 8px; font-size: 18px; line-height: 1.35; }
+    .card-title a { color: var(--text); text-decoration: none; }
+    .card-desc { margin: 0 0 18px; font-size: 13.5px; line-height: 1.55; color: var(--muted); flex-grow: 1; }
+    .card-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .primary-btn {
+      background: var(--accent); color: #fff; text-decoration: none; font-size: 12.5px;
+      font-weight: 600; padding: 8px 13px; border-radius: 8px;
+    }
+    .primary-btn:hover { background: var(--accent-hover); }
+    .extra-btn, .copy-btn {
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+      text-decoration: none; font-size: 12px; padding: 7px 11px; border-radius: 8px; cursor: pointer;
+    }
+    .extra-btn:hover, .copy-btn:hover { color: var(--text); border-color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="eyebrow">GitHub Pages Live Archive</div>
+        <h1>인터랙티브 프로젝트 & 퀀트 리포트 허브</h1>
+        <p class="sub">생성된 인터랙티브 HTML 시각화·백테스트 티어시트·웹 프로토타입 아카이브 (총 1건)</p>
+      </div>
+      <input id="q" class="search" type="search" placeholder="프로젝트·티커·키워드 검색..." oninput="filterCards()" />
+    </header>
+    <main id="grid" class="grid">
+      
+            <article class="card" data-search="soxl · soxs 1년 카파시 autoresearch 5대 장르 인터랙티브 티어시트 gs qis · karpathy quant 단타(1min)·초단기·스윙·장투·올웨더 통합 앙상블(v_73: 1y +41.15%, sharpe 1.94, mdd -9.09%, sealed oos 폭락장 방어) 6단 비교 뷰어">
+              <div class="card-top">
+                <span class="badge">GS QIS · Karpathy Quant</span>
+                <span class="date">2026-11-22 23:25</span>
+              </div>
+              <h2 class="card-title"><a href="./soxl-soxs-1y/">SOXL · SOXS 1년 카파시 Autoresearch 5대 장르 인터랙티브 티어시트</a></h2>
+              <p class="card-desc">단타(1min)·초단기·스윙·장투·올웨더 통합 앙상블(v_73: 1Y +41.15%, Sharpe 1.94, MDD -9.09%, Sealed OOS 폭락장 방어) 6단 비교 뷰어</p>
+              <div class="card-actions">
+                <a href="./soxl-soxs-1y/" class="primary-btn">인터랙티브 뷰어 열기 →</a>
+                <a href="./soxl-soxs-1y/report_v_73.html" target="_blank" class="extra-btn">Plotly 상세 원본 (v_73)</a>
+                <button class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/soxl-soxs-1y/', this)">링크 복사</button>
+              </div>
+            </article>
+            
+    </main>
+  </div>
+  <script>
+    function filterCards() {
+      const q = document.getElementById('q').value.trim().toLowerCase();
+      document.querySelectorAll('.card').forEach(el => {
+        el.style.display = (!q || el.dataset.search.includes(q)) ? '' : 'none';
+      });
+    }
+    function copyLink(url, btn) {
+      navigator.clipboard.writeText(url).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '복사됨 ✓';
+        setTimeout(() => btn.textContent = orig, 1500);
+      });
+    }
+  </script>
+</body>
+</html>

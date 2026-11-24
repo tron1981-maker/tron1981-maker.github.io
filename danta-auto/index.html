@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>자동 매매 내역 · DJ-QUNT 실전 단타</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff; --card: #ffffff; --panel: #f8fafc; --border: #e2e8f0;
+      --text: #0f172a; --muted: #475569; --accent: #059669; --blue: #1d4ed8;
+      --pos: #059669; --pos-bg: #ecfdf5; --pos-bd: #a7f3d0;
+      --neg: #dc2626; --neg-bg: #fef2f2; --neg-bd: #fecaca;
+      --warn: #d97706; --warn-bg: #fffbeb; --warn-bd: #fde68a;
+    }
+    html[data-bg="warm"] { --bg: #faf8f5; --card: #ffffff; --panel: #f5f2eb; --border: #e7e2d8; --text: #1c1917; --muted: #57534e; }
+    html[data-bg="soft"] { --bg: #f1f5f9; --card: #ffffff; --panel: #e2e8f0; --border: #cbd5e1; }
+    html[data-bg="dark"] {
+      --bg: #0b1120; --card: #111827; --panel: #1e293b; --border: #1f2937;
+      --text: #f8fafc; --muted: #94a3b8; --accent: #10b981; --blue: #3b82f6;
+      --pos: #34d399; --pos-bg: rgba(16,185,129,0.15); --pos-bd: rgba(16,185,129,0.35);
+      --neg: #f87171; --neg-bg: rgba(239,68,68,0.15); --neg-bd: rgba(239,68,68,0.35);
+      --warn: #fbbf24; --warn-bg: rgba(245,158,11,0.15); --warn-bd: rgba(245,158,11,0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0 0 64px; background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
+      line-height: 1.55;
+    }
+    .dw-wrap { max-width: 1320px; margin: 22px auto 0; padding: 0 18px; }
+    .dw-head {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
+      gap: 12px; padding-bottom: 14px; border-bottom: 2px solid var(--border); margin-bottom: 18px;
+    }
+    .dw-head h1 { margin: 0; font-size: 22px; font-weight: 800; }
+    .dw-head p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+    .dw-meta { font-size: 12px; color: var(--muted); font-family: monospace; }
+    .dw-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-bottom: 18px; }
+    .dw-kpi {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .dw-kpi-lbl { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+    .dw-kpi-val { font-size: 22px; font-weight: 900; margin-top: 4px; }
+    .dw-kpi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .pos { color: var(--pos) !important; }
+    .neg { color: var(--neg) !important; }
+    .neu { color: var(--text) !important; }
+    .dw-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px; margin-bottom: 18px;
+    }
+    .dw-card-head {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+      gap: 10px; margin-bottom: 12px;
+    }
+    .dw-card h2 { margin: 0; font-size: 16.5px; font-weight: 800; }
+    .dw-card-sub { font-size: 12.5px; color: var(--muted); }
+    .dw-badge {
+      display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 800;
+      padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel); color: var(--muted);
+    }
+    .dw-badge.pass { background: var(--pos-bg); color: var(--pos); border-color: var(--pos-bd); }
+    .dw-badge.wait { background: var(--warn-bg); color: var(--warn); border-color: var(--warn-bd); }
+    .dw-badge.loss { background: var(--neg-bg); color: var(--neg); border-color: var(--neg-bd); }
+    .dw-badge.auto { background: var(--pos-bg); color: var(--pos); border-color: var(--pos-bd); }
+    .dw-badge.manual { background: rgba(59,130,246,0.12); color: var(--blue); border-color: rgba(59,130,246,0.35); }
+    .dw-tabs { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .dw-tab {
+      border: 1px solid var(--border); background: var(--card); color: var(--muted);
+      font-size: 12.5px; font-weight: 700; padding: 7px 13px; border-radius: 9px; cursor: pointer;
+      text-decoration: none;
+    }
+    .dw-tab.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    .dw-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+    table.dw-table { width: 100%; border-collapse: collapse; font-size: 12.8px; }
+    table.dw-table th, table.dw-table td {
+      padding: 9px 11px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap;
+    }
+    table.dw-table th {
+      background: var(--panel); color: var(--muted); font-size: 11.5px; font-weight: 800;
+    }
+    table.dw-table tr:last-child td { border-bottom: none; }
+    table.dw-table tbody tr:hover td { background: var(--panel); }
+    .num { text-align: right !important; font-variant-numeric: tabular-nums; }
+    .dw-link { color: var(--blue); font-weight: 700; text-decoration: none; }
+    .dw-link:hover { text-decoration: underline; }
+    .dw-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px; margin-bottom: 18px; }
+    .dw-chart-box { position: relative; height: 290px; width: 100%; }
+    .dw-gate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 10px; margin-top: 12px; }
+    .dw-gate-item {
+      border: 1px solid var(--border); background: var(--panel); border-radius: 10px; padding: 11px 13px;
+    }
+    .dw-gate-item.ok { border-color: var(--pos-bd); background: var(--pos-bg); }
+    .dw-gate-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-weight: 800; font-size: 13px; }
+    .dw-gate-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .dw-progress { height: 8px; border-radius: 999px; background: var(--panel); border: 1px solid var(--border); overflow: hidden; margin-top: 8px; }
+    .dw-progress-bar { height: 100%; background: var(--accent); transition: width 0.25s ease; }
+    .dw-banner {
+      border: 1px solid var(--warn-bd); background: var(--warn-bg); color: var(--text);
+      border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px;
+    }
+    .dw-banner.pass { border-color: var(--pos-bd); background: var(--pos-bg); }
+  </style>
+
+</head>
+<body>
+
+<style id="dj-qunt-unified-style">
+  :root {
+    --bg: #ffffff; --panel: #ffffff; --card: #ffffff; --border: #e2e8f0; --card-border: #f1f5f9;
+    --background: #ffffff; --foreground: #0f172a; --text: #0f172a; --muted: #475569; --muted-foreground: #475569;
+    --primary: #1d4ed8; --primary-foreground: #ffffff;
+  }
+  html, body { background-color: #ffffff; margin: 0; }
+  html[data-bg="warm"], html[data-bg="warm"] body { background-color: #faf8f5 !important; color: #1c1917 !important; --bg: #faf8f5; --background: #faf8f5; --panel: #ffffff; --card: #ffffff; --border: #e7e2d8; --text: #1c1917; --foreground: #1c1917; --muted: #57534e; --muted-foreground: #57534e; }
+  html[data-bg="soft"], html[data-bg="soft"] body { background-color: #f1f5f9 !important; color: #0f172a !important; --bg: #f1f5f9; --background: #f1f5f9; --panel: #ffffff; --card: #ffffff; --border: #cbd5e1; --text: #0f172a; --foreground: #0f172a; --muted: #475569; --muted-foreground: #47534e; }
+  html[data-bg="dark"], html[data-bg="dark"] body { background-color: #0b1120 !important; color: #f8fafc !important; --bg: #0b1120; --background: #0b1120; --panel: #111827; --card: #111827; --border: #1f2937; --card-border: #1e293b; --text: #f8fafc; --foreground: #f8fafc; --muted: #94a3b8; --muted-foreground: #94a3b8; --primary: #3b82f6; }
+  html[data-bg="dark"] .header, html[data-bg="dark"] .kpi-card, html[data-bg="dark"] .chart-box, html[data-bg="dark"] .table-card, html[data-bg="dark"] .stat-card, html[data-bg="dark"] .gen-card, html[data-bg="dark"] .filter-bar, html[data-bg="dark"] .table-wrap { background: #111827 !important; border-color: #1f2937 !important; color: #f8fafc !important; }
+  html[data-bg="dark"] h1, html[data-bg="dark"] h2, html[data-bg="dark"] h3, html[data-bg="dark"] .kpi-val, html[data-bg="dark"] table, html[data-bg="dark"] td { color: #f8fafc !important; border-color: #1f2937 !important; }
+  html[data-bg="dark"] th { background: #1e293b !important; color: #e2e8f0 !important; border-color: #334155 !important; }
+  html[data-bg="dark"] tr:hover td { background: #1e293b !important; }
+  html[data-bg="dark"] .autopsy-banner { background: #1e293b !important; border-color: #334155 !important; color: #f8fafc !important; }
+
+  /* 하위 페이지 내부의 중복 배경색 스위처 바 숨김 (통합 헤더의 단일 스위처만 사용) */
+  .bg-pill-bar, .bg-switcher, .topbar .bg-bar, .header .bg-bar { display: none !important; }
+
+  #dj-qunt-unified-header {
+    position: sticky; top: 0; z-index: 9995; background: #ffffff; color: #0f172a;
+    border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(15,23,42,0.06);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
+    line-height: 1.4;
+  }
+  #dj-qunt-unified-header * { box-sizing: border-box; }
+  #dj-qunt-unified-header .dj-u-row1 {
+    max-width: 1460px; margin: 0 auto; padding: 9px 18px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  #dj-qunt-unified-header .dj-u-brand {
+    display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
+    color: #0f172a; font-weight: 900; font-size: 15px;
+  }
+  #dj-qunt-unified-header .dj-u-dot {
+    width: 22px; height: 22px; border-radius: 6px; background: #1d4ed8; color: #ffffff;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;
+  }
+  #dj-qunt-unified-header .dj-u-menus { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  #dj-qunt-unified-header .dj-u-group {
+    display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px;
+    padding: 3px 6px; border-radius: 9px; border: 1px solid #e2e8f0; background: #f8fafc;
+  }
+  #dj-qunt-unified-header .dj-u-group-danta {
+    background: #ecfdf5; border-color: #a7f3d0;
+  }
+  #dj-qunt-unified-header .dj-u-glabel {
+    font-size: 10.5px; font-weight: 800; color: #475569; padding: 0 4px 0 2px; white-space: nowrap;
+  }
+  #dj-qunt-unified-header .dj-u-group-danta .dj-u-glabel { color: #047857; }
+  #dj-qunt-unified-header .dj-u-sep { width: 1px; height: 20px; background: #e2e8f0; }
+  #dj-qunt-unified-header .dj-u-mbtn {
+    text-decoration: none; font-size: 12px; font-weight: 700; color: #475569;
+    padding: 4px 9px; border-radius: 7px; border: 1px solid #e2e8f0; background: #ffffff;
+  }
+  #dj-qunt-unified-header .dj-u-mbtn:hover { border-color: #1d4ed8; color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-u-mbtn.active { background: #1d4ed8; color: #ffffff; border-color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta { border-color: #a7f3d0; color: #047857; }
+  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta:hover { border-color: #059669; color: #065f46; }
+  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta.active { background: #059669; color: #ffffff; border-color: #059669; }
+  #dj-qunt-unified-header .dj-u-bgbar {
+    display: inline-flex; gap: 2px; padding: 3px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc;
+  }
+  #dj-qunt-unified-header .dj-u-bgbtn {
+    border: none; background: transparent; color: #475569; font-size: 11.5px; font-weight: 600;
+    padding: 4px 8px; border-radius: 6px; cursor: pointer;
+  }
+  #dj-qunt-unified-header .dj-u-bgbtn.active { background: #1d4ed8; color: #ffffff; }
+
+  #dj-qunt-unified-header .dj-u-row2 {
+    background: #f8fafc; border-top: 1px solid #e2e8f0;
+  }
+  #dj-qunt-unified-header .dj-u-row2-in {
+    max-width: 1460px; margin: 0 auto; padding: 7px 18px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  #dj-qunt-unified-header .dj-bc-trail {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; color: #475569;
+  }
+  #dj-qunt-unified-header .dj-bc-trail a {
+    text-decoration: none; color: #475569; font-weight: 600;
+  }
+  #dj-qunt-unified-header .dj-bc-trail a:hover { color: #1d4ed8; text-decoration: underline; }
+  #dj-qunt-unified-header .dj-bc-cur { color: #0f172a; font-weight: 800; }
+  #dj-qunt-unified-header .dj-sib-group { display: flex; flex-wrap: wrap; gap: 5px; }
+  #dj-qunt-unified-header .dj-sib-btn {
+    text-decoration: none; font-size: 11.5px; font-weight: 600; color: #475569;
+    padding: 3px 9px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff;
+  }
+  #dj-qunt-unified-header .dj-sib-btn:hover { border-color: #1d4ed8; color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-sib-btn.active { background: #eff6ff; color: #1d4ed8; border-color: #1d4ed8; font-weight: 800; }
+
+  html[data-bg="warm"] #dj-qunt-unified-header { background: #faf8f5; border-color: #e7e2d8; }
+  html[data-bg="warm"] #dj-qunt-unified-header .dj-u-row2 { background: #f5f2eb; border-color: #e7e2d8; }
+  html[data-bg="soft"] #dj-qunt-unified-header { background: #f1f5f9; border-color: #cbd5e1; }
+  html[data-bg="soft"] #dj-qunt-unified-header .dj-u-row2 { background: #e2e8f0; border-color: #cbd5e1; }
+  html[data-bg="dark"] #dj-qunt-unified-header { background: #111827; color: #f8fafc; border-color: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-brand,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-cur { color: #f8fafc; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-bgbar,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn { background: #1e293b; border-color: #334155; color: #cbd5e1; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group { background: #0f172a; border-color: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group-danta { background: rgba(16,185,129,0.10); border-color: rgba(16,185,129,0.32); }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-glabel { color: #94a3b8; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group-danta .dj-u-glabel { color: #34d399; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-sep { background: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta { border-color: rgba(16,185,129,0.35); color: #34d399; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta.active { background: #059669; border-color: #10b981; color: #ffffff; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.active { background: #2563eb; border-color: #2563eb; color: #ffffff; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn.active { background: rgba(37,99,235,0.25); border-color: #60a5fa; color: #93c5fd; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-row2 { background: #0b1120; border-color: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-trail,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-trail a { color: #94a3b8; }
+  @media print { #dj-qunt-unified-header { display: none !important; } }
+</style>
+<header id="dj-qunt-unified-header" data-has-home-nav="1" data-has-bg-switcher="1">
+  <div class="dj-u-row1">
+    <a class="dj-u-brand" href="https://tron1981-maker.github.io/dj-qunt/">
+      <span class="dj-u-dot">DJ</span>
+      <span>Dongju QUNT Lab</span>
+    </a>
+    <nav class="dj-u-menus" aria-label="상위 메뉴">
+      <div class="dj-u-group" aria-label="연구 및 백테스트 랭킹"><span class="dj-u-glabel">연구·랭킹</span><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#algo">1. 버전별 알고리즘</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#reports">2. 인터랙티브 리포트</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-pre">3. 프리장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-reg">4. 본장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-period">5. 기간별 수익률 랭킹</a></div><span class="dj-u-sep" aria-hidden="true"></span><div class="dj-u-group dj-u-group-danta" aria-label="실전 페이퍼 단타"><span class="dj-u-glabel">실전 단타</span><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><a class="dj-u-mbtn dj-u-danta active" href="https://tron1981-maker.github.io/danta-auto/">7. 자동 매매</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-manual/">8. 수동 매매</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-compare/">9. 자동 vs 수동 비교</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-charts/">10. 단타 수익 그래프</a></div>
+    </nav>
+    <div class="dj-u-bgbar" role="group" aria-label="배경색 변경">
+      <button type="button" class="dj-u-bgbtn active" onclick="window.__setDocBg('white', this)">화이트</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('warm', this)">웜톤</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('soft', this)">소프트</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('dark', this)">다크</button>
+    </div>
+  </div>
+  <div class="dj-u-row2">
+    <div class="dj-u-row2-in">
+      <div class="dj-bc-trail"><a href="https://tron1981-maker.github.io/dj-qunt/">🏠 Dongju QUNT Lab 홈</a><span class="dj-sep">›</span><a href="https://tron1981-maker.github.io/danta-auto/">7. 자동 매매</a><span class="dj-sep">›</span><span class="dj-bc-cur">[현재] 자동 매매 내역</span></div>
+      <div class="dj-sib-group"><a class="dj-sib-btn " href="/danta-daily/">📅 일별 단타 내역</a><a class="dj-sib-btn active" href="/danta-auto/">🤖 자동 매매</a><a class="dj-sib-btn " href="/danta-manual/">✋ 수동 매매</a><a class="dj-sib-btn " href="/danta-compare/">⚖️ 자동 vs 수동 비교</a><a class="dj-sib-btn " href="/danta-charts/">📈 단타 수익 그래프</a></div>
+    </div>
+  </div>
+</header>
+<script id="dj-qunt-unified-script">
+  window.__setDocBg = function(mode, btn) {
+    if (mode === 'white') {
+      document.documentElement.removeAttribute('data-bg');
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.setAttribute('data-bg', mode);
+      document.documentElement.classList.toggle('light', mode !== 'dark');
+    }
+    document.querySelectorAll('#dj-qunt-unified-header .dj-u-bgbtn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const shell = document.getElementById('appShell');
+    if (shell) shell.setAttribute('data-bg', mode);
+    if (typeof window.setBgMode === 'function') {
+      try { window.setBgMode(mode, null); } catch (e) {}
+    }
+    if (window.Plotly) {
+      const isDark = mode === 'dark';
+      const paper = isDark ? '#111827' : '#ffffff';
+      const plot = isDark ? '#0b1120' : '#ffffff';
+      const fc = isDark ? '#e2e8f0' : '#0f172a';
+      document.querySelectorAll('.js-plotly-plot').forEach(gd => {
+        try { Plotly.relayout(gd, { paper_bgcolor: paper, plot_bgcolor: plot, 'font.color': fc }); } catch (e) {}
+      });
+    }
+    window.dispatchEvent(new Event('themechange'));
+  };
+  document.documentElement.classList.add('light');
+</script>
+
+<main class="dw-wrap">
+
+    <div class="dw-head">
+      <div>
+        <h1>7. 자동 매매 전용 내역 (Auto Scalping)</h1>
+        <p><code>자동단타</code>·<code>나스닥하락</code>·<code>프리마켓스캔</code>·<code>프리마켓테이프</code> 태그로 시스템이 진입·청산한 거래만 분리 집계합니다.</p>
+      </div>
+      <div class="dw-meta">업데이트: 2026-11-25 04:54:29 KST</div>
+    </div>
+
+    
+    <section class="dw-card">
+      <div class="dw-card-head">
+        <div>
+          <h2>🚦 실계좌 전환 판단 게이트 (Go-Live 6-Gate Scorecard)</h2>
+          <div class="dw-card-sub">자동 매매 페이퍼 트레이딩 실전 투입 근거 점검 — 6개 항목 모두 통과 시 실돈 전환 검토</div>
+        </div>
+        <span class="dw-badge wait">WAIT · 추가 페이퍼 검증 필요 (2/6)</span>
+      </div>
+      <div class="dw-progress"><div class="dw-progress-bar" style="width:33%;"></div></div>
+      <div class="dw-gate-grid">
+            <div class="dw-gate-item ">
+              <div class="dw-gate-top">
+                <span>G1. 최소 통계 표본 확보</span>
+                <span class="dw-badge wait">미달</span>
+              </div>
+              <div class="dw-gate-meta">목표: <b>자동 ≥ 30건 &amp; ≥ 10거래일</b> · 현재: <b>14건 · 4거래일</b></div>
+              <div class="dw-gate-meta">표본 16건 / 6거래일 추가 필요</div>
+            </div>
+            
+            <div class="dw-gate-item ">
+              <div class="dw-gate-top">
+                <span>G2. Profit Factor (총이익/총손실)</span>
+                <span class="dw-badge wait">미달</span>
+              </div>
+              <div class="dw-gate-meta">목표: <b>PF ≥ 1.50</b> · 현재: <b>1.11</b></div>
+              <div class="dw-gate-meta">손절 관리 및 익절 기대치 개선 필요</div>
+            </div>
+            
+            <div class="dw-gate-item ">
+              <div class="dw-gate-top">
+                <span>G3. 건당 기대값 (평균 수익률)</span>
+                <span class="dw-badge wait">미달</span>
+              </div>
+              <div class="dw-gate-meta">목표: <b>&gt; +0.30% / 거래</b> · 현재: <b>-0.14%</b></div>
+              <div class="dw-gate-meta">기대 수익률 +0.30% 초과 필요</div>
+            </div>
+            
+            <div class="dw-gate-item ok">
+              <div class="dw-gate-top">
+                <span>G4. 최대 낙폭 (MDD · $1,000 기준)</span>
+                <span class="dw-badge pass">통과</span>
+              </div>
+              <div class="dw-gate-meta">목표: <b>MDD ≤ 10.0%</b> · 현재: <b>1.34% (-$13.39)</b></div>
+              <div class="dw-gate-meta">자금 방어선 내 안정 유지</div>
+            </div>
+            
+            <div class="dw-gate-item ok">
+              <div class="dw-gate-top">
+                <span>G5. 승률 또는 손익비 우위</span>
+                <span class="dw-badge pass">통과</span>
+              </div>
+              <div class="dw-gate-meta">목표: <b>승률 ≥ 50% 또는 손익비 ≥ 1.80</b> · 현재: <b>승률 50.0% · 손익비 0.80:1</b></div>
+              <div class="dw-gate-meta">승률 또는 손익비 기준 통과</div>
+            </div>
+            
+            <div class="dw-gate-item ">
+              <div class="dw-gate-top">
+                <span>G6. 수동 매매 대비 우위 ($100 정규화)</span>
+                <span class="dw-badge wait">미달</span>
+              </div>
+              <div class="dw-gate-meta">목표: <b>자동 우위 (PF 또는 건당 수익률)</b> · 현재: <b>자동 PF 0.93 / 기대값 -0.14% vs 수동 PF 1.38 / +1.17%</b></div>
+              <div class="dw-gate-meta">수동 매매 대비 우위 입증 필요</div>
+            </div>
+            </div>
+    </section>
+    
+
+    <div class="dw-kpi-grid">
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">자동 매매 누적 손익</div>
+        <div class="dw-kpi-val pos">+$1.82</div>
+        <div class="dw-kpi-sub">총 투자금 $997.34 · ROI +0.18%</div>
+      </div>
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">체결 수 / 승률</div>
+        <div class="dw-kpi-val">14건 (50.0%)</div>
+        <div class="dw-kpi-sub">7승 6패 · 4거래일</div>
+      </div>
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">Profit Factor / 손익비</div>
+        <div class="dw-kpi-val">1.11 / 0.80:1</div>
+        <div class="dw-kpi-sub">건당 기대값 -0.14% · 평균보유 12.8분</div>
+      </div>
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">최대낙폭 ($1,000 기준)</div>
+        <div class="dw-kpi-val neg">-1.34%</div>
+        <div class="dw-kpi-sub">최대 낙폭액 -$13.39 · 최장 연승/연패 3/4</div>
+      </div>
+    </div>
+
+    <div class="dw-grid-2">
+      
+    <div class="dw-card">
+      <div class="dw-card-head"><h2>🧠 자동 전략 엔진별 성과</h2></div>
+      <div class="dw-table-wrap">
+        <table class="dw-table">
+          <thead><tr><th>전략 엔진</th><th class="num">건수</th><th class="num">승률</th><th class="num">총 투자금</th><th class="num">실현손익</th><th class="num">건당 평균수익률</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>nasdaq_bear</b></td>
+              <td class="num">2건 (2승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$155.00</td>
+              <td class="num pos"><b>+$11.38</b></td>
+              <td class="num pos">+7.78%</td>
+            </tr>
+            
+            <tr>
+              <td><b>v_06</b></td>
+              <td class="num">4건 (2승 1패)</td>
+              <td class="num">50.0%</td>
+              <td class="num">$338.82</td>
+              <td class="num pos"><b>+$0.09</b></td>
+              <td class="num pos">+0.20%</td>
+            </tr>
+            
+            <tr>
+              <td><b>v_31</b></td>
+              <td class="num">8건 (3승 5패)</td>
+              <td class="num">37.5%</td>
+              <td class="num">$503.52</td>
+              <td class="num neg"><b>-$9.65</b></td>
+              <td class="num neg">-2.29%</td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+    
+      
+    <div class="dw-card">
+      <div class="dw-card-head"><h2>🎯 자동 청산 사유별 성과</h2></div>
+      <div class="dw-table-wrap">
+        <table class="dw-table">
+          <thead><tr><th>청산 사유</th><th class="num">건수</th><th class="num">승률</th><th class="num">총 투자금</th><th class="num">실현손익</th><th class="num">건당 평균수익률</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>목표 익절</b></td>
+              <td class="num">4건 (4승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$304.30</td>
+              <td class="num pos"><b>+$13.21</b></td>
+              <td class="num pos">+4.59%</td>
+            </tr>
+            
+            <tr>
+              <td><b>트레일링 스탑</b></td>
+              <td class="num">1건 (1승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$85.00</td>
+              <td class="num pos"><b>+$2.81</b></td>
+              <td class="num pos">+3.30%</td>
+            </tr>
+            
+            <tr>
+              <td><b>평균회귀 익절</b></td>
+              <td class="num">2건 (2승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$138.82</td>
+              <td class="num pos"><b>+$2.57</b></td>
+              <td class="num pos">+1.64%</td>
+            </tr>
+            
+            <tr>
+              <td><b>오전장 종료 청산</b></td>
+              <td class="num">2건 (0승 1패)</td>
+              <td class="num">0.0%</td>
+              <td class="num">$200.00</td>
+              <td class="num neg"><b>-$2.48</b></td>
+              <td class="num neg">-1.24%</td>
+            </tr>
+            
+            <tr>
+              <td><b>손절 매도</b></td>
+              <td class="num">5건 (0승 5패)</td>
+              <td class="num">0.0%</td>
+              <td class="num">$269.22</td>
+              <td class="num neg"><b>-$14.29</b></td>
+              <td class="num neg">-4.88%</td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+    
+    </div>
+
+    <section class="dw-card">
+      <div class="dw-card-head">
+        <h2>🤖 자동 매매 전체 체결 내역 (14건)</h2>
+        <a class="dw-link" href="/danta-compare/">수동 매매와 비교 분석 보기 →</a>
+      </div>
+      
+    <div class="dw-table-wrap">
+      <table class="dw-table">
+        <thead>
+          <tr>
+            <th>미국장 일자(ET)</th>
+            <th>진입→청산(ET)</th>
+            
+            <th>종목</th>
+            <th>엔진</th>
+            <th class="num">평단→청산가</th>
+            <th class="num">투자금</th>
+            <th class="num">실현손익</th>
+            <th class="num">수익률</th>
+            <th class="num">$100 환산</th>
+            <th>청산 사유</th>
+            <th>태그</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-24/">2026-11-24</a></td>
+              <td>09:36:19 → 11:02:07 <span style="color:var(--muted);font-size:11px;">(86분)</span></td>
+              
+              <td><b>APLZ</b> <span style="color:var(--muted);font-size:11px;">APLZ</span></td>
+              <td><code>nasdaq_bear</code></td>
+              <td class="num">$40.9900 → $46.0100</td>
+              <td class="num">$70.00</td>
+              <td class="num pos"><b>+$8.57</b></td>
+              <td class="num pos"><b>+12.25%</b></td>
+              <td class="num pos">$+12.25</td>
+              <td>목표 익절</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 나스닥하락">자동단타, 나스닥하락</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-24/">2026-11-24</a></td>
+              <td>09:35:26 → 10:38:13 <span style="color:var(--muted);font-size:11px;">(63분)</span></td>
+              
+              <td><b>SMCZ</b> <span style="color:var(--muted);font-size:11px;">SMCZ</span></td>
+              <td><code>nasdaq_bear</code></td>
+              <td class="num">$9.3900 → $9.7000</td>
+              <td class="num">$85.00</td>
+              <td class="num pos"><b>+$2.81</b></td>
+              <td class="num pos"><b>+3.30%</b></td>
+              <td class="num pos">$+3.30</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 나스닥하락">자동단타, 나스닥하락</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-24/">2026-11-24</a></td>
+              <td>09:41:02 → 09:45:25 <span style="color:var(--muted);font-size:11px;">(4분)</span></td>
+              
+              <td><b>MUZ</b> <span style="color:var(--muted);font-size:11px;">MUZ</span></td>
+              <td><code>v_31</code></td>
+              <td class="num">$11.1100 → $10.8600</td>
+              <td class="num">$40.00</td>
+              <td class="num neg"><b>-$0.90</b></td>
+              <td class="num neg"><b>-2.25%</b></td>
+              <td class="num neg">$-2.25</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 프리마켓테이프">자동단타, 프리마켓테이프</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-19/">2026-11-19</a></td>
+              <td>10:18:18 → 10:23:54 <span style="color:var(--muted);font-size:11px;">(6분)</span></td>
+              
+              <td><b>YMAT</b> <span style="color:var(--muted);font-size:11px;">J 스타 홀딩</span></td>
+              <td><code>v_31</code></td>
+              <td class="num">$1.0000 → $1.0200</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$2.00</b></td>
+              <td class="num pos"><b>+2.00%</b></td>
+              <td class="num pos">$+2.00</td>
+              <td>목표 익절</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 급상승">자동단타, 급상승</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-19/">2026-11-19</a></td>
+              <td>10:08:59 → 10:15:25 <span style="color:var(--muted);font-size:11px;">(6분)</span></td>
+              
+              <td><b>GMM</b> <span style="color:var(--muted);font-size:11px;">글로벌 모페이 AI</span></td>
+              <td><code>v_31</code></td>
+              <td class="num">$1.9100 → $1.8300</td>
+              <td class="num">$90.02</td>
+              <td class="num neg"><b>-$3.77</b></td>
+              <td class="num neg"><b>-4.19%</b></td>
+              <td class="num neg">$-4.19</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 프리마켓스캔">자동단타, 프리마켓스캔</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-19/">2026-11-19</a></td>
+              <td>09:49:08 → 09:49:43 <span style="color:var(--muted);font-size:11px;">(1분)</span></td>
+              
+              <td><b>MRKR</b> <span style="color:var(--muted);font-size:11px;">마커 테라퓨틱스</span></td>
+              <td><code>v_31</code></td>
+              <td class="num">$1.1800 → $1.0300</td>
+              <td class="num">$59.20</td>
+              <td class="num neg"><b>-$7.53</b></td>
+              <td class="num neg"><b>-12.71%</b></td>
+              <td class="num neg">$-12.71</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 급상승">자동단타, 급상승</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-19/">2026-11-19</a></td>
+              <td>09:40:47 → 09:41:54 <span style="color:var(--muted);font-size:11px;">(1분)</span></td>
+              
+              <td><b>NCPL</b> <span style="color:var(--muted);font-size:11px;">넷캐피탈</span></td>
+              <td><code>v_31</code></td>
+              <td class="num">$3.3300 → $3.2500</td>
+              <td class="num">$40.00</td>
+              <td class="num neg"><b>-$0.96</b></td>
+              <td class="num neg"><b>-2.40%</b></td>
+              <td class="num neg">$-2.40</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 급상승">자동단타, 급상승</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-19/">2026-11-19</a></td>
+              <td>09:37:25 → 09:38:35 <span style="color:var(--muted);font-size:11px;">(1분)</span></td>
+              
+              <td><b>LASE</b> <span style="color:var(--muted);font-size:11px;">레이저 포토닉스</span></td>
+              <td><code>v_31</code></td>
+              <td class="num">$0.5041 → $0.4898</td>
+              <td class="num">$40.00</td>
+              <td class="num neg"><b>-$1.13</b></td>
+              <td class="num neg"><b>-2.84%</b></td>
+              <td class="num neg">$-2.84</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 급상승">자동단타, 급상승</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-18/">2026-11-18</a></td>
+              <td>10:09:36 → 10:09:57 <span style="color:var(--muted);font-size:11px;">(0분)</span></td>
+              
+              <td><b>GMM</b> <span style="color:var(--muted);font-size:11px;">글로벌 모페이 AI</span></td>
+              <td><code>v_31</code></td>
+              <td class="num">$1.6300 → $1.6600</td>
+              <td class="num">$94.30</td>
+              <td class="num pos"><b>+$1.74</b></td>
+              <td class="num pos"><b>+1.84%</b></td>
+              <td class="num pos">$+1.84</td>
+              <td>목표 익절</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 급상승">자동단타, 급상승</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-18/">2026-11-18</a></td>
+              <td>09:40:26 → 09:41:14 <span style="color:var(--muted);font-size:11px;">(1분)</span></td>
+              
+              <td><b>AKAN</b> <span style="color:var(--muted);font-size:11px;">어칸다</span></td>
+              <td><code>v_31</code></td>
+              <td class="num">$2.6600 → $2.7200</td>
+              <td class="num">$40.00</td>
+              <td class="num pos"><b>+$0.90</b></td>
+              <td class="num pos"><b>+2.26%</b></td>
+              <td class="num pos">$+2.26</td>
+              <td>목표 익절</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 프리마켓스캔">자동단타, 프리마켓스캔</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>11:57:18 → 11:58:06 <span style="color:var(--muted);font-size:11px;">(1분)</span></td>
+              
+              <td><b>NFE</b> <span style="color:var(--muted);font-size:11px;">뉴 포트리스 에너지</span></td>
+              <td><code>v_06</code></td>
+              <td class="num">$3.6100 → $3.6100</td>
+              <td class="num">$100.00</td>
+              <td class="num neu"><b>$0.00</b></td>
+              <td class="num neu"><b>-0.00%</b></td>
+              <td class="num neu">$-0.00</td>
+              <td>오전장 종료 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 급상승">자동단타, 급상승</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>11:55:11 → 11:58:06 <span style="color:var(--muted);font-size:11px;">(3분)</span></td>
+              
+              <td><b>MPU</b> <span style="color:var(--muted);font-size:11px;">메가 매트릭스</span></td>
+              <td><code>v_06</code></td>
+              <td class="num">$1.6900 → $1.7300</td>
+              <td class="num">$90.08</td>
+              <td class="num pos"><b>+$2.13</b></td>
+              <td class="num pos"><b>+2.37%</b></td>
+              <td class="num pos">$+2.37</td>
+              <td>평균회귀 익절</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 급상승">자동단타, 급상승</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>11:53:48 → 11:58:05 <span style="color:var(--muted);font-size:11px;">(4분)</span></td>
+              
+              <td><b>GLAS</b> <span style="color:var(--muted);font-size:11px;">글래스 하우스 브랜즈</span></td>
+              <td><code>v_06</code></td>
+              <td class="num">$1.6100 → $1.5700</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$2.48</b></td>
+              <td class="num neg"><b>-2.48%</b></td>
+              <td class="num neg">$-2.48</td>
+              <td>오전장 종료 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 급상승">자동단타, 급상승</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>11:52:50 → 11:54:50 <span style="color:var(--muted);font-size:11px;">(2분)</span></td>
+              
+              <td><b>RAIN</b> <span style="color:var(--muted);font-size:11px;">레인 인핸스먼트 테크놀로지스</span></td>
+              <td><code>v_06</code></td>
+              <td class="num">$1.1000 → $1.1100</td>
+              <td class="num">$48.74</td>
+              <td class="num pos"><b>+$0.44</b></td>
+              <td class="num pos"><b>+0.91%</b></td>
+              <td class="num pos">$+0.91</td>
+              <td>평균회귀 익절</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 급상승">자동단타, 급상승</td>
+            </tr>
+            </tbody>
+      </table>
+    </div>
+    
+    </section>
+    
+</main>
+<script>
+  function _chartTheme() {
+    const dark = document.documentElement.getAttribute('data-bg') === 'dark';
+    return {
+      text: dark ? '#e2e8f0' : '#0f172a',
+      muted: dark ? '#94a3b8' : '#475569',
+      grid: dark ? 'rgba(148,163,184,0.14)' : 'rgba(15,23,42,0.08)',
+    };
+  }
+  window.__dwCharts = window.__dwCharts || [];
+  window.addEventListener('themechange', () => {
+    const t = _chartTheme();
+    window.__dwCharts.forEach(ch => {
+      try {
+        if (ch.options.scales) {
+          Object.values(ch.options.scales).forEach(s => {
+            if (s.ticks) s.ticks.color = t.muted;
+            if (s.grid) s.grid.color = t.grid;
+          });
+        }
+        if (ch.options.plugins && ch.options.plugins.legend && ch.options.plugins.legend.labels) {
+          ch.options.plugins.legend.labels.color = t.text;
+        }
+        ch.update();
+      } catch (e) {}
+    });
+  });
+</script>
+</body>
+</html>

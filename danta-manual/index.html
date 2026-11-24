@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>수동 매매 내역 · DJ-QUNT 실전 단타</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff; --card: #ffffff; --panel: #f8fafc; --border: #e2e8f0;
+      --text: #0f172a; --muted: #475569; --accent: #059669; --blue: #1d4ed8;
+      --pos: #059669; --pos-bg: #ecfdf5; --pos-bd: #a7f3d0;
+      --neg: #dc2626; --neg-bg: #fef2f2; --neg-bd: #fecaca;
+      --warn: #d97706; --warn-bg: #fffbeb; --warn-bd: #fde68a;
+    }
+    html[data-bg="warm"] { --bg: #faf8f5; --card: #ffffff; --panel: #f5f2eb; --border: #e7e2d8; --text: #1c1917; --muted: #57534e; }
+    html[data-bg="soft"] { --bg: #f1f5f9; --card: #ffffff; --panel: #e2e8f0; --border: #cbd5e1; }
+    html[data-bg="dark"] {
+      --bg: #0b1120; --card: #111827; --panel: #1e293b; --border: #1f2937;
+      --text: #f8fafc; --muted: #94a3b8; --accent: #10b981; --blue: #3b82f6;
+      --pos: #34d399; --pos-bg: rgba(16,185,129,0.15); --pos-bd: rgba(16,185,129,0.35);
+      --neg: #f87171; --neg-bg: rgba(239,68,68,0.15); --neg-bd: rgba(239,68,68,0.35);
+      --warn: #fbbf24; --warn-bg: rgba(245,158,11,0.15); --warn-bd: rgba(245,158,11,0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0 0 64px; background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
+      line-height: 1.55;
+    }
+    .dw-wrap { max-width: 1320px; margin: 22px auto 0; padding: 0 18px; }
+    .dw-head {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
+      gap: 12px; padding-bottom: 14px; border-bottom: 2px solid var(--border); margin-bottom: 18px;
+    }
+    .dw-head h1 { margin: 0; font-size: 22px; font-weight: 800; }
+    .dw-head p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+    .dw-meta { font-size: 12px; color: var(--muted); font-family: monospace; }
+    .dw-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-bottom: 18px; }
+    .dw-kpi {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .dw-kpi-lbl { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+    .dw-kpi-val { font-size: 22px; font-weight: 900; margin-top: 4px; }
+    .dw-kpi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .pos { color: var(--pos) !important; }
+    .neg { color: var(--neg) !important; }
+    .neu { color: var(--text) !important; }
+    .dw-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px; margin-bottom: 18px;
+    }
+    .dw-card-head {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+      gap: 10px; margin-bottom: 12px;
+    }
+    .dw-card h2 { margin: 0; font-size: 16.5px; font-weight: 800; }
+    .dw-card-sub { font-size: 12.5px; color: var(--muted); }
+    .dw-badge {
+      display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 800;
+      padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel); color: var(--muted);
+    }
+    .dw-badge.pass { background: var(--pos-bg); color: var(--pos); border-color: var(--pos-bd); }
+    .dw-badge.wait { background: var(--warn-bg); color: var(--warn); border-color: var(--warn-bd); }
+    .dw-badge.loss { background: var(--neg-bg); color: var(--neg); border-color: var(--neg-bd); }
+    .dw-badge.auto { background: var(--pos-bg); color: var(--pos); border-color: var(--pos-bd); }
+    .dw-badge.manual { background: rgba(59,130,246,0.12); color: var(--blue); border-color: rgba(59,130,246,0.35); }
+    .dw-tabs { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .dw-tab {
+      border: 1px solid var(--border); background: var(--card); color: var(--muted);
+      font-size: 12.5px; font-weight: 700; padding: 7px 13px; border-radius: 9px; cursor: pointer;
+      text-decoration: none;
+    }
+    .dw-tab.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    .dw-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+    table.dw-table { width: 100%; border-collapse: collapse; font-size: 12.8px; }
+    table.dw-table th, table.dw-table td {
+      padding: 9px 11px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap;
+    }
+    table.dw-table th {
+      background: var(--panel); color: var(--muted); font-size: 11.5px; font-weight: 800;
+    }
+    table.dw-table tr:last-child td { border-bottom: none; }
+    table.dw-table tbody tr:hover td { background: var(--panel); }
+    .num { text-align: right !important; font-variant-numeric: tabular-nums; }
+    .dw-link { color: var(--blue); font-weight: 700; text-decoration: none; }
+    .dw-link:hover { text-decoration: underline; }
+    .dw-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px; margin-bottom: 18px; }
+    .dw-chart-box { position: relative; height: 290px; width: 100%; }
+    .dw-gate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 10px; margin-top: 12px; }
+    .dw-gate-item {
+      border: 1px solid var(--border); background: var(--panel); border-radius: 10px; padding: 11px 13px;
+    }
+    .dw-gate-item.ok { border-color: var(--pos-bd); background: var(--pos-bg); }
+    .dw-gate-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-weight: 800; font-size: 13px; }
+    .dw-gate-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .dw-progress { height: 8px; border-radius: 999px; background: var(--panel); border: 1px solid var(--border); overflow: hidden; margin-top: 8px; }
+    .dw-progress-bar { height: 100%; background: var(--accent); transition: width 0.25s ease; }
+    .dw-banner {
+      border: 1px solid var(--warn-bd); background: var(--warn-bg); color: var(--text);
+      border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px;
+    }
+    .dw-banner.pass { border-color: var(--pos-bd); background: var(--pos-bg); }
+  </style>
+
+</head>
+<body>
+
+<style id="dj-qunt-unified-style">
+  :root {
+    --bg: #ffffff; --panel: #ffffff; --card: #ffffff; --border: #e2e8f0; --card-border: #f1f5f9;
+    --background: #ffffff; --foreground: #0f172a; --text: #0f172a; --muted: #475569; --muted-foreground: #475569;
+    --primary: #1d4ed8; --primary-foreground: #ffffff;
+  }
+  html, body { background-color: #ffffff; margin: 0; }
+  html[data-bg="warm"], html[data-bg="warm"] body { background-color: #faf8f5 !important; color: #1c1917 !important; --bg: #faf8f5; --background: #faf8f5; --panel: #ffffff; --card: #ffffff; --border: #e7e2d8; --text: #1c1917; --foreground: #1c1917; --muted: #57534e; --muted-foreground: #57534e; }
+  html[data-bg="soft"], html[data-bg="soft"] body { background-color: #f1f5f9 !important; color: #0f172a !important; --bg: #f1f5f9; --background: #f1f5f9; --panel: #ffffff; --card: #ffffff; --border: #cbd5e1; --text: #0f172a; --foreground: #0f172a; --muted: #475569; --muted-foreground: #47534e; }
+  html[data-bg="dark"], html[data-bg="dark"] body { background-color: #0b1120 !important; color: #f8fafc !important; --bg: #0b1120; --background: #0b1120; --panel: #111827; --card: #111827; --border: #1f2937; --card-border: #1e293b; --text: #f8fafc; --foreground: #f8fafc; --muted: #94a3b8; --muted-foreground: #94a3b8; --primary: #3b82f6; }
+  html[data-bg="dark"] .header, html[data-bg="dark"] .kpi-card, html[data-bg="dark"] .chart-box, html[data-bg="dark"] .table-card, html[data-bg="dark"] .stat-card, html[data-bg="dark"] .gen-card, html[data-bg="dark"] .filter-bar, html[data-bg="dark"] .table-wrap { background: #111827 !important; border-color: #1f2937 !important; color: #f8fafc !important; }
+  html[data-bg="dark"] h1, html[data-bg="dark"] h2, html[data-bg="dark"] h3, html[data-bg="dark"] .kpi-val, html[data-bg="dark"] table, html[data-bg="dark"] td { color: #f8fafc !important; border-color: #1f2937 !important; }
+  html[data-bg="dark"] th { background: #1e293b !important; color: #e2e8f0 !important; border-color: #334155 !important; }
+  html[data-bg="dark"] tr:hover td { background: #1e293b !important; }
+  html[data-bg="dark"] .autopsy-banner { background: #1e293b !important; border-color: #334155 !important; color: #f8fafc !important; }
+
+  /* 하위 페이지 내부의 중복 배경색 스위처 바 숨김 (통합 헤더의 단일 스위처만 사용) */
+  .bg-pill-bar, .bg-switcher, .topbar .bg-bar, .header .bg-bar { display: none !important; }
+
+  #dj-qunt-unified-header {
+    position: sticky; top: 0; z-index: 9995; background: #ffffff; color: #0f172a;
+    border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(15,23,42,0.06);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
+    line-height: 1.4;
+  }
+  #dj-qunt-unified-header * { box-sizing: border-box; }
+  #dj-qunt-unified-header .dj-u-row1 {
+    max-width: 1460px; margin: 0 auto; padding: 9px 18px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  #dj-qunt-unified-header .dj-u-brand {
+    display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
+    color: #0f172a; font-weight: 900; font-size: 15px;
+  }
+  #dj-qunt-unified-header .dj-u-dot {
+    width: 22px; height: 22px; border-radius: 6px; background: #1d4ed8; color: #ffffff;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;
+  }
+  #dj-qunt-unified-header .dj-u-menus { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  #dj-qunt-unified-header .dj-u-group {
+    display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px;
+    padding: 3px 6px; border-radius: 9px; border: 1px solid #e2e8f0; background: #f8fafc;
+  }
+  #dj-qunt-unified-header .dj-u-group-danta {
+    background: #ecfdf5; border-color: #a7f3d0;
+  }
+  #dj-qunt-unified-header .dj-u-glabel {
+    font-size: 10.5px; font-weight: 800; color: #475569; padding: 0 4px 0 2px; white-space: nowrap;
+  }
+  #dj-qunt-unified-header .dj-u-group-danta .dj-u-glabel { color: #047857; }
+  #dj-qunt-unified-header .dj-u-sep { width: 1px; height: 20px; background: #e2e8f0; }
+  #dj-qunt-unified-header .dj-u-mbtn {
+    text-decoration: none; font-size: 12px; font-weight: 700; color: #475569;
+    padding: 4px 9px; border-radius: 7px; border: 1px solid #e2e8f0; background: #ffffff;
+  }
+  #dj-qunt-unified-header .dj-u-mbtn:hover { border-color: #1d4ed8; color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-u-mbtn.active { background: #1d4ed8; color: #ffffff; border-color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta { border-color: #a7f3d0; color: #047857; }
+  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta:hover { border-color: #059669; color: #065f46; }
+  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta.active { background: #059669; color: #ffffff; border-color: #059669; }
+  #dj-qunt-unified-header .dj-u-bgbar {
+    display: inline-flex; gap: 2px; padding: 3px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc;
+  }
+  #dj-qunt-unified-header .dj-u-bgbtn {
+    border: none; background: transparent; color: #475569; font-size: 11.5px; font-weight: 600;
+    padding: 4px 8px; border-radius: 6px; cursor: pointer;
+  }
+  #dj-qunt-unified-header .dj-u-bgbtn.active { background: #1d4ed8; color: #ffffff; }
+
+  #dj-qunt-unified-header .dj-u-row2 {
+    background: #f8fafc; border-top: 1px solid #e2e8f0;
+  }
+  #dj-qunt-unified-header .dj-u-row2-in {
+    max-width: 1460px; margin: 0 auto; padding: 7px 18px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  #dj-qunt-unified-header .dj-bc-trail {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; color: #475569;
+  }
+  #dj-qunt-unified-header .dj-bc-trail a {
+    text-decoration: none; color: #475569; font-weight: 600;
+  }
+  #dj-qunt-unified-header .dj-bc-trail a:hover { color: #1d4ed8; text-decoration: underline; }
+  #dj-qunt-unified-header .dj-bc-cur { color: #0f172a; font-weight: 800; }
+  #dj-qunt-unified-header .dj-sib-group { display: flex; flex-wrap: wrap; gap: 5px; }
+  #dj-qunt-unified-header .dj-sib-btn {
+    text-decoration: none; font-size: 11.5px; font-weight: 600; color: #475569;
+    padding: 3px 9px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff;
+  }
+  #dj-qunt-unified-header .dj-sib-btn:hover { border-color: #1d4ed8; color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-sib-btn.active { background: #eff6ff; color: #1d4ed8; border-color: #1d4ed8; font-weight: 800; }
+
+  html[data-bg="warm"] #dj-qunt-unified-header { background: #faf8f5; border-color: #e7e2d8; }
+  html[data-bg="warm"] #dj-qunt-unified-header .dj-u-row2 { background: #f5f2eb; border-color: #e7e2d8; }
+  html[data-bg="soft"] #dj-qunt-unified-header { background: #f1f5f9; border-color: #cbd5e1; }
+  html[data-bg="soft"] #dj-qunt-unified-header .dj-u-row2 { background: #e2e8f0; border-color: #cbd5e1; }
+  html[data-bg="dark"] #dj-qunt-unified-header { background: #111827; color: #f8fafc; border-color: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-brand,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-cur { color: #f8fafc; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-bgbar,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn { background: #1e293b; border-color: #334155; color: #cbd5e1; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group { background: #0f172a; border-color: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group-danta { background: rgba(16,185,129,0.10); border-color: rgba(16,185,129,0.32); }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-glabel { color: #94a3b8; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group-danta .dj-u-glabel { color: #34d399; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-sep { background: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta { border-color: rgba(16,185,129,0.35); color: #34d399; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta.active { background: #059669; border-color: #10b981; color: #ffffff; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.active { background: #2563eb; border-color: #2563eb; color: #ffffff; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn.active { background: rgba(37,99,235,0.25); border-color: #60a5fa; color: #93c5fd; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-row2 { background: #0b1120; border-color: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-trail,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-trail a { color: #94a3b8; }
+  @media print { #dj-qunt-unified-header { display: none !important; } }
+</style>
+<header id="dj-qunt-unified-header" data-has-home-nav="1" data-has-bg-switcher="1">
+  <div class="dj-u-row1">
+    <a class="dj-u-brand" href="https://tron1981-maker.github.io/dj-qunt/">
+      <span class="dj-u-dot">DJ</span>
+      <span>Dongju QUNT Lab</span>
+    </a>
+    <nav class="dj-u-menus" aria-label="상위 메뉴">
+      <div class="dj-u-group" aria-label="연구 및 백테스트 랭킹"><span class="dj-u-glabel">연구·랭킹</span><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#algo">1. 버전별 알고리즘</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#reports">2. 인터랙티브 리포트</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-pre">3. 프리장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-reg">4. 본장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-period">5. 기간별 수익률 랭킹</a></div><span class="dj-u-sep" aria-hidden="true"></span><div class="dj-u-group dj-u-group-danta" aria-label="실전 페이퍼 단타"><span class="dj-u-glabel">실전 단타</span><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-auto/">7. 자동 매매</a><a class="dj-u-mbtn dj-u-danta active" href="https://tron1981-maker.github.io/danta-manual/">8. 수동 매매</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-compare/">9. 자동 vs 수동 비교</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-charts/">10. 단타 수익 그래프</a></div>
+    </nav>
+    <div class="dj-u-bgbar" role="group" aria-label="배경색 변경">
+      <button type="button" class="dj-u-bgbtn active" onclick="window.__setDocBg('white', this)">화이트</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('warm', this)">웜톤</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('soft', this)">소프트</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('dark', this)">다크</button>
+    </div>
+  </div>
+  <div class="dj-u-row2">
+    <div class="dj-u-row2-in">
+      <div class="dj-bc-trail"><a href="https://tron1981-maker.github.io/dj-qunt/">🏠 Dongju QUNT Lab 홈</a><span class="dj-sep">›</span><a href="https://tron1981-maker.github.io/danta-manual/">8. 수동 매매</a><span class="dj-sep">›</span><span class="dj-bc-cur">[현재] 수동 매매 내역</span></div>
+      <div class="dj-sib-group"><a class="dj-sib-btn " href="/danta-daily/">📅 일별 단타 내역</a><a class="dj-sib-btn " href="/danta-auto/">🤖 자동 매매</a><a class="dj-sib-btn active" href="/danta-manual/">✋ 수동 매매</a><a class="dj-sib-btn " href="/danta-compare/">⚖️ 자동 vs 수동 비교</a><a class="dj-sib-btn " href="/danta-charts/">📈 단타 수익 그래프</a></div>
+    </div>
+  </div>
+</header>
+<script id="dj-qunt-unified-script">
+  window.__setDocBg = function(mode, btn) {
+    if (mode === 'white') {
+      document.documentElement.removeAttribute('data-bg');
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.setAttribute('data-bg', mode);
+      document.documentElement.classList.toggle('light', mode !== 'dark');
+    }
+    document.querySelectorAll('#dj-qunt-unified-header .dj-u-bgbtn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const shell = document.getElementById('appShell');
+    if (shell) shell.setAttribute('data-bg', mode);
+    if (typeof window.setBgMode === 'function') {
+      try { window.setBgMode(mode, null); } catch (e) {}
+    }
+    if (window.Plotly) {
+      const isDark = mode === 'dark';
+      const paper = isDark ? '#111827' : '#ffffff';
+      const plot = isDark ? '#0b1120' : '#ffffff';
+      const fc = isDark ? '#e2e8f0' : '#0f172a';
+      document.querySelectorAll('.js-plotly-plot').forEach(gd => {
+        try { Plotly.relayout(gd, { paper_bgcolor: paper, plot_bgcolor: plot, 'font.color': fc }); } catch (e) {}
+      });
+    }
+    window.dispatchEvent(new Event('themechange'));
+  };
+  document.documentElement.classList.add('light');
+</script>
+
+<main class="dw-wrap">
+
+    <div class="dw-head">
+      <div>
+        <h1>8. 수동 매매 전용 내역 (Manual Scalping)</h1>
+        <p>사용자가 직접 티커를 지정하거나 초기 수동 테스트로 진입·청산한 내역만 분리 집계합니다.</p>
+      </div>
+      <div class="dw-meta">업데이트: 2026-11-25 04:54:29 KST</div>
+    </div>
+
+    <div class="dw-banner">
+      <b>💡 해석 참고:</b> 수동 매매 초기 구간(11/11~11/13)에는 1회 투자금이 \$100~\$1,000+까지 크게 변동했습니다.
+      따라서 실제 달러 손익(<b>+$257.05</b>) 외에 <b>1회 \$100 정규화 손익(+$90.04 · PF 1.38)</b>을 함께 보시면 자동 매매와 공정하게 비교할 수 있습니다.
+    </div>
+
+    <div class="dw-kpi-grid">
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">수동 매매 누적 손익 (실제$)</div>
+        <div class="dw-kpi-val pos">+$257.05</div>
+        <div class="dw-kpi-sub">총 투자금 $39,095.95 · ROI +0.66%</div>
+      </div>
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">$100 정규화 환산 손익</div>
+        <div class="dw-kpi-val pos">+$90.04</div>
+        <div class="dw-kpi-sub">정규화 PF 1.38 · 정규화 MDD -9.24%</div>
+      </div>
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">체결 수 / 승률</div>
+        <div class="dw-kpi-val">77건 (41.6%)</div>
+        <div class="dw-kpi-sub">32승 42패 (3무) · 11거래일</div>
+      </div>
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">건당 평균수익률 / 손익비</div>
+        <div class="dw-kpi-val pos">+1.17% / 1.81:1</div>
+        <div class="dw-kpi-sub">평균 익절 +10.30% · 평균 손절 -5.70%</div>
+      </div>
+    </div>
+
+    <div class="dw-grid-2">
+      
+    <div class="dw-card">
+      <div class="dw-card-head"><h2>🎯 수동 청산 사유별 성과</h2></div>
+      <div class="dw-table-wrap">
+        <table class="dw-table">
+          <thead><tr><th>청산 사유</th><th class="num">건수</th><th class="num">승률</th><th class="num">총 투자금</th><th class="num">실현손익</th><th class="num">건당 평균수익률</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>트레일링 스탑</b></td>
+              <td class="num">27건 (25승 2패)</td>
+              <td class="num">92.6%</td>
+              <td class="num">$17,909.14</td>
+              <td class="num pos"><b>+$869.09</b></td>
+              <td class="num pos">+10.69%</td>
+            </tr>
+            
+            <tr>
+              <td><b>수동 청산</b></td>
+              <td class="num">14건 (7승 7패)</td>
+              <td class="num">50.0%</td>
+              <td class="num">$9,286.81</td>
+              <td class="num pos"><b>+$69.20</b></td>
+              <td class="num pos">+2.37%</td>
+            </tr>
+            
+            <tr>
+              <td><b>손절 매도</b></td>
+              <td class="num">36건 (0승 33패)</td>
+              <td class="num">0.0%</td>
+              <td class="num">$11,900.00</td>
+              <td class="num neg"><b>-$681.24</b></td>
+              <td class="num neg">-6.43%</td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+    
+      
+    <div class="dw-card">
+      <div class="dw-card-head"><h2>🏷️ 수동 매매 주요 종목 Top</h2></div>
+      <div class="dw-table-wrap">
+        <table class="dw-table">
+          <thead><tr><th>종목</th><th class="num">건수</th><th class="num">승률</th><th class="num">총 투자금</th><th class="num">실현손익</th><th class="num">건당 평균수익률</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>NXXT</b></td>
+              <td class="num">3건 (3승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$13,100.00</td>
+              <td class="num pos"><b>+$628.38</b></td>
+              <td class="num pos">+23.99%</td>
+            </tr>
+            
+            <tr>
+              <td><b>LABT</b></td>
+              <td class="num">1건 (1승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$66.66</b></td>
+              <td class="num pos">+66.66%</td>
+            </tr>
+            
+            <tr>
+              <td><b>POAS</b></td>
+              <td class="num">1건 (1승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$43.77</b></td>
+              <td class="num pos">+43.77%</td>
+            </tr>
+            
+            <tr>
+              <td><b>NVDA</b></td>
+              <td class="num">1건 (1승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$1,000.00</td>
+              <td class="num pos"><b>+$36.36</b></td>
+              <td class="num pos">+3.64%</td>
+            </tr>
+            
+            <tr>
+              <td><b>CDNL</b></td>
+              <td class="num">1건 (1승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$1,000.00</td>
+              <td class="num pos"><b>+$22.69</b></td>
+              <td class="num pos">+2.27%</td>
+            </tr>
+            
+            <tr>
+              <td><b>VCIG</b></td>
+              <td class="num">1건 (1승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$18.29</b></td>
+              <td class="num pos">+18.29%</td>
+            </tr>
+            
+            <tr>
+              <td><b>AMD</b></td>
+              <td class="num">1건 (1승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$564.21</td>
+              <td class="num pos"><b>+$17.13</b></td>
+              <td class="num pos">+3.04%</td>
+            </tr>
+            
+            <tr>
+              <td><b>ADXN</b></td>
+              <td class="num">1건 (1승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$12.40</b></td>
+              <td class="num pos">+12.40%</td>
+            </tr>
+            
+            <tr>
+              <td><b>GAU</b></td>
+              <td class="num">1건 (1승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$11.70</b></td>
+              <td class="num pos">+11.70%</td>
+            </tr>
+            
+            <tr>
+              <td><b>AEHL</b></td>
+              <td class="num">1건 (1승 0패)</td>
+              <td class="num">100.0%</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$11.17</b></td>
+              <td class="num pos">+11.17%</td>
+            </tr>
+            
+            <tr>
+              <td><b>SDA</b></td>
+              <td class="num">3건 (2승 1패)</td>
+              <td class="num">66.7%</td>
+              <td class="num">$300.00</td>
+              <td class="num pos"><b>+$9.46</b></td>
+              <td class="num pos">+3.15%</td>
+            </tr>
+            
+            <tr>
+              <td><b>OMH</b></td>
+              <td class="num">4건 (2승 2패)</td>
+              <td class="num">50.0%</td>
+              <td class="num">$600.00</td>
+              <td class="num pos"><b>+$7.59</b></td>
+              <td class="num pos">+0.69%</td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+    
+    </div>
+
+    <section class="dw-card">
+      <div class="dw-card-head">
+        <h2>✋ 수동 매매 전체 체결 내역 (77건)</h2>
+        <a class="dw-link" href="/danta-compare/">자동 매매와 비교 분석 보기 →</a>
+      </div>
+      
+    <div class="dw-table-wrap">
+      <table class="dw-table">
+        <thead>
+          <tr>
+            <th>미국장 일자(ET)</th>
+            <th>진입→청산(ET)</th>
+            
+            <th>종목</th>
+            <th>엔진</th>
+            <th class="num">평단→청산가</th>
+            <th class="num">투자금</th>
+            <th class="num">실현손익</th>
+            <th class="num">수익률</th>
+            <th class="num">$100 환산</th>
+            <th>청산 사유</th>
+            <th>태그</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>09:38:12 → 11:38:54 <span style="color:var(--muted);font-size:11px;">(121분)</span></td>
+              
+              <td><b>SPCX</b> <span style="color:var(--muted);font-size:11px;">스페이스X</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$141.2600 → $140.7900</td>
+              <td class="num">$141.26</td>
+              <td class="num neg"><b>-$1.70</b></td>
+              <td class="num neg"><b>-1.21%</b></td>
+              <td class="num neg">$-1.21</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>10:22:04 → 11:36:52 <span style="color:var(--muted);font-size:11px;">(75분)</span></td>
+              
+              <td><b>CRIS</b> <span style="color:var(--muted);font-size:11px;">큐리스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.4750 → $0.4859</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$0.93</b></td>
+              <td class="num pos"><b>+0.93%</b></td>
+              <td class="num pos">$+0.93</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>10:17:41 → 11:15:10 <span style="color:var(--muted);font-size:11px;">(58분)</span></td>
+              
+              <td><b>SPAI</b> <span style="color:var(--muted);font-size:11px;">세이프 프로 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$2.9700 → $2.9900</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$0.17</b></td>
+              <td class="num pos"><b>+0.17%</b></td>
+              <td class="num pos">$+0.17</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>10:18:50 → 10:33:00 <span style="color:var(--muted);font-size:11px;">(14분)</span></td>
+              
+              <td><b>SMTK</b> <span style="color:var(--muted);font-size:11px;">스마트켐</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.2100 → $0.2178</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$3.98</b></td>
+              <td class="num pos"><b>+3.98%</b></td>
+              <td class="num pos">$+3.98</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>10:09:58 → 10:19:31 <span style="color:var(--muted);font-size:11px;">(10분)</span></td>
+              
+              <td><b>GIPR</b> <span style="color:var(--muted);font-size:11px;">제너레이션 인컴 프라퍼티스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.2913 → $0.2722</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$5.22</b></td>
+              <td class="num neg"><b>-5.22%</b></td>
+              <td class="num neg">$-5.22</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>09:36:20 → 10:13:33 <span style="color:var(--muted);font-size:11px;">(37분)</span></td>
+              
+              <td><b>SLS</b> <span style="color:var(--muted);font-size:11px;">셀라스 라이프 사이언시스 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$20.6800 → $19.7600</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$3.92</b></td>
+              <td class="num neg"><b>-3.92%</b></td>
+              <td class="num neg">$-3.92</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>09:38:36 → 10:10:39 <span style="color:var(--muted);font-size:11px;">(32분)</span></td>
+              
+              <td><b>BURU</b> <span style="color:var(--muted);font-size:11px;">누부루</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.2363 → $0.2161</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$5.50</b></td>
+              <td class="num neg"><b>-5.50%</b></td>
+              <td class="num neg">$-5.50</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>09:38:23 → 10:10:34 <span style="color:var(--muted);font-size:11px;">(32분)</span></td>
+              
+              <td><b>GP</b> <span style="color:var(--muted);font-size:11px;">그린파워 모터</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$3.0100 → $2.5000</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$16.94</b></td>
+              <td class="num neg"><b>-16.94%</b></td>
+              <td class="num neg">$-16.94</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>09:37:59 → 10:10:26 <span style="color:var(--muted);font-size:11px;">(32분)</span></td>
+              
+              <td><b>BMGL</b> <span style="color:var(--muted);font-size:11px;">바젤 메디컬 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.3572 → $0.2741</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$23.26</b></td>
+              <td class="num neg"><b>-23.26%</b></td>
+              <td class="num neg">$-23.26</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-17/">2026-11-17</a></td>
+              <td>09:34:27 → 09:38:56 <span style="color:var(--muted);font-size:11px;">(4분)</span></td>
+              
+              <td><b>PAVS</b> <span style="color:var(--muted);font-size:11px;">파라노부스 엔터테인먼트 테크놀로지</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$3.0200 → $2.7400</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$6.62</b></td>
+              <td class="num neg"><b>-6.62%</b></td>
+              <td class="num neg">$-6.62</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-13/">2026-11-13</a></td>
+              <td>09:47:23 → 11:39:41 <span style="color:var(--muted);font-size:11px;">(112분)</span></td>
+              
+              <td><b>IMRN</b> <span style="color:var(--muted);font-size:11px;">이뮤론(ADR)</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.9072 → $0.9005</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$0.74</b></td>
+              <td class="num neg"><b>-0.74%</b></td>
+              <td class="num neg">$-0.74</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="스크리너">스크리너</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-13/">2026-11-13</a></td>
+              <td>09:38:45 → 10:47:11 <span style="color:var(--muted);font-size:11px;">(68분)</span></td>
+              
+              <td><b>LFTO</b> <span style="color:var(--muted);font-size:11px;">리프트오프 모바일</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$23.6300 → $22.6800</td>
+              <td class="num">$1,000.00</td>
+              <td class="num neg"><b>-$37.24</b></td>
+              <td class="num neg"><b>-3.72%</b></td>
+              <td class="num neg">$-3.72</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-13/">2026-11-13</a></td>
+              <td>09:49:20 → 10:45:34 <span style="color:var(--muted);font-size:11px;">(56분)</span></td>
+              
+              <td><b>EDBL</b> <span style="color:var(--muted);font-size:11px;">에디블 가든</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.7165 → $0.6808</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$4.11</b></td>
+              <td class="num neg"><b>-4.11%</b></td>
+              <td class="num neg">$-4.11</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="스크리너">스크리너</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-13/">2026-11-13</a></td>
+              <td>10:21:42 → 10:45:07 <span style="color:var(--muted);font-size:11px;">(23분)</span></td>
+              
+              <td><b>ONFO</b> <span style="color:var(--muted);font-size:11px;">온폴리오 홀딩스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.9298 → $0.8000</td>
+              <td class="num">$1,000.00</td>
+              <td class="num neg"><b>-$15.92</b></td>
+              <td class="num neg"><b>-1.59%</b></td>
+              <td class="num neg">$-1.59</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-13/">2026-11-13</a></td>
+              <td>09:41:10 → 10:45:06 <span style="color:var(--muted);font-size:11px;">(64분)</span></td>
+              
+              <td><b>CDNL</b> <span style="color:var(--muted);font-size:11px;">카디널 인프라스트럭처 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$6.6100 → $6.6000</td>
+              <td class="num">$1,000.00</td>
+              <td class="num pos"><b>+$22.69</b></td>
+              <td class="num pos"><b>+2.27%</b></td>
+              <td class="num pos">$+2.27</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-13/">2026-11-13</a></td>
+              <td>09:39:45 → 10:29:07 <span style="color:var(--muted);font-size:11px;">(49분)</span></td>
+              
+              <td><b>SHIM</b> <span style="color:var(--muted);font-size:11px;">쉬믹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$2.8700 → $2.5300</td>
+              <td class="num">$1,000.00</td>
+              <td class="num neg"><b>-$118.47</b></td>
+              <td class="num neg"><b>-11.85%</b></td>
+              <td class="num neg">$-11.85</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-13/">2026-11-13</a></td>
+              <td>09:34:31 → 10:29:06 <span style="color:var(--muted);font-size:11px;">(55분)</span></td>
+              
+              <td><b>MOD</b> <span style="color:var(--muted);font-size:11px;">모딘 매뉴팩처링</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$146.3200 → $134.9300</td>
+              <td class="num">$1,000.00</td>
+              <td class="num neg"><b>-$77.84</b></td>
+              <td class="num neg"><b>-7.78%</b></td>
+              <td class="num neg">$-7.78</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-13/">2026-11-13</a></td>
+              <td>09:31:19 → 09:35:15 <span style="color:var(--muted);font-size:11px;">(4분)</span></td>
+              
+              <td><b>ZBAO</b> <span style="color:var(--muted);font-size:11px;">즈바오 테크놀로지</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.3427 → $0.2705</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$21.07</b></td>
+              <td class="num neg"><b>-21.07%</b></td>
+              <td class="num neg">$-21.07</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:51:48 → 13:05:05 <span style="color:var(--muted);font-size:11px;">(193분)</span></td>
+              
+              <td><b>NBIS</b> <span style="color:var(--muted);font-size:11px;">네비우스 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$130.1700 → $129.4800</td>
+              <td class="num">$1,000.00</td>
+              <td class="num neg"><b>-$5.30</b></td>
+              <td class="num neg"><b>-0.53%</b></td>
+              <td class="num neg">$-0.53</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:43:58 → 12:50:26 <span style="color:var(--muted);font-size:11px;">(186분)</span></td>
+              
+              <td><b>NVDA</b> <span style="color:var(--muted);font-size:11px;">엔비디아</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$160.3600 → $165.5100</td>
+              <td class="num">$1,000.00</td>
+              <td class="num pos"><b>+$36.36</b></td>
+              <td class="num pos"><b>+3.64%</b></td>
+              <td class="num pos">$+3.64</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:41:45 → 12:50:26 <span style="color:var(--muted);font-size:11px;">(189분)</span></td>
+              
+              <td><b>AVGO</b> <span style="color:var(--muted);font-size:11px;">브로드컴</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$365.0000 → $365.6900</td>
+              <td class="num">$1,000.00</td>
+              <td class="num neg"><b>-$9.21</b></td>
+              <td class="num neg"><b>-0.92%</b></td>
+              <td class="num neg">$-0.92</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:39:43 → 12:50:25 <span style="color:var(--muted);font-size:11px;">(191분)</span></td>
+              
+              <td><b>SNDK</b> <span style="color:var(--muted);font-size:11px;">샌디스크</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$928.9200 → $946.0700</td>
+              <td class="num">$5,000.00</td>
+              <td class="num neg"><b>-$4.84</b></td>
+              <td class="num neg"><b>-0.10%</b></td>
+              <td class="num neg">$-0.10</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:35:59 → 12:50:25 <span style="color:var(--muted);font-size:11px;">(194분)</span></td>
+              
+              <td><b>SPCX</b> <span style="color:var(--muted);font-size:11px;">스페이스X</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$145.5500 → $143.4800</td>
+              <td class="num">$145.55</td>
+              <td class="num neg"><b>-$2.50</b></td>
+              <td class="num neg"><b>-1.72%</b></td>
+              <td class="num neg">$-1.72</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:35:39 → 12:24:57 <span style="color:var(--muted);font-size:11px;">(169분)</span></td>
+              
+              <td><b>AMD</b> <span style="color:var(--muted);font-size:11px;">AMD</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$564.2100 → $575.6500</td>
+              <td class="num">$564.21</td>
+              <td class="num pos"><b>+$17.13</b></td>
+              <td class="num pos"><b>+3.04%</b></td>
+              <td class="num pos">$+3.04</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>10:10:27 → 10:31:10 <span style="color:var(--muted);font-size:11px;">(21분)</span></td>
+              
+              <td><b>QTEX</b> <span style="color:var(--muted);font-size:11px;">큐트렉스 퀀텀</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$1.0900 → $1.0400</td>
+              <td class="num">$5,000.00</td>
+              <td class="num neg"><b>-$183.49</b></td>
+              <td class="num neg"><b>-3.67%</b></td>
+              <td class="num neg">$-3.67</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:42:33 → 10:01:41 <span style="color:var(--muted);font-size:11px;">(19분)</span></td>
+              
+              <td><b>RCT</b> <span style="color:var(--muted);font-size:11px;">레드클라우드 홀딩스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.0373 → $0.0377</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$2.55</b></td>
+              <td class="num pos"><b>+2.55%</b></td>
+              <td class="num pos">$+2.55</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:53:21 → 10:00:51 <span style="color:var(--muted);font-size:11px;">(8분)</span></td>
+              
+              <td><b>DBGI</b> <span style="color:var(--muted);font-size:11px;">디지털 브랜즈 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.1900 → $0.1873</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$1.42</b></td>
+              <td class="num neg"><b>-1.42%</b></td>
+              <td class="num neg">$-1.42</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:42:00 → 10:00:50 <span style="color:var(--muted);font-size:11px;">(19분)</span></td>
+              
+              <td><b>LUNR</b> <span style="color:var(--muted);font-size:11px;">인튜이티브 머신스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$13.9000 → $13.8500</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$0.36</b></td>
+              <td class="num neg"><b>-0.36%</b></td>
+              <td class="num neg">$-0.36</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:39:19 → 09:48:27 <span style="color:var(--muted);font-size:11px;">(9분)</span></td>
+              
+              <td><b>ICMB</b> <span style="color:var(--muted);font-size:11px;">인베스트코프 크레딧 매니지먼트 BDC</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.9900 → $1.0400</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$5.05</b></td>
+              <td class="num pos"><b>+5.05%</b></td>
+              <td class="num pos">$+5.05</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:43:17 → 09:47:30 <span style="color:var(--muted);font-size:11px;">(4분)</span></td>
+              
+              <td><b>RETO</b> <span style="color:var(--muted);font-size:11px;">리토 에코 솔루션스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$7.6600 → $8.1000</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$7.25</b></td>
+              <td class="num pos"><b>+7.25%</b></td>
+              <td class="num pos">$+7.25</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:34:14 → 09:47:27 <span style="color:var(--muted);font-size:11px;">(13분)</span></td>
+              
+              <td><b>POAS</b> <span style="color:var(--muted);font-size:11px;">파오스 테크놀로지 홀딩스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$3.3700 → $5.2000</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$43.77</b></td>
+              <td class="num pos"><b>+43.77%</b></td>
+              <td class="num pos">$+43.77</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:34:49 → 09:46:59 <span style="color:var(--muted);font-size:11px;">(12분)</span></td>
+              
+              <td><b>ADXN</b> <span style="color:var(--muted);font-size:11px;">애딕스 테라퓨틱스(ADR)</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$5.1600 → $5.3400</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$12.40</b></td>
+              <td class="num pos"><b>+12.40%</b></td>
+              <td class="num pos">$+12.40</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-12/">2026-11-12</a></td>
+              <td>09:34:41 → 09:46:35 <span style="color:var(--muted);font-size:11px;">(12분)</span></td>
+              
+              <td><b>PARA</b> <span style="color:var(--muted);font-size:11px;">반자이 인터내셔널</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.1456 → $0.1148</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$21.15</b></td>
+              <td class="num neg"><b>-21.15%</b></td>
+              <td class="num neg">$-21.15</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>11:30:54 → 11:35:28 <span style="color:var(--muted);font-size:11px;">(5분)</span></td>
+              
+              <td><b>NXXT</b> <span style="color:var(--muted);font-size:11px;">넥스트NRG</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$1.9600 → $1.9600</td>
+              <td class="num">$7,000.00</td>
+              <td class="num pos"><b>+$160.71</b></td>
+              <td class="num pos"><b>+2.30%</b></td>
+              <td class="num pos">$+2.30</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:33:01 → 10:20:12 <span style="color:var(--muted);font-size:11px;">(47분)</span></td>
+              
+              <td><b>INFL</b> <span style="color:var(--muted);font-size:11px;">INFL</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$50.7900 → $50.9700</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$0.35</b></td>
+              <td class="num pos"><b>+0.35%</b></td>
+              <td class="num pos">$+0.35</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:48:26 → 10:13:55 <span style="color:var(--muted);font-size:11px;">(26분)</span></td>
+              
+              <td><b>SEGG</b> <span style="color:var(--muted);font-size:11px;">스포츠 엔터테인먼트 게이밍 글로벌</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$1.1000 → $1.1000</td>
+              <td class="num">$100.00</td>
+              <td class="num neu"><b>$0.00</b></td>
+              <td class="num neu"><b>+0.00%</b></td>
+              <td class="num neu">$+0.00</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:58:30 → 10:08:32 <span style="color:var(--muted);font-size:11px;">(10분)</span></td>
+              
+              <td><b>NXXT</b> <span style="color:var(--muted);font-size:11px;">넥스트NRG</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$1.2600 → $1.3500</td>
+              <td class="num">$6,000.00</td>
+              <td class="num pos"><b>+$404.76</b></td>
+              <td class="num pos"><b>+6.75%</b></td>
+              <td class="num pos">$+6.75</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:43:33 → 10:05:55 <span style="color:var(--muted);font-size:11px;">(22분)</span></td>
+              
+              <td><b>FBGL</b> <span style="color:var(--muted);font-size:11px;">FBS 글로벌</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$2.2900 → $2.2600</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$1.31</b></td>
+              <td class="num neg"><b>-1.31%</b></td>
+              <td class="num neg">$-1.31</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:58:15 → 10:03:02 <span style="color:var(--muted);font-size:11px;">(5분)</span></td>
+              
+              <td><b>HUHU</b> <span style="color:var(--muted);font-size:11px;">후후테크 인터내셔널 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.4092 → $0.4100</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$0.01</b></td>
+              <td class="num neg"><b>-0.01%</b></td>
+              <td class="num neg">$-0.01</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:56:30 → 09:57:10 <span style="color:var(--muted);font-size:11px;">(1분)</span></td>
+              
+              <td><b>SCKT</b> <span style="color:var(--muted);font-size:11px;">소켓 모바일</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.4228 → $0.4014</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$5.06</b></td>
+              <td class="num neg"><b>-5.06%</b></td>
+              <td class="num neg">$-5.06</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:34:16 → 09:48:32 <span style="color:var(--muted);font-size:11px;">(14분)</span></td>
+              
+              <td><b>NXXT</b> <span style="color:var(--muted);font-size:11px;">넥스트NRG</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.4500 → $0.8662</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$62.91</b></td>
+              <td class="num pos"><b>+62.91%</b></td>
+              <td class="num pos">$+62.91</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:36:49 → 09:43:54 <span style="color:var(--muted);font-size:11px;">(7분)</span></td>
+              
+              <td><b>GEVO</b> <span style="color:var(--muted);font-size:11px;">제보</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$2.0000 → $2.0000</td>
+              <td class="num">$100.00</td>
+              <td class="num neu"><b>$0.00</b></td>
+              <td class="num neu"><b>+0.00%</b></td>
+              <td class="num neu">$+0.00</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:37:02 → 09:43:09 <span style="color:var(--muted);font-size:11px;">(6분)</span></td>
+              
+              <td><b>RCT</b> <span style="color:var(--muted);font-size:11px;">레드클라우드 홀딩스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.0409 → $0.0392</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$3.18</b></td>
+              <td class="num neg"><b>-3.18%</b></td>
+              <td class="num neg">$-3.18</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:35:46 → 09:41:13 <span style="color:var(--muted);font-size:11px;">(6분)</span></td>
+              
+              <td><b>YMAT</b> <span style="color:var(--muted);font-size:11px;">J 스타 홀딩</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$1.3800 → $1.3100</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$3.62</b></td>
+              <td class="num neg"><b>-3.62%</b></td>
+              <td class="num neg">$-3.62</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:36:31 → 09:39:14 <span style="color:var(--muted);font-size:11px;">(3분)</span></td>
+              
+              <td><b>FOSL</b> <span style="color:var(--muted);font-size:11px;">파슬 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$10.3500 → $9.8800</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$3.38</b></td>
+              <td class="num neg"><b>-3.38%</b></td>
+              <td class="num neg">$-3.38</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-11/">2026-11-11</a></td>
+              <td>09:32:22 → 09:37:21 <span style="color:var(--muted);font-size:11px;">(5분)</span></td>
+              
+              <td><b>SHFS</b> <span style="color:var(--muted);font-size:11px;">SHF 홀딩스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.0348 → $0.0322</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$0.14</b></td>
+              <td class="num pos"><b>+0.14%</b></td>
+              <td class="num pos">$+0.14</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-10/">2026-11-10</a></td>
+              <td>09:42:49 → 12:50:41 <span style="color:var(--muted);font-size:11px;">(188분)</span></td>
+              
+              <td><b>MNDO</b> <span style="color:var(--muted);font-size:11px;">마인드 CTI</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$1.2600 → $1.2700</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$0.79</b></td>
+              <td class="num pos"><b>+0.79%</b></td>
+              <td class="num pos">$+0.79</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-10/">2026-11-10</a></td>
+              <td>09:43:53 → 11:33:33 <span style="color:var(--muted);font-size:11px;">(110분)</span></td>
+              
+              <td><b>LOOP</b> <span style="color:var(--muted);font-size:11px;">루프 인더스트리</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.2670 → $0.2500</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$4.49</b></td>
+              <td class="num neg"><b>-4.49%</b></td>
+              <td class="num neg">$-4.49</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-10/">2026-11-10</a></td>
+              <td>09:45:02 → 10:52:45 <span style="color:var(--muted);font-size:11px;">(68분)</span></td>
+              
+              <td><b>GRI</b> <span style="color:var(--muted);font-size:11px;">GRI 바이오</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$1.7400 → $1.7500</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$2.59</b></td>
+              <td class="num pos"><b>+2.59%</b></td>
+              <td class="num pos">$+2.59</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-10/">2026-11-10</a></td>
+              <td>08:26:39 → 09:52:24 <span style="color:var(--muted);font-size:11px;">(86분)</span></td>
+              
+              <td><b>ETS</b> <span style="color:var(--muted);font-size:11px;">엘리트 익스프레스 </span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$1.5500 → $1.4900</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$3.87</b></td>
+              <td class="num neg"><b>-3.87%</b></td>
+              <td class="num neg">$-3.87</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-10/">2026-11-10</a></td>
+              <td>09:40:06 → 09:50:51 <span style="color:var(--muted);font-size:11px;">(11분)</span></td>
+              
+              <td><b>PEPG</b> <span style="color:var(--muted);font-size:11px;">펩젠</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$6.1900 → $6.1800</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$1.21</b></td>
+              <td class="num neg"><b>-1.21%</b></td>
+              <td class="num neg">$-1.21</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-10/">2026-11-10</a></td>
+              <td>09:41:36 → 09:47:37 <span style="color:var(--muted);font-size:11px;">(6분)</span></td>
+              
+              <td><b>MI</b> <span style="color:var(--muted);font-size:11px;">NFT</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.4285 → $0.3717</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$13.26</b></td>
+              <td class="num neg"><b>-13.26%</b></td>
+              <td class="num neg">$-13.26</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-10/">2026-11-10</a></td>
+              <td>08:11:24 → 09:03:28 <span style="color:var(--muted);font-size:11px;">(52분)</span></td>
+              
+              <td><b>AURE</b> <span style="color:var(--muted);font-size:11px;">프레스티지 웰스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$1.0000 → $0.9420</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$5.80</b></td>
+              <td class="num neg"><b>-5.80%</b></td>
+              <td class="num neg">$-5.80</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-10/">2026-11-10</a></td>
+              <td>08:12:09 → 08:41:17 <span style="color:var(--muted);font-size:11px;">(29분)</span></td>
+              
+              <td><b>OMH</b> <span style="color:var(--muted);font-size:11px;">오마이홈</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$26.2400 → $24.4500</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$6.82</b></td>
+              <td class="num neg"><b>-6.82%</b></td>
+              <td class="num neg">$-6.82</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-09/">2026-11-09</a></td>
+              <td>12:59:26 → 12:48:34 <span style="color:var(--muted);font-size:11px;">(4309분)</span></td>
+              
+              <td><b>GAU</b> <span style="color:var(--muted);font-size:11px;">갈리아노 골드</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$2.3500 → $2.6400</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$11.70</b></td>
+              <td class="num pos"><b>+11.70%</b></td>
+              <td class="num pos">$+11.70</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-09/">2026-11-09</a></td>
+              <td>09:33:33 → 12:48:34 <span style="color:var(--muted);font-size:11px;">(8835분)</span></td>
+              
+              <td><b>INFL</b> <span style="color:var(--muted);font-size:11px;">INFL</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$50.4400 → $50.7100</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$0.54</b></td>
+              <td class="num pos"><b>+0.54%</b></td>
+              <td class="num pos">$+0.54</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-09/">2026-11-09</a></td>
+              <td>10:45:44 → 11:45:50 <span style="color:var(--muted);font-size:11px;">(60분)</span></td>
+              
+              <td><b>OMH</b> <span style="color:var(--muted);font-size:11px;">오마이홈</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$51.8400 → $52.5300</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$4.77</b></td>
+              <td class="num pos"><b>+4.77%</b></td>
+              <td class="num pos">$+4.77</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-06/">2026-11-06</a></td>
+              <td>10:38:19 → 10:41:57 <span style="color:var(--muted);font-size:11px;">(4분)</span></td>
+              
+              <td><b>SDA</b> <span style="color:var(--muted);font-size:11px;">선카 테크놀로지 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.3300 → $0.3240</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$1.82</b></td>
+              <td class="num neg"><b>-1.82%</b></td>
+              <td class="num neg">$-1.82</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-06/">2026-11-06</a></td>
+              <td>10:35:40 → 10:36:38 <span style="color:var(--muted);font-size:11px;">(1분)</span></td>
+              
+              <td><b>SDA</b> <span style="color:var(--muted);font-size:11px;">선카 테크놀로지 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.3300 → $0.3354</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$3.77</b></td>
+              <td class="num pos"><b>+3.77%</b></td>
+              <td class="num pos">$+3.77</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-06/">2026-11-06</a></td>
+              <td>10:23:37 → 10:25:22 <span style="color:var(--muted);font-size:11px;">(2분)</span></td>
+              
+              <td><b>SDA</b> <span style="color:var(--muted);font-size:11px;">선카 테크놀로지 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.3175 → $0.3351</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$7.51</b></td>
+              <td class="num pos"><b>+7.51%</b></td>
+              <td class="num pos">$+7.51</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-06/">2026-11-06</a></td>
+              <td>04:41:44 → 04:58:15 <span style="color:var(--muted);font-size:11px;">(16분)</span></td>
+              
+              <td><b>VSA</b> <span style="color:var(--muted);font-size:11px;">비전시스 AI(ADR)</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$2.2584 → $2.1100</td>
+              <td class="num">$200.00</td>
+              <td class="num neg"><b>-$13.14</b></td>
+              <td class="num neg"><b>-6.57%</b></td>
+              <td class="num neg">$-6.57</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-06/">2026-11-06</a></td>
+              <td>04:39:47 → 04:45:57 <span style="color:var(--muted);font-size:11px;">(6분)</span></td>
+              
+              <td><b>RCT</b> <span style="color:var(--muted);font-size:11px;">레드클라우드 홀딩스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.0646 → $0.0643</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$0.46</b></td>
+              <td class="num neg"><b>-0.46%</b></td>
+              <td class="num neg">$-0.46</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-06/">2026-11-06</a></td>
+              <td>04:42:21 → 04:44:17 <span style="color:var(--muted);font-size:11px;">(2분)</span></td>
+              
+              <td><b>SHFS</b> <span style="color:var(--muted);font-size:11px;">SHF 홀딩스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.0409 → $0.0414</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$2.81</b></td>
+              <td class="num pos"><b>+2.81%</b></td>
+              <td class="num pos">$+2.81</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-05/">2026-11-05</a></td>
+              <td>09:51:35 → 10:55:17 <span style="color:var(--muted);font-size:11px;">(64분)</span></td>
+              
+              <td><b>ZNB</b> <span style="color:var(--muted);font-size:11px;">제타 네트워크 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$1.1192 → $1.1500</td>
+              <td class="num">$200.00</td>
+              <td class="num pos"><b>+$7.29</b></td>
+              <td class="num pos"><b>+3.65%</b></td>
+              <td class="num pos">$+3.65</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-05/">2026-11-05</a></td>
+              <td>09:53:28 → 10:25:16 <span style="color:var(--muted);font-size:11px;">(32분)</span></td>
+              
+              <td><b>AEHL</b> <span style="color:var(--muted);font-size:11px;">안텔로페 엔터프라이즈 홀딩스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$10.7400 → $11.9500</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$11.17</b></td>
+              <td class="num pos"><b>+11.17%</b></td>
+              <td class="num pos">$+11.17</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-05/">2026-11-05</a></td>
+              <td>09:49:41 → 10:23:26 <span style="color:var(--muted);font-size:11px;">(34분)</span></td>
+              
+              <td><b>LABT</b> <span style="color:var(--muted);font-size:11px;">레이크우드-아메덱스 바이오테라퓨틱스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.4600 → $0.7745</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$66.66</b></td>
+              <td class="num pos"><b>+66.66%</b></td>
+              <td class="num pos">$+66.66</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-05/">2026-11-05</a></td>
+              <td>09:51:50 → 10:22:36 <span style="color:var(--muted);font-size:11px;">(31분)</span></td>
+              
+              <td><b>FLYE</b> <span style="color:var(--muted);font-size:11px;">플라이 이 그룹</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$2.1600 → $2.1600</td>
+              <td class="num">$100.00</td>
+              <td class="num neu"><b>$0.00</b></td>
+              <td class="num neu"><b>-0.00%</b></td>
+              <td class="num neu">$-0.00</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-04/">2026-11-04</a></td>
+              <td>10:25:49 → 10:40:34 <span style="color:var(--muted);font-size:11px;">(15분)</span></td>
+              
+              <td><b>OMH</b> <span style="color:var(--muted);font-size:11px;">오마이홈</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$7.6700 → $6.6000</td>
+              <td class="num">$200.00</td>
+              <td class="num neg"><b>-$27.90</b></td>
+              <td class="num neg"><b>-13.95%</b></td>
+              <td class="num neg">$-13.95</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-04/">2026-11-04</a></td>
+              <td>09:41:06 → 10:26:07 <span style="color:var(--muted);font-size:11px;">(45분)</span></td>
+              
+              <td><b>FTCI</b> <span style="color:var(--muted);font-size:11px;">FTC 솔라</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$2.0200 → $2.0800</td>
+              <td class="num">$144.93</td>
+              <td class="num pos"><b>+$5.74</b></td>
+              <td class="num pos"><b>+3.96%</b></td>
+              <td class="num pos">$+3.96</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-04/">2026-11-04</a></td>
+              <td>09:55:24 → 10:19:29 <span style="color:var(--muted);font-size:11px;">(24분)</span></td>
+              
+              <td><b>OMH</b> <span style="color:var(--muted);font-size:11px;">오마이홈</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$6.1800 → $7.3400</td>
+              <td class="num">$200.00</td>
+              <td class="num pos"><b>+$37.54</b></td>
+              <td class="num pos"><b>+18.77%</b></td>
+              <td class="num pos">$+18.77</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-04/">2026-11-04</a></td>
+              <td>09:40:59 → 09:59:36 <span style="color:var(--muted);font-size:11px;">(19분)</span></td>
+              
+              <td><b>DKI</b> <span style="color:var(--muted);font-size:11px;">다크아이리스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$2.0500 → $2.0500</td>
+              <td class="num">$200.00</td>
+              <td class="num pos"><b>+$4.39</b></td>
+              <td class="num pos"><b>+2.20%</b></td>
+              <td class="num pos">$+2.20</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-04/">2026-11-04</a></td>
+              <td>09:38:24 → 09:59:36 <span style="color:var(--muted);font-size:11px;">(21분)</span></td>
+              
+              <td><b>ALIT</b> <span style="color:var(--muted);font-size:11px;">올라잇</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$15.9798 → $15.1000</td>
+              <td class="num">$200.00</td>
+              <td class="num neg"><b>-$11.01</b></td>
+              <td class="num neg"><b>-5.51%</b></td>
+              <td class="num neg">$-5.51</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-04/">2026-11-04</a></td>
+              <td>09:41:30 → 09:46:44 <span style="color:var(--muted);font-size:11px;">(5분)</span></td>
+              
+              <td><b>CRIS</b> <span style="color:var(--muted);font-size:11px;">큐리스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$1.5237 → $1.3800</td>
+              <td class="num">$400.00</td>
+              <td class="num neg"><b>-$37.72</b></td>
+              <td class="num neg"><b>-9.43%</b></td>
+              <td class="num neg">$-9.43</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-03/">2026-11-03</a></td>
+              <td>09:31:09 → 09:41:44 <span style="color:var(--muted);font-size:11px;">(11분)</span></td>
+              
+              <td><b>PARA</b> <span style="color:var(--muted);font-size:11px;">반자이 인터내셔널</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$4.9700 → $5.4700</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$12.88</b></td>
+              <td class="num pos"><b>+12.88%</b></td>
+              <td class="num pos">$+12.88</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-03/">2026-11-03</a></td>
+              <td>09:32:30 → 09:39:10 <span style="color:var(--muted);font-size:11px;">(7분)</span></td>
+              
+              <td><b>SGRX</b> <span style="color:var(--muted);font-size:11px;">생그릭스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.9639 → $0.9129</td>
+              <td class="num">$200.00</td>
+              <td class="num neg"><b>-$10.58</b></td>
+              <td class="num neg"><b>-5.29%</b></td>
+              <td class="num neg">$-5.29</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-03/">2026-11-03</a></td>
+              <td>09:01:45 → 09:17:08 <span style="color:var(--muted);font-size:11px;">(15분)</span></td>
+              
+              <td><b>RDAC</b> <span style="color:var(--muted);font-size:11px;">라이징 드래곤 애퀴지션</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$11.1400 → $11.0200</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$1.08</b></td>
+              <td class="num neg"><b>-1.08%</b></td>
+              <td class="num neg">$-1.08</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td><a class="dw-link" href="/danta-daily/2026-11-02/">2026-11-02</a></td>
+              <td>14:56:27 → 15:15:21 <span style="color:var(--muted);font-size:11px;">(19분)</span></td>
+              
+              <td><b>VCIG</b> <span style="color:var(--muted);font-size:11px;">VCI 글로벌</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$5.4400 → $7.1600</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$18.29</b></td>
+              <td class="num pos"><b>+18.29%</b></td>
+              <td class="num pos">$+18.29</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            </tbody>
+      </table>
+    </div>
+    
+    </section>
+    
+</main>
+<script>
+  function _chartTheme() {
+    const dark = document.documentElement.getAttribute('data-bg') === 'dark';
+    return {
+      text: dark ? '#e2e8f0' : '#0f172a',
+      muted: dark ? '#94a3b8' : '#475569',
+      grid: dark ? 'rgba(148,163,184,0.14)' : 'rgba(15,23,42,0.08)',
+    };
+  }
+  window.__dwCharts = window.__dwCharts || [];
+  window.addEventListener('themechange', () => {
+    const t = _chartTheme();
+    window.__dwCharts.forEach(ch => {
+      try {
+        if (ch.options.scales) {
+          Object.values(ch.options.scales).forEach(s => {
+            if (s.ticks) s.ticks.color = t.muted;
+            if (s.grid) s.grid.color = t.grid;
+          });
+        }
+        if (ch.options.plugins && ch.options.plugins.legend && ch.options.plugins.legend.labels) {
+          ch.options.plugins.legend.labels.color = t.text;
+        }
+        ch.update();
+      } catch (e) {}
+    });
+  });
+</script>
+</body>
+</html>

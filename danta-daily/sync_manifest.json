@@ -1,0 +1,104 @@
+{
+  "updated_at": "2026-11-25 04:54:29 KST",
+  "active_sig": "3cb5db3cd6eb",
+  "days": {
+    "2026-11-02": {
+      "count": 1,
+      "auto_count": 0,
+      "manual_count": 1,
+      "pnl_usd": 18.29,
+      "last_updated": "2026-11-03T05:15:21"
+    },
+    "2026-11-03": {
+      "count": 3,
+      "auto_count": 0,
+      "manual_count": 3,
+      "pnl_usd": 1.22,
+      "last_updated": "2026-11-03T23:41:44"
+    },
+    "2026-11-04": {
+      "count": 6,
+      "auto_count": 0,
+      "manual_count": 6,
+      "pnl_usd": -28.96,
+      "last_updated": "2026-11-05T00:40:34"
+    },
+    "2026-11-05": {
+      "count": 4,
+      "auto_count": 0,
+      "manual_count": 4,
+      "pnl_usd": 85.12,
+      "last_updated": "2026-11-06T00:55:17"
+    },
+    "2026-11-06": {
+      "count": 6,
+      "auto_count": 0,
+      "manual_count": 6,
+      "pnl_usd": -1.33,
+      "last_updated": "2026-11-07T00:41:57"
+    },
+    "2026-11-09": {
+      "count": 3,
+      "auto_count": 0,
+      "manual_count": 3,
+      "pnl_usd": 17.01,
+      "last_updated": "2026-11-10T02:48:34"
+    },
+    "2026-11-10": {
+      "count": 8,
+      "auto_count": 0,
+      "manual_count": 8,
+      "pnl_usd": -32.07,
+      "last_updated": "2026-11-11T02:50:41"
+    },
+    "2026-11-11": {
+      "count": 13,
+      "auto_count": 0,
+      "manual_count": 13,
+      "pnl_usd": 612.31,
+      "last_updated": "2026-11-12T01:35:28"
+    },
+    "2026-11-12": {
+      "count": 15,
+      "auto_count": 0,
+      "manual_count": 15,
+      "pnl_usd": -103.76,
+      "last_updated": "2026-11-13T03:05:05"
+    },
+    "2026-11-13": {
+      "count": 8,
+      "auto_count": 0,
+      "manual_count": 8,
+      "pnl_usd": -252.7,
+      "last_updated": "2026-11-14T01:39:41"
+    },
+    "2026-11-17": {
+      "count": 14,
+      "auto_count": 4,
+      "manual_count": 10,
+      "pnl_usd": -57.99,
+      "last_updated": "2026-11-18T01:58:06"
+    },
+    "2026-11-18": {
+      "count": 2,
+      "auto_count": 2,
+      "manual_count": 0,
+      "pnl_usd": 2.64,
+      "last_updated": "2026-11-19T00:09:57"
+    },
+    "2026-11-19": {
+      "count": 5,
+      "auto_count": 5,
+      "manual_count": 0,
+      "pnl_usd": -11.39,
+      "last_updated": "2026-11-20T00:23:54"
+    },
+    "2026-11-24": {
+      "count": 3,
+      "auto_count": 3,
+      "manual_count": 0,
+      "pnl_usd": 10.48,
+      "last_updated": "2026-11-25T01:02:07"
+    }
+  }
+}

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2026-11-03 단타 내역 · DJ-QUNT 실전 단타</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff; --card: #ffffff; --panel: #f8fafc; --border: #e2e8f0;
+      --text: #0f172a; --muted: #475569; --accent: #059669; --blue: #1d4ed8;
+      --pos: #059669; --pos-bg: #ecfdf5; --pos-bd: #a7f3d0;
+      --neg: #dc2626; --neg-bg: #fef2f2; --neg-bd: #fecaca;
+      --warn: #d97706; --warn-bg: #fffbeb; --warn-bd: #fde68a;
+    }
+    html[data-bg="warm"] { --bg: #faf8f5; --card: #ffffff; --panel: #f5f2eb; --border: #e7e2d8; --text: #1c1917; --muted: #57534e; }
+    html[data-bg="soft"] { --bg: #f1f5f9; --card: #ffffff; --panel: #e2e8f0; --border: #cbd5e1; }
+    html[data-bg="dark"] {
+      --bg: #0b1120; --card: #111827; --panel: #1e293b; --border: #1f2937;
+      --text: #f8fafc; --muted: #94a3b8; --accent: #10b981; --blue: #3b82f6;
+      --pos: #34d399; --pos-bg: rgba(16,185,129,0.15); --pos-bd: rgba(16,185,129,0.35);
+      --neg: #f87171; --neg-bg: rgba(239,68,68,0.15); --neg-bd: rgba(239,68,68,0.35);
+      --warn: #fbbf24; --warn-bg: rgba(245,158,11,0.15); --warn-bd: rgba(245,158,11,0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0 0 64px; background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
+      line-height: 1.55;
+    }
+    .dw-wrap { max-width: 1320px; margin: 22px auto 0; padding: 0 18px; }
+    .dw-head {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
+      gap: 12px; padding-bottom: 14px; border-bottom: 2px solid var(--border); margin-bottom: 18px;
+    }
+    .dw-head h1 { margin: 0; font-size: 22px; font-weight: 800; }
+    .dw-head p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+    .dw-meta { font-size: 12px; color: var(--muted); font-family: monospace; }
+    .dw-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-bottom: 18px; }
+    .dw-kpi {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .dw-kpi-lbl { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+    .dw-kpi-val { font-size: 22px; font-weight: 900; margin-top: 4px; }
+    .dw-kpi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .pos { color: var(--pos) !important; }
+    .neg { color: var(--neg) !important; }
+    .neu { color: var(--text) !important; }
+    .dw-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px; margin-bottom: 18px;
+    }
+    .dw-card-head {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+      gap: 10px; margin-bottom: 12px;
+    }
+    .dw-card h2 { margin: 0; font-size: 16.5px; font-weight: 800; }
+    .dw-card-sub { font-size: 12.5px; color: var(--muted); }
+    .dw-badge {
+      display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 800;
+      padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel); color: var(--muted);
+    }
+    .dw-badge.pass { background: var(--pos-bg); color: var(--pos); border-color: var(--pos-bd); }
+    .dw-badge.wait { background: var(--warn-bg); color: var(--warn); border-color: var(--warn-bd); }
+    .dw-badge.loss { background: var(--neg-bg); color: var(--neg); border-color: var(--neg-bd); }
+    .dw-badge.auto { background: var(--pos-bg); color: var(--pos); border-color: var(--pos-bd); }
+    .dw-badge.manual { background: rgba(59,130,246,0.12); color: var(--blue); border-color: rgba(59,130,246,0.35); }
+    .dw-tabs { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .dw-tab {
+      border: 1px solid var(--border); background: var(--card); color: var(--muted);
+      font-size: 12.5px; font-weight: 700; padding: 7px 13px; border-radius: 9px; cursor: pointer;
+      text-decoration: none;
+    }
+    .dw-tab.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    .dw-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+    table.dw-table { width: 100%; border-collapse: collapse; font-size: 12.8px; }
+    table.dw-table th, table.dw-table td {
+      padding: 9px 11px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap;
+    }
+    table.dw-table th {
+      background: var(--panel); color: var(--muted); font-size: 11.5px; font-weight: 800;
+    }
+    table.dw-table tr:last-child td { border-bottom: none; }
+    table.dw-table tbody tr:hover td { background: var(--panel); }
+    .num { text-align: right !important; font-variant-numeric: tabular-nums; }
+    .dw-link { color: var(--blue); font-weight: 700; text-decoration: none; }
+    .dw-link:hover { text-decoration: underline; }
+    .dw-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px; margin-bottom: 18px; }
+    .dw-chart-box { position: relative; height: 290px; width: 100%; }
+    .dw-gate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 10px; margin-top: 12px; }
+    .dw-gate-item {
+      border: 1px solid var(--border); background: var(--panel); border-radius: 10px; padding: 11px 13px;
+    }
+    .dw-gate-item.ok { border-color: var(--pos-bd); background: var(--pos-bg); }
+    .dw-gate-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-weight: 800; font-size: 13px; }
+    .dw-gate-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .dw-progress { height: 8px; border-radius: 999px; background: var(--panel); border: 1px solid var(--border); overflow: hidden; margin-top: 8px; }
+    .dw-progress-bar { height: 100%; background: var(--accent); transition: width 0.25s ease; }
+    .dw-banner {
+      border: 1px solid var(--warn-bd); background: var(--warn-bg); color: var(--text);
+      border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px;
+    }
+    .dw-banner.pass { border-color: var(--pos-bd); background: var(--pos-bg); }
+  </style>
+
+</head>
+<body>
+
+<style id="dj-qunt-unified-style">
+  :root {
+    --bg: #ffffff; --panel: #ffffff; --card: #ffffff; --border: #e2e8f0; --card-border: #f1f5f9;
+    --background: #ffffff; --foreground: #0f172a; --text: #0f172a; --muted: #475569; --muted-foreground: #475569;
+    --primary: #1d4ed8; --primary-foreground: #ffffff;
+  }
+  html, body { background-color: #ffffff; margin: 0; }
+  html[data-bg="warm"], html[data-bg="warm"] body { background-color: #faf8f5 !important; color: #1c1917 !important; --bg: #faf8f5; --background: #faf8f5; --panel: #ffffff; --card: #ffffff; --border: #e7e2d8; --text: #1c1917; --foreground: #1c1917; --muted: #57534e; --muted-foreground: #57534e; }
+  html[data-bg="soft"], html[data-bg="soft"] body { background-color: #f1f5f9 !important; color: #0f172a !important; --bg: #f1f5f9; --background: #f1f5f9; --panel: #ffffff; --card: #ffffff; --border: #cbd5e1; --text: #0f172a; --foreground: #0f172a; --muted: #475569; --muted-foreground: #47534e; }
+  html[data-bg="dark"], html[data-bg="dark"] body { background-color: #0b1120 !important; color: #f8fafc !important; --bg: #0b1120; --background: #0b1120; --panel: #111827; --card: #111827; --border: #1f2937; --card-border: #1e293b; --text: #f8fafc; --foreground: #f8fafc; --muted: #94a3b8; --muted-foreground: #94a3b8; --primary: #3b82f6; }
+  html[data-bg="dark"] .header, html[data-bg="dark"] .kpi-card, html[data-bg="dark"] .chart-box, html[data-bg="dark"] .table-card, html[data-bg="dark"] .stat-card, html[data-bg="dark"] .gen-card, html[data-bg="dark"] .filter-bar, html[data-bg="dark"] .table-wrap { background: #111827 !important; border-color: #1f2937 !important; color: #f8fafc !important; }
+  html[data-bg="dark"] h1, html[data-bg="dark"] h2, html[data-bg="dark"] h3, html[data-bg="dark"] .kpi-val, html[data-bg="dark"] table, html[data-bg="dark"] td { color: #f8fafc !important; border-color: #1f2937 !important; }
+  html[data-bg="dark"] th { background: #1e293b !important; color: #e2e8f0 !important; border-color: #334155 !important; }
+  html[data-bg="dark"] tr:hover td { background: #1e293b !important; }
+  html[data-bg="dark"] .autopsy-banner { background: #1e293b !important; border-color: #334155 !important; color: #f8fafc !important; }
+
+  /* 하위 페이지 내부의 중복 배경색 스위처 바 숨김 (통합 헤더의 단일 스위처만 사용) */
+  .bg-pill-bar, .bg-switcher, .topbar .bg-bar, .header .bg-bar { display: none !important; }
+
+  #dj-qunt-unified-header {
+    position: sticky; top: 0; z-index: 9995; background: #ffffff; color: #0f172a;
+    border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(15,23,42,0.06);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
+    line-height: 1.4;
+  }
+  #dj-qunt-unified-header * { box-sizing: border-box; }
+  #dj-qunt-unified-header .dj-u-row1 {
+    max-width: 1460px; margin: 0 auto; padding: 9px 18px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  #dj-qunt-unified-header .dj-u-brand {
+    display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
+    color: #0f172a; font-weight: 900; font-size: 15px;
+  }
+  #dj-qunt-unified-header .dj-u-dot {
+    width: 22px; height: 22px; border-radius: 6px; background: #1d4ed8; color: #ffffff;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;
+  }
+  #dj-qunt-unified-header .dj-u-menus { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  #dj-qunt-unified-header .dj-u-group {
+    display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px;
+    padding: 3px 6px; border-radius: 9px; border: 1px solid #e2e8f0; background: #f8fafc;
+  }
+  #dj-qunt-unified-header .dj-u-group-danta {
+    background: #ecfdf5; border-color: #a7f3d0;
+  }
+  #dj-qunt-unified-header .dj-u-glabel {
+    font-size: 10.5px; font-weight: 800; color: #475569; padding: 0 4px 0 2px; white-space: nowrap;
+  }
+  #dj-qunt-unified-header .dj-u-group-danta .dj-u-glabel { color: #047857; }
+  #dj-qunt-unified-header .dj-u-sep { width: 1px; height: 20px; background: #e2e8f0; }
+  #dj-qunt-unified-header .dj-u-mbtn {
+    text-decoration: none; font-size: 12px; font-weight: 700; color: #475569;
+    padding: 4px 9px; border-radius: 7px; border: 1px solid #e2e8f0; background: #ffffff;
+  }
+  #dj-qunt-unified-header .dj-u-mbtn:hover { border-color: #1d4ed8; color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-u-mbtn.active { background: #1d4ed8; color: #ffffff; border-color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta { border-color: #a7f3d0; color: #047857; }
+  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta:hover { border-color: #059669; color: #065f46; }
+  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta.active { background: #059669; color: #ffffff; border-color: #059669; }
+  #dj-qunt-unified-header .dj-u-bgbar {
+    display: inline-flex; gap: 2px; padding: 3px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc;
+  }
+  #dj-qunt-unified-header .dj-u-bgbtn {
+    border: none; background: transparent; color: #475569; font-size: 11.5px; font-weight: 600;
+    padding: 4px 8px; border-radius: 6px; cursor: pointer;
+  }
+  #dj-qunt-unified-header .dj-u-bgbtn.active { background: #1d4ed8; color: #ffffff; }
+
+  #dj-qunt-unified-header .dj-u-row2 {
+    background: #f8fafc; border-top: 1px solid #e2e8f0;
+  }
+  #dj-qunt-unified-header .dj-u-row2-in {
+    max-width: 1460px; margin: 0 auto; padding: 7px 18px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  #dj-qunt-unified-header .dj-bc-trail {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; color: #475569;
+  }
+  #dj-qunt-unified-header .dj-bc-trail a {
+    text-decoration: none; color: #475569; font-weight: 600;
+  }
+  #dj-qunt-unified-header .dj-bc-trail a:hover { color: #1d4ed8; text-decoration: underline; }
+  #dj-qunt-unified-header .dj-bc-cur { color: #0f172a; font-weight: 800; }
+  #dj-qunt-unified-header .dj-sib-group { display: flex; flex-wrap: wrap; gap: 5px; }
+  #dj-qunt-unified-header .dj-sib-btn {
+    text-decoration: none; font-size: 11.5px; font-weight: 600; color: #475569;
+    padding: 3px 9px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff;
+  }
+  #dj-qunt-unified-header .dj-sib-btn:hover { border-color: #1d4ed8; color: #1d4ed8; }
+  #dj-qunt-unified-header .dj-sib-btn.active { background: #eff6ff; color: #1d4ed8; border-color: #1d4ed8; font-weight: 800; }
+
+  html[data-bg="warm"] #dj-qunt-unified-header { background: #faf8f5; border-color: #e7e2d8; }
+  html[data-bg="warm"] #dj-qunt-unified-header .dj-u-row2 { background: #f5f2eb; border-color: #e7e2d8; }
+  html[data-bg="soft"] #dj-qunt-unified-header { background: #f1f5f9; border-color: #cbd5e1; }
+  html[data-bg="soft"] #dj-qunt-unified-header .dj-u-row2 { background: #e2e8f0; border-color: #cbd5e1; }
+  html[data-bg="dark"] #dj-qunt-unified-header { background: #111827; color: #f8fafc; border-color: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-brand,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-cur { color: #f8fafc; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-bgbar,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn { background: #1e293b; border-color: #334155; color: #cbd5e1; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group { background: #0f172a; border-color: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group-danta { background: rgba(16,185,129,0.10); border-color: rgba(16,185,129,0.32); }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-glabel { color: #94a3b8; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group-danta .dj-u-glabel { color: #34d399; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-sep { background: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta { border-color: rgba(16,185,129,0.35); color: #34d399; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta.active { background: #059669; border-color: #10b981; color: #ffffff; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.active { background: #2563eb; border-color: #2563eb; color: #ffffff; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn.active { background: rgba(37,99,235,0.25); border-color: #60a5fa; color: #93c5fd; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-row2 { background: #0b1120; border-color: #1f2937; }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-trail,
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-trail a { color: #94a3b8; }
+  @media print { #dj-qunt-unified-header { display: none !important; } }
+</style>
+<header id="dj-qunt-unified-header" data-has-home-nav="1" data-has-bg-switcher="1">
+  <div class="dj-u-row1">
+    <a class="dj-u-brand" href="https://tron1981-maker.github.io/dj-qunt/">
+      <span class="dj-u-dot">DJ</span>
+      <span>Dongju QUNT Lab</span>
+    </a>
+    <nav class="dj-u-menus" aria-label="상위 메뉴">
+      <div class="dj-u-group" aria-label="연구 및 백테스트 랭킹"><span class="dj-u-glabel">연구·랭킹</span><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#algo">1. 버전별 알고리즘</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#reports">2. 인터랙티브 리포트</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-pre">3. 프리장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-reg">4. 본장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-period">5. 기간별 수익률 랭킹</a></div><span class="dj-u-sep" aria-hidden="true"></span><div class="dj-u-group dj-u-group-danta" aria-label="실전 페이퍼 단타"><span class="dj-u-glabel">실전 단타</span><a class="dj-u-mbtn dj-u-danta active" href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-auto/">7. 자동 매매</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-manual/">8. 수동 매매</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-compare/">9. 자동 vs 수동 비교</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-charts/">10. 단타 수익 그래프</a></div>
+    </nav>
+    <div class="dj-u-bgbar" role="group" aria-label="배경색 변경">
+      <button type="button" class="dj-u-bgbtn active" onclick="window.__setDocBg('white', this)">화이트</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('warm', this)">웜톤</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('soft', this)">소프트</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('dark', this)">다크</button>
+    </div>
+  </div>
+  <div class="dj-u-row2">
+    <div class="dj-u-row2-in">
+      <div class="dj-bc-trail"><a href="https://tron1981-maker.github.io/dj-qunt/">🏠 Dongju QUNT Lab 홈</a><span class="dj-sep">›</span><a href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><span class="dj-sep">›</span><a href="/danta-daily/">6. 일별 단타 내역</a><span class="dj-sep">›</span><span class="dj-bc-cur">[현재] 2026-11-03 단타 내역</span></div>
+      <div class="dj-sib-group"><a class="dj-sib-btn " href="/danta-daily/">← 전체 일별 목록</a><a class="dj-sib-btn " href="/danta-daily/2026-11-02/">‹ 2026-11-02</a><a class="dj-sib-btn active" href="/danta-daily/2026-11-03/">📅 2026-11-03 (현재)</a><a class="dj-sib-btn " href="/danta-daily/2026-11-04/">2026-11-04 ›</a><a class="dj-sib-btn " href="/danta-charts/">📈 전체 수익 그래프</a></div>
+    </div>
+  </div>
+</header>
+<script id="dj-qunt-unified-script">
+  window.__setDocBg = function(mode, btn) {
+    if (mode === 'white') {
+      document.documentElement.removeAttribute('data-bg');
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.setAttribute('data-bg', mode);
+      document.documentElement.classList.toggle('light', mode !== 'dark');
+    }
+    document.querySelectorAll('#dj-qunt-unified-header .dj-u-bgbtn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const shell = document.getElementById('appShell');
+    if (shell) shell.setAttribute('data-bg', mode);
+    if (typeof window.setBgMode === 'function') {
+      try { window.setBgMode(mode, null); } catch (e) {}
+    }
+    if (window.Plotly) {
+      const isDark = mode === 'dark';
+      const paper = isDark ? '#111827' : '#ffffff';
+      const plot = isDark ? '#0b1120' : '#ffffff';
+      const fc = isDark ? '#e2e8f0' : '#0f172a';
+      document.querySelectorAll('.js-plotly-plot').forEach(gd => {
+        try { Plotly.relayout(gd, { paper_bgcolor: paper, plot_bgcolor: plot, 'font.color': fc }); } catch (e) {}
+      });
+    }
+    window.dispatchEvent(new Event('themechange'));
+  };
+  document.documentElement.classList.add('light');
+</script>
+
+<main class="dw-wrap">
+
+    <div class="dw-head">
+      <div>
+        <h1>📅 2026-11-03 (ET) 단타 수익 내역 & 장중 곡선</h1>
+        <p>자동 매매 0건 ($0.00) · 수동 매매 3건 (+$1.22)</p>
+      </div>
+      <div class="dw-meta">업데이트: 2026-11-25 04:54:29 KST</div>
+    </div>
+
+    <div class="dw-kpi-grid">
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">당일 총 실현손익</div>
+        <div class="dw-kpi-val pos">+$1.22</div>
+        <div class="dw-kpi-sub">투자금 $400.00 · ROI +0.30%</div>
+      </div>
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">체결 / 승률</div>
+        <div class="dw-kpi-val">3건 (33.3%)</div>
+        <div class="dw-kpi-sub">1승 2패</div>
+      </div>
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">🤖 당일 자동 매매</div>
+        <div class="dw-kpi-val neu">$0.00</div>
+        <div class="dw-kpi-sub">0건 · ROI +0.00%</div>
+      </div>
+      <div class="dw-kpi">
+        <div class="dw-kpi-lbl">✋ 당일 수동 매매</div>
+        <div class="dw-kpi-val pos">+$1.22</div>
+        <div class="dw-kpi-sub">3건 · ROI +0.30%</div>
+      </div>
+    </div>
+
+    <section class="dw-card">
+      <div class="dw-card-head">
+        <h2>📈 2026-11-03 장중 거래별 손익 & 누적 수익 곡선 ($)</h2>
+        <span class="dw-card-sub">체결 시각(ET) 순서</span>
+      </div>
+      <div class="dw-chart-box"><canvas id="dayChart"></canvas></div>
+    </section>
+
+    <section class="dw-card">
+      <div class="dw-card-head">
+        <h2>🧾 2026-11-03 체결 상세 원장 (3건)</h2>
+      </div>
+      
+    <div class="dw-table-wrap">
+      <table class="dw-table">
+        <thead>
+          <tr>
+            <th>미국장 일자(ET)</th>
+            <th>진입→청산(ET)</th>
+            <th>구분</th>
+            <th>종목</th>
+            <th>엔진</th>
+            <th class="num">평단→청산가</th>
+            <th class="num">투자금</th>
+            <th class="num">실현손익</th>
+            <th class="num">수익률</th>
+            <th class="num">$100 환산</th>
+            <th>청산 사유</th>
+            <th>태그</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>2026-11-03</td>
+              <td>09:01:45 → 09:17:08 <span style="color:var(--muted);font-size:11px;">(15분)</span></td>
+              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><b>RDAC</b> <span style="color:var(--muted);font-size:11px;">라이징 드래곤 애퀴지션</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$11.1400 → $11.0200</td>
+              <td class="num">$100.00</td>
+              <td class="num neg"><b>-$1.08</b></td>
+              <td class="num neg"><b>-1.08%</b></td>
+              <td class="num neg">$-1.08</td>
+              <td>수동 청산</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td>2026-11-03</td>
+              <td>09:32:30 → 09:39:10 <span style="color:var(--muted);font-size:11px;">(7분)</span></td>
+              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><b>SGRX</b> <span style="color:var(--muted);font-size:11px;">생그릭스</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$0.9639 → $0.9129</td>
+              <td class="num">$200.00</td>
+              <td class="num neg"><b>-$10.58</b></td>
+              <td class="num neg"><b>-5.29%</b></td>
+              <td class="num neg">$-5.29</td>
+              <td>손절 매도</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            
+            <tr>
+              <td>2026-11-03</td>
+              <td>09:31:09 → 09:41:44 <span style="color:var(--muted);font-size:11px;">(11분)</span></td>
+              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><b>PARA</b> <span style="color:var(--muted);font-size:11px;">반자이 인터내셔널</span></td>
+              <td><code>manual_legacy</code></td>
+              <td class="num">$4.9700 → $5.4700</td>
+              <td class="num">$100.00</td>
+              <td class="num pos"><b>+$12.88</b></td>
+              <td class="num pos"><b>+12.88%</b></td>
+              <td class="num pos">$+12.88</td>
+              <td>트레일링 스탑</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="-">-</td>
+            </tr>
+            </tbody>
+      </table>
+    </div>
+    
+    </section>
+    <script>
+      (function() {
+        const t = _chartTheme();
+        const labels = ["RDAC (09:17)", "SGRX (09:39)", "PARA (09:41)"];
+        const cumVals = [-1.08, -11.66, 1.22];
+        const barVals = [-1.08, -10.58, 12.88];
+        const ctx = document.getElementById('dayChart').getContext('2d');
+        const ch = new Chart(ctx, {
+          data: {
+            labels,
+            datasets: [
+              {
+                type: 'line', label: '누적 손익 ($)', data: cumVals,
+                borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.14)',
+                fill: true, tension: 0.25, borderWidth: 2.5, yAxisID: 'y'
+              },
+              {
+                type: 'bar', label: '건별 손익 ($)', data: barVals,
+                backgroundColor: barVals.map(v => v >= 0 ? 'rgba(16,185,129,0.7)' : 'rgba(239,68,68,0.7)'),
+                borderRadius: 5, yAxisID: 'y'
+              }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: t.text } } },
+            scales: {
+              x: { ticks: { color: t.muted }, grid: { color: t.grid } },
+              y: { ticks: { color: t.muted }, grid: { color: t.grid } }
+            }
+          }
+        });
+        window.__dwCharts.push(ch);
+      })();
+    </script>
+    
+</main>
+<script>
+  function _chartTheme() {
+    const dark = document.documentElement.getAttribute('data-bg') === 'dark';
+    return {
+      text: dark ? '#e2e8f0' : '#0f172a',
+      muted: dark ? '#94a3b8' : '#475569',
+      grid: dark ? 'rgba(148,163,184,0.14)' : 'rgba(15,23,42,0.08)',
+    };
+  }
+  window.__dwCharts = window.__dwCharts || [];
+  window.addEventListener('themechange', () => {
+    const t = _chartTheme();
+    window.__dwCharts.forEach(ch => {
+      try {
+        if (ch.options.scales) {
+          Object.values(ch.options.scales).forEach(s => {
+            if (s.ticks) s.ticks.color = t.muted;
+            if (s.grid) s.grid.color = t.grid;
+          });
+        }
+        if (ch.options.plugins && ch.options.plugins.legend && ch.options.plugins.legend.labels) {
+          ch.options.plugins.legend.labels.color = t.text;
+        }
+        ch.update();
+      } catch (e) {}
+    });
+  });
+</script>
+</body>
+</html>

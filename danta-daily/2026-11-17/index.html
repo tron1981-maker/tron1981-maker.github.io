@@ -87,7 +87,8 @@
     .num { text-align: right !important; font-variant-numeric: tabular-nums; }
     .dw-link { color: var(--blue); font-weight: 700; text-decoration: none; }
     .dw-link:hover { text-decoration: underline; }
-    .dw-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px; margin-bottom: 18px; }
+    .dw-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 18px; }
+    @media (max-width: 860px) { .dw-grid-2 { grid-template-columns: 1fr; } }
     .dw-chart-box { position: relative; height: 290px; width: 100%; }
     .dw-gate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 10px; margin-top: 12px; }
     .dw-gate-item {
@@ -277,6 +278,34 @@
   document.documentElement.classList.add('light');
 </script>
 
+<script>
+  window.__dwCharts = window.__dwCharts || [];
+  function _chartTheme() {
+    const dark = document.documentElement.getAttribute('data-bg') === 'dark';
+    return {
+      text: dark ? '#e2e8f0' : '#0f172a',
+      muted: dark ? '#94a3b8' : '#475569',
+      grid: dark ? 'rgba(148,163,184,0.14)' : 'rgba(15,23,42,0.08)',
+    };
+  }
+  window.addEventListener('themechange', () => {
+    const t = _chartTheme();
+    window.__dwCharts.forEach(ch => {
+      try {
+        if (ch.options.scales) {
+          Object.values(ch.options.scales).forEach(s => {
+            if (s.ticks) s.ticks.color = t.muted;
+            if (s.grid) s.grid.color = t.grid;
+          });
+        }
+        if (ch.options.plugins && ch.options.plugins.legend && ch.options.plugins.legend.labels) {
+          ch.options.plugins.legend.labels.color = t.text;
+        }
+        ch.update();
+      } catch (e) {}
+    });
+  });
+</script>
 <main class="dw-wrap">
 
     <div class="dw-head">
@@ -284,7 +313,7 @@
         <h1>📅 2026-11-17 (ET) 단타 수익 내역 & 장중 곡선</h1>
         <p>자동 매매 4건 (+$0.09) · 수동 매매 10건 (-$58.08)</p>
       </div>
-      <div class="dw-meta">업데이트: 2026-11-25 04:54:29 KST</div>
+      <div class="dw-meta">업데이트: 2026-11-25 04:58:29 KST</div>
     </div>
 
     <div class="dw-kpi-grid">
@@ -593,33 +622,5 @@
     </script>
     
 </main>
-<script>
-  function _chartTheme() {
-    const dark = document.documentElement.getAttribute('data-bg') === 'dark';
-    return {
-      text: dark ? '#e2e8f0' : '#0f172a',
-      muted: dark ? '#94a3b8' : '#475569',
-      grid: dark ? 'rgba(148,163,184,0.14)' : 'rgba(15,23,42,0.08)',
-    };
-  }
-  window.__dwCharts = window.__dwCharts || [];
-  window.addEventListener('themechange', () => {
-    const t = _chartTheme();
-    window.__dwCharts.forEach(ch => {
-      try {
-        if (ch.options.scales) {
-          Object.values(ch.options.scales).forEach(s => {
-            if (s.ticks) s.ticks.color = t.muted;
-            if (s.grid) s.grid.color = t.grid;
-          });
-        }
-        if (ch.options.plugins && ch.options.plugins.legend && ch.options.plugins.legend.labels) {
-          ch.options.plugins.legend.labels.color = t.text;
-        }
-        ch.update();
-      } catch (e) {}
-    });
-  });
-</script>
 </body>
 </html>

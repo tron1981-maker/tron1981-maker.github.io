@@ -3,236 +3,269 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>2026-11-03 단타 내역 · DJ-QUNT 실전 단타</title>
+  <title>2026-11-03 단타 내역 · Dongju QUNT Lab 실전 단타</title>
   
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <style>
     :root {
-      --bg: #ffffff; --card: #ffffff; --panel: #f8fafc; --border: #e2e8f0;
-      --text: #0f172a; --muted: #475569; --accent: #059669; --blue: #1d4ed8;
-      --pos: #059669; --pos-bg: #ecfdf5; --pos-bd: #a7f3d0;
-      --neg: #dc2626; --neg-bg: #fef2f2; --neg-bd: #fecaca;
-      --warn: #d97706; --warn-bg: #fffbeb; --warn-bd: #fde68a;
+      --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --bg: #ffffff; --card: #ffffff; --panel: #f7f8fa; --surface: #f7f8fa; --border: #e3e7ef; --border-strong: #cbd3e1;
+      --text: #0c1220; --muted: #525d70; --accent: #047857; --blue: #163d82;
+      --pos: #047857; --pos-bg: #ecfdf5; --pos-bd: #a7f3d0;
+      --neg: #be123c; --neg-bg: #fef2f2; --neg-bd: #fecaca;
+      --warn: #b45309; --warn-bg: #fffbeb; --warn-bd: #fde68a;
     }
-    html[data-bg="warm"] { --bg: #faf8f5; --card: #ffffff; --panel: #f5f2eb; --border: #e7e2d8; --text: #1c1917; --muted: #57534e; }
-    html[data-bg="soft"] { --bg: #f1f5f9; --card: #ffffff; --panel: #e2e8f0; --border: #cbd5e1; }
+    html[data-bg="warm"] { --bg: #faf8f5; --card: #ffffff; --panel: #f3efe8; --surface: #f3efe8; --border: #e6dfd4; --border-strong: #d4cab9; --text: #1c1917; --muted: #57534e; }
+    html[data-bg="soft"] { --bg: #f1f5f9; --card: #ffffff; --panel: #e6ecf3; --surface: #e6ecf3; --border: #cbd5e1; --border-strong: #94a3b8; }
     html[data-bg="dark"] {
-      --bg: #0b1120; --card: #111827; --panel: #1e293b; --border: #1f2937;
-      --text: #f8fafc; --muted: #94a3b8; --accent: #10b981; --blue: #3b82f6;
-      --pos: #34d399; --pos-bg: rgba(16,185,129,0.15); --pos-bd: rgba(16,185,129,0.35);
-      --neg: #f87171; --neg-bg: rgba(239,68,68,0.15); --neg-bd: rgba(239,68,68,0.35);
-      --warn: #fbbf24; --warn-bg: rgba(245,158,11,0.15); --warn-bd: rgba(245,158,11,0.35);
+      --bg: #0b1120; --card: #0f172a; --panel: #131f35; --surface: #131f35; --border: #1e293b; --border-strong: #334155;
+      --text: #f1f5f9; --muted: #94a3b8; --accent: #34d399; --blue: #60a5fa;
+      --pos: #34d399; --pos-bg: rgba(16,185,129,0.14); --pos-bd: rgba(16,185,129,0.35);
+      --neg: #fb7185; --neg-bg: rgba(244,63,94,0.14); --neg-bd: rgba(244,63,94,0.35);
+      --warn: #fbbf24; --warn-bg: rgba(245,158,11,0.14); --warn-bd: rgba(245,158,11,0.35);
     }
     * { box-sizing: border-box; }
     body {
-      margin: 0; padding: 0 0 64px; background: var(--bg); color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
-      line-height: 1.55;
+      margin: 0; padding: 0 0 72px; background: var(--bg); color: var(--text);
+      font-family: var(--font-sans); font-size: 0.9375rem; line-height: 1.6;
     }
-    .dw-wrap { max-width: 1320px; margin: 22px auto 0; padding: 0 18px; }
+    .dw-wrap { max-width: 1220px; margin: 0 auto; padding: 32px 24px 0; }
     .dw-head {
       display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
-      gap: 12px; padding-bottom: 14px; border-bottom: 2px solid var(--border); margin-bottom: 18px;
+      gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 24px;
     }
-    .dw-head h1 { margin: 0; font-size: 22px; font-weight: 800; }
-    .dw-head p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
-    .dw-meta { font-size: 12px; color: var(--muted); font-family: monospace; }
-    .dw-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-bottom: 18px; }
+    .dw-head h1 { margin: 0; font-size: clamp(1.5rem, 2.3vw, 2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; }
+    .dw-head p { margin: 6px 0 0; font-size: 0.9375rem; color: var(--muted); max-width: 65ch; }
+    .dw-meta { font-size: 0.8125rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .dw-kpi-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 24px;
+    }
     .dw-kpi {
-      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-      padding: 14px 16px;
+      background: transparent; border-right: 1px solid var(--border); padding: 16px 18px;
     }
-    .dw-kpi-lbl { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
-    .dw-kpi-val { font-size: 22px; font-weight: 900; margin-top: 4px; }
-    .dw-kpi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .dw-kpi:last-child { border-right: none; }
+    .dw-kpi-lbl { font-size: 0.8125rem; font-weight: 600; color: var(--muted); }
+    .dw-kpi-val { font-size: 1.375rem; font-weight: 800; margin-top: 4px; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+    .dw-kpi-sub { font-size: 0.8125rem; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums; }
     .pos { color: var(--pos) !important; }
     .neg { color: var(--neg) !important; }
     .neu { color: var(--text) !important; }
     .dw-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 18px; margin-bottom: 18px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 22px 24px; margin-bottom: 20px;
     }
     .dw-card-head {
       display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
-      gap: 10px; margin-bottom: 12px;
+      gap: 10px; margin-bottom: 14px;
     }
-    .dw-card h2 { margin: 0; font-size: 16.5px; font-weight: 800; }
-    .dw-card-sub { font-size: 12.5px; color: var(--muted); }
+    .dw-card h2 { margin: 0; font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.015em; }
+    .dw-card-sub { font-size: 0.8125rem; color: var(--muted); }
     .dw-badge {
-      display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 800;
-      padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel); color: var(--muted);
+      display: inline-flex; align-items: center; gap: 4px; font-size: 0.8125rem; font-weight: 700;
+      padding: 2px 8px; border-radius: 5px; border: 1px solid var(--border); background: var(--surface); color: var(--muted);
     }
     .dw-badge.pass { background: var(--pos-bg); color: var(--pos); border-color: var(--pos-bd); }
     .dw-badge.wait { background: var(--warn-bg); color: var(--warn); border-color: var(--warn-bd); }
     .dw-badge.loss { background: var(--neg-bg); color: var(--neg); border-color: var(--neg-bd); }
     .dw-badge.auto { background: var(--pos-bg); color: var(--pos); border-color: var(--pos-bd); }
-    .dw-badge.manual { background: rgba(59,130,246,0.12); color: var(--blue); border-color: rgba(59,130,246,0.35); }
-    .dw-tabs { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .dw-badge.manual { background: rgba(22,61,130,0.08); color: var(--blue); border-color: rgba(22,61,130,0.28); }
+    .dw-tabs {
+      display: inline-flex; flex-wrap: wrap; gap: 2px; margin-bottom: 16px;
+      padding: 3px; border-radius: 9px; background: var(--surface); border: 1px solid var(--border);
+    }
     .dw-tab {
-      border: 1px solid var(--border); background: var(--card); color: var(--muted);
-      font-size: 12.5px; font-weight: 700; padding: 7px 13px; border-radius: 9px; cursor: pointer;
+      border: none; background: transparent; color: var(--muted);
+      font-family: inherit; font-size: 0.8125rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; cursor: pointer;
       text-decoration: none;
     }
-    .dw-tab.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
-    .dw-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
-    table.dw-table { width: 100%; border-collapse: collapse; font-size: 12.8px; }
+    .dw-tab:hover { color: var(--text); }
+    .dw-tab.active { background: var(--card); color: var(--text); font-weight: 700; box-shadow: 0 1px 2px rgba(12,18,32,0.08); }
+    html[data-bg="dark"] .dw-tab.active { background: var(--blue); color: #0b1120; }
+    .dw-table-wrap { overflow-x: auto; border-top: 1px solid var(--border-strong); border-bottom: 1px solid var(--border); }
+    table.dw-table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
     table.dw-table th, table.dw-table td {
-      padding: 9px 11px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap;
+      padding: 11px 12px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap;
     }
     table.dw-table th {
-      background: var(--panel); color: var(--muted); font-size: 11.5px; font-weight: 800;
+      background: var(--surface); color: var(--muted); font-size: 0.8125rem; font-weight: 700;
     }
     table.dw-table tr:last-child td { border-bottom: none; }
-    table.dw-table tbody tr:hover td { background: var(--panel); }
+    table.dw-table tbody tr:hover td { background: var(--surface); }
     .num { text-align: right !important; font-variant-numeric: tabular-nums; }
     .dw-link { color: var(--blue); font-weight: 700; text-decoration: none; }
     .dw-link:hover { text-decoration: underline; }
-    .dw-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 18px; }
-    @media (max-width: 860px) { .dw-grid-2 { grid-template-columns: 1fr; } }
+    .dw-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-bottom: 20px; }
+    @media (max-width: 860px) {
+      .dw-wrap { padding: 24px 16px 0; }
+      .dw-grid-2 { grid-template-columns: 1fr; }
+      .dw-kpi { border-right: none; border-bottom: 1px solid var(--border); }
+      .dw-kpi:last-child { border-bottom: none; }
+    }
     .dw-chart-box { position: relative; height: 290px; width: 100%; }
-    .dw-gate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 10px; margin-top: 12px; }
+    .dw-gate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px; margin-top: 14px; }
     .dw-gate-item {
-      border: 1px solid var(--border); background: var(--panel); border-radius: 10px; padding: 11px 13px;
+      border: 1px solid var(--border); background: var(--surface); border-radius: 8px; padding: 12px 14px;
     }
     .dw-gate-item.ok { border-color: var(--pos-bd); background: var(--pos-bg); }
-    .dw-gate-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-weight: 800; font-size: 13px; }
-    .dw-gate-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
-    .dw-progress { height: 8px; border-radius: 999px; background: var(--panel); border: 1px solid var(--border); overflow: hidden; margin-top: 8px; }
-    .dw-progress-bar { height: 100%; background: var(--accent); transition: width 0.25s ease; }
+    .dw-gate-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-weight: 700; font-size: 0.8125rem; }
+    .dw-gate-meta { font-size: 0.8125rem; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums; }
+    .dw-progress { height: 6px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); overflow: hidden; margin-top: 8px; }
+    .dw-progress-bar { height: 100%; background: var(--accent); transition: width 240ms cubic-bezier(0.22, 1, 0.36, 1); }
     .dw-banner {
-      border: 1px solid var(--warn-bd); background: var(--warn-bg); color: var(--text);
-      border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px;
+      border: 1px solid var(--warn-bd); border-left: 3px solid var(--warn); background: var(--warn-bg); color: var(--text);
+      border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 18px; font-size: 0.8125rem;
     }
-    .dw-banner.pass { border-color: var(--pos-bd); background: var(--pos-bg); }
+    .dw-banner.pass { border-color: var(--pos-bd); border-left-color: var(--pos); background: var(--pos-bg); }
   </style>
 
 </head>
 <body>
 
+<link id="dj-qunt-font-preconnect1" rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link id="dj-qunt-font-css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <style id="dj-qunt-unified-style">
   :root {
-    --bg: #ffffff; --panel: #ffffff; --card: #ffffff; --border: #e2e8f0; --card-border: #f1f5f9;
-    --background: #ffffff; --foreground: #0f172a; --text: #0f172a; --muted: #475569; --muted-foreground: #475569;
-    --primary: #1d4ed8; --primary-foreground: #ffffff;
+    --dj-font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --bg: #ffffff; --panel: #ffffff; --card: #ffffff; --surface: #f7f8fa;
+    --border: #e3e7ef; --card-border: #eef2f6; --border-strong: #cbd3e1;
+    --background: #ffffff; --foreground: #0c1220; --text: #0c1220; --muted: #525d70; --muted-foreground: #525d70;
+    --primary: #163d82; --primary-foreground: #ffffff; --accent: #163d82;
   }
-  html, body { background-color: #ffffff; margin: 0; }
-  html[data-bg="warm"], html[data-bg="warm"] body { background-color: #faf8f5 !important; color: #1c1917 !important; --bg: #faf8f5; --background: #faf8f5; --panel: #ffffff; --card: #ffffff; --border: #e7e2d8; --text: #1c1917; --foreground: #1c1917; --muted: #57534e; --muted-foreground: #57534e; }
-  html[data-bg="soft"], html[data-bg="soft"] body { background-color: #f1f5f9 !important; color: #0f172a !important; --bg: #f1f5f9; --background: #f1f5f9; --panel: #ffffff; --card: #ffffff; --border: #cbd5e1; --text: #0f172a; --foreground: #0f172a; --muted: #475569; --muted-foreground: #47534e; }
-  html[data-bg="dark"], html[data-bg="dark"] body { background-color: #0b1120 !important; color: #f8fafc !important; --bg: #0b1120; --background: #0b1120; --panel: #111827; --card: #111827; --border: #1f2937; --card-border: #1e293b; --text: #f8fafc; --foreground: #f8fafc; --muted: #94a3b8; --muted-foreground: #94a3b8; --primary: #3b82f6; }
-  html[data-bg="dark"] .header, html[data-bg="dark"] .kpi-card, html[data-bg="dark"] .chart-box, html[data-bg="dark"] .table-card, html[data-bg="dark"] .stat-card, html[data-bg="dark"] .gen-card, html[data-bg="dark"] .filter-bar, html[data-bg="dark"] .table-wrap { background: #111827 !important; border-color: #1f2937 !important; color: #f8fafc !important; }
-  html[data-bg="dark"] h1, html[data-bg="dark"] h2, html[data-bg="dark"] h3, html[data-bg="dark"] .kpi-val, html[data-bg="dark"] table, html[data-bg="dark"] td { color: #f8fafc !important; border-color: #1f2937 !important; }
-  html[data-bg="dark"] th { background: #1e293b !important; color: #e2e8f0 !important; border-color: #334155 !important; }
-  html[data-bg="dark"] tr:hover td { background: #1e293b !important; }
-  html[data-bg="dark"] .autopsy-banner { background: #1e293b !important; border-color: #334155 !important; color: #f8fafc !important; }
+  html, body {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0 0 72px !important;
+    font-family: var(--dj-font);
+    overflow-x: clip;
+  }
+  html[data-bg="warm"], html[data-bg="warm"] body { background-color: #faf8f5 !important; color: #1c1917 !important; --bg: #faf8f5; --background: #faf8f5; --panel: #ffffff; --card: #ffffff; --surface: #f3efe8; --border: #e6dfd4; --text: #1c1917; --foreground: #1c1917; --muted: #57534e; --muted-foreground: #57534e; --accent: #1d4078; --primary: #1d4078; }
+  html[data-bg="soft"], html[data-bg="soft"] body { background-color: #f1f5f9 !important; color: #0c1220 !important; --bg: #f1f5f9; --background: #f1f5f9; --panel: #ffffff; --card: #ffffff; --surface: #e6ecf3; --border: #cbd5e1; --text: #0c1220; --foreground: #0c1220; --muted: #475569; --muted-foreground: #475569; --accent: #163d82; --primary: #163d82; }
+  html[data-bg="dark"], html[data-bg="dark"] body { background-color: #0b1120 !important; color: #f1f5f9 !important; --bg: #0b1120; --background: #0b1120; --panel: #0f172a; --card: #0f172a; --surface: #131f35; --border: #1e293b; --card-border: #1e293b; --border-strong: #334155; --text: #f1f5f9; --foreground: #f1f5f9; --muted: #94a3b8; --muted-foreground: #94a3b8; --primary: #60a5fa; --accent: #60a5fa; }
+  html[data-bg="dark"] .header, html[data-bg="dark"] .kpi-card, html[data-bg="dark"] .chart-box, html[data-bg="dark"] .table-card, html[data-bg="dark"] .stat-card, html[data-bg="dark"] .gen-card, html[data-bg="dark"] .filter-bar, html[data-bg="dark"] .table-wrap, html[data-bg="dark"] article { background: #0f172a !important; border-color: #1e293b !important; color: #f1f5f9 !important; }
+  html[data-bg="dark"] h1, html[data-bg="dark"] h2, html[data-bg="dark"] h3, html[data-bg="dark"] .kpi-val, html[data-bg="dark"] table, html[data-bg="dark"] td { color: #f1f5f9 !important; border-color: #1e293b !important; }
+  html[data-bg="dark"] th { background: #131f35 !important; color: #cbd5e1 !important; border-color: #334155 !important; }
+  html[data-bg="dark"] tr:hover td { background: #131f35 !important; }
+  html[data-bg="dark"] .autopsy-banner { background: #131f35 !important; border-color: #334155 !important; color: #f1f5f9 !important; }
 
-  /* 하위 페이지 내부의 중복 배경색 스위처 바 숨김 (통합 헤더의 단일 스위처만 사용) */
+  /* 하위 페이지 내부의 중복 배경색 스위처 바 숨김 */
   .bg-pill-bar, .bg-switcher, .topbar .bg-bar, .header .bg-bar { display: none !important; }
+  .container, .page-inner, .wrap, .dw-wrap { font-family: var(--dj-font); }
 
   #dj-qunt-unified-header {
-    position: sticky; top: 0; z-index: 9995; background: #ffffff; color: #0f172a;
-    border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(15,23,42,0.06);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, Roboto, sans-serif;
+    position: sticky; top: 0; z-index: 9995;
+    background: var(--bg); color: var(--text);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 0 var(--border);
+    font-family: var(--dj-font);
     line-height: 1.4;
   }
   #dj-qunt-unified-header * { box-sizing: border-box; }
   #dj-qunt-unified-header .dj-u-row1 {
-    max-width: 1460px; margin: 0 auto; padding: 9px 18px;
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+    max-width: 1220px; margin: 0 auto; padding: 0 24px; min-height: 58px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
   }
   #dj-qunt-unified-header .dj-u-brand {
-    display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
-    color: #0f172a; font-weight: 900; font-size: 15px;
+    display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+    color: var(--text); font-weight: 800; font-size: 1.125rem; letter-spacing: -0.03em; white-space: nowrap; flex-shrink: 0;
   }
   #dj-qunt-unified-header .dj-u-dot {
-    width: 22px; height: 22px; border-radius: 6px; background: #1d4ed8; color: #ffffff;
-    display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;
+    width: 26px; height: 26px; border-radius: 6px; background: var(--text); color: var(--bg);
+    display: inline-flex; align-items: center; justify-content: center; font-size: 0.8125rem; font-weight: 800; letter-spacing: -0.02em;
   }
-  #dj-qunt-unified-header .dj-u-menus { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-  #dj-qunt-unified-header .dj-u-group {
-    display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px;
-    padding: 3px 6px; border-radius: 9px; border: 1px solid #e2e8f0; background: #f8fafc;
+  #dj-qunt-unified-header .dj-u-menus {
+    display: flex; align-items: stretch; gap: 4px; overflow-x: auto; scrollbar-width: none;
   }
-  #dj-qunt-unified-header .dj-u-group-danta {
-    background: #ecfdf5; border-color: #a7f3d0;
-  }
-  #dj-qunt-unified-header .dj-u-glabel {
-    font-size: 10.5px; font-weight: 800; color: #475569; padding: 0 4px 0 2px; white-space: nowrap;
-  }
-  #dj-qunt-unified-header .dj-u-group-danta .dj-u-glabel { color: #047857; }
-  #dj-qunt-unified-header .dj-u-sep { width: 1px; height: 20px; background: #e2e8f0; }
+  #dj-qunt-unified-header .dj-u-menus::-webkit-scrollbar { display: none; }
   #dj-qunt-unified-header .dj-u-mbtn {
-    text-decoration: none; font-size: 12px; font-weight: 700; color: #475569;
-    padding: 4px 9px; border-radius: 7px; border: 1px solid #e2e8f0; background: #ffffff;
+    text-decoration: none; font-size: 0.8125rem; font-weight: 600; color: var(--muted);
+    padding: 18px 11px; white-space: nowrap; display: inline-flex; align-items: center;
+    border-bottom: 2px solid transparent;
+    transition: color 180ms cubic-bezier(0.22, 1, 0.36, 1), border-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  #dj-qunt-unified-header .dj-u-mbtn:hover { border-color: #1d4ed8; color: #1d4ed8; }
-  #dj-qunt-unified-header .dj-u-mbtn.active { background: #1d4ed8; color: #ffffff; border-color: #1d4ed8; }
-  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta { border-color: #a7f3d0; color: #047857; }
-  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta:hover { border-color: #059669; color: #065f46; }
-  #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta.active { background: #059669; color: #ffffff; border-color: #059669; }
+  #dj-qunt-unified-header .dj-u-mbtn:hover { color: var(--text); }
+  #dj-qunt-unified-header .dj-u-mbtn.active { color: var(--accent); font-weight: 700; border-bottom-color: var(--accent); }
+
   #dj-qunt-unified-header .dj-u-bgbar {
-    display: inline-flex; gap: 2px; padding: 3px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc;
+    display: inline-flex; align-items: center; border: 1px solid var(--border);
+    border-radius: 8px; background: var(--surface); padding: 2px; flex-shrink: 0;
   }
   #dj-qunt-unified-header .dj-u-bgbtn {
-    border: none; background: transparent; color: #475569; font-size: 11.5px; font-weight: 600;
-    padding: 4px 8px; border-radius: 6px; cursor: pointer;
+    border: none; background: transparent; color: var(--muted); font-family: inherit;
+    font-size: 0.8125rem; font-weight: 600; padding: 4px 10px; border-radius: 6px; cursor: pointer; white-space: nowrap;
+    transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1), color 160ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  #dj-qunt-unified-header .dj-u-bgbtn.active { background: #1d4ed8; color: #ffffff; }
+  #dj-qunt-unified-header .dj-u-bgbtn:hover { color: var(--text); }
+  #dj-qunt-unified-header .dj-u-bgbtn.active {
+    background: var(--card); color: var(--text); box-shadow: 0 1px 2px rgba(12, 18, 32, 0.08);
+  }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-bgbtn.active { background: #60a5fa; color: #0b1120; }
 
   #dj-qunt-unified-header .dj-u-row2 {
-    background: #f8fafc; border-top: 1px solid #e2e8f0;
+    background: var(--surface); border-top: 1px solid var(--border);
   }
   #dj-qunt-unified-header .dj-u-row2-in {
-    max-width: 1460px; margin: 0 auto; padding: 7px 18px;
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+    max-width: 1220px; margin: 0 auto; padding: 8px 24px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 18px; font-size: 0.8125rem;
   }
   #dj-qunt-unified-header .dj-bc-trail {
-    display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; color: #475569;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--muted);
   }
   #dj-qunt-unified-header .dj-bc-trail a {
-    text-decoration: none; color: #475569; font-weight: 600;
+    text-decoration: none; color: var(--muted); font-weight: 500;
   }
-  #dj-qunt-unified-header .dj-bc-trail a:hover { color: #1d4ed8; text-decoration: underline; }
-  #dj-qunt-unified-header .dj-bc-cur { color: #0f172a; font-weight: 800; }
-  #dj-qunt-unified-header .dj-sib-group { display: flex; flex-wrap: wrap; gap: 5px; }
-  #dj-qunt-unified-header .dj-sib-btn {
-    text-decoration: none; font-size: 11.5px; font-weight: 600; color: #475569;
-    padding: 3px 9px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff;
+  #dj-qunt-unified-header .dj-bc-trail a:hover { color: var(--accent); text-decoration: underline; }
+  #dj-qunt-unified-header .dj-bc-cur { color: var(--text); font-weight: 700; }
+  #dj-qunt-unified-header .dj-u-row2-right {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
   }
-  #dj-qunt-unified-header .dj-sib-btn:hover { border-color: #1d4ed8; color: #1d4ed8; }
-  #dj-qunt-unified-header .dj-sib-btn.active { background: #eff6ff; color: #1d4ed8; border-color: #1d4ed8; font-weight: 800; }
+  #dj-qunt-unified-header .dj-u-danta-nav {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  }
+  #dj-qunt-unified-header .dj-u-danta-lbl {
+    font-weight: 700; color: #047857;
+  }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-danta-lbl { color: #34d399; }
+  #dj-qunt-unified-header .dj-u-danta-link {
+    text-decoration: none; color: var(--muted); font-weight: 600; white-space: nowrap;
+  }
+  #dj-qunt-unified-header .dj-u-danta-link:hover,
+  #dj-qunt-unified-header .dj-u-danta-link.active { color: var(--accent); text-decoration: underline; }
 
-  html[data-bg="warm"] #dj-qunt-unified-header { background: #faf8f5; border-color: #e7e2d8; }
-  html[data-bg="warm"] #dj-qunt-unified-header .dj-u-row2 { background: #f5f2eb; border-color: #e7e2d8; }
-  html[data-bg="soft"] #dj-qunt-unified-header { background: #f1f5f9; border-color: #cbd5e1; }
-  html[data-bg="soft"] #dj-qunt-unified-header .dj-u-row2 { background: #e2e8f0; border-color: #cbd5e1; }
-  html[data-bg="dark"] #dj-qunt-unified-header { background: #111827; color: #f8fafc; border-color: #1f2937; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-brand,
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-cur { color: #f8fafc; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn,
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-bgbar,
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn { background: #1e293b; border-color: #334155; color: #cbd5e1; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group { background: #0f172a; border-color: #1f2937; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group-danta { background: rgba(16,185,129,0.10); border-color: rgba(16,185,129,0.32); }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-glabel { color: #94a3b8; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-group-danta .dj-u-glabel { color: #34d399; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-sep { background: #1f2937; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta { border-color: rgba(16,185,129,0.35); color: #34d399; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.dj-u-danta.active { background: #059669; border-color: #10b981; color: #ffffff; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-mbtn.active { background: #2563eb; border-color: #2563eb; color: #ffffff; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn.active { background: rgba(37,99,235,0.25); border-color: #60a5fa; color: #93c5fd; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-row2 { background: #0b1120; border-color: #1f2937; }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-trail,
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-bc-trail a { color: #94a3b8; }
+  #dj-qunt-unified-header .dj-sib-group {
+    display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 2px;
+    border-radius: 8px; border: 1px solid var(--border); background: var(--bg);
+  }
+  #dj-qunt-unified-header .dj-sib-btn {
+    text-decoration: none; font-size: 0.8125rem; font-weight: 600; color: var(--muted);
+    padding: 3px 10px; border-radius: 6px; white-space: nowrap;
+  }
+  #dj-qunt-unified-header .dj-sib-btn:hover { color: var(--text); }
+  #dj-qunt-unified-header .dj-sib-btn.active { background: var(--card); color: var(--accent); font-weight: 700; box-shadow: 0 1px 2px rgba(12, 18, 32, 0.08); }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn.active { background: #60a5fa; color: #0b1120; }
+
+  @media (max-width: 1040px) {
+    #dj-qunt-unified-header .dj-u-row1 { flex-wrap: wrap; padding: 10px 18px; gap: 10px; }
+    #dj-qunt-unified-header .dj-u-menus { order: 3; width: 100%; border-top: 1px solid var(--border); }
+    #dj-qunt-unified-header .dj-u-mbtn { padding: 11px 10px; }
+  }
+  @media (max-width: 780px) {
+    #dj-qunt-unified-header { position: static; }
+    #dj-qunt-unified-header .dj-u-row1 { padding: 10px 16px; }
+    #dj-qunt-unified-header .dj-u-menus { flex-wrap: wrap; overflow-x: visible; padding-top: 4px; }
+    #dj-qunt-unified-header .dj-u-mbtn { padding: 8px 10px; }
+    #dj-qunt-unified-header .dj-u-row2-in { padding: 8px 16px; }
+  }
   @media print { #dj-qunt-unified-header { display: none !important; } }
 </style>
-<header id="dj-qunt-unified-header" data-has-home-nav="1" data-has-bg-switcher="1">
+<header id="dj-qunt-unified-header" data-has-home-nav="1" data-has-bg-switcher="1" data-active-menu="danta-daily" data-page-title="2026-11-03 단타 내역" data-parent-title="6. 일별 단타 내역" data-parent-url="/danta-daily/">
   <div class="dj-u-row1">
     <a class="dj-u-brand" href="https://tron1981-maker.github.io/dj-qunt/">
       <span class="dj-u-dot">DJ</span>
       <span>Dongju QUNT Lab</span>
     </a>
-    <nav class="dj-u-menus" aria-label="상위 메뉴">
-      <div class="dj-u-group" aria-label="연구 및 백테스트 랭킹"><span class="dj-u-glabel">연구·랭킹</span><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#algo">1. 버전별 알고리즘</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#reports">2. 인터랙티브 리포트</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-pre">3. 프리장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-reg">4. 본장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-period">5. 기간별 수익률 랭킹</a></div><span class="dj-u-sep" aria-hidden="true"></span><div class="dj-u-group dj-u-group-danta" aria-label="실전 페이퍼 단타"><span class="dj-u-glabel">실전 단타</span><a class="dj-u-mbtn dj-u-danta active" href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-auto/">7. 자동 매매</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-manual/">8. 수동 매매</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-compare/">9. 자동 vs 수동 비교</a><a class="dj-u-mbtn dj-u-danta " href="https://tron1981-maker.github.io/danta-charts/">10. 단타 수익 그래프</a></div>
+    <nav class="dj-u-menus" aria-label="연구·랭킹">
+      <a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#algo">버전별 알고리즘</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#reports">인터랙티브 리포트</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-pre">프리장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-reg">본장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-period">기간별 수익률</a>
     </nav>
     <div class="dj-u-bgbar" role="group" aria-label="배경색 변경">
       <button type="button" class="dj-u-bgbtn active" onclick="window.__setDocBg('white', this)">화이트</button>
@@ -243,8 +276,14 @@
   </div>
   <div class="dj-u-row2">
     <div class="dj-u-row2-in">
-      <div class="dj-bc-trail"><a href="https://tron1981-maker.github.io/dj-qunt/">🏠 Dongju QUNT Lab 홈</a><span class="dj-sep">›</span><a href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><span class="dj-sep">›</span><a href="/danta-daily/">6. 일별 단타 내역</a><span class="dj-sep">›</span><span class="dj-bc-cur">[현재] 2026-11-03 단타 내역</span></div>
-      <div class="dj-sib-group"><a class="dj-sib-btn " href="/danta-daily/">← 전체 일별 목록</a><a class="dj-sib-btn " href="/danta-daily/2026-11-02/">‹ 2026-11-02</a><a class="dj-sib-btn active" href="/danta-daily/2026-11-03/">📅 2026-11-03 (현재)</a><a class="dj-sib-btn " href="/danta-daily/2026-11-04/">2026-11-04 ›</a><a class="dj-sib-btn " href="/danta-charts/">📈 전체 수익 그래프</a></div>
+      <div class="dj-bc-trail"><a href="https://tron1981-maker.github.io/dj-qunt/">Dongju QUNT Lab 홈</a><span class="dj-sep">›</span><a href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><span class="dj-sep">›</span><a href="/danta-daily/">6. 일별 단타 내역</a><span class="dj-sep">›</span><span class="dj-bc-cur">2026-11-03 단타 내역</span></div>
+      <div class="dj-u-row2-right">
+        <nav class="dj-u-danta-nav" aria-label="실전 단타">
+          <span class="dj-u-danta-lbl">실전 단타</span>
+          <a class="dj-u-danta-link active" href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-auto/">7. 자동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-manual/">8. 수동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-compare/">9. 자동 vs 수동 비교</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-charts/">10. 단타 수익 그래프</a>
+        </nav>
+        <div class="dj-sib-group"><a class="dj-sib-btn " href="/danta-daily/">← 전체 일별 목록</a><a class="dj-sib-btn " href="/danta-daily/2026-11-02/">‹ 2026-11-02</a><a class="dj-sib-btn active" href="/danta-daily/2026-11-03/">📅 2026-11-03 (현재)</a><a class="dj-sib-btn " href="/danta-daily/2026-11-04/">2026-11-04 ›</a><a class="dj-sib-btn " href="/danta-charts/">📈 전체 수익 그래프</a></div>
+      </div>
     </div>
   </div>
 </header>
@@ -266,9 +305,9 @@
     }
     if (window.Plotly) {
       const isDark = mode === 'dark';
-      const paper = isDark ? '#111827' : '#ffffff';
+      const paper = isDark ? '#0f172a' : '#ffffff';
       const plot = isDark ? '#0b1120' : '#ffffff';
-      const fc = isDark ? '#e2e8f0' : '#0f172a';
+      const fc = isDark ? '#f1f5f9' : '#0c1220';
       document.querySelectorAll('.js-plotly-plot').forEach(gd => {
         try { Plotly.relayout(gd, { paper_bgcolor: paper, plot_bgcolor: plot, 'font.color': fc }); } catch (e) {}
       });
@@ -313,7 +352,7 @@
         <h1>📅 2026-11-03 (ET) 단타 수익 내역 & 장중 곡선</h1>
         <p>자동 매매 0건 ($0.00) · 수동 매매 3건 (+$1.22)</p>
       </div>
-      <div class="dw-meta">업데이트: 2026-11-25 04:58:29 KST</div>
+      <div class="dw-meta">업데이트: 2026-11-25 22:41:00 KST</div>
     </div>
 
     <div class="dw-kpi-grid">

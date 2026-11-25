@@ -4,302 +4,849 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dongju QUNT Lab · 개인 퀀트 연구 & 인터랙티브 리포트 허브</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap" />
   <style>
     :root {
-      --bg: #ffffff; --card: #ffffff; --panel: #f8fafc; --border: #e2e8f0;
-      --text: #0f172a; --muted: #475569; --accent: #1d4ed8; --accent-hover: #1e40af;
-      --badge-bg: #eff6ff; --badge-tx: #1d4ed8;
-      --pre-bg: #fff7ed; --pre-tx: #c2410c; --pre-bd: #fed7aa;
-      --reg-bg: #ecfdf5; --reg-tx: #047857; --reg-bd: #a7f3d0;
-      --fail-bg: #fef2f2; --fail-tx: #b91c1c; --fail-bd: #fecaca;
+      --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+      --text-heading: 1.0625rem;
+      --text-body: 0.9375rem;
+      --text-sm: 0.8125rem;
+      --bg: #ffffff;
+      --card: #ffffff;
+      --surface: #f7f8fa;
+      --panel: #f7f8fa;
+      --border: #e3e7ef;
+      --border-strong: #cbd3e1;
+      --text: #0c1220;
+      --muted: #525d70;
+      --accent: #163d82;
+      --accent-hover: #0e2c63;
+      --accent-soft: #eef3fb;
+      --pos: #047857;
+      --neg: #be123c;
+      --badge-bg: #eef3fb;
+      --badge-tx: #163d82;
+      --pre-bg: #fff7ed;
+      --pre-tx: #9a3412;
+      --pre-bd: #fed7aa;
+      --reg-bg: #ecfdf5;
+      --reg-tx: #065f46;
+      --reg-bd: #a7f3d0;
+      --fail-bg: #fef2f2;
+      --fail-tx: #991b1b;
+      --fail-bd: #fecaca;
     }
     html[data-bg="warm"] {
-      --bg: #faf8f5; --card: #ffffff; --panel: #f5f2eb; --border: #e7e2d8;
-      --text: #1c1917; --muted: #57534e;
+      --bg: #faf8f5;
+      --card: #ffffff;
+      --surface: #f3efe8;
+      --panel: #f3efe8;
+      --border: #e6dfd4;
+      --border-strong: #d4cab9;
+      --text: #1c1917;
+      --muted: #57534e;
+      --accent: #1d4078;
+      --accent-hover: #142f59;
+      --accent-soft: #efeae0;
+      --badge-bg: #efeae0;
+      --badge-tx: #1d4078;
     }
     html[data-bg="soft"] {
-      --bg: #f1f5f9; --card: #ffffff; --panel: #e2e8f0; --border: #cbd5e1;
-      --text: #0f172a; --muted: #475569;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --surface: #e6ecf3;
+      --panel: #e6ecf3;
+      --border: #cbd5e1;
+      --border-strong: #94a3b8;
+      --text: #0c1220;
+      --muted: #475569;
+      --accent: #163d82;
+      --accent-hover: #0e2c63;
+      --accent-soft: #e0e9f7;
+      --badge-bg: #e0e9f7;
+      --badge-tx: #163d82;
     }
     html[data-bg="dark"] {
-      --bg: #0b1120; --card: #111827; --panel: #1e293b; --border: #1f2937;
-      --text: #f8fafc; --muted: #94a3b8; --accent: #3b82f6; --accent-hover: #2563eb;
-      --badge-bg: rgba(59,130,246,0.16); --badge-tx: #60a5fa;
-      --pre-bg: rgba(249,115,22,0.16); --pre-tx: #fb923c; --pre-bd: rgba(249,115,22,0.35);
-      --reg-bg: rgba(16,185,129,0.16); --reg-tx: #34d399; --reg-bd: rgba(16,185,129,0.35);
-      --fail-bg: rgba(239,68,68,0.16); --fail-tx: #f87171; --fail-bd: rgba(239,68,68,0.35);
+      --bg: #0b1120;
+      --card: #0f172a;
+      --surface: #131f35;
+      --panel: #131f35;
+      --border: #1e293b;
+      --border-strong: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #60a5fa;
+      --accent-hover: #93c5fd;
+      --accent-soft: rgba(96, 165, 250, 0.14);
+      --pos: #34d399;
+      --neg: #fb7185;
+      --badge-bg: rgba(96, 165, 250, 0.14);
+      --badge-tx: #93c5fd;
+      --pre-bg: rgba(249, 115, 22, 0.14);
+      --pre-tx: #fdba74;
+      --pre-bd: rgba(249, 115, 22, 0.35);
+      --reg-bg: rgba(16, 185, 129, 0.14);
+      --reg-tx: #6ee7b7;
+      --reg-bd: rgba(16, 185, 129, 0.35);
+      --fail-bg: rgba(244, 63, 94, 0.14);
+      --fail-tx: #fda4af;
+      --fail-bd: rgba(244, 63, 94, 0.35);
     }
     * { box-sizing: border-box; }
+    html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
     body {
-      margin: 0; padding: 0 0 64px; background: var(--bg); color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Pretendard", sans-serif;
-      line-height: 1.55;
+      margin: 0;
+      padding: 0 0 80px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: var(--text-body);
+      line-height: 1.6;
+      overflow-x: clip;
     }
-    /* Unified 2-Row Sticky Header */
+    .tabular { font-variant-numeric: tabular-nums; }
+    .pos { color: var(--pos); font-weight: 700; }
+    .neg { color: var(--neg); font-weight: 700; }
+
+    /* Unified Header */
     #dj-qunt-unified-header {
-      position: sticky; top: 0; z-index: 9990; background: var(--card);
-      border-bottom: 1px solid var(--border); box-shadow: 0 2px 10px rgba(15,23,42,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 9990;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 0 var(--border);
     }
     .dj-row1 {
-      max-width: 1180px; margin: 0 auto; padding: 10px 18px;
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 24px;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
     .dj-brand {
-      display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
-      color: var(--text); font-weight: 900; font-size: 16px; letter-spacing: -0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 800;
+      font-size: 1.125rem;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .dj-brand-dot {
-      width: 24px; height: 24px; border-radius: 7px; background: var(--accent); color: #fff;
-      display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: var(--text);
+      color: var(--bg);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8125rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
     }
-    .dj-menu-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-    .dj-gnb-group {
-      display: inline-flex; flex-wrap: wrap; align-items: center; gap: 5px;
-      padding: 3px 6px; border-radius: 10px; background: var(--panel); border: 1px solid var(--border);
+    .dj-menu-bar {
+      display: flex;
+      align-items: stretch;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
-    .dj-gnb-group.danta-group {
-      background: var(--reg-bg); border-color: var(--reg-bd);
-    }
-    .dj-gnb-label {
-      font-size: 10.5px; font-weight: 800; color: var(--muted); padding: 0 5px 0 3px;
-      letter-spacing: 0.02em; white-space: nowrap;
-    }
-    .dj-gnb-group.danta-group .dj-gnb-label { color: var(--reg-tx); }
-    .dj-gnb-sep {
-      width: 1px; height: 22px; background: var(--border); margin: 0 2px;
-    }
+    .dj-menu-bar::-webkit-scrollbar { display: none; }
     .dj-menu-btn {
-      border: 1px solid var(--border); background: var(--card); color: var(--muted);
-      font-size: 12.5px; font-weight: 700; padding: 6px 11px; border-radius: 8px; cursor: pointer;
-      transition: all 0.14s ease; text-decoration: none; display: inline-flex; align-items: center;
+      position: relative;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      padding: 18px 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      border-bottom: 2px solid transparent;
+      transition: color 180ms cubic-bezier(0.22, 1, 0.36, 1), border-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .dj-menu-btn:hover { color: var(--text); border-color: var(--accent); }
-    .dj-menu-btn.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
-    .dj-menu-btn.danta-link { border-color: var(--reg-bd); color: var(--reg-tx); }
-    .dj-menu-btn.danta-link:hover { background: var(--reg-tx); color: #ffffff; border-color: var(--reg-tx); }
+    .dj-menu-btn:hover { color: var(--text); }
+    .dj-menu-btn.active {
+      color: var(--accent);
+      font-weight: 700;
+      border-bottom-color: var(--accent);
+    }
+    .nav-count {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      font-weight: 500;
+      margin-left: 4px;
+    }
+    .dj-menu-btn.active .nav-count { color: var(--accent); }
+
     .bg-bar {
-      display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--border);
-      border-radius: 9px; background: var(--bg);
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 2px;
+      flex-shrink: 0;
     }
     .bg-btn {
-      border: none; background: transparent; color: var(--muted); font-size: 11.5px;
-      font-weight: 600; padding: 5px 9px; border-radius: 6px; cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1), color 160ms cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .bg-btn.active { background: var(--accent); color: #ffffff; }
+    .bg-btn:hover { color: var(--text); }
+    .bg-btn.active {
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 1px 2px rgba(12, 18, 32, 0.08);
+    }
+    html[data-bg="dark"] .bg-btn.active {
+      background: var(--accent);
+      color: #0b1120;
+    }
+
     .dj-row2 {
-      background: var(--panel); border-top: 1px solid var(--border);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
     }
     .dj-row2-inner {
-      max-width: 1180px; margin: 0 auto; padding: 7px 18px;
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; font-size: 12.5px;
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 8px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 20px;
+      font-size: var(--text-sm);
     }
-    .dj-bc-trail { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--muted); }
-    .dj-bc-trail a { color: var(--muted); text-decoration: none; font-weight: 600; }
+    .dj-bc-trail {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+    }
+    .dj-bc-trail a {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
     .dj-bc-trail a:hover { color: var(--accent); text-decoration: underline; }
-    .dj-bc-cur { color: var(--text); font-weight: 800; }
-    .dj-meta-chip { font-size: 11.5px; color: var(--muted); font-family: monospace; }
+    .dj-bc-cur { color: var(--text); font-weight: 700; }
+    .dj-row2-right {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+    }
+    .dj-danta-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+    .dj-danta-lbl {
+      color: var(--pos);
+      font-weight: 700;
+    }
+    .dj-danta-item {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .dj-danta-item:hover { color: var(--accent); text-decoration: underline; }
+    .dj-meta-chip {
+      font-size: var(--text-sm);
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      padding-left: 14px;
+      border-left: 1px solid var(--border);
+    }
 
-    .wrap { max-width: 1180px; margin: 22px auto 0; padding: 0 18px; }
+    /* Layout Container */
+    .wrap {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 36px 24px 0;
+    }
     .topic-panel { display: none; }
     .topic-panel.active { display: block; }
 
     .panel-head {
-      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
-      gap: 12px; padding-bottom: 14px; border-bottom: 2px solid var(--border); margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
     }
-    .panel-head h1 { margin: 0; font-size: 22px; font-weight: 800; }
-    .panel-head p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+    .panel-head h1 {
+      margin: 0;
+      font-size: clamp(1.625rem, 2.5vw, 2.125rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.15;
+    }
+    .panel-head p {
+      margin: 8px 0 0;
+      font-size: var(--text-body);
+      color: var(--muted);
+      max-width: 65ch;
+    }
+    .panel-head-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Connected Segmented Controls (Non-button mode selectors) */
+    .seg-group {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .tab-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1), color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+      box-shadow: 0 1px 2px rgba(12, 18, 32, 0.08);
+    }
+    html[data-bg="dark"] .tab-btn.active {
+      background: var(--accent);
+      color: #0b1120;
+    }
 
     .subtab-bar {
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-      gap: 10px; margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
     }
-    .pill-group { display: inline-flex; flex-wrap: wrap; gap: 6px; }
-    .tab-btn {
-      border: 1px solid var(--border); background: var(--card); color: var(--muted);
-      font-size: 12.5px; font-weight: 700; padding: 7px 13px; border-radius: 9px; cursor: pointer;
-    }
-    .tab-btn.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
     .sub-view { display: none; }
     .sub-view.active { display: block; }
 
-    .gen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 16px; }
-    .gen-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 18px 20px; display: flex; flex-direction: column; gap: 8px;
-      box-shadow: 0 1px 3px rgba(15,23,42,0.04); transition: border-color 0.15s ease, transform 0.15s ease;
-    }
-    .gen-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .gen-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .badge {
-      background: var(--badge-bg); color: var(--badge-tx); font-size: 11px; font-weight: 700;
-      padding: 3px 9px; border-radius: 999px;
-    }
-    .badge-pre { background: var(--pre-bg); color: var(--pre-tx); border: 1px solid var(--pre-bd); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
-    .badge-reg { background: var(--reg-bg); color: var(--reg-tx); border: 1px solid var(--reg-bd); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
-    .st-pass { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; background: var(--reg-bg); color: var(--reg-tx); border: 1px solid var(--reg-bd); }
-    .st-fail { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; background: var(--fail-bg); color: var(--fail-tx); border: 1px solid var(--fail-bd); }
-    .mono { font-family: monospace; }
-    .gen-name { margin: 0; font-size: 16px; font-weight: 800; line-height: 1.35; }
-    .gen-row { font-size: 12.5px; color: var(--muted); }
-    .gen-row b { color: var(--text); }
-    .gen-champ { font-size: 12px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; margin-top: 2px; }
-    .gen-foot { margin-top: auto; padding-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
-
-    .search {
-      background: var(--card); border: 1px solid var(--border); color: var(--text);
-      padding: 8px 13px; border-radius: 10px; font-size: 13px; min-width: 230px; outline: none;
-    }
-    .search:focus { border-color: var(--accent); }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 16px; }
-    .card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 18px 20px; display: flex; flex-direction: column; justify-content: space-between;
-      box-shadow: 0 1px 3px rgba(15,23,42,0.04); transition: transform 0.15s ease, border-color 0.15s ease;
-    }
-    .card:hover { transform: translateY(-2px); border-color: var(--accent); }
-    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .date { font-size: 12px; color: var(--muted); font-family: monospace; }
-    .card-title { margin: 0 0 8px; font-size: 17px; line-height: 1.35; font-weight: 800; }
-    .card-title a { color: var(--text); text-decoration: none; }
-    .card-desc { margin: 0 0 16px; font-size: 13px; color: var(--muted); flex-grow: 1; }
-    .card-actions { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+    /* Quiet Links & Single Primary CTA */
     .primary-btn {
-      background: var(--accent); color: #fff; text-decoration: none; font-size: 12px;
-      font-weight: 600; padding: 7px 12px; border-radius: 8px; border: none; cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      color: #ffffff;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 180ms cubic-bezier(0.22, 1, 0.36, 1), transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
     }
     .primary-btn:hover { background: var(--accent-hover); }
-    .extra-btn, .copy-btn {
-      background: transparent; border: 1px solid var(--border); color: var(--muted);
-      text-decoration: none; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 8px; cursor: pointer;
-    }
-    .extra-btn:hover, .copy-btn:hover { color: var(--text); border-color: var(--muted); }
+    html[data-bg="dark"] .primary-btn { color: #0b1120; }
 
+    .primary-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      white-space: nowrap;
+      transition: color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .primary-link:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    .quiet-link, .quiet-btn {
+      background: transparent;
+      border: none;
+      padding: 0;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .quiet-link:hover, .quiet-btn:hover { color: var(--text); text-decoration: underline; }
+
+    /* Editorial Spotlight Strip */
+    .spotlight-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px 24px;
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      border-radius: 0 8px 8px 0;
+    }
+    .spotlight-copy h2 {
+      margin: 0;
+      font-size: var(--text-heading);
+      font-weight: 700;
+      color: var(--text);
+    }
+    .spotlight-copy p {
+      margin: 4px 0 0;
+      font-size: var(--text-sm);
+      color: var(--muted);
+      max-width: 65ch;
+    }
+
+    /* 7-Generation Architectural Grid */
+    .gen-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .gen-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 180ms cubic-bezier(0.22, 1, 0.36, 1), transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .gen-card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+    .gen-card.gen-featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 28px;
+      align-items: center;
+      background: var(--surface);
+      border-color: var(--border-strong);
+      padding: 28px;
+    }
+    .gen-featured-aside {
+      border-left: 1px solid var(--border);
+      padding-left: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .gen-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      font-size: var(--text-sm);
+      color: var(--muted);
+    }
+    .gen-id-label {
+      font-weight: 700;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+    .gen-session-label { font-weight: 500; }
+    .gen-name {
+      margin: 0;
+      font-size: var(--text-heading);
+      font-weight: 700;
+      line-height: 1.35;
+      letter-spacing: -0.015em;
+    }
+    .gen-featured .gen-name {
+      font-size: 1.25rem;
+      line-height: 1.3;
+    }
+    .gen-row {
+      font-size: var(--text-body);
+      color: var(--muted);
+      max-width: 65ch;
+    }
+    .gen-row b { color: var(--text); font-weight: 600; }
+    .gen-champ-line {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: var(--text-sm);
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .gen-champ-line span.lbl { color: var(--muted); font-weight: 600; margin-right: 6px; }
+    .gen-foot {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-top: 4px;
+    }
+
+    /* Search Input */
+    .search {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      padding: 8px 13px;
+      border-radius: 8px;
+      font-size: var(--text-sm);
+      min-width: 240px;
+      outline: none;
+      transition: border-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .search:focus { border-color: var(--accent); }
+
+    /* Report Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 180ms cubic-bezier(0.22, 1, 0.36, 1), transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .card:hover { transform: translateY(-2px); border-color: var(--border-strong); }
+    .card-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: var(--text-sm);
+    }
+    .meta-label { color: var(--accent); font-weight: 700; }
+    .meta-date { color: var(--muted); }
+    .card-title {
+      margin: 0 0 10px;
+      font-size: var(--text-heading);
+      line-height: 1.4;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+    }
+    .card-title a { color: var(--text); text-decoration: none; }
+    .card-title a:hover { color: var(--accent); }
+    .card-desc {
+      margin: 0 0 20px;
+      font-size: var(--text-body);
+      color: var(--muted);
+      flex-grow: 1;
+      max-width: 65ch;
+    }
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .card-secondary-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Institutional Financial Tables (Borderless hairline frame) */
     .table-panel {
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 16px 18px; overflow-x: auto; box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+      border-top: 1px solid var(--border-strong);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
     }
-    table { width: 100%; border-collapse: collapse; font-size: 12.8px; }
-    th, td { padding: 10px 11px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
-    th { background: var(--panel); font-weight: 700; color: var(--muted); white-space: nowrap; }
-    .num-col { text-align: right; white-space: nowrap; }
-    .ver-link { color: var(--accent); font-weight: 800; text-decoration: none; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-sm);
+    }
+    th, td {
+      padding: 13px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: var(--surface);
+      font-weight: 700;
+      color: var(--muted);
+      white-space: nowrap;
+      font-size: var(--text-sm);
+    }
+    tbody tr:hover td { background: var(--surface); }
+    tbody tr:last-child td { border-bottom: none; }
+    .num-col { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .rank-num {
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .rank-num.top3 { color: var(--accent); }
+    .ver-link { color: var(--accent); font-weight: 700; text-decoration: none; }
     .ver-link:hover { text-decoration: underline; }
-    .pos { color: #059669; font-weight: 700; }
-    .neg { color: #dc2626; font-weight: 700; }
-    .easy-guide-banner {
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
-      background: var(--badge-bg); border: 1px solid rgba(29,78,216,0.28); border-radius: 12px;
-      padding: 13px 16px; margin-bottom: 16px; font-size: 13.5px;
-    }
-    .plain-box {
-      background: var(--badge-bg); border-left: 3px solid var(--accent); border-radius: 6px;
-      padding: 6px 10px; margin-top: 6px; font-size: 12.5px; color: var(--text);
-    }
-    .row-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
-    .row-btn {
-      display: inline-block; text-decoration: none; font-size: 11.5px; font-weight: 700;
-      padding: 4px 9px; border-radius: 7px; border: 1px solid var(--accent); color: var(--accent); background: var(--card);
-    }
-    .row-btn.fill { background: var(--accent); color: #ffffff; }
 
-    /* Tab 5: 기간별 수익률 랭킹 */
+    /* Semantic Data-Table Status Cells */
+    .st-pass, .st-fail {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .st-pass { background: var(--reg-bg); color: var(--reg-tx); border: 1px solid var(--reg-bd); }
+    .st-fail { background: var(--fail-bg); color: var(--fail-tx); border: 1px solid var(--fail-bd); }
+
+    .plain-box {
+      background: var(--surface);
+      border-left: 2px solid var(--accent);
+      padding: 8px 12px;
+      margin-top: 8px;
+      font-size: var(--text-sm);
+      color: var(--text);
+      max-width: 65ch;
+    }
+    .row-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
+    .row-btn {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .row-btn:hover { text-decoration: underline; }
+
+    /* Tab 5: Period Rankings */
     .pr-coverage-bar {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
-      gap: 10px; margin-bottom: 14px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
     }
     .pr-cov-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-      padding: 11px 14px; box-shadow: 0 1px 3px rgba(15,23,42,0.03);
+      padding: 14px 16px;
+      border-right: 1px solid var(--border);
     }
-    .pr-cov-lbl { font-size: 11.5px; color: var(--muted); font-weight: 700; margin-bottom: 3px; }
-    .pr-cov-val { font-size: 14.5px; font-weight: 800; color: var(--text); font-family: monospace; }
+    .pr-cov-card:last-child { border-right: none; }
+    .pr-cov-lbl { font-size: var(--text-sm); color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+    .pr-cov-val { font-size: var(--text-body); font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+
     .pr-controls {
-      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-      padding: 12px 14px; display: flex; flex-wrap: wrap; align-items: center;
-      justify-content: space-between; gap: 10px; margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
     }
-    .pr-ctrl-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-    .pr-ctrl-lbl { font-size: 11.5px; font-weight: 800; color: var(--muted); margin-right: 2px; }
-    .pr-champ-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 14px; margin-bottom: 16px;
-    }
-    .pr-champ-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;
-      box-shadow: 0 1px 3px rgba(15,23,42,0.04);
-    }
-    .pr-champ-card.rank-1 { border-color: #f59e0b; box-shadow: 0 3px 12px rgba(245,158,11,0.12); }
-    .pr-champ-card.rank-2 { border-color: #94a3b8; }
-    .pr-champ-card.rank-3 { border-color: #d97706; }
-    .pr-champ-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .pr-medal { font-size: 18px; font-weight: 900; display: inline-flex; align-items: center; gap: 6px; }
-    .pr-champ-title { font-size: 15px; font-weight: 800; color: var(--text); line-height: 1.35; }
-    .pr-champ-idea { font-size: 12px; color: var(--muted); }
-    .pr-kpis {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-      background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 9px 10px;
-    }
-    .pr-kpi-lbl { font-size: 11px; color: var(--muted); font-weight: 600; }
-    .pr-kpi-val { font-size: 13px; font-weight: 800; font-family: monospace; }
-    .src-badge {
-      display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px;
-      border-radius: 999px; white-space: nowrap;
-    }
-    .src-live { background: var(--reg-bg); color: var(--reg-tx); border: 1px solid var(--reg-bd); }
-    .src-replay { background: var(--badge-bg); color: var(--badge-tx); border: 1px solid rgba(29,78,216,0.25); }
-    .src-both { background: var(--pre-bg); color: var(--pre-tx); border: 1px solid var(--pre-bd); }
-    .src-eod { background: rgba(124,58,237,0.10); color: #7c3aed; border: 1px solid rgba(124,58,237,0.25); }
+    .pr-ctrl-group { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .pr-ctrl-lbl { font-size: var(--text-sm); font-weight: 700; color: var(--muted); }
+
     .pr-chart-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card);
+      padding: 20px 22px;
+      margin-bottom: 24px;
     }
     .pr-chart-head {
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-      gap: 8px; margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
     }
-    .pr-chart-title { font-size: 14px; font-weight: 800; color: var(--text); }
-    .pr-chart-legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 11.5px; color: var(--muted); }
-    .pr-legend-item { display: inline-flex; align-items: center; gap: 5px; font-weight: 700; }
+    .pr-chart-title { font-size: var(--text-heading); font-weight: 700; color: var(--text); }
+    .pr-chart-legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: var(--text-sm); color: var(--muted); }
+    .pr-legend-item { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
     .pr-legend-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
-    .pr-unranked-card {
-      margin-top: 18px; background: var(--panel); border: 1px dashed var(--border);
-      border-radius: 14px; padding: 14px 16px;
+
+    .pr-champ-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
     }
-    .pr-unranked-head {
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
-      margin-bottom: 10px;
+    .pr-champ-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
-    .pr-unranked-head h3 { margin: 0; font-size: 14px; font-weight: 800; color: var(--muted); }
-    .reason-pill {
-      display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 9px;
-      border-radius: 999px; border: 1px solid var(--border); background: var(--card); color: var(--muted);
+    .pr-champ-card.rank-1 { border-top-color: var(--accent); }
+    .pr-champ-card.rank-2 { border-top-color: var(--muted); }
+    .pr-champ-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      font-size: var(--text-sm);
     }
-    .reason-NO_SIGNAL_WAIT { color: #b45309; background: rgba(245,158,11,0.10); border-color: rgba(245,158,11,0.28); }
-    .reason-UNIVERSE_MISSING { color: var(--neg); background: rgba(220,38,38,0.08); border-color: rgba(220,38,38,0.25); }
-    .reason-CASH_DEFENSE { color: var(--accent); background: var(--badge-bg); border-color: rgba(29,78,216,0.25); }
-    .pr-regime-card {
-      margin-top: 18px; background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+    .pr-medal { font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
+    .pr-meta-txt { color: var(--muted); font-weight: 600; }
+    .pr-champ-title { font-size: var(--text-heading); font-weight: 700; color: var(--text); line-height: 1.35; }
+    .pr-champ-idea { font-size: var(--text-sm); color: var(--muted); margin-top: 2px; }
+    .pr-kpis {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
     }
+    .pr-kpi-lbl { font-size: var(--text-sm); color: var(--muted); }
+    .pr-kpi-val { font-size: var(--text-body); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    .src-badge, .badge-pre, .badge-reg, .reason-pill {
+      display: inline-block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 5px;
+      white-space: nowrap;
+    }
+    .src-live { background: var(--reg-bg); color: var(--reg-tx); border: 1px solid var(--reg-bd); }
+    .src-replay { background: var(--badge-bg); color: var(--badge-tx); border: 1px solid var(--border); }
+    .src-both { background: var(--pre-bg); color: var(--pre-tx); border: 1px solid var(--pre-bd); }
+    .src-eod { background: var(--surface); color: var(--accent); border: 1px solid var(--border); }
+    .badge-pre { background: var(--pre-bg); color: var(--pre-tx); border: 1px solid var(--pre-bd); }
+    .badge-reg { background: var(--reg-bg); color: var(--reg-tx); border: 1px solid var(--reg-bd); }
+    .reason-pill { border: 1px solid var(--border); background: var(--surface); color: var(--muted); }
+    .reason-NO_SIGNAL_WAIT { color: #9a3412; background: var(--pre-bg); border-color: var(--pre-bd); }
+    .reason-UNIVERSE_MISSING { color: var(--fail-tx); background: var(--fail-bg); border-color: var(--fail-bd); }
+    .reason-CASH_DEFENSE { color: var(--accent); background: var(--badge-bg); border-color: var(--border); }
+
+    .pr-section-block { margin-top: 32px; }
+    .pr-section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .pr-section-head h3 { margin: 0; font-size: var(--text-heading); font-weight: 700; color: var(--text); }
+    .pr-section-head p { margin: 0; font-size: var(--text-sm); color: var(--muted); }
+
     .pr-avengers-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px; margin: 12px 0 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 14px 0 20px;
     }
     .pr-av-item {
-      background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
     }
     .pr-empty {
-      background: var(--card); border: 1px dashed var(--border); border-radius: 14px;
-      padding: 36px 20px; text-align: center; color: var(--muted);
+      border: 1px dashed var(--border-strong);
+      border-radius: 12px;
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--muted);
     }
-    .pr-empty h3 { margin: 0 0 6px; font-size: 16px; color: var(--text); }
-    .pr-empty p { margin: 0; font-size: 13px; }
+    .pr-empty h3 { margin: 0 0 6px; font-size: var(--text-heading); color: var(--text); }
+    .pr-empty p { margin: 0; font-size: var(--text-sm); }
 
     footer {
-      margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
-      text-align: center; font-size: 13px; color: var(--muted);
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: var(--text-sm);
+      color: var(--muted);
+    }
+
+    #prRankTable th, #prRankTable td { padding: 11px 8px; }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1040px) {
+      .dj-row1 { flex-wrap: wrap; padding: 10px 18px; gap: 10px; }
+      .dj-menu-bar { order: 3; width: 100%; border-top: 1px solid var(--border); }
+      .dj-menu-btn { padding: 11px 10px; }
+      .dj-meta-chip { padding-left: 0; border-left: none; }
+      .pr-coverage-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pr-cov-card { border-bottom: 1px solid var(--border); }
+      .pr-champ-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 780px) {
+      #dj-qunt-unified-header { position: static; }
+      .wrap { padding: 24px 16px 0; }
+      .dj-row1 { padding: 10px 16px; }
+      .dj-menu-bar { flex-wrap: wrap; overflow-x: visible; padding-top: 4px; }
+      .dj-menu-btn { padding: 8px 10px; }
+      .dj-row2-inner { padding: 8px 16px; }
+      .gen-grid, .grid { grid-template-columns: 1fr; }
+      .gen-card.gen-featured { grid-template-columns: 1fr; gap: 18px; padding: 20px; }
+      .gen-featured-aside { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 16px; }
+      .search { width: 100%; min-width: 0; }
+      .pr-coverage-bar { grid-template-columns: 1fr; }
+      .pr-cov-card { border-right: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
     }
   </style>
 </head>
@@ -311,23 +858,11 @@
         <span>Dongju QUNT Lab</span>
       </a>
       <nav class="dj-menu-bar" aria-label="주제 메뉴">
-        <div class="dj-gnb-group" aria-label="연구 및 백테스트 랭킹">
-          <span class="dj-gnb-label">연구·랭킹</span>
-          <button type="button" class="dj-menu-btn active" id="nav-algo" onclick="switchMenu('algo')">1. 버전별 알고리즘</button>
-          <button type="button" class="dj-menu-btn" id="nav-reports" onclick="switchMenu('reports')">2. 인터랙티브 리포트 (7)</button>
-          <button type="button" class="dj-menu-btn" id="nav-ranking-pre" onclick="switchMenu('ranking-pre')">3. 프리장 랭킹 (8)</button>
-          <button type="button" class="dj-menu-btn" id="nav-ranking-reg" onclick="switchMenu('ranking-reg')">4. 본장 랭킹 (8)</button>
-          <button type="button" class="dj-menu-btn" id="nav-ranking-period" onclick="switchMenu('ranking-period')">5. 기간별 수익률 랭킹</button>
-        </div>
-        <span class="dj-gnb-sep" aria-hidden="true"></span>
-        <div class="dj-gnb-group danta-group" aria-label="실전 페이퍼 단타">
-          <span class="dj-gnb-label">실전 단타</span>
-          <a class="dj-menu-btn danta-link" id="nav-danta-daily" href="/danta-daily/">6. 일별 단타 내역</a>
-          <a class="dj-menu-btn danta-link" id="nav-danta-auto" href="/danta-auto/">7. 자동 매매</a>
-          <a class="dj-menu-btn danta-link" id="nav-danta-manual" href="/danta-manual/">8. 수동 매매</a>
-          <a class="dj-menu-btn danta-link" id="nav-danta-compare" href="/danta-compare/">9. 자동 vs 수동 비교</a>
-          <a class="dj-menu-btn danta-link" id="nav-danta-charts" href="/danta-charts/">10. 단타 수익 그래프</a>
-        </div>
+        <button type="button" class="dj-menu-btn active" id="nav-algo" onclick="switchMenu('algo')">버전별 알고리즘</button>
+        <button type="button" class="dj-menu-btn" id="nav-reports" onclick="switchMenu('reports')">인터랙티브 리포트 <span class="nav-count">7</span></button>
+        <button type="button" class="dj-menu-btn" id="nav-ranking-pre" onclick="switchMenu('ranking-pre')">프리장 랭킹 <span class="nav-count">8</span></button>
+        <button type="button" class="dj-menu-btn" id="nav-ranking-reg" onclick="switchMenu('ranking-reg')">본장 랭킹 <span class="nav-count">8</span></button>
+        <button type="button" class="dj-menu-btn" id="nav-ranking-period" onclick="switchMenu('ranking-period')">기간별 수익률</button>
       </nav>
       <div class="bg-bar" role="group" aria-label="배경색 변경">
         <button type="button" class="bg-btn active" onclick="setHubBg('white', this)">화이트</button>
@@ -339,35 +874,46 @@
     <div class="dj-row2">
       <div class="dj-row2-inner">
         <div class="dj-bc-trail" id="djBreadcrumb">
-          <span>🏠 Dongju QUNT Lab 홈</span><span>›</span><span class="dj-bc-cur">1. 버전별 알고리즘</span>
+          <span>Dongju QUNT Lab 홈</span><span>›</span><span class="dj-bc-cur">버전별 알고리즘</span>
         </div>
-        <div class="dj-meta-chip">누적 93버전 · 합격 29종 · 리포트 7건</div>
+        <div class="dj-row2-right">
+          <nav class="dj-danta-nav" aria-label="실전 페이퍼 단타">
+            <span class="dj-danta-lbl">실전 단타</span>
+            <a class="dj-danta-item" id="nav-danta-daily" href="/danta-daily/">일별 내역</a>
+            <a class="dj-danta-item" id="nav-danta-auto" href="/danta-auto/">자동 매매</a>
+            <a class="dj-danta-item" id="nav-danta-manual" href="/danta-manual/">수동 매매</a>
+            <a class="dj-danta-item" id="nav-danta-compare" href="/danta-compare/">자동 vs 수동</a>
+            <a class="dj-danta-item" id="nav-danta-charts" href="/danta-charts/">수익 그래프</a>
+          </nav>
+          <div class="dj-meta-chip">누적 93버전 · 합격 29종 · 리포트 7건</div>
+        </div>
       </div>
     </div>
   </header>
 
   <main class="wrap">
-    <!-- 메뉴 1: 버전별 알고리즘 (내부 서브탭으로 7대 세대 요약 vs 전체 93버전 분리) -->
+    <!-- 메뉴 1: 버전별 알고리즘 -->
     <section id="panel-algo" class="topic-panel active">
       <div class="panel-head">
         <div>
-          <h1>1. 버전별 알고리즘 상세</h1>
-          <p>한 화면에서 하나의 뷰만 표시합니다 — ① 7대 엔진 세대별 구조 요약 또는 ② 전체 93개 버전 실험 장부를 선택하세요.</p>
+          <h1>알고리즘 아키텍처</h1>
+          <p>7대 엔진 세대별 구조 요약과 전체 93개 버전 실험 장부를 전환하며 확인합니다.</p>
         </div>
-        <a href="/engine-versions/" class="extra-btn">전용 전체화면 페이지로 열기 ↗</a>
+        <div class="panel-head-actions">
+          <div class="seg-group" role="tablist" aria-label="알고리즘 보기 전환">
+            <button type="button" class="tab-btn active" id="stGenBtn" onclick="switchAlgoSub('gens')">7대 세대 요약</button>
+            <button type="button" class="tab-btn" id="stAllBtn" onclick="switchAlgoSub('all')">전체 93버전 장부</button>
+          </div>
+          <a href="/engine-versions/" class="quiet-link">전체화면 문서 ↗</a>
+        </div>
       </div>
-      <div class="easy-guide-banner">
-        <div>
-          <b>💡 [필독 가이드] 엔진 #93 <code>v_73</code> (올웨더 챔피언) 전문 용어가 어려우신가요?</b>
-          <div style="font-size:12.5px;color:var(--muted);margin-top:2px;">3인의 트레이더 비유, 실시간 투표 시뮬레이터, <code>CALMAR · WHIPSAW_CHOP</code> 1:1 번역기를 3분 만에 이해할 수 있게 풀어놓았습니다.</div>
+
+      <div class="spotlight-strip">
+        <div class="spotlight-copy">
+          <h2>올웨더 통합 챔피언 v_73, 3분 만에 이해하기</h2>
+          <p>3인의 트레이더 비유, 실시간 투표 시뮬레이터, 주요 퀀트 용어 풀이를 한눈에 확인할 수 있습니다.</p>
         </div>
-        <a href="/v73-easy-guide/" class="primary-btn">💡 엔진 v_73 알기 쉬운 완벽 해설 바로가기 →</a>
-      </div>
-      <div class="subtab-bar">
-        <div class="pill-group" role="tablist">
-          <button type="button" class="tab-btn active" id="stGenBtn" onclick="switchAlgoSub('gens')">① 7대 엔진 세대별 요약 (Gen 1~7)</button>
-          <button type="button" class="tab-btn" id="stAllBtn" onclick="switchAlgoSub('all')">② 전체 93개 버전 검색표 (#01~#93)</button>
-        </div>
+        <a href="/v73-easy-guide/" class="primary-btn">쉬운 해설 보기 →</a>
       </div>
 
       <div id="sub-algo-gens" class="sub-view active">
@@ -375,13 +921,15 @@
       </div>
 
       <div id="sub-algo-all" class="sub-view">
-        <div class="subtab-bar" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;">
-          <div id="verGenPills" class="pill-group"></div>
-          <div class="pill-group">
-            <button type="button" class="tab-btn active" id="vstAll" onclick="setVerStatus('all', this)">전체</button>
-            <button type="button" class="tab-btn" id="vstPass" onclick="setVerStatus('pass', this)">합격(PASS)만</button>
-            <button type="button" class="tab-btn" id="vstFail" onclick="setVerStatus('fail', this)">부검·기각만</button>
-            <input id="verSearch" class="search" style="min-width:190px;" type="search" placeholder="버전·키워드 검색..." oninput="renderVersionsTable()" />
+        <div class="subtab-bar">
+          <div id="verGenPills" class="seg-group"></div>
+          <div class="panel-head-actions">
+            <div class="seg-group" role="group" aria-label="판정 필터">
+              <button type="button" class="tab-btn active" id="vstAll" onclick="setVerStatus('all', this)">전체</button>
+              <button type="button" class="tab-btn" id="vstPass" onclick="setVerStatus('pass', this)">합격</button>
+              <button type="button" class="tab-btn" id="vstFail" onclick="setVerStatus('fail', this)">부검·기각</button>
+            </div>
+            <input id="verSearch" class="search" type="search" placeholder="버전·키워드 검색..." oninput="renderVersionsTable()" />
           </div>
         </div>
         <div class="table-panel">
@@ -405,158 +953,172 @@
     <section id="panel-reports" class="topic-panel">
       <div class="panel-head">
         <div>
-          <h1>2. 인터랙티브 리포트 리스트</h1>
-          <p>Goldman Sachs gs_quant 6단 티어시트, QIS 리서치 노트, 백테스트 시각화 아카이브입니다.</p>
+          <h1>인터랙티브 리포트</h1>
+          <p>6단 티어시트, QIS 리서치 노트, 백테스트 시각화 아카이브입니다.</p>
         </div>
         <input id="repSearch" class="search" type="search" placeholder="리포트 · 티커 · 키워드 검색..." oninput="filterReports()" />
       </div>
       <div class="subtab-bar">
-        <div class="pill-group">
+        <div class="seg-group" role="group" aria-label="리포트 카테고리">
           <button type="button" class="tab-btn active" onclick="setRepCat('all', this)">전체 (7)</button>
-          <button type="button" class="tab-btn" onclick="setRepCat('soxl', this)">SOXL·SOXS 1년</button>
-          <button type="button" class="tab-btn" onclick="setRepCat('premarket', this)">프리장·1분봉 단타</button>
+          <button type="button" class="tab-btn" onclick="setRepCat('soxl', this)">SOXL·SOXS</button>
+          <button type="button" class="tab-btn" onclick="setRepCat('premarket', this)">프리장·1분봉</button>
           <button type="button" class="tab-btn" onclick="setRepCat('macro', this)">매크로·기준선</button>
-          <button type="button" class="tab-btn" onclick="setRepCat('docs', this)">엔진 아키텍처 문서</button>
+          <button type="button" class="tab-btn" onclick="setRepCat('docs', this)">아키텍처 문서</button>
         </div>
       </div>
       <div id="grid" class="grid">
         
             <article class="card" data-cat="soxl" data-search="💡 엔진 #93 v_73 (올웨더 챔피언) 알기 쉬운 완벽 해설 soxl/soxs 3x 레버리지·인버스 양방향 퀀트 어려운 퀀트 용어(메타 앙상블 · 순노출 상계 · calmar · whipsaw_chop)를 일상 언어로 풀고, 3인의 트레이더 투표 시뮬레이터·1,000만 원 비교·손절 5건 해부를 제공하는 초보자용 완벽 해설 가이드.">
-              <div class="card-top">
-                <span class="badge">SOXL/SOXS 3x 레버리지·인버스 양방향 퀀트</span>
-                <span class="date">2026-11-23 04:16</span>
+              <div class="card-meta-row">
+                <span class="meta-label">SOXL/SOXS 3x 레버리지·인버스 양방향 퀀트</span>
+                <span class="meta-date tabular">2026-11-23 04:16</span>
               </div>
               <h3 class="card-title"><a href="/v73-easy-guide/">💡 엔진 #93 v_73 (올웨더 챔피언) 알기 쉬운 완벽 해설</a></h3>
               <p class="card-desc">어려운 퀀트 용어(메타 앙상블 · 순노출 상계 · Calmar · WHIPSAW_CHOP)를 일상 언어로 풀고, 3인의 트레이더 투표 시뮬레이터·1,000만 원 비교·손절 5건 해부를 제공하는 초보자용 완벽 해설 가이드.</p>
               <div class="card-actions">
-                <a href="/v73-easy-guide/" class="primary-btn">리포트 열기 →</a>
-                
-                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/v73-easy-guide/', this)">링크 복사</button>
+                <a href="/v73-easy-guide/" class="primary-link">리포트 열기 →</a>
+                <div class="card-secondary-links">
+                  
+                  <button type="button" class="quiet-btn" onclick="copyLink('https://tron1981-maker.github.io/v73-easy-guide/', this)">링크 복사</button>
+                </div>
               </div>
             </article>
             
 
             <article class="card" data-cat="soxl" data-search="goldman sachs qis 리서치 노트 — soxl·soxs 1년 3x 반도체 양방향 동적 알파 보고서 gs qis research note 3배 레버리지 변동성 잠식 수리 분석, 23개 카파시 실험(v_51~v_73) 진화 계보, sealed oos -73% 폭락장 스트레스 검증 전문 보고서">
-              <div class="card-top">
-                <span class="badge">GS QIS Research Note</span>
-                <span class="date">2026-11-23 03:40</span>
+              <div class="card-meta-row">
+                <span class="meta-label">GS QIS Research Note</span>
+                <span class="meta-date tabular">2026-11-23 03:40</span>
               </div>
               <h3 class="card-title"><a href="/gs-qis-soxl-soxs-note/">Goldman Sachs QIS 리서치 노트 — SOXL·SOXS 1년 3x 반도체 양방향 동적 알파 보고서</a></h3>
               <p class="card-desc">3배 레버리지 변동성 잠식 수리 분석, 23개 카파시 실험(v_51~v_73) 진화 계보, Sealed OOS -73% 폭락장 스트레스 검증 전문 보고서</p>
               <div class="card-actions">
-                <a href="/gs-qis-soxl-soxs-note/" class="primary-btn">리포트 열기 →</a>
-                
-                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/gs-qis-soxl-soxs-note/', this)">링크 복사</button>
+                <a href="/gs-qis-soxl-soxs-note/" class="primary-link">리포트 열기 →</a>
+                <div class="card-secondary-links">
+                  
+                  <button type="button" class="quiet-btn" onclick="copyLink('https://tron1981-maker.github.io/gs-qis-soxl-soxs-note/', this)">링크 복사</button>
+                </div>
               </div>
             </article>
             
 
             <article class="card" data-cat="macro" data-search="spy · qqq 듀얼 모멘텀 (dual momentum) 기준선 백테스트 &amp; gs_quant 리포트 baseline · multi-asset 미국 대표 지수(spy·qqq) 상대·절대 듀얼 모멘텀 자산배분 전략의 장기 백테스트 및 gs_quant 롤링 리스크 6단 티어시트">
-              <div class="card-top">
-                <span class="badge">Baseline · Multi-Asset</span>
-                <span class="date">2026-11-23 03:40</span>
+              <div class="card-meta-row">
+                <span class="meta-label">Baseline · Multi-Asset</span>
+                <span class="meta-date tabular">2026-11-23 03:40</span>
               </div>
               <h3 class="card-title"><a href="/dual-momentum-spy-qqq/">SPY · QQQ 듀얼 모멘텀 (Dual Momentum) 기준선 백테스트 &amp; gs_quant 리포트</a></h3>
               <p class="card-desc">미국 대표 지수(SPY·QQQ) 상대·절대 듀얼 모멘텀 자산배분 전략의 장기 백테스트 및 gs_quant 롤링 리스크 6단 티어시트</p>
               <div class="card-actions">
-                <a href="/dual-momentum-spy-qqq/" class="primary-btn">리포트 열기 →</a>
-                
-                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/dual-momentum-spy-qqq/', this)">링크 복사</button>
+                <a href="/dual-momentum-spy-qqq/" class="primary-link">리포트 열기 →</a>
+                <div class="card-secondary-links">
+                  
+                  <button type="button" class="quiet-btn" onclick="copyLink('https://tron1981-maker.github.io/dual-momentum-spy-qqq/', this)">링크 복사</button>
+                </div>
               </div>
             </article>
             
 
             <article class="card" data-cat="docs" data-search="퀀트 트레이딩 엔진 세대별 · 버전별 특성 가이드 (gen 1 ~ gen 7 · 총 93버전) engine architecture · docs vsa 초고빈도(gen 1) → 매크로 etf(gen 2) → svapo(gen 3) → rvol·프리마켓(gen 4~5) → soxl·soxs 멀티장르·올웨더 챔피언 v_73(gen 6~7) 전 세대 특성·장단점·부검 백과">
-              <div class="card-top">
-                <span class="badge">Engine Architecture · Docs</span>
-                <span class="date">2026-11-22 23:43</span>
+              <div class="card-meta-row">
+                <span class="meta-label">Engine Architecture · Docs</span>
+                <span class="meta-date tabular">2026-11-22 23:43</span>
               </div>
               <h3 class="card-title"><a href="/engine-versions/">퀀트 트레이딩 엔진 세대별 · 버전별 특성 가이드 (Gen 1 ~ Gen 7 · 총 93버전)</a></h3>
               <p class="card-desc">VSA 초고빈도(Gen 1) → 매크로 ETF(Gen 2) → SVAPO(Gen 3) → RVOL·프리마켓(Gen 4~5) → SOXL·SOXS 멀티장르·올웨더 챔피언 v_73(Gen 6~7) 전 세대 특성·장단점·부검 백과</p>
               <div class="card-actions">
-                <a href="/engine-versions/" class="primary-btn">리포트 열기 →</a>
-                
-                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/engine-versions/', this)">링크 복사</button>
+                <a href="/engine-versions/" class="primary-link">리포트 열기 →</a>
+                <div class="card-secondary-links">
+                  
+                  <button type="button" class="quiet-btn" onclick="copyLink('https://tron1981-maker.github.io/engine-versions/', this)">링크 복사</button>
+                </div>
               </div>
             </article>
             
 
             <article class="card" data-cat="soxl" data-search="soxl · soxs 1년 카파시 autoresearch 5대 장르 인터랙티브 티어시트 gs qis · karpathy quant 단타(1min)·초단기(v_61)·스윙(v_68)·장투(v_71)·올웨더 통합 챔피언(v_73: 1y +41.15%, sharpe 1.94, mdd -9.09%) 6단 비교 뷰어">
-              <div class="card-top">
-                <span class="badge">GS QIS · Karpathy Quant</span>
-                <span class="date">2026-11-22 23:40</span>
+              <div class="card-meta-row">
+                <span class="meta-label">GS QIS · Karpathy Quant</span>
+                <span class="meta-date tabular">2026-11-22 23:40</span>
               </div>
               <h3 class="card-title"><a href="/soxl-soxs-1y/">SOXL · SOXS 1년 카파시 Autoresearch 5대 장르 인터랙티브 티어시트</a></h3>
               <p class="card-desc">단타(1min)·초단기(v_61)·스윙(v_68)·장투(v_71)·올웨더 통합 챔피언(v_73: 1Y +41.15%, Sharpe 1.94, MDD -9.09%) 6단 비교 뷰어</p>
               <div class="card-actions">
-                <a href="/soxl-soxs-1y/" class="primary-btn">리포트 열기 →</a>
-                <a href="/soxl-soxs-1y/report_v_73.html" class="extra-btn">Plotly v_73(통합)</a><a href="/soxl-soxs-1y/report_v_71.html" class="extra-btn">Plotly v_71(장투)</a><a href="/soxl-soxs-1y/report_v_68.html" class="extra-btn">Plotly v_68(스윙)</a><a href="/soxl-soxs-1y/report_v_61.html" class="extra-btn">Plotly v_61(초단기)</a><a href="/soxl-soxs-1y/report_v_53.html" class="extra-btn">Plotly v_53(단타)</a>
-                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/soxl-soxs-1y/', this)">링크 복사</button>
+                <a href="/soxl-soxs-1y/" class="primary-link">리포트 열기 →</a>
+                <div class="card-secondary-links">
+                  <a href="/soxl-soxs-1y/report_v_73.html" class="quiet-link">Plotly v_73(통합)</a><a href="/soxl-soxs-1y/report_v_71.html" class="quiet-link">Plotly v_71(장투)</a><a href="/soxl-soxs-1y/report_v_68.html" class="quiet-link">Plotly v_68(스윙)</a><a href="/soxl-soxs-1y/report_v_61.html" class="quiet-link">Plotly v_61(초단기)</a><a href="/soxl-soxs-1y/report_v_53.html" class="quiet-link">Plotly v_53(단타)</a>
+                  <button type="button" class="quiet-btn" onclick="copyLink('https://tron1981-maker.github.io/soxl-soxs-1y/', this)">링크 복사</button>
+                </div>
               </div>
             </article>
             
 
             <article class="card" data-cat="premarket" data-search="오전장 상승 정배열 vwap 눌림목 1분봉 단타 전략 (v_50 우승 · calmar 25.45) carbon autoresearch · 1min smtk·pepg·shfs·mi·ymat 1분봉 오전장 vwap 눌림목 유동성 흡수 및 고변동성 비대칭 사이징 최종 우승(v_50) 및 선행 비교(v_44·v_49)">
-              <div class="card-top">
-                <span class="badge">Carbon Autoresearch · 1min</span>
-                <span class="date">2026-11-22 23:40</span>
+              <div class="card-meta-row">
+                <span class="meta-label">Carbon Autoresearch · 1min</span>
+                <span class="meta-date tabular">2026-11-22 23:40</span>
               </div>
               <h3 class="card-title"><a href="/v50-intraday-vwap/">오전장 상승 정배열 VWAP 눌림목 1분봉 단타 전략 (v_50 우승 · Calmar 25.45)</a></h3>
               <p class="card-desc">SMTK·PEPG·SHFS·MI·YMAT 1분봉 오전장 VWAP 눌림목 유동성 흡수 및 고변동성 비대칭 사이징 최종 우승(v_50) 및 선행 비교(v_44·v_49)</p>
               <div class="card-actions">
-                <a href="/v50-intraday-vwap/" class="primary-btn">리포트 열기 →</a>
-                <a href="/v50-intraday-vwap/report_v_44.html" class="extra-btn">v_44 선행모델</a><a href="/v50-intraday-vwap/report_v_49.html" class="extra-btn">v_49 부검비교</a>
-                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/v50-intraday-vwap/', this)">링크 복사</button>
+                <a href="/v50-intraday-vwap/" class="primary-link">리포트 열기 →</a>
+                <div class="card-secondary-links">
+                  <a href="/v50-intraday-vwap/report_v_44.html" class="quiet-link">v_44 선행모델</a><a href="/v50-intraday-vwap/report_v_49.html" class="quiet-link">v_49 부검비교</a>
+                  <button type="button" class="quiet-btn" onclick="copyLink('https://tron1981-maker.github.io/v50-intraday-vwap/', this)">링크 복사</button>
+                </div>
               </div>
             </article>
             
 
             <article class="card" data-cat="premarket" data-search="2026-11-19(목) 프리장 스크리너 종목 수익 전략 백테스트 리포트 premarket · screener 2026년 11월 19일 목요일 프리마켓 스크리너 포착 급등주 대상 진입·청산 규칙 검증 및 수익 곡선 백테스트 리포트">
-              <div class="card-top">
-                <span class="badge">Premarket · Screener</span>
-                <span class="date">2026-11-22 23:40</span>
+              <div class="card-meta-row">
+                <span class="meta-label">Premarket · Screener</span>
+                <span class="meta-date tabular">2026-11-22 23:40</span>
               </div>
               <h3 class="card-title"><a href="/premarket-20261119/">2026-11-19(목) 프리장 스크리너 종목 수익 전략 백테스트 리포트</a></h3>
               <p class="card-desc">2026년 11월 19일 목요일 프리마켓 스크리너 포착 급등주 대상 진입·청산 규칙 검증 및 수익 곡선 백테스트 리포트</p>
               <div class="card-actions">
-                <a href="/premarket-20261119/" class="primary-btn">리포트 열기 →</a>
-                
-                <button type="button" class="copy-btn" onclick="copyLink('https://tron1981-maker.github.io/premarket-20261119/', this)">링크 복사</button>
+                <a href="/premarket-20261119/" class="primary-link">리포트 열기 →</a>
+                <div class="card-secondary-links">
+                  
+                  <button type="button" class="quiet-btn" onclick="copyLink('https://tron1981-maker.github.io/premarket-20261119/', this)">링크 복사</button>
+                </div>
               </div>
             </article>
             
       </div>
     </section>
 
-    <!-- 메뉴 3: 프리장 랭킹 (단일 표) -->
+    <!-- 메뉴 3: 프리장 랭킹 -->
     <section id="panel-ranking-pre" class="topic-panel">
       <div class="panel-head">
         <div>
-          <h1>3. 프리장 · 오전장 단타 랭킹 (8종)</h1>
-          <p>프리마켓 스크리너 급등주 및 오전장(09:35~12:30) 1분봉 단타 합격 전략 리더보드입니다.</p>
+          <h1>프리장 · 오전장 단타 랭킹</h1>
+          <p>프리마켓 스크리너 급등주 및 오전장(09:35~12:30) 1분봉 단타 합격 8종 리더보드입니다.</p>
         </div>
-        <div class="pill-group">
-          <button type="button" class="tab-btn active" data-sort="calmar" onclick="setPreSort('calmar', this)">Calmar 순</button>
-          <button type="button" class="tab-btn" data-sort="sharpe" onclick="setPreSort('sharpe', this)">Sharpe 순</button>
-          <button type="button" class="tab-btn" data-sort="cagr" onclick="setPreSort('cagr', this)">CAGR 순</button>
-          <button type="button" class="tab-btn" data-sort="mdd" onclick="setPreSort('mdd', this)">낮은 MDD 순</button>
+        <div class="seg-group" role="group" aria-label="프리장 정렬">
+          <button type="button" class="tab-btn active" data-sort="calmar" onclick="setPreSort('calmar', this)">Calmar</button>
+          <button type="button" class="tab-btn" data-sort="sharpe" onclick="setPreSort('sharpe', this)">Sharpe</button>
+          <button type="button" class="tab-btn" data-sort="cagr" onclick="setPreSort('cagr', this)">CAGR</button>
+          <button type="button" class="tab-btn" data-sort="mdd" onclick="setPreSort('mdd', this)">낮은 MDD</button>
         </div>
       </div>
       <div id="preRankTable" class="table-panel"></div>
     </section>
 
-    <!-- 메뉴 4: 본장 랭킹 (단일 표) -->
+    <!-- 메뉴 4: 본장 랭킹 -->
     <section id="panel-ranking-reg" class="topic-panel">
       <div class="panel-head">
         <div>
-          <h1>4. 본장 · 정규장 일봉/스윙/장투 랭킹 (8종)</h1>
-          <p>정규장 일봉 기반 초단기 평균회귀·스윙·장기 변동성 코어·올웨더 앙상블 합격 전략 리더보드입니다.</p>
+          <h1>본장 · 일봉/스윙/장투 랭킹</h1>
+          <p>정규장 일봉 기반 초단기 평균회귀·스윙·장기 변동성 코어·올웨더 앙상블 합격 8종 리더보드입니다.</p>
         </div>
-        <div class="pill-group">
-          <button type="button" class="tab-btn active" data-sort="calmar" onclick="setRegSort('calmar', this)">Calmar 순</button>
-          <button type="button" class="tab-btn" data-sort="sharpe" onclick="setRegSort('sharpe', this)">Sharpe 순</button>
-          <button type="button" class="tab-btn" data-sort="cagr" onclick="setRegSort('cagr', this)">CAGR 순</button>
-          <button type="button" class="tab-btn" data-sort="mdd" onclick="setRegSort('mdd', this)">낮은 MDD 순</button>
+        <div class="seg-group" role="group" aria-label="본장 정렬">
+          <button type="button" class="tab-btn active" data-sort="calmar" onclick="setRegSort('calmar', this)">Calmar</button>
+          <button type="button" class="tab-btn" data-sort="sharpe" onclick="setRegSort('sharpe', this)">Sharpe</button>
+          <button type="button" class="tab-btn" data-sort="cagr" onclick="setRegSort('cagr', this)">CAGR</button>
+          <button type="button" class="tab-btn" data-sort="mdd" onclick="setRegSort('mdd', this)">낮은 MDD</button>
         </div>
       </div>
       <div id="regRankTable" class="table-panel"></div>
@@ -566,8 +1128,8 @@
     <section id="panel-ranking-period" class="topic-panel">
       <div class="panel-head">
         <div>
-          <h1>5. 기간별 수익률 랭킹 (Dual-Track)</h1>
-          <p>로컬 12시간 테이프 리플레이(프리장·본장 단타) + 일봉(EOD) 올웨더 엔진을 동일 기준 자본($10,000)으로 통합 평가한 기간별 리더보드입니다.</p>
+          <h1>기간별 수익률 랭킹</h1>
+          <p>로컬 12시간 테이프 리플레이(프리장·본장 단타)와 일봉(EOD) 올웨더 엔진을 동일 기준 자본($10,000)으로 통합 평가합니다.</p>
         </div>
       </div>
 
@@ -581,12 +1143,12 @@
           <div class="pr-cov-val" id="prCovLatest">-</div>
         </div>
         <div class="pr-cov-card">
-          <div class="pr-cov-lbl">프리장 / 본장 녹화시간</div>
-          <div class="pr-cov-val" id="prCovHours">🌅 0.00h · 🔔 0.00h</div>
+          <div class="pr-cov-lbl">프리장 / 본장 녹화</div>
+          <div class="pr-cov-val" id="prCovHours">0.00h · 0.00h</div>
         </div>
         <div class="pr-cov-card">
-          <div class="pr-cov-lbl">최신 시장 국면 (Regime)</div>
-          <div class="pr-cov-val" id="prCovRegime" style="font-family:inherit;font-size:13px;">집계 중</div>
+          <div class="pr-cov-lbl">최신 시장 국면</div>
+          <div class="pr-cov-val" id="prCovRegime">집계 중</div>
         </div>
         <div class="pr-cov-card">
           <div class="pr-cov-lbl">갱신 시각</div>
@@ -595,36 +1157,42 @@
       </div>
 
       <div class="pr-controls">
-        <div class="pr-ctrl-group" id="prSessGroup" role="group" aria-label="세션 선택">
+        <div class="pr-ctrl-group">
           <span class="pr-ctrl-lbl">트랙</span>
-          <button type="button" class="tab-btn active" data-session="all" onclick="setPrSession('all', this)">🌐 전체 통합</button>
-          <button type="button" class="tab-btn" data-session="premarket" onclick="setPrSession('premarket', this)">🌅 프리장 (1m)</button>
-          <button type="button" class="tab-btn" data-session="regular" onclick="setPrSession('regular', this)">🔔 본장 단타 (1m)</button>
-          <button type="button" class="tab-btn" data-session="daily_eod" onclick="setPrSession('daily_eod', this)">📅 일봉·스윙 (EOD)</button>
+          <div class="seg-group" id="prSessGroup" role="group" aria-label="세션 선택">
+            <button type="button" class="tab-btn active" data-session="all" onclick="setPrSession('all', this)">전체 통합</button>
+            <button type="button" class="tab-btn" data-session="premarket" onclick="setPrSession('premarket', this)">프리장 (1m)</button>
+            <button type="button" class="tab-btn" data-session="regular" onclick="setPrSession('regular', this)">본장 단타 (1m)</button>
+            <button type="button" class="tab-btn" data-session="daily_eod" onclick="setPrSession('daily_eod', this)">일봉·스윙 (EOD)</button>
+          </div>
         </div>
-        <div class="pr-ctrl-group" id="prPeriodGroup" role="group" aria-label="기간 선택">
+        <div class="pr-ctrl-group">
           <span class="pr-ctrl-lbl">기간</span>
-          <button type="button" class="tab-btn" data-period="1d" onclick="setPrPeriod('1d', this)">🔥 일일전 1D</button>
-          <button type="button" class="tab-btn" data-period="1w" onclick="setPrPeriod('1w', this)">주간 1W</button>
-          <button type="button" class="tab-btn" data-period="1m" onclick="setPrPeriod('1m', this)">월간 1M</button>
-          <button type="button" class="tab-btn" data-period="1q" onclick="setPrPeriod('1q', this)">분기 1Q</button>
-          <button type="button" class="tab-btn" data-period="1y" onclick="setPrPeriod('1y', this)">연간 1Y</button>
-          <button type="button" class="tab-btn active" data-period="total" onclick="setPrPeriod('total', this)">전체누적</button>
+          <div class="seg-group" id="prPeriodGroup" role="group" aria-label="기간 선택">
+            <button type="button" class="tab-btn" data-period="1d" onclick="setPrPeriod('1d', this)">1D</button>
+            <button type="button" class="tab-btn" data-period="1w" onclick="setPrPeriod('1w', this)">1W</button>
+            <button type="button" class="tab-btn" data-period="1m" onclick="setPrPeriod('1m', this)">1M</button>
+            <button type="button" class="tab-btn" data-period="1q" onclick="setPrPeriod('1q', this)">1Q</button>
+            <button type="button" class="tab-btn" data-period="1y" onclick="setPrPeriod('1y', this)">1Y</button>
+            <button type="button" class="tab-btn active" data-period="total" onclick="setPrPeriod('total', this)">전체누적</button>
+          </div>
         </div>
-        <div class="pr-ctrl-group" id="prSortGroup" role="group" aria-label="정렬 기준">
+        <div class="pr-ctrl-group">
           <span class="pr-ctrl-lbl">정렬</span>
-          <button type="button" class="tab-btn active" data-sort="return_pct" onclick="setPrSort('return_pct', this)">수익률 순</button>
-          <button type="button" class="tab-btn" data-sort="pnl_usd" onclick="setPrSort('pnl_usd', this)">손익($) 순</button>
-          <button type="button" class="tab-btn" data-sort="sharpe" onclick="setPrSort('sharpe', this)">샤프 순</button>
-          <button type="button" class="tab-btn" data-sort="profit_factor" onclick="setPrSort('profit_factor', this)">PF 순</button>
-          <button type="button" class="tab-btn" data-sort="win_rate_pct" onclick="setPrSort('win_rate_pct', this)">승률 순</button>
-          <button type="button" class="tab-btn" data-sort="mdd_pct" onclick="setPrSort('mdd_pct', this)">낮은 MDD 순</button>
+          <div class="seg-group" id="prSortGroup" role="group" aria-label="정렬 기준">
+            <button type="button" class="tab-btn active" data-sort="return_pct" onclick="setPrSort('return_pct', this)">수익률</button>
+            <button type="button" class="tab-btn" data-sort="pnl_usd" onclick="setPrSort('pnl_usd', this)">손익($)</button>
+            <button type="button" class="tab-btn" data-sort="sharpe" onclick="setPrSort('sharpe', this)">Sharpe</button>
+            <button type="button" class="tab-btn" data-sort="profit_factor" onclick="setPrSort('profit_factor', this)">PF</button>
+            <button type="button" class="tab-btn" data-sort="win_rate_pct" onclick="setPrSort('win_rate_pct', this)">승률</button>
+            <button type="button" class="tab-btn" data-sort="mdd_pct" onclick="setPrSort('mdd_pct', this)">낮은 MDD</button>
+          </div>
         </div>
       </div>
 
       <div id="prEquityCard" class="pr-chart-card" style="display:none;">
         <div class="pr-chart-head">
-          <div class="pr-chart-title" id="prChartTitle">📈 기준 자본 $10,000 누적 복리 자산곡선 (Top 5)</div>
+          <div class="pr-chart-title" id="prChartTitle">기준 자본 $10,000 누적 복리 자산곡선 (Top 5)</div>
           <div class="pr-chart-legend" id="prChartLegend"></div>
         </div>
         <canvas id="prEquityCanvas" height="220" style="width:100%;height:220px;display:block;"></canvas>
@@ -675,15 +1243,15 @@
     function updateBreadcrumb() {
       const bc = document.getElementById('djBreadcrumb');
       const labels = {
-        'algo': '1. 버전별 알고리즘',
-        'reports': '2. 인터랙티브 리포트',
-        'ranking-pre': '3. 프리장 랭킹',
-        'ranking-reg': '4. 본장 랭킹',
-        'ranking-period': '5. 기간별 수익률 랭킹'
+        'algo': '버전별 알고리즘',
+        'reports': '인터랙티브 리포트',
+        'ranking-pre': '프리장 랭킹',
+        'ranking-reg': '본장 랭킹',
+        'ranking-period': '기간별 수익률'
       };
-      let trail = `<a href="#algo" onclick="switchMenu('algo');return false;">🏠 Dongju QUNT Lab 홈</a><span>›</span>`;
+      let trail = `<a href="#algo" onclick="switchMenu('algo');return false;">Dongju QUNT Lab 홈</a><span>›</span>`;
       if (curMenu === 'algo') {
-        const subLbl = curAlgoSub === 'gens' ? '① 7대 엔진 세대별 요약' : `② 전체 ${VERSIONS.length}개 버전 장부`;
+        const subLbl = curAlgoSub === 'gens' ? '7대 세대 요약' : `전체 ${VERSIONS.length}버전 장부`;
         trail += `<a href="#algo" onclick="switchAlgoSub('gens');return false;">${labels.algo}</a><span>›</span><span class="dj-bc-cur">${subLbl}</span>`;
       } else {
         trail += `<span class="dj-bc-cur">${labels[curMenu]}</span>`;
@@ -723,23 +1291,47 @@
 
     function renderGens() {
       document.getElementById('genGrid').innerHTML = GENS.map(g => {
-        const isPre = g.session.includes('프리장');
+        const isFeatured = g.id === 'gen7';
+        if (isFeatured) {
+          return `
+            <article class="gen-card gen-featured">
+              <div>
+                <div class="gen-meta-row">
+                  <span class="gen-id-label">${esc(g.gen)} · ${esc(g.range)}</span>
+                  <span class="gen-session-label">${esc(g.session)}</span>
+                </div>
+                <h3 class="gen-name" style="margin-top:8px;">${esc(g.name)}</h3>
+                <div class="gen-row" style="margin-top:8px;"><b>대상:</b> ${esc(g.assets)}</div>
+                <div class="gen-row" style="margin-top:6px;">${esc(g.summary)}</div>
+                <div class="gen-row" style="margin-top:6px;"><b>적합 국면:</b> ${esc(g.bestRegime)}</div>
+              </div>
+              <div class="gen-featured-aside">
+                <div class="gen-row"><b>유의:</b> ${esc(g.caution)}</div>
+                <div class="gen-champ-line" style="margin-top:0;"><span class="lbl">대표 성과</span> ${esc(g.champion)}</div>
+                <div class="gen-foot">
+                  <a href="${g.url}" class="primary-btn">상세 문서 열기 →</a>
+                  <button type="button" class="quiet-btn" onclick="openGenVersions('${g.id}')">이 세대 버전 보기</button>
+                  <a href="/v73-easy-guide/" class="quiet-link">v_73 쉬운 해설</a>
+                </div>
+              </div>
+            </article>
+          `;
+        }
         return `
           <article class="gen-card">
-            <div class="gen-top">
-              <span class="badge">${g.gen} · ${g.range}</span>
-              <span class="${isPre ? 'badge-pre' : 'badge-reg'}">${g.session}</span>
+            <div class="gen-meta-row">
+              <span class="gen-id-label">${esc(g.gen)} · ${esc(g.range)}</span>
+              <span class="gen-session-label">${esc(g.session)}</span>
             </div>
-            <h3 class="gen-name">${g.name}</h3>
-            <div class="gen-row"><b>대상:</b> ${g.assets}</div>
-            <div class="gen-row"><b>원리:</b> ${g.summary}</div>
-            <div class="gen-row"><b>적합 국면:</b> ${g.bestRegime}</div>
-            <div class="gen-row"><b>유의:</b> ${g.caution}</div>
-            <div class="gen-champ"><b>🏆 대표:</b> <span class="mono">${g.champion}</span></div>
+            <h3 class="gen-name">${esc(g.name)}</h3>
+            <div class="gen-row"><b>대상:</b> ${esc(g.assets)}</div>
+            <div class="gen-row">${esc(g.summary)}</div>
+            <div class="gen-row"><b>적합 국면:</b> ${esc(g.bestRegime)}</div>
+            <div class="gen-row"><b>유의:</b> ${esc(g.caution)}</div>
+            <div class="gen-champ-line"><span class="lbl">대표</span> ${esc(g.champion)}</div>
             <div class="gen-foot">
-              <button type="button" class="extra-btn" onclick="openGenVersions('${g.id}')">이 세대 버전 보기 →</button>
-              <a href="${g.url}" class="primary-btn">상세 문서 열기 ↗</a>
-              ${g.id === 'gen7' ? '<a href="/v73-easy-guide/" class="extra-btn" style="border-color:var(--accent);color:var(--accent);">💡 v_73 쉬운 해설 →</a>' : ''}
+              <a href="${g.url}" class="primary-link">상세 문서 열기 →</a>
+              <button type="button" class="quiet-btn" onclick="openGenVersions('${g.id}')">이 세대 버전 보기</button>
             </div>
           </article>
         `;
@@ -748,7 +1340,7 @@
 
     function buildVerGenPills() {
       const wrap = document.getElementById('verGenPills');
-      const list = [{ id: 'all', label: '전체 세대' }, ...GENS.map(g => ({ id: g.id, label: g.gen }))];
+      const list = [{ id: 'all', label: '전체' }, ...GENS.map(g => ({ id: g.id, label: g.gen }))];
       wrap.innerHTML = list.map(it => `
         <button type="button" class="tab-btn ${curVerGen === it.id ? 'active' : ''}" onclick="curVerGen='${it.id}';buildVerGenPills();renderVersionsTable();">${it.label}</button>
       `).join('');
@@ -774,19 +1366,19 @@
         return true;
       });
       document.getElementById('verTbody').innerHTML = filtered.map(r => {
-        const plainHtml = r.plainGuide ? `<div class="plain-box"><b>💡 쉬운 풀이:</b> ${esc(r.plainGuide)}</div>` : '';
+        const plainHtml = r.plainGuide ? `<div class="plain-box"><b>쉬운 풀이:</b> ${esc(r.plainGuide)}</div>` : '';
         const btnHtml = (r.easyGuideUrl || r.reportUrl)
-          ? `<div class="row-actions">${r.easyGuideUrl ? `<a class="row-btn fill" href="${r.easyGuideUrl}">💡 엔진 v_73 알기 쉬운 완벽 해설 보기 →</a>` : ''}${r.reportUrl ? `<a class="row-btn" href="${r.reportUrl}">📊 6단 차트 티어시트 ↗</a>` : ''}</div>`
+          ? `<div class="row-actions">${r.easyGuideUrl ? `<a class="row-btn" href="${r.easyGuideUrl}">v_73 쉬운 해설 →</a>` : ''}${r.reportUrl ? `<a class="row-btn" href="${r.reportUrl}">6단 차트 티어시트 ↗</a>` : ''}</div>`
           : '';
-        const learnPrefix = r.isPass ? '🔬 (※ 합격 전략의 소액 손절 건 부검 메모) ' : '🔬 ';
-        const learnHtml = r.learn ? `<div style="font-size:12px;color:var(--muted);margin-top:5px;">${learnPrefix}${esc(r.learn)}</div>` : '';
+        const learnPrefix = r.isPass ? '(합격 전략 소액 손절 건 부검 메모) ' : '부검 교훈: ';
+        const learnHtml = r.learn ? `<div style="font-size:var(--text-sm);color:var(--muted);margin-top:6px;">${learnPrefix}${esc(r.learn)}</div>` : '';
         return `
         <tr>
-          <td class="mono" style="white-space:nowrap;"><b>#${r.id}</b><br/>${r.reportUrl ? `<a class="ver-link" href="${r.reportUrl}">${esc(r.ver)}</a>` : `<span style="color:var(--accent);font-weight:700;">${esc(r.ver)}</span>`}<br/><span style="font-size:11px;color:var(--muted);">${esc(r.date)}</span></td>
-          <td class="mono" style="white-space:nowrap;">${r.gen.toUpperCase()}</td>
+          <td class="tabular" style="white-space:nowrap;"><b>#${r.id}</b><br/>${r.reportUrl ? `<a class="ver-link" href="${r.reportUrl}">${esc(r.ver)}</a>` : `<span style="color:var(--accent);font-weight:700;">${esc(r.ver)}</span>`}<br/><span style="font-size:var(--text-sm);color:var(--muted);">${esc(r.date)}</span></td>
+          <td class="tabular" style="white-space:nowrap;">${r.gen.toUpperCase()}</td>
           <td><span class="${r.isPass ? 'st-pass' : 'st-fail'}">${esc(r.status)}</span></td>
           <td><div style="font-weight:600;">${esc(r.idea)}</div>${plainHtml}${btnHtml}${learnHtml}</td>
-          <td class="mono" style="font-size:12px;min-width:170px;">${esc(r.metrics)}</td>
+          <td class="tabular" style="min-width:170px;">${esc(r.metrics)}</td>
         </tr>
       `;
       }).join('');
@@ -818,20 +1410,19 @@
 
     function renderLeagueTable(targetId, list, sortKey) {
       const sorted = [...list].sort((a, b) => sortKey === 'mdd' ? a.mdd - b.mdd : (b[sortKey] || 0) - (a[sortKey] || 0));
-      const medals = ['🥇', '🥈', '🥉'];
       const rows = sorted.map((r, idx) => `
         <tr>
-          <td class="mono" style="font-weight:800;white-space:nowrap;">${medals[idx] || (idx + 1) + '위'}</td>
+          <td class="rank-num ${idx < 3 ? 'top3' : ''}">${String(idx + 1).padStart(2, '0')}</td>
           <td>
-            <a class="ver-link mono" href="${r.reportUrl}">${esc(r.ver)}</a>
-            <div style="font-size:12px;color:var(--muted);margin-top:2px;">${esc(r.title)}</div>
+            <a class="ver-link tabular" href="${r.reportUrl}">${esc(r.ver)}</a>
+            <div style="font-size:var(--text-sm);color:var(--muted);margin-top:2px;">${esc(r.title)}</div>
           </td>
-          <td class="num-col mono pos">${r.calmar.toFixed(2)}</td>
-          <td class="num-col mono">${r.sharpe.toFixed(2)}</td>
-          <td class="num-col mono pos">${r.cagr >= 0 ? '+' : ''}${r.cagr.toFixed(1)}%</td>
-          <td class="num-col mono neg">-${r.mdd.toFixed(2)}%</td>
-          <td class="num-col mono">${r.winRate !== null ? r.winRate.toFixed(0) + '%' : '-'}</td>
-          <td class="num-col mono">${r.trades !== null ? r.trades + '회' : '-'}</td>
+          <td class="num-col pos">${r.calmar.toFixed(2)}</td>
+          <td class="num-col">${r.sharpe.toFixed(2)}</td>
+          <td class="num-col pos">${r.cagr >= 0 ? '+' : ''}${r.cagr.toFixed(1)}%</td>
+          <td class="num-col neg">-${r.mdd.toFixed(2)}%</td>
+          <td class="num-col">${r.winRate !== null ? r.winRate.toFixed(0) + '%' : '-'}</td>
+          <td class="num-col">${r.trades !== null ? r.trades + '회' : '-'}</td>
         </tr>
       `).join('');
       document.getElementById(targetId).innerHTML = `
@@ -865,6 +1456,23 @@
       document.querySelectorAll('#panel-ranking-reg .tab-btn').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
       renderLeagueTable('regRankTable', RANKINGS.regular, regSort);
+    }
+
+    function formatSourceText(src) {
+      const s = Array.isArray(src) ? src.join('+') : String(src || 'replay');
+      const low = s.toLowerCase();
+      if (low.includes('live') && low.includes('replay')) return '실전+리플레이';
+      if (low.includes('eod_replay')) return '일봉EOD';
+      if (low.includes('live')) return '실전';
+      return '리플레이';
+    }
+
+    function formatSessionText(tag) {
+      const t = String(tag || '').toLowerCase();
+      if (t === 'premarket') return '프리장';
+      if (t === 'daily_eod') return '일봉·스윙';
+      if (t === 'regular') return '본장단타';
+      return '';
     }
 
     function formatSourceBadge(src) {
@@ -903,7 +1511,7 @@
       const regTxt = latestReg ? `${latestReg.label_kr || latestReg.composite_label}` : '집계 대기 중';
       document.getElementById('prCovDays').textContent = `${days}일`;
       document.getElementById('prCovLatest').textContent = latest;
-      document.getElementById('prCovHours').textContent = `🌅 ${pmH}h · 🔔 ${rgH}h`;
+      document.getElementById('prCovHours').textContent = `프리 ${pmH}h · 본장 ${rgH}h`;
       const regEl = document.getElementById('prCovRegime');
       if (regEl) regEl.textContent = regTxt;
       document.getElementById('prCovUpdated').textContent = upd;
@@ -949,7 +1557,10 @@
       }
       card.style.display = 'block';
 
-      const colors = ['#2563eb', '#16a34a', '#d97706', '#9333ea', '#dc2626', '#0891b2'];
+      const isDark = document.documentElement.getAttribute('data-bg') === 'dark';
+      const colors = isDark
+        ? ['#60a5fa', '#34d399', '#fbbf24', '#a78bfa', '#fb7185', '#22d3ee']
+        : ['#163d82', '#047857', '#b45309', '#6d28d9', '#be123c', '#0e7490'];
       const top5 = rankedRows.slice(0, 5);
       if (prSelectedStrat && !top5.some(r => r.strategy === prSelectedStrat)) {
         const found = rankedRows.find(r => r.strategy === prSelectedStrat);
@@ -957,12 +1568,13 @@
       }
 
       const cs = getComputedStyle(document.documentElement);
-      const textCol = cs.getPropertyValue('--text').trim() || '#0f172a';
-      const mutedCol = cs.getPropertyValue('--muted').trim() || '#64748b';
-      const borderCol = cs.getPropertyValue('--border').trim() || '#e2e8f0';
+      const textCol = cs.getPropertyValue('--text').trim() || '#0c1220';
+      const mutedCol = cs.getPropertyValue('--muted').trim() || '#525d70';
+      const borderCol = cs.getPropertyValue('--border').trim() || '#e3e7ef';
       const cardCol = cs.getPropertyValue('--card').trim() || '#ffffff';
+      const fontSans = cs.getPropertyValue('--font-sans').trim() || 'sans-serif';
 
-      const rawW = canvas.getBoundingClientRect().width || (card.clientWidth - 32);
+      const rawW = canvas.getBoundingClientRect().width || (card.clientWidth - 44);
       if (!rawW || rawW <= 0) return;
       const dpr = window.devicePixelRatio || 1;
       const cssW = Math.round(rawW);
@@ -984,9 +1596,9 @@
       const maxPts = Math.max(0, ...seriesList.map(s => s.pts.length));
 
       if (prPeriod === '1d' || maxPts < 2) {
-        titleEl.textContent = '📊 일일 수익률 비교 (참가 엔진 Top ' + top5.length + ')';
+        titleEl.textContent = '일일 수익률 비교 (참가 엔진 Top ' + top5.length + ')';
         legendEl.innerHTML = '';
-        ctx.font = 'bold 12px monospace';
+        ctx.font = '700 13px ' + fontSans;
         const maxLblW = Math.max(0, ...top5.map(r => ctx.measureText(String(r.strategy || '')).width));
         const padL = Math.min(Math.max(108, Math.ceil(maxLblW) + 18), Math.floor(cssW * 0.36));
         const valLabelW = 72;
@@ -1023,10 +1635,10 @@
           const midY = y + bh * 0.5;
           const bw = (Math.abs(rv) / maxAbs) * halfBarMax;
           const barW = Math.max(2, bw);
-          ctx.fillStyle = rv >= 0 ? '#16a34a' : '#dc2626';
+          ctx.fillStyle = rv >= 0 ? (isDark ? '#34d399' : '#047857') : (isDark ? '#fb7185' : '#be123c');
           ctx.fillRect(rv >= 0 ? zeroX : zeroX - barW, y, barW, bh);
           ctx.fillStyle = textCol;
-          ctx.font = 'bold 12px monospace';
+          ctx.font = '700 13px ' + fontSans;
           ctx.textAlign = 'right';
           ctx.fillText(fitLabel(r.strategy, padL - 12), padL - 10, midY);
           ctx.textAlign = rv >= 0 ? 'left' : 'right';
@@ -1036,11 +1648,11 @@
         return;
       }
 
-      titleEl.textContent = '📈 기준 자본 $10,000 누적 복리 자산곡선 (Top ' + seriesList.length + ')';
+      titleEl.textContent = '기준 자본 $10,000 누적 복리 자산곡선 (Top ' + seriesList.length + ')';
       legendEl.innerHTML = seriesList.map(s => `
         <span class="pr-legend-item" style="cursor:pointer;" onclick="selectPrStrategy('${esc(s.strategy)}')">
           <span class="pr-legend-dot" style="background:${s.color};"></span>
-          <span>${esc(s.strategy)} (${s.ret >= 0 ? '+' : ''}${s.ret.toFixed(1)}%)</span>
+          <span class="tabular">${esc(s.strategy)} (${s.ret >= 0 ? '+' : ''}${s.ret.toFixed(1)}%)</span>
         </span>
       `).join('');
 
@@ -1072,7 +1684,7 @@
         const y = yForEq(v);
         ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(cssW - padR, y); ctx.stroke();
         ctx.fillStyle = mutedCol;
-        ctx.font = '11px monospace';
+        ctx.font = '500 13px ' + fontSans;
         ctx.textAlign = 'right';
         ctx.fillText('$' + Math.round(v).toLocaleString(), padL - 6, y + 4);
       }
@@ -1099,7 +1711,7 @@
 
       if (allDates.length) {
         ctx.fillStyle = mutedCol;
-        ctx.font = '11px monospace';
+        ctx.font = '500 13px ' + fontSans;
         ctx.textAlign = 'left';
         ctx.fillText(allDates[0], padL, cssH - 6);
         ctx.textAlign = 'right';
@@ -1124,9 +1736,9 @@
         <div class="pr-avengers-grid">
           ${lineup.map(item => `
             <div class="pr-av-item">
-              <div style="font-size:11px;font-weight:800;color:var(--muted);">${esc(item.regime_kr || item.regime)} (${item.days}일)</div>
-              <div class="mono" style="font-size:14px;font-weight:800;color:var(--accent);margin:4px 0 2px;">🦸 ${esc(item.strategy)}</div>
-              <div style="font-size:12px;">누적 <b class="${item.cum_ret_pct >= 0 ? 'pos' : 'neg'}">${item.cum_ret_pct >= 0 ? '+' : ''}${Number(item.cum_ret_pct || 0).toFixed(2)}%</b> · 승률 ${Number(item.win_rate_pct || 0).toFixed(0)}%</div>
+              <div style="font-size:var(--text-sm);font-weight:700;color:var(--muted);">${esc(item.regime_kr || item.regime)} (${item.days}일)</div>
+              <div class="tabular" style="font-size:var(--text-body);font-weight:700;color:var(--accent);margin:4px 0 2px;">${esc(item.strategy)}</div>
+              <div class="tabular" style="font-size:var(--text-sm);">누적 <b class="${item.cum_ret_pct >= 0 ? 'pos' : 'neg'}">${item.cum_ret_pct >= 0 ? '+' : ''}${Number(item.cum_ret_pct || 0).toFixed(2)}%</b> · 승률 ${Number(item.win_rate_pct || 0).toFixed(0)}%</div>
             </div>
           `).join('')}
         </div>
@@ -1138,20 +1750,18 @@
         const t2 = tops[1] ? `${esc(tops[1].strategy)} (${tops[1].cum_ret_pct >= 0 ? '+' : ''}${Number(tops[1].cum_ret_pct).toFixed(2)}%)` : '-';
         return `
           <tr>
-            <td><div style="font-weight:700;">${esc(info.label_kr || k)}</div><div class="mono" style="font-size:11px;color:var(--muted);">${esc(k)}</div></td>
-            <td class="num-col mono">${Number(info.days || 0)}일</td>
-            <td class="mono" style="font-weight:700;color:var(--accent);">${t1}</td>
-            <td class="mono">${t2}</td>
+            <td><div style="font-weight:700;">${esc(info.label_kr || k)}</div><div style="font-size:var(--text-sm);color:var(--muted);">${esc(k)}</div></td>
+            <td class="num-col">${Number(info.days || 0)}일</td>
+            <td class="tabular" style="font-weight:700;color:var(--accent);">${t1}</td>
+            <td class="tabular">${t2}</td>
           </tr>
         `;
       }).join('');
       el.innerHTML = `
-        <div class="pr-regime-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-            <div>
-              <h3 style="margin:0;font-size:16px;">🦸 미국 증시 순환기 국면 매트릭스 & 어벤저스 팀 프리뷰</h3>
-              <p style="margin:3px 0 0;font-size:12.5px;color:var(--muted);">국면별 승률이 검증된 최강 엔진을 조합합니다. (누적 표본: ${accDays}/${reqDays}일 ${av.ready ? '· 조합 가동 가능 ✓' : '· 표본 축적 중'})</p>
-            </div>
+        <div class="pr-section-block">
+          <div class="pr-section-head">
+            <h3>미국 증시 순환기 국면 매트릭스 및 어벤저스 프리뷰</h3>
+            <p class="tabular">국면별 검증 엔진 조합 · 누적 표본 ${accDays}/${reqDays}일 (${av.ready ? '조합 가동 가능' : '표본 축적 중'})</p>
           </div>
           ${avHtml}
           <div class="table-panel">
@@ -1172,7 +1782,6 @@
       const rawUnranked = Array.isArray((uns[prSession] || {})[prPeriod]) ? uns[prSession][prPeriod] : [];
       const curvesMap = ((ecs[prSession] || {})[prPeriod]) || {};
 
-      // 방어적 필터: 0거래·0노출 행이 구버전 JSON에 섞여 있어도 순위표에서 분리
       const rawList = rawAll.filter(r => Number(r.trades_count || 0) > 0 || Number(r.exposure_days || 0) > 0);
       const leakedZero = rawAll.filter(r => Number(r.trades_count || 0) === 0 && Number(r.exposure_days || 0) === 0);
       const unrankedList = [...rawUnranked, ...leakedZero];
@@ -1189,7 +1798,7 @@
         const periodLabels = { '1d': '일간(1D)', '1w': '주간(1W)', '1m': '월간(1M)', '1q': '분기(1Q)', '1y': '연간(1Y)', 'total': '전체누적' };
         tableEl.innerHTML = `
           <div class="pr-empty">
-            <h3>📭 아직 ${sessLabels[prSession] || prSession} · ${periodLabels[prPeriod] || prPeriod} 참가 거래 기록이 없습니다</h3>
+            <h3>아직 ${sessLabels[prSession] || prSession} · ${periodLabels[prPeriod] || prPeriod} 참가 거래 기록이 없습니다</h3>
             <p>장중 12시간 공용 테이프 녹화(04:00~16:00 ET) 및 일일 마감 리플레이(06:15 KST)가 누적되면 자동으로 순위가 집계됩니다.</p>
           </div>
         `;
@@ -1205,7 +1814,6 @@
 
         drawEquityChart(sorted, curvesMap);
 
-        const medals = ['🥇', '🥈', '🥉'];
         champEl.style.display = 'grid';
         champEl.innerHTML = sorted.slice(0, 3).map((r, idx) => {
           const ret = Number(r.return_pct || 0);
@@ -1214,15 +1822,18 @@
           const pf = Number(r.profit_factor || 0);
           const sh = Number(r.sharpe || 0);
           const mdd = Math.abs(Number(r.mdd_pct || 0));
-          const scCode = r.scenario_code && r.scenario_code !== r.strategy ? ` <span class="badge mono">${esc(r.scenario_code)}</span>` : '';
+          const sessTxt = formatSessionText(r.session_tag);
+          const srcTxt = formatSourceText(r.sources);
+          const metaTxt = [sessTxt, srcTxt].filter(Boolean).join(' · ');
+          const scNote = r.scenario_code && r.scenario_code !== r.strategy ? ` (${esc(r.scenario_code)})` : '';
           return `
             <article class="pr-champ-card rank-${idx + 1}">
               <div class="pr-champ-top">
-                <span class="pr-medal">${medals[idx]} ${idx + 1}위</span>
-                <div style="display:flex;gap:5px;align-items:center;">${formatSessionTag(r.session_tag)}${formatSourceBadge(r.sources)}</div>
+                <span class="pr-medal">${String(idx + 1).padStart(2, '0')}위</span>
+                <span class="pr-meta-txt">${esc(metaTxt)}</span>
               </div>
               <div>
-                <div class="pr-champ-title mono">${esc(r.strategy || '-')}${scCode}</div>
+                <div class="pr-champ-title tabular">${esc(r.strategy || '-')}${scNote}</div>
                 <div class="pr-champ-idea">${esc(r.idea || '기간별 누적 성과 전략')}</div>
               </div>
               <div class="pr-kpis">
@@ -1231,7 +1842,7 @@
                   <div class="pr-kpi-val ${ret >= 0 ? 'pos' : 'neg'}">${ret >= 0 ? '+' : ''}${ret.toFixed(2)}%</div>
                 </div>
                 <div>
-                  <div class="pr-kpi-lbl">손익($10k기준)</div>
+                  <div class="pr-kpi-lbl">손익($10k)</div>
                   <div class="pr-kpi-val ${pnl >= 0 ? 'pos' : 'neg'}">${pnl >= 0 ? '+$' : '-$'}${Math.abs(pnl).toFixed(2)}</div>
                 </div>
                 <div>
@@ -1247,7 +1858,7 @@
                   <div class="pr-kpi-val">${wr.toFixed(0)}% · ${Number(r.trades_count || 0)}회</div>
                 </div>
                 <div>
-                  <div class="pr-kpi-lbl">테스트일</div>
+                  <div class="pr-kpi-lbl">평가일</div>
                   <div class="pr-kpi-val">${Number(r.days_tested || 0)}일</div>
                 </div>
               </div>
@@ -1262,24 +1873,24 @@
           const pf = Number(r.profit_factor || 0);
           const sh = Number(r.sharpe || 0);
           const mdd = Math.abs(Number(r.mdd_pct || 0));
-          const scTag = r.scenario_code && r.scenario_code !== r.strategy ? ` <span class="badge mono">${esc(r.scenario_code)}</span>` : '';
-          const rowActive = prSelectedStrat === r.strategy ? 'background:var(--badge-bg);' : '';
+          const scNote = r.scenario_code && r.scenario_code !== r.strategy ? ` · ${esc(r.scenario_code)}` : '';
+          const rowActive = prSelectedStrat === r.strategy ? 'background:var(--accent-soft);' : '';
           return `
             <tr style="cursor:pointer;${rowActive}" onclick="selectPrStrategy('${esc(r.strategy)}')">
-              <td class="mono" style="font-weight:800;white-space:nowrap;">${medals[idx] || (idx + 1) + '위'}</td>
+              <td class="rank-num ${idx < 3 ? 'top3' : ''}">${String(idx + 1).padStart(2, '0')}</td>
               <td>
-                <div class="mono" style="font-weight:800;color:var(--accent);">${esc(r.strategy || '-')}${scTag}</div>
-                <div style="font-size:12px;color:var(--muted);margin-top:2px;">${esc(r.idea || '')}</div>
+                <div class="tabular" style="font-weight:700;color:var(--accent);">${esc(r.strategy || '-')}${scNote}</div>
+                <div style="font-size:var(--text-sm);color:var(--muted);margin-top:2px;">${esc(r.idea || '')}</div>
               </td>
               <td>${formatSessionTag(r.session_tag)}</td>
-              <td class="num-col mono ${ret >= 0 ? 'pos' : 'neg'}">${ret >= 0 ? '+' : ''}${ret.toFixed(2)}%</td>
-              <td class="num-col mono ${pnl >= 0 ? 'pos' : 'neg'}">${pnl >= 0 ? '+$' : '-$'}${Math.abs(pnl).toFixed(2)}</td>
-              <td class="num-col mono">${sh.toFixed(2)}</td>
-              <td class="num-col mono">${wr.toFixed(1)}%</td>
-              <td class="num-col mono">${pf.toFixed(2)}</td>
-              <td class="num-col mono neg">-${mdd.toFixed(2)}%</td>
-              <td class="num-col mono">${Number(r.trades_count || 0)}회</td>
-              <td class="num-col mono">${Number(r.days_tested || 0)}일</td>
+              <td class="num-col ${ret >= 0 ? 'pos' : 'neg'}">${ret >= 0 ? '+' : ''}${ret.toFixed(2)}%</td>
+              <td class="num-col ${pnl >= 0 ? 'pos' : 'neg'}">${pnl >= 0 ? '+$' : '-$'}${Math.abs(pnl).toFixed(2)}</td>
+              <td class="num-col">${sh.toFixed(2)}</td>
+              <td class="num-col">${wr.toFixed(1)}%</td>
+              <td class="num-col">${pf.toFixed(2)}</td>
+              <td class="num-col neg">-${mdd.toFixed(2)}%</td>
+              <td class="num-col">${Number(r.trades_count || 0)}회</td>
+              <td class="num-col">${Number(r.days_tested || 0)}일</td>
               <td>${formatSourceBadge(r.sources)}</td>
             </tr>
           `;
@@ -1300,7 +1911,7 @@
                 <th class="num-col">MDD(%)</th>
                 <th class="num-col">거래수</th>
                 <th class="num-col">평가일</th>
-                <th>출처 배지</th>
+                <th>출처</th>
               </tr>
             </thead>
             <tbody>${rowsHtml}</tbody>
@@ -1317,20 +1928,20 @@
             const rKr = r.unranked_reason_kr || '조건 미충족 관망';
             return `
               <tr>
-                <td class="mono" style="font-weight:700;color:var(--muted);">${esc(r.strategy || '-')}</td>
+                <td class="tabular" style="font-weight:700;color:var(--muted);">${esc(r.strategy || '-')}</td>
                 <td>${formatSessionTag(r.session_tag)}</td>
-                <td style="font-size:12.5px;color:var(--muted);">${esc(r.idea || '')}</td>
-                <td class="num-col mono">0회</td>
-                <td class="num-col mono">0.00%</td>
+                <td style="font-size:var(--text-sm);color:var(--muted);">${esc(r.idea || '')}</td>
+                <td class="num-col">0회</td>
+                <td class="num-col">0.00%</td>
                 <td><span class="reason-pill reason-${esc(rCode)}">${esc(rKr)}</span></td>
               </tr>
             `;
           }).join('');
           unrankedEl.innerHTML = `
-            <div class="pr-unranked-card">
-              <div class="pr-unranked-head">
-                <h3>⏸️ 미참가 / 관망 엔진 — 수위 밖 (${unrankedList.length}개)</h3>
-                <span style="font-size:12px;color:var(--muted);">해당 기간 진입·보유 0건으로 랭킹 산정에서 제외됨</span>
+            <div class="pr-section-block">
+              <div class="pr-section-head">
+                <h3>미참가 / 관망 엔진 (${unrankedList.length}개)</h3>
+                <p>해당 기간 진입·보유 0건으로 랭킹 산정에서 제외됨</p>
               </div>
               <div class="table-panel">
                 <table>

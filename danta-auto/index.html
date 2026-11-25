@@ -117,6 +117,9 @@
       border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 18px; font-size: 0.8125rem;
     }
     .dw-banner.pass { border-color: var(--pos-bd); border-left-color: var(--pos); background: var(--pos-bg); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
   </style>
 
 </head>
@@ -303,7 +306,7 @@
           <span class="dj-u-danta-lbl">실전 단타</span>
           <a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><a class="dj-u-danta-link active" href="https://tron1981-maker.github.io/danta-auto/">7. 자동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-manual/">8. 수동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-compare/">9. 자동 vs 수동 비교</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-charts/">10. 단타 수익 그래프</a>
         </nav>
-        <div class="dj-sib-group"><a class="dj-sib-btn " href="/danta-daily/">📅 일별 단타 내역</a><a class="dj-sib-btn active" href="/danta-auto/">🤖 자동 매매</a><a class="dj-sib-btn " href="/danta-manual/">✋ 수동 매매</a><a class="dj-sib-btn " href="/danta-compare/">⚖️ 자동 vs 수동 비교</a><a class="dj-sib-btn " href="/danta-charts/">📈 단타 수익 그래프</a></div>
+        
       </div>
     </div>
   </div>
@@ -343,9 +346,12 @@
   function _chartTheme() {
     const dark = document.documentElement.getAttribute('data-bg') === 'dark';
     return {
-      text: dark ? '#e2e8f0' : '#0f172a',
-      muted: dark ? '#94a3b8' : '#475569',
-      grid: dark ? 'rgba(148,163,184,0.14)' : 'rgba(15,23,42,0.08)',
+      text: dark ? '#f1f5f9' : '#0c1220',
+      muted: dark ? '#94a3b8' : '#525d70',
+      grid: dark ? 'rgba(148,163,184,0.14)' : 'rgba(12,18,32,0.08)',
+      accent: dark ? '#60a5fa' : '#163d82',
+      pos: dark ? '#34d399' : '#047857',
+      neg: dark ? '#fb7185' : '#be123c',
     };
   }
   window.addEventListener('themechange', () => {
@@ -373,14 +379,14 @@
         <h1>7. 자동 매매 전용 내역 (Auto Scalping)</h1>
         <p><code>자동단타</code>·<code>나스닥하락</code>·<code>프리마켓스캔</code>·<code>프리마켓테이프</code> 태그로 시스템이 진입·청산한 거래만 분리 집계합니다.</p>
       </div>
-      <div class="dw-meta">업데이트: 2026-11-26 00:04:43 KST</div>
+      <div class="dw-meta">업데이트: 2026-11-26 00:24:00 KST</div>
     </div>
 
     
     <section class="dw-card">
       <div class="dw-card-head">
         <div>
-          <h2>🚦 실계좌 전환 판단 게이트 (Go-Live 6-Gate Scorecard)</h2>
+          <h2>실계좌 전환 판단 게이트 (Go-Live 6-Gate Scorecard)</h2>
           <div class="dw-card-sub">자동 매매 페이퍼 트레이딩 실전 투입 근거 점검 — 6개 항목 모두 통과 시 실돈 전환 검토</div>
         </div>
         <span class="dw-badge wait">WAIT · 추가 페이퍼 검증 필요 (1/6)</span>
@@ -470,7 +476,7 @@
     <div class="dw-grid-2">
       
     <div class="dw-card">
-      <div class="dw-card-head"><h2>🧠 자동 전략 엔진별 성과</h2></div>
+      <div class="dw-card-head"><h2>자동 전략 엔진별 성과</h2></div>
       <div class="dw-table-wrap">
         <table class="dw-table">
           <thead><tr><th>전략 엔진</th><th class="num">건수</th><th class="num">승률</th><th class="num">총 투자금</th><th class="num">실현손익</th><th class="num">건당 평균수익률</th></tr></thead>
@@ -508,7 +514,7 @@
     
       
     <div class="dw-card">
-      <div class="dw-card-head"><h2>🎯 자동 청산 사유별 성과</h2></div>
+      <div class="dw-card-head"><h2>자동 청산 사유별 성과</h2></div>
       <div class="dw-table-wrap">
         <table class="dw-table">
           <thead><tr><th>청산 사유</th><th class="num">건수</th><th class="num">승률</th><th class="num">총 투자금</th><th class="num">실현손익</th><th class="num">건당 평균수익률</th></tr></thead>
@@ -575,7 +581,7 @@
 
     <section class="dw-card">
       <div class="dw-card-head">
-        <h2>🤖 자동 매매 전체 체결 내역 (17건)</h2>
+        <h2>자동 매매 전체 체결 내역 (17건)</h2>
         <a class="dw-link" href="/danta-compare/">수동 매매와 비교 분석 보기 →</a>
       </div>
       
@@ -858,6 +864,9 @@
     
     </section>
     
+<footer style="margin-top:44px;padding-top:18px;border-top:1px solid var(--border);text-align:center;font-size:0.8125rem;color:var(--muted);">
+  본 내용은 투자 유도글이 아닌, 전동주 개인 연구에 대한 내용입니다.
+</footer>
 </main>
 </body>
 </html>

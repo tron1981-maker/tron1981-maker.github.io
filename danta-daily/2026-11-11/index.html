@@ -117,6 +117,9 @@
       border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 18px; font-size: 0.8125rem;
     }
     .dw-banner.pass { border-color: var(--pos-bd); border-left-color: var(--pos); background: var(--pos-bg); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
   </style>
 
 </head>
@@ -303,7 +306,7 @@
           <span class="dj-u-danta-lbl">실전 단타</span>
           <a class="dj-u-danta-link active" href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-auto/">7. 자동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-manual/">8. 수동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-compare/">9. 자동 vs 수동 비교</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-charts/">10. 단타 수익 그래프</a>
         </nav>
-        <div class="dj-sib-group"><a class="dj-sib-btn " href="/danta-daily/">← 전체 일별 목록</a><a class="dj-sib-btn " href="/danta-daily/2026-11-10/">‹ 2026-11-10</a><a class="dj-sib-btn active" href="/danta-daily/2026-11-11/">📅 2026-11-11 (현재)</a><a class="dj-sib-btn " href="/danta-daily/2026-11-12/">2026-11-12 ›</a><a class="dj-sib-btn " href="/danta-charts/">📈 전체 수익 그래프</a></div>
+        <div class="dj-sib-group"><a class="dj-sib-btn " href="/danta-daily/">← 전체 일별 목록</a><a class="dj-sib-btn " href="/danta-daily/2026-11-10/">‹ 2026-11-10</a><a class="dj-sib-btn active" href="/danta-daily/2026-11-11/">2026-11-11 (현재)</a><a class="dj-sib-btn " href="/danta-daily/2026-11-12/">2026-11-12 ›</a><a class="dj-sib-btn " href="/danta-charts/">전체 수익 그래프</a></div>
       </div>
     </div>
   </div>
@@ -343,9 +346,12 @@
   function _chartTheme() {
     const dark = document.documentElement.getAttribute('data-bg') === 'dark';
     return {
-      text: dark ? '#e2e8f0' : '#0f172a',
-      muted: dark ? '#94a3b8' : '#475569',
-      grid: dark ? 'rgba(148,163,184,0.14)' : 'rgba(15,23,42,0.08)',
+      text: dark ? '#f1f5f9' : '#0c1220',
+      muted: dark ? '#94a3b8' : '#525d70',
+      grid: dark ? 'rgba(148,163,184,0.14)' : 'rgba(12,18,32,0.08)',
+      accent: dark ? '#60a5fa' : '#163d82',
+      pos: dark ? '#34d399' : '#047857',
+      neg: dark ? '#fb7185' : '#be123c',
     };
   }
   window.addEventListener('themechange', () => {
@@ -370,10 +376,10 @@
 
     <div class="dw-head">
       <div>
-        <h1>📅 2026-11-11 (ET) 단타 수익 내역 & 장중 곡선</h1>
+        <h1>2026-11-11 (ET) 단타 수익 내역 & 장중 곡선</h1>
         <p>자동 매매 0건 ($0.00) · 수동 매매 13건 (+$612.31)</p>
       </div>
-      <div class="dw-meta">업데이트: 2026-11-25 22:55:49 KST</div>
+      <div class="dw-meta">업데이트: 2026-11-26 00:24:00 KST</div>
     </div>
 
     <div class="dw-kpi-grid">
@@ -388,12 +394,12 @@
         <div class="dw-kpi-sub">5승 6패</div>
       </div>
       <div class="dw-kpi">
-        <div class="dw-kpi-lbl">🤖 당일 자동 매매</div>
+        <div class="dw-kpi-lbl">당일 자동 매매</div>
         <div class="dw-kpi-val neu">$0.00</div>
         <div class="dw-kpi-sub">0건 · ROI +0.00%</div>
       </div>
       <div class="dw-kpi">
-        <div class="dw-kpi-lbl">✋ 당일 수동 매매</div>
+        <div class="dw-kpi-lbl">당일 수동 매매</div>
         <div class="dw-kpi-val pos">+$612.31</div>
         <div class="dw-kpi-sub">13건 · ROI +4.34%</div>
       </div>
@@ -401,7 +407,7 @@
 
     <section class="dw-card">
       <div class="dw-card-head">
-        <h2>📈 2026-11-11 장중 거래별 손익 & 누적 수익 곡선 ($)</h2>
+        <h2>2026-11-11 장중 거래별 손익 & 누적 수익 곡선 ($)</h2>
         <span class="dw-card-sub">체결 시각(ET) 순서</span>
       </div>
       <div class="dw-chart-box"><canvas id="dayChart"></canvas></div>
@@ -409,7 +415,7 @@
 
     <section class="dw-card">
       <div class="dw-card-head">
-        <h2>🧾 2026-11-11 체결 상세 원장 (13건)</h2>
+        <h2>2026-11-11 체결 상세 원장 (13건)</h2>
       </div>
       
     <div class="dw-table-wrap">
@@ -434,7 +440,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:32:22 → 09:37:21 <span style="color:var(--muted);font-size:11px;">(5분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>SHFS</b> <span style="color:var(--muted);font-size:11px;">SHF 홀딩스</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$0.0348 → $0.0322</td>
@@ -449,7 +455,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:36:31 → 09:39:14 <span style="color:var(--muted);font-size:11px;">(3분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>FOSL</b> <span style="color:var(--muted);font-size:11px;">파슬 그룹</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$10.3500 → $9.8800</td>
@@ -464,7 +470,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:35:46 → 09:41:13 <span style="color:var(--muted);font-size:11px;">(6분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>YMAT</b> <span style="color:var(--muted);font-size:11px;">J 스타 홀딩</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$1.3800 → $1.3100</td>
@@ -479,7 +485,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:37:02 → 09:43:09 <span style="color:var(--muted);font-size:11px;">(6분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>RCT</b> <span style="color:var(--muted);font-size:11px;">레드클라우드 홀딩스</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$0.0409 → $0.0392</td>
@@ -494,7 +500,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:36:49 → 09:43:54 <span style="color:var(--muted);font-size:11px;">(7분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>GEVO</b> <span style="color:var(--muted);font-size:11px;">제보</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$2.0000 → $2.0000</td>
@@ -509,7 +515,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:34:16 → 09:48:32 <span style="color:var(--muted);font-size:11px;">(14분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>NXXT</b> <span style="color:var(--muted);font-size:11px;">넥스트NRG</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$0.4500 → $0.8662</td>
@@ -524,7 +530,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:56:30 → 09:57:10 <span style="color:var(--muted);font-size:11px;">(1분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>SCKT</b> <span style="color:var(--muted);font-size:11px;">소켓 모바일</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$0.4228 → $0.4014</td>
@@ -539,7 +545,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:58:15 → 10:03:02 <span style="color:var(--muted);font-size:11px;">(5분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>HUHU</b> <span style="color:var(--muted);font-size:11px;">후후테크 인터내셔널 그룹</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$0.4092 → $0.4100</td>
@@ -554,7 +560,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:43:33 → 10:05:55 <span style="color:var(--muted);font-size:11px;">(22분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>FBGL</b> <span style="color:var(--muted);font-size:11px;">FBS 글로벌</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$2.2900 → $2.2600</td>
@@ -569,7 +575,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:58:30 → 10:08:32 <span style="color:var(--muted);font-size:11px;">(10분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>NXXT</b> <span style="color:var(--muted);font-size:11px;">넥스트NRG</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$1.2600 → $1.3500</td>
@@ -584,7 +590,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:48:26 → 10:13:55 <span style="color:var(--muted);font-size:11px;">(26분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>SEGG</b> <span style="color:var(--muted);font-size:11px;">스포츠 엔터테인먼트 게이밍 글로벌</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$1.1000 → $1.1000</td>
@@ -599,7 +605,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>09:33:01 → 10:20:12 <span style="color:var(--muted);font-size:11px;">(47분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>INFL</b> <span style="color:var(--muted);font-size:11px;">INFL</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$50.7900 → $50.9700</td>
@@ -614,7 +620,7 @@
             <tr>
               <td>2026-11-11</td>
               <td>11:30:54 → 11:35:28 <span style="color:var(--muted);font-size:11px;">(5분)</span></td>
-              <td><span class="dw-badge manual">✋ 수동</span></td>
+              <td><span class="dw-badge manual">수동</span></td>
               <td><b>NXXT</b> <span style="color:var(--muted);font-size:11px;">넥스트NRG</span></td>
               <td><code>manual_legacy</code></td>
               <td class="num">$1.9600 → $1.9600</td>
@@ -643,12 +649,12 @@
             datasets: [
               {
                 type: 'line', label: '누적 손익 ($)', data: cumVals,
-                borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.14)',
+                borderColor: '#047857', backgroundColor: 'rgba(4,120,87,0.12)',
                 fill: true, tension: 0.25, borderWidth: 2.5, yAxisID: 'y'
               },
               {
                 type: 'bar', label: '건별 손익 ($)', data: barVals,
-                backgroundColor: barVals.map(v => v >= 0 ? 'rgba(16,185,129,0.7)' : 'rgba(239,68,68,0.7)'),
+                backgroundColor: barVals.map(v => v >= 0 ? 'rgba(4,120,87,0.75)' : 'rgba(190,18,60,0.75)'),
                 borderRadius: 5, yAxisID: 'y'
               }
             ]
@@ -666,6 +672,9 @@
       })();
     </script>
     
+<footer style="margin-top:44px;padding-top:18px;border-top:1px solid var(--border);text-align:center;font-size:0.8125rem;color:var(--muted);">
+  본 내용은 투자 유도글이 아닌, 전동주 개인 연구에 대한 내용입니다.
+</footer>
 </main>
 </body>
 </html>

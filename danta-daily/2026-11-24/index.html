@@ -117,6 +117,9 @@
       border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 18px; font-size: 0.8125rem;
     }
     .dw-banner.pass { border-color: var(--pos-bd); border-left-color: var(--pos); background: var(--pos-bg); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
   </style>
 
 </head>
@@ -303,7 +306,7 @@
           <span class="dj-u-danta-lbl">실전 단타</span>
           <a class="dj-u-danta-link active" href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-auto/">7. 자동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-manual/">8. 수동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-compare/">9. 자동 vs 수동 비교</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-charts/">10. 단타 수익 그래프</a>
         </nav>
-        <div class="dj-sib-group"><a class="dj-sib-btn " href="/danta-daily/">← 전체 일별 목록</a><a class="dj-sib-btn " href="/danta-daily/2026-11-19/">‹ 2026-11-19</a><a class="dj-sib-btn active" href="/danta-daily/2026-11-24/">📅 2026-11-24 (현재)</a><a class="dj-sib-btn " href="/danta-daily/2026-11-25/">2026-11-25 ›</a><a class="dj-sib-btn " href="/danta-charts/">📈 전체 수익 그래프</a></div>
+        <div class="dj-sib-group"><a class="dj-sib-btn " href="/danta-daily/">← 전체 일별 목록</a><a class="dj-sib-btn " href="/danta-daily/2026-11-19/">‹ 2026-11-19</a><a class="dj-sib-btn active" href="/danta-daily/2026-11-24/">2026-11-24 (현재)</a><a class="dj-sib-btn " href="/danta-daily/2026-11-25/">2026-11-25 ›</a><a class="dj-sib-btn " href="/danta-charts/">전체 수익 그래프</a></div>
       </div>
     </div>
   </div>
@@ -343,9 +346,12 @@
   function _chartTheme() {
     const dark = document.documentElement.getAttribute('data-bg') === 'dark';
     return {
-      text: dark ? '#e2e8f0' : '#0f172a',
-      muted: dark ? '#94a3b8' : '#475569',
-      grid: dark ? 'rgba(148,163,184,0.14)' : 'rgba(15,23,42,0.08)',
+      text: dark ? '#f1f5f9' : '#0c1220',
+      muted: dark ? '#94a3b8' : '#525d70',
+      grid: dark ? 'rgba(148,163,184,0.14)' : 'rgba(12,18,32,0.08)',
+      accent: dark ? '#60a5fa' : '#163d82',
+      pos: dark ? '#34d399' : '#047857',
+      neg: dark ? '#fb7185' : '#be123c',
     };
   }
   window.addEventListener('themechange', () => {
@@ -370,10 +376,10 @@
 
     <div class="dw-head">
       <div>
-        <h1>📅 2026-11-24 (ET) 단타 수익 내역 & 장중 곡선</h1>
+        <h1>2026-11-24 (ET) 단타 수익 내역 & 장중 곡선</h1>
         <p>자동 매매 3건 (+$10.48) · 수동 매매 0건 ($0.00)</p>
       </div>
-      <div class="dw-meta">업데이트: 2026-11-26 00:04:43 KST</div>
+      <div class="dw-meta">업데이트: 2026-11-26 00:24:00 KST</div>
     </div>
 
     <div class="dw-kpi-grid">
@@ -388,12 +394,12 @@
         <div class="dw-kpi-sub">2승 1패</div>
       </div>
       <div class="dw-kpi">
-        <div class="dw-kpi-lbl">🤖 당일 자동 매매</div>
+        <div class="dw-kpi-lbl">당일 자동 매매</div>
         <div class="dw-kpi-val pos">+$10.48</div>
         <div class="dw-kpi-sub">3건 · ROI +5.37%</div>
       </div>
       <div class="dw-kpi">
-        <div class="dw-kpi-lbl">✋ 당일 수동 매매</div>
+        <div class="dw-kpi-lbl">당일 수동 매매</div>
         <div class="dw-kpi-val neu">$0.00</div>
         <div class="dw-kpi-sub">0건 · ROI +0.00%</div>
       </div>
@@ -401,7 +407,7 @@
 
     <section class="dw-card">
       <div class="dw-card-head">
-        <h2>📈 2026-11-24 장중 거래별 손익 & 누적 수익 곡선 ($)</h2>
+        <h2>2026-11-24 장중 거래별 손익 & 누적 수익 곡선 ($)</h2>
         <span class="dw-card-sub">체결 시각(ET) 순서</span>
       </div>
       <div class="dw-chart-box"><canvas id="dayChart"></canvas></div>
@@ -409,7 +415,7 @@
 
     <section class="dw-card">
       <div class="dw-card-head">
-        <h2>🧾 2026-11-24 체결 상세 원장 (3건)</h2>
+        <h2>2026-11-24 체결 상세 원장 (3건)</h2>
       </div>
       
     <div class="dw-table-wrap">
@@ -434,7 +440,7 @@
             <tr>
               <td>2026-11-24</td>
               <td>09:41:02 → 09:45:25 <span style="color:var(--muted);font-size:11px;">(4분)</span></td>
-              <td><span class="dw-badge auto">🤖 자동</span></td>
+              <td><span class="dw-badge auto">자동</span></td>
               <td><b>MUZ</b> <span style="color:var(--muted);font-size:11px;">MUZ</span></td>
               <td><code>v_31</code></td>
               <td class="num">$11.1100 → $10.8600</td>
@@ -449,7 +455,7 @@
             <tr>
               <td>2026-11-24</td>
               <td>09:35:26 → 10:38:13 <span style="color:var(--muted);font-size:11px;">(63분)</span></td>
-              <td><span class="dw-badge auto">🤖 자동</span></td>
+              <td><span class="dw-badge auto">자동</span></td>
               <td><b>SMCZ</b> <span style="color:var(--muted);font-size:11px;">SMCZ</span></td>
               <td><code>nasdaq_bear</code></td>
               <td class="num">$9.3900 → $9.7000</td>
@@ -464,7 +470,7 @@
             <tr>
               <td>2026-11-24</td>
               <td>09:36:19 → 11:02:07 <span style="color:var(--muted);font-size:11px;">(86분)</span></td>
-              <td><span class="dw-badge auto">🤖 자동</span></td>
+              <td><span class="dw-badge auto">자동</span></td>
               <td><b>APLZ</b> <span style="color:var(--muted);font-size:11px;">APLZ</span></td>
               <td><code>nasdaq_bear</code></td>
               <td class="num">$40.9900 → $46.0100</td>
@@ -493,12 +499,12 @@
             datasets: [
               {
                 type: 'line', label: '누적 손익 ($)', data: cumVals,
-                borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.14)',
+                borderColor: '#047857', backgroundColor: 'rgba(4,120,87,0.12)',
                 fill: true, tension: 0.25, borderWidth: 2.5, yAxisID: 'y'
               },
               {
                 type: 'bar', label: '건별 손익 ($)', data: barVals,
-                backgroundColor: barVals.map(v => v >= 0 ? 'rgba(16,185,129,0.7)' : 'rgba(239,68,68,0.7)'),
+                backgroundColor: barVals.map(v => v >= 0 ? 'rgba(4,120,87,0.75)' : 'rgba(190,18,60,0.75)'),
                 borderRadius: 5, yAxisID: 'y'
               }
             ]
@@ -516,6 +522,9 @@
       })();
     </script>
     
+<footer style="margin-top:44px;padding-top:18px;border-top:1px solid var(--border);text-align:center;font-size:0.8125rem;color:var(--muted);">
+  본 내용은 투자 유도글이 아닌, 전동주 개인 연구에 대한 내용입니다.
+</footer>
 </main>
 </body>
 </html>

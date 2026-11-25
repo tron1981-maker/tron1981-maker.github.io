@@ -2,26 +2,27 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <title>GS QIS Interactive Tearsheet — SOXL / SOXS Karpathy Autoresearch</title>
+  <title>GS QIS Interactive Tearsheet — SOXL / SOXS Karpathy Autoresearch | Dongju QUNT Lab</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     #appShell {
-      --bg-page: #ffffff; --bg-card: #ffffff; --bd-col: #e2e8f0; --bd-sub: #f1f5f9;
-      --tx-main: #0f172a; --tx-muted: #475569; --ac-main: #2563eb; --ac-fg: #ffffff;
+      --bg-page: #ffffff; --bg-card: #ffffff; --surf-sub: #f7f8fa; --bd-col: #e3e7ef; --bd-sub: #eef2f6;
+      --tx-main: #0c1220; --tx-muted: #525d70; --ac-main: #163d82; --ac-fg: #ffffff;
       background-color: var(--bg-page); color: var(--tx-main); min-height: 100vh;
-      transition: background-color 0.18s ease, color 0.18s ease;
+      font-family: var(--dj-font, "Pretendard Variable", Pretendard, sans-serif);
+      transition: background-color 180ms cubic-bezier(0.22, 1, 0.36, 1), color 180ms cubic-bezier(0.22, 1, 0.36, 1);
     }
     #appShell[data-bg="warm"] {
-      --bg-page: #faf8f5; --bg-card: #ffffff; --bd-col: #e7e2d8; --bd-sub: #f5f2eb;
-      --tx-main: #1c1917; --tx-muted: #57534e;
+      --bg-page: #faf8f5; --bg-card: #ffffff; --surf-sub: #f3efe8; --bd-col: #e6dfd4; --bd-sub: #ece6dc;
+      --tx-main: #1c1917; --tx-muted: #57534e; --ac-main: #1d4078;
     }
     #appShell[data-bg="soft"] {
-      --bg-page: #f1f5f9; --bg-card: #ffffff; --bd-col: #cbd5e1; --bd-sub: #e2e8f0;
-      --tx-main: #0f172a; --tx-muted: #475569;
+      --bg-page: #f1f5f9; --bg-card: #ffffff; --surf-sub: #e6ecf3; --bd-col: #cbd5e1; --bd-sub: #e2e8f0;
+      --tx-main: #0c1220; --tx-muted: #475569;
     }
     #appShell[data-bg="dark"] {
-      --bg-page: #0b1120; --bg-card: #111827; --bd-col: #1f2937; --bd-sub: #1e293b;
-      --tx-main: #f8fafc; --tx-muted: #94a3b8; --ac-main: #3b82f6; --ac-fg: #ffffff;
+      --bg-page: #0b1120; --bg-card: #0f172a; --surf-sub: #131f35; --bd-col: #1e293b; --bd-sub: #1e293b;
+      --tx-main: #f1f5f9; --tx-muted: #94a3b8; --ac-main: #60a5fa; --ac-fg: #0b1120;
     }
     .surf-card { background-color: var(--bg-card); border: 1px solid var(--bd-col); }
     .sub-div { border-color: var(--bd-sub); }
@@ -29,6 +30,27 @@
     .bg-pill-bar { display: inline-flex; gap: 3px; padding: 3px; border-radius: 9px; border: 1px solid var(--bd-col); background-color: var(--bg-page); }
     .bg-pill { padding: 4px 9px; border-radius: 6px; font-size: 11.5px; font-weight: 600; color: var(--tx-muted); cursor: pointer; border: none; background: transparent; }
     .bg-pill.active { background-color: var(--ac-main); color: var(--ac-fg); }
+    .seg-tabs {
+      display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px;
+      border-radius: 10px; border: 1px solid var(--bd-col); background-color: var(--surf-sub);
+    }
+    .seg-tab {
+      padding: 6px 13px; border-radius: 7px; font-size: 0.8125rem; font-weight: 600;
+      color: var(--tx-muted); background: transparent; border: none; cursor: pointer;
+      transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1), color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .seg-tab:hover { color: var(--tx-main); }
+    .seg-tab.active {
+      background-color: var(--bg-card); color: var(--ac-main); font-weight: 700;
+      box-shadow: 0 1px 2px rgba(12, 18, 32, 0.08);
+    }
+    #appShell[data-bg="dark"] .seg-tab.active { background-color: #60a5fa; color: #0b1120; }
+    .ctrl-check {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px;
+      border-radius: 8px; border: 1px solid var(--bd-col); background: var(--bg-card);
+      font-size: 0.8125rem; font-weight: 600; color: var(--tx-main); cursor: pointer;
+    }
+    #kpiGrid, #hoverBar, #tblSplit, #tblAut { font-variant-numeric: tabular-nums; }
   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
@@ -54,8 +76,9 @@
   html[data-bg="warm"], html[data-bg="warm"] body { background-color: #faf8f5 !important; color: #1c1917 !important; --bg: #faf8f5; --background: #faf8f5; --panel: #ffffff; --card: #ffffff; --surface: #f3efe8; --border: #e6dfd4; --text: #1c1917; --foreground: #1c1917; --muted: #57534e; --muted-foreground: #57534e; --accent: #1d4078; --primary: #1d4078; }
   html[data-bg="soft"], html[data-bg="soft"] body { background-color: #f1f5f9 !important; color: #0c1220 !important; --bg: #f1f5f9; --background: #f1f5f9; --panel: #ffffff; --card: #ffffff; --surface: #e6ecf3; --border: #cbd5e1; --text: #0c1220; --foreground: #0c1220; --muted: #475569; --muted-foreground: #475569; --accent: #163d82; --primary: #163d82; }
   html[data-bg="dark"], html[data-bg="dark"] body { background-color: #0b1120 !important; color: #f1f5f9 !important; --bg: #0b1120; --background: #0b1120; --panel: #0f172a; --card: #0f172a; --surface: #131f35; --border: #1e293b; --card-border: #1e293b; --border-strong: #334155; --text: #f1f5f9; --foreground: #f1f5f9; --muted: #94a3b8; --muted-foreground: #94a3b8; --primary: #60a5fa; --accent: #60a5fa; }
-  html[data-bg="dark"] .header, html[data-bg="dark"] .kpi-card, html[data-bg="dark"] .chart-box, html[data-bg="dark"] .table-card, html[data-bg="dark"] .stat-card, html[data-bg="dark"] .gen-card, html[data-bg="dark"] .filter-bar, html[data-bg="dark"] .table-wrap, html[data-bg="dark"] article { background: #0f172a !important; border-color: #1e293b !important; color: #f1f5f9 !important; }
-  html[data-bg="dark"] h1, html[data-bg="dark"] h2, html[data-bg="dark"] h3, html[data-bg="dark"] .kpi-val, html[data-bg="dark"] table, html[data-bg="dark"] td { color: #f1f5f9 !important; border-color: #1e293b !important; }
+  html[data-bg="dark"] .kpi-card, html[data-bg="dark"] .chart-box, html[data-bg="dark"] .table-card, html[data-bg="dark"] .stat-card, html[data-bg="dark"] .gen-card, html[data-bg="dark"] .filter-bar, html[data-bg="dark"] .table-wrap, html[data-bg="dark"] .box, html[data-bg="dark"] .kpis .card, html[data-bg="dark"] .topbar, html[data-bg="dark"] article { background: #0f172a !important; border-color: #1e293b !important; color: #f1f5f9 !important; }
+  html[data-bg="dark"] h1, html[data-bg="dark"] h2, html[data-bg="dark"] h3, html[data-bg="dark"] .kpi-val, html[data-bg="dark"] .val, html[data-bg="dark"] table, html[data-bg="dark"] td { color: #f1f5f9 !important; border-color: #1e293b !important; }
+  html[data-bg="dark"] .lbl, html[data-bg="dark"] .sub, html[data-bg="dark"] .subtitle, html[data-bg="dark"] .kpi-label, html[data-bg="dark"] .kpi-sub { color: #94a3b8 !important; }
   html[data-bg="dark"] th { background: #131f35 !important; color: #cbd5e1 !important; border-color: #334155 !important; }
   html[data-bg="dark"] tr:hover td { background: #131f35 !important; }
   html[data-bg="dark"] .autopsy-banner { background: #131f35 !important; border-color: #334155 !important; color: #f1f5f9 !important; }
@@ -63,6 +86,24 @@
   /* 하위 페이지 내부의 중복 배경색 스위처 바 숨김 */
   .bg-pill-bar, .bg-switcher, .topbar .bg-bar, .header .bg-bar { display: none !important; }
   .container, .page-inner, .wrap, .dw-wrap { font-family: var(--dj-font); }
+
+  /* Universal Subpage Body Harmonization (Swiss Institutional Quant) */
+  .container, body > .wrap, .page-inner { max-width: 1220px !important; margin: 0 auto !important; padding: 28px 24px 0 !important; font-family: var(--dj-font) !important; }
+  .header, .hdr { background: transparent !important; border: none !important; border-bottom: 1px solid var(--border) !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 0 20px !important; margin-bottom: 24px !important; }
+  .header h1, .hdr h1 { font-size: clamp(1.5rem, 2.3vw, 2rem) !important; font-weight: 800 !important; letter-spacing: -0.03em !important; line-height: 1.25 !important; color: var(--text) !important; }
+  .subtitle, .hdr .sub { color: var(--muted) !important; font-size: 0.875rem !important; }
+  .kpi-grid, .kpis { gap: 12px !important; margin-bottom: 24px !important; }
+  .kpi-card, .kpis .card { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; box-shadow: none !important; padding: 14px 16px !important; }
+  .kpi-val, .kpis .val, .mono { font-family: var(--dj-font) !important; font-variant-numeric: tabular-nums !important; }
+  .kpi-label, .kpis .lbl { color: var(--muted) !important; font-size: 0.75rem !important; font-weight: 600 !important; }
+  .chart-box, .table-card, .box { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 12px !important; box-shadow: none !important; }
+  table { font-variant-numeric: tabular-nums; }
+  .badge-info { background: #eef3fb !important; color: #163d82 !important; border-color: rgba(22, 61, 130, 0.22) !important; }
+  html[data-bg="dark"] .badge-info { background: rgba(96, 165, 250, 0.14) !important; color: #93c5fd !important; border-color: rgba(96, 165, 250, 0.3) !important; }
+  .pos { color: #047857 !important; }
+  .neg { color: #be123c !important; }
+  html[data-bg="dark"] .pos { color: #34d399 !important; }
+  html[data-bg="dark"] .neg { color: #fb7185 !important; }
 
   #dj-qunt-unified-header {
     position: sticky; top: 0; z-index: 9995;
@@ -167,7 +208,9 @@
     #dj-qunt-unified-header .dj-u-menus { flex-wrap: wrap; overflow-x: visible; padding-top: 4px; }
     #dj-qunt-unified-header .dj-u-mbtn { padding: 8px 10px; }
     #dj-qunt-unified-header .dj-u-row2-in { padding: 8px 16px; }
+    .container, body > .wrap, .page-inner { padding: 20px 16px 0 !important; }
   }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
   @media print { #dj-qunt-unified-header { display: none !important; } }
 </style>
 <header id="dj-qunt-unified-header" data-has-home-nav="1" data-has-bg-switcher="1" data-active-menu="reports" data-page-title="SOXL · SOXS 1년 5대 장르 통합 뷰어" data-parent-title="" data-parent-url="">
@@ -230,14 +273,13 @@
 </script>
 
 
-<div id="appShell" data-bg="white" data-has-bg-switcher="1" class="p-4 md:p-6">
-  <div class="max-w-6xl mx-auto space-y-4">
-    <!-- Header -->
-    <div class="surf-card rounded-xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+<div id="appShell" data-bg="white" data-has-bg-switcher="1" class="px-4 md:px-6 pt-6 pb-12">
+  <div class="max-w-[1220px] mx-auto space-y-5">
+    <!-- Header Masthead -->
+    <div class="border-b sub-div pb-4 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
       <div>
-        <div class="text-xs font-semibold uppercase tracking-wider text-blue-600">Goldman Sachs gs_quant.timeseries · Karpathy Judge</div>
-        <h1 class="text-lg font-bold mt-0.5">SOXL · SOXS 1년 전 장르 인터랙티브 티어시트 뷰어</h1>
-        <p class="text-xs tx-muted mt-0.5">평가 구간: 2025-11-20 ~ 2026-11-20 (252거래일) · 봉인 구간(Sealed OOS 20%): 2026-09-10 이후 음영 표시</p>
+        <h1 class="text-2xl md:text-[1.75rem] font-extrabold tracking-tight">SOXL · SOXS 1년 전 장르 인터랙티브 티어시트 뷰어</h1>
+        <p class="text-sm tx-muted mt-1">Goldman Sachs <code class="text-xs">gs_quant.timeseries</code> · 평가 구간: 2025-11-20 ~ 2026-11-20 (252거래일) · 봉인 구간(Sealed OOS 20%): 2026-09-10 이후 음영 표시</p>
       </div>
       <div class="flex flex-wrap items-center gap-2 text-xs">
         <div class="bg-pill-bar" role="group" aria-label="배경색 변경">
@@ -246,25 +288,25 @@
           <button type="button" class="bg-pill" onclick="setBgMode('soft', this)">소프트</button>
           <button type="button" class="bg-pill" onclick="setBgMode('dark', this)">다크</button>
         </div>
-        <label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg surf-card cursor-pointer">
-          <input id="chkSoxl" type="checkbox" class="accent-blue-600" />
+        <label class="ctrl-check">
+          <input id="chkSoxl" type="checkbox" class="accent-[#163d82]" />
           <span>SOXL 단순보유 비교선</span>
         </label>
-        <label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg surf-card cursor-pointer">
-          <input id="chkLog" type="checkbox" class="accent-blue-600" />
+        <label class="ctrl-check">
+          <input id="chkLog" type="checkbox" class="accent-[#163d82]" />
           <span>로그 스케일</span>
         </label>
       </div>
     </div>
 
     <!-- Strategy Tabs -->
-    <div id="tabs" class="flex flex-wrap gap-1.5"></div>
+    <div id="tabs" class="seg-tabs"></div>
 
     <!-- KPI Strip -->
     <div id="kpiGrid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5"></div>
 
     <!-- Live Readout Banner -->
-    <div id="hoverBar" class="surf-card rounded-lg px-3.5 py-2 text-xs font-mono tabular-nums flex flex-wrap items-center justify-between gap-2">
+    <div id="hoverBar" class="surf-card rounded-lg px-3.5 py-2 text-xs tabular-nums flex flex-wrap items-center justify-between gap-2">
       <span class="tx-muted">차트 위에 마우스를 올리면 6개 패널 동기화 일별 수치가 표시됩니다.</span>
     </div>
 
@@ -317,7 +359,7 @@
               <th class="py-1.5 pl-2 text-right">최대낙폭(MDD)</th>
             </tr>
           </thead>
-          <tbody id="tblSplit" class="font-mono tabular-nums"></tbody>
+          <tbody id="tblSplit" class="tabular-nums"></tbody>
         </table>
       </div>
 
@@ -333,7 +375,7 @@
               <th class="py-1.5 pl-2">아키타입</th>
             </tr>
           </thead>
-          <tbody id="tblAut" class="font-mono tabular-nums"></tbody>
+          <tbody id="tblAut" class="tabular-nums"></tbody>
         </table>
       </div>
     </div>
@@ -368,22 +410,22 @@ function setBgMode(mode, btn) {
 function getColors() {
   const isDark = bgMode === 'dark';
   return {
-    fg: isDark ? '#f8fafc' : '#0f172a',
-    muted: isDark ? '#94a3b8' : '#64748b',
+    fg: isDark ? '#f1f5f9' : '#0c1220',
+    muted: isDark ? '#94a3b8' : '#525d70',
     grid: isDark ? 'rgba(148,163,184,0.16)' : 'rgba(100,116,139,0.16)',
     oosBg: isDark ? 'rgba(245,158,11,0.12)' : 'rgba(245,158,11,0.10)',
     oosLine: 'rgba(217,119,6,0.70)',
-    primary: isDark ? '#3b82f6' : '#1d4ed8',
+    primary: isDark ? '#60a5fa' : '#163d82',
     spy: '#64748b',
     soxlLine: '#9333ea',
-    dd: '#dc2626',
+    dd: isDark ? '#fb7185' : '#be123c',
     rmdd: '#ea580c',
     vol: '#d97706',
-    sh: '#059669',
+    sh: isDark ? '#34d399' : '#047857',
     beta: '#0891b2',
     corr: '#db2777',
-    wLong: '#16a34a',
-    wShort: '#dc2626'
+    wLong: isDark ? '#34d399' : '#047857',
+    wShort: isDark ? '#fb7185' : '#be123c'
   };
 }
 
@@ -393,9 +435,7 @@ function buildTabs() {
   ORDER.forEach(k => {
     const btn = document.createElement('button');
     const active = k === curKey;
-    btn.className = active
-      ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white transition'
-      : 'px-3 py-1.5 rounded-lg text-xs font-medium surf-card tx-muted hover:opacity-90 transition';
+    btn.className = active ? 'seg-tab active' : 'seg-tab';
     btn.textContent = RAW.s[k].lb;
     btn.onclick = () => { curKey = k; buildTabs(); updateMeta(); drawAll(); };
     wrap.appendChild(btn);
@@ -418,7 +458,7 @@ function updateMeta() {
   document.getElementById('kpiGrid').innerHTML = items.map(([label, val, cls]) => `
     <div class="surf-card rounded-lg p-2.5">
       <div class="text-xs tx-muted truncate">${label}</div>
-      <div class="text-sm font-bold font-mono tabular-nums mt-0.5 ${cls}">${val}</div>
+      <div class="text-sm font-bold tabular-nums mt-0.5 ${cls}">${val}</div>
     </div>
   `).join('');
 

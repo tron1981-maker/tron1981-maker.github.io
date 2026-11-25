@@ -208,6 +208,22 @@
       .bar-row .val { text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; }
       .chart-foot { color: var(--ink-3); font-size: 0.82rem; margin: 14px 0 0; }
 
+      /* ---------- 15s clip cost chart ---------- */
+      .bar-fill.gold { background: #d9a406; }
+      @media (prefers-color-scheme: dark) { .bar-fill.gold { background: #eab308; } }
+      .cost-row { display: grid; grid-template-columns: 178px 1fr 96px; align-items: center; gap: 10px; margin: 9px 0; font-size: 0.92rem; }
+      .cost-row .name { font-weight: 700; line-height: 1.3; }
+      .cost-row .name .tag { display: inline-block; font-size: 0.7rem; font-weight: 800; padding: 2px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+      .cost-row .tag-high { background: var(--bad-soft); color: var(--bad); }
+      .cost-row .tag-low { background: var(--good-soft); color: var(--good); }
+      .cost-row .val { text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .cost-insight { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; font-size: 0.93rem; color: var(--ink-2); }
+      .cost-insight b { color: var(--ink); }
+      @media (max-width: 560px) {
+        .cost-row { grid-template-columns: 118px 1fr 82px; font-size: 0.84rem; gap: 8px; }
+        .cost-row .name .tag { display: block; margin: 3px 0 0; width: fit-content; }
+      }
+
       /* ---------- picks / wait / warn ---------- */
       .pick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
       .pick { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
@@ -270,6 +286,7 @@
         <button class="nav-btn" data-nav="compare" aria-pressed="false">요금제 비교</button>
         <button class="nav-btn" data-nav="table" aria-pressed="false">한눈 비교표</button>
         <button class="nav-btn" data-nav="chart" aria-pressed="false">제작량 차트</button>
+        <button class="nav-btn" data-nav="cost15" aria-pressed="false">15초 가격</button>
         <button class="nav-btn" data-nav="picks" aria-pressed="false">용도별 추천</button>
         <button class="nav-btn" data-nav="wait" aria-pressed="false">미발표 서비스</button>
         <button class="nav-btn" data-nav="warn" aria-pressed="false">결제 전 확인</button>
@@ -303,6 +320,7 @@
           <button class="topic-btn" data-nav="compare"><b>요금제 비교</b><span>중간 요금제 카드 — 가격 · 크레딧 · 10초 클립 수 · 캐릭터 일관성</span></button>
           <button class="topic-btn" data-nav="table"><b>한눈 비교표</b><span>요청 16곳 + 추가 비교군을 가격 · 크레딧 · 해상도 · BF 상태로 한 표에</span></button>
           <button class="topic-btn" data-nav="chart"><b>제작량 차트</b><span>월 크레딧으로 한 달에 만들 수 있는 10초 클립 개수</span></button>
+          <button class="topic-btn" data-nav="cost15"><b>15초 가격</b><span>같은 조건으로 생성한 15초 한 편당 모델별 가격 — Seedance 2.5 약 15,000원부터 MiniMax H3 약 3,200원까지</span></button>
           <button class="topic-btn" data-nav="picks"><b>용도별 추천</b><span>품질 · 물량 · Seedance · 캐릭터 일관성 · 예산 기준 결론</span></button>
           <button class="topic-btn" data-nav="wait"><b>미발표 서비스</b><span>11월 25일 기준으로도 블랙프라이데이 발표가 없는 곳</span></button>
           <button class="topic-btn" data-nav="warn"><b>결제 전 확인</b><span>Sora · 지멍 가입 불가 · 미검증 코드 등 결제 전 주의사항</span></button>
@@ -903,6 +921,29 @@
         </div>
       </section>
 
+      <!-- ============ 15-SECOND CLIP COST ============ -->
+      <section class="panel" id="panel-cost15" aria-labelledby="cost15-h">
+        <h2 id="cost15-h">15초 한 편 가격 — 모델별 비교</h2>
+        <p class="sec-note">유튜브 비교 영상에서 <b>같은 프롬프트 · 같은 조건</b>으로 모델마다 1회씩 생성했을 때의 <b>15초 한 편당 가격</b>입니다. 조건은 <b>15초 · 가로 · 1080p · 사운드 켜짐</b>이고, 가격은 영상의 환산 기준인 <b>1크레딧 ≈ 1원 어림값</b>으로 표시한 수치입니다. 구독 요금 자체가 아니라, 클립 한 편을 만드는 데 드는 단가 비교로 보세요.</p>
+        <div class="chart-box">
+          <div class="cost-row"><span class="name">Seedance 2.5<span class="tag tag-high">최고가</span></span><div class="bar-track"><div class="bar-fill gold" style="width:100%"></div></div><span class="val">약 15,000원</span></div>
+          <div class="cost-row"><span class="name">Seedance 2.0</span><div class="bar-track"><div class="bar-fill gold" style="width:60%"></div></div><span class="val">약 9,000원</span></div>
+          <div class="cost-row"><span class="name">Wan 3.0</span><div class="bar-track"><div class="bar-fill gold" style="width:29%"></div></div><span class="val">약 4,400원</span></div>
+          <div class="cost-row"><span class="name">Kling 4.0</span><div class="bar-track"><div class="bar-fill gold" style="width:27%"></div></div><span class="val">약 4,100원</span></div>
+          <div class="cost-row"><span class="name">Gemini Omni 1.2 Flash</span><div class="bar-track"><div class="bar-fill gold" style="width:25%"></div></div><span class="val">약 3,800원</span></div>
+          <div class="cost-row"><span class="name">MiniMax H3<span class="tag tag-low">최저가</span></span><div class="bar-track"><div class="bar-fill gold" style="width:21%"></div></div><span class="val">약 3,200원</span></div>
+          <p class="chart-foot">막대 길이는 최고가인 Seedance 2.5(약 15,000원)를 100%로 둔 상대 비교입니다. 가격은 플랫폼 · 요금제 · 크레딧 구매 방식에 따라 달라질 수 있는 어림값입니다.</p>
+        </div>
+        <div class="cost-insight">
+          <b>최고가와 최저가의 차이는 약 4.7배 — 영상 표현으로는 “약 5배”입니다.</b>
+          Seedance 2.5(약 15,000원)와 Seedance 2.0(약 9,000원)이 비싼 축이고, Wan 3.0(약 4,400원) · Kling 4.0(약 4,100원) · Gemini Omni 1.2 Flash(약 3,800원) · MiniMax H3(약 3,200원)는 3,000~4,000원대에 몰려 있습니다. 즉 15초 한 편 기준으로는 <b>Seedance 계열의 프리미엄</b>이 뚜렷하고, 나머지 네 모델은 가격 차이가 상대적으로 작습니다.
+        </div>
+        <div class="cost-insight">
+          <b>출처:</b> “Comparing 6 AI Video Models: Does a Model That Costs 5x More Actually Make Better Videos?” — 11:06 구간 <b>Cost-effectiveness Comparison (Price per 15-second clip)</b>.
+          <a href="https://youtu.be/PagILy6DZyI?t=685" target="_blank" rel="noopener">youtu.be/PagILy6DZyI?t=685</a> (해당 구간으로 이동)
+        </div>
+      </section>
+
       <!-- ============ PICKS ============ -->
       <section class="panel" id="panel-picks" aria-labelledby="pick-h">
         <h2 id="pick-h">용도별 추천</h2>
@@ -997,6 +1038,7 @@
           <li>Beeble 요금제 — <a href="https://beeble.ai/pricing-cloud" target="_blank" rel="noopener">beeble.ai/pricing-cloud</a> (공식 페이지, 11월 24일 수집)</li>
           <li>지멍 AI — <a href="https://jimeng.jianying.com" target="_blank" rel="noopener">jimeng.jianying.com</a> (쌍십일 프로모 기준, BF 아님 · 11월 25일 진행 여부 미확정)</li>
           <li>Wan — <a href="https://create.wan.video/pricing" target="_blank" rel="noopener">create.wan.video/pricing</a> (11월 25일 공식 페이지 직접 확인 — 이번에는 정상 표시됨)</li>
+          <li>15초 한 편 가격 (유튜브 비교 영상) — “Comparing 6 AI Video Models: Does a Model That Costs 5x More Actually Make Better Videos?” 11:06 Cost-effectiveness Comparison 구간 — <a href="https://youtu.be/PagILy6DZyI?t=685" target="_blank" rel="noopener">youtu.be/PagILy6DZyI?t=685</a> (같은 프롬프트 · 15초 · 가로 · 1080p · 사운드 켜짐, 1크레딧 ≈ 1원 어림값)</li>
         </ul>
         <p>그 밖의 서비스(Luma, Pollo, Google Flow, CapCut 등) 가격은 로그인·지역 제한으로 2026년 11월 4~24일 2차 자료를 교차 확인한 값이며, 본문에 그 취지를 적었습니다. 확인 방식 표기: 공식 페이지에서 직접 확인한 딜과, 2차 자료를 인용한 수치를 구분해 본문에 적었습니다.</p>
         <p class="fineprint">이 페이지는 2026년 11월 25일 기준 조사 결과를 고정한 스냅샷입니다. 블랙프라이데이 딜은 11월 27일 전후로 추가 발표될 수 있고 가격·크레딧 정책은 수시로 바뀌므로(Higgsfield는 단계별 카운트다운, invideo는 수일 단위 가격 변동), 결제 직전 공식 페이지에서 최종 금액과 갱신 조건을 다시 확인하세요. 원화 금액은 조사 기준 환율 $1 ≈ ₩1,470으로 환산한 근사치입니다.</p>

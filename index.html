@@ -4,6 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dongju QUNT Lab · 개인 퀀트 연구 & 인터랙티브 리포트 허브</title>
+  <script>
+    if (!location.hash && !location.search.includes('stay=1') && location.protocol !== 'file:') {
+      location.replace('/tape-replay/');
+    }
+  </script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -859,13 +864,13 @@
         <span>Dongju QUNT Lab</span>
       </a>
       <nav class="dj-menu-bar" aria-label="주제 메뉴">
+        <a class="dj-menu-btn" id="nav-tape-replay" href="/tape-replay/">테이프 종목분석</a>
+        <a class="dj-menu-btn" id="nav-engine-rank-chart" href="/engine-rank-chart/">엔진 순위 차트</a>
         <button type="button" class="dj-menu-btn active" id="nav-algo" onclick="switchMenu('algo')">버전별 알고리즘</button>
         <button type="button" class="dj-menu-btn" id="nav-reports" onclick="switchMenu('reports')">인터랙티브 리포트 <span class="nav-count">7</span></button>
         <button type="button" class="dj-menu-btn" id="nav-ranking-pre" onclick="switchMenu('ranking-pre')">프리장 랭킹 <span class="nav-count">8</span></button>
         <button type="button" class="dj-menu-btn" id="nav-ranking-reg" onclick="switchMenu('ranking-reg')">본장 랭킹 <span class="nav-count">8</span></button>
         <button type="button" class="dj-menu-btn" id="nav-ranking-period" onclick="switchMenu('ranking-period')">기간별 수익률</button>
-        <a class="dj-menu-btn" id="nav-tape-replay" href="/tape-replay/">테이프 종목분석</a>
-        <a class="dj-menu-btn" id="nav-engine-rank-chart" href="/engine-rank-chart/">엔진 순위 차트</a>
       </nav>
       <div class="bg-bar" role="group" aria-label="배경색 변경">
         <button type="button" class="bg-btn active" onclick="setHubBg('white', this)">화이트</button>

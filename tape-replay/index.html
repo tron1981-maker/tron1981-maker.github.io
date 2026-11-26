@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>테이프 선별 종목 × 엔진별 수익률 — Dongju QUNT Lab</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --card: #ffffff;
+      --surface: #f7f8fa;
+      --border: #e3e7ef;
+      --border-strong: #cbd3e1;
+      --text: #0c1220;
+      --muted: #525d70;
+      --accent: #163d82;
+      --accent-soft: #eef3fb;
+      --pos: #047857;
+      --pos-bg: #ecfdf5;
+      --pos-bd: #a7f3d0;
+      --neg: #be123c;
+      --neg-bg: #fff1f2;
+      --neg-bd: #fecdd3;
+      --text-heading: 1.0625rem;
+      --text-body: 0.9375rem;
+      --text-sm: 0.8125rem;
+    }
+    html[data-bg="warm"] {
+      --bg: #faf8f5;
+      --card: #ffffff;
+      --surface: #f3efe8;
+      --border: #e6dfd4;
+      --border-strong: #d5cbbd;
+      --text: #1c1917;
+      --muted: #57534e;
+      --accent: #1d4078;
+      --accent-soft: #e9eef7;
+    }
+    html[data-bg="soft"] {
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --surface: #e6ecf3;
+      --border: #cbd5e1;
+      --border-strong: #94a3b8;
+      --text: #0c1220;
+      --muted: #475569;
+      --accent: #163d82;
+      --accent-soft: #e0e9f7;
+    }
+    html[data-bg="dark"] {
+      --bg: #0b1120;
+      --card: #0f172a;
+      --surface: #131f35;
+      --border: #1e293b;
+      --border-strong: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #60a5fa;
+      --accent-soft: rgba(96, 165, 250, 0.14);
+      --pos: #34d399;
+      --pos-bg: rgba(16, 185, 129, 0.14);
+      --pos-bd: rgba(16, 185, 129, 0.32);
+      --neg: #fb7185;
+      --neg-bg: rgba(244, 63, 94, 0.14);
+      --neg-bd: rgba(244, 63, 94, 0.32);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: var(--text-body);
+      line-height: 1.55;
+    }
+    .tabular { font-variant-numeric: tabular-nums; }
+    .tr-wrap {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 28px 24px 0;
+    }
+    .tr-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .tr-head h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 2.3vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      color: var(--text);
+    }
+    .tr-head p {
+      margin: 6px 0 0;
+      font-size: var(--text-sm);
+      color: var(--muted);
+      max-width: 65ch;
+    }
+    .tr-head-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      white-space: nowrap;
+      transition: color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .tr-head-link:hover { text-decoration: underline; }
+
+    /* Inline hairline summary strip */
+    .tr-summary-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+    .tr-sum-cell {
+      padding: 12px 16px;
+      border-right: 1px solid var(--border);
+    }
+    .tr-sum-cell:last-child { border-right: none; }
+    .tr-sum-lbl {
+      font-size: var(--text-sm);
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .tr-sum-val {
+      margin-top: 2px;
+      font-size: var(--text-heading);
+      font-weight: 800;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Filter Toolbar */
+    .tr-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 18px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .tr-ctrl {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tr-ctrl-lbl {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .tr-seg {
+      display: inline-flex;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2px;
+    }
+    .tr-seg-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      padding: 5px 11px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1), color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .tr-seg-btn:hover { color: var(--text); }
+    .tr-seg-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+    }
+    html[data-bg="dark"] .tr-seg-btn.active {
+      color: #0b1120;
+    }
+    .tr-select, .tr-input {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      outline: none;
+      transition: border-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .tr-select:focus, .tr-input:focus { border-color: var(--accent); }
+    .tr-input { width: 150px; }
+    .tr-day-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tr-arrow-btn {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 5px 9px;
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .tr-arrow-btn:disabled { opacity: 0.4; cursor: default; }
+    .tr-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+    }
+    .tr-check input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+
+    /* Section Headings */
+    .tr-sec { margin-top: 24px; }
+    .tr-sec-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .tr-sec-head h2 {
+      margin: 0;
+      font-size: var(--text-heading);
+      font-weight: 800;
+      color: var(--text);
+    }
+    .tr-sec-head p {
+      margin: 0;
+      font-size: var(--text-sm);
+      color: var(--muted);
+    }
+
+    /* Tables */
+    .tr-table-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow-x: auto;
+    }
+    table.tr-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-sm);
+      font-variant-numeric: tabular-nums;
+    }
+    table.tr-tbl th {
+      background: var(--surface);
+      color: var(--muted);
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      user-select: none;
+    }
+    table.tr-tbl th.num, table.tr-tbl td.num { text-align: right; }
+    table.tr-tbl th.sortable { cursor: pointer; }
+    table.tr-tbl th.sortable:hover { color: var(--text); }
+    table.tr-tbl th.sort-active { color: var(--accent); }
+    table.tr-tbl td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      white-space: nowrap;
+    }
+    table.tr-tbl tbody tr:last-child td { border-bottom: none; }
+    table.tr-tbl tbody tr.clickable {
+      cursor: pointer;
+      transition: background-color 140ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    table.tr-tbl tbody tr.clickable:hover td { background: var(--surface); }
+    table.tr-tbl tbody tr.row-selected td { background: var(--accent-soft); }
+
+    /* Matrix */
+    table.tr-matrix th.sticky-col,
+    table.tr-matrix td.sticky-col {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: var(--card);
+      border-right: 1px solid var(--border);
+    }
+    table.tr-matrix th.sticky-col {
+      background: var(--surface);
+      z-index: 3;
+    }
+    table.tr-matrix td.m-cell {
+      text-align: right;
+      cursor: pointer;
+      font-weight: 700;
+      min-width: 78px;
+      transition: opacity 140ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    table.tr-matrix td.m-pos { background: var(--pos-bg); color: var(--pos); }
+    table.tr-matrix td.m-neg { background: var(--neg-bg); color: var(--neg); }
+    table.tr-matrix td.m-zero { color: var(--muted); font-weight: 500; cursor: default; }
+    table.tr-matrix td.m-cell.cell-active { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+    .tr-sym { font-weight: 800; color: var(--text); }
+    .tr-sub-txt { color: var(--muted); font-weight: 500; }
+    .tr-pos { color: var(--pos); font-weight: 700; }
+    .tr-neg { color: var(--neg); font-weight: 700; }
+
+    /* Detail Panel */
+    .tr-detail {
+      margin-top: 24px;
+      background: var(--card);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 20px;
+      display: none;
+    }
+    .tr-detail.open { display: block; }
+    .tr-detail-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .tr-detail-head h3 {
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .tr-close-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .tr-detail-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+      font-size: var(--text-sm);
+    }
+    .tr-detail-meta .lbl { color: var(--muted); font-weight: 600; }
+    .tr-detail-meta .val { font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; margin-top: 2px; }
+
+    .tr-empty {
+      padding: 36px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: var(--text-sm);
+      border: 1px dashed var(--border-strong);
+      border-radius: 10px;
+    }
+    footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: var(--text-sm);
+      color: var(--muted);
+    }
+    @media (max-width: 1000px) {
+      .tr-summary-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tr-sum-cell { border-bottom: 1px solid var(--border); }
+      .tr-detail-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 720px) {
+      .tr-wrap { padding: 20px 16px 0; }
+      .tr-summary-strip { grid-template-columns: 1fr; }
+      .tr-sum-cell { border-right: none; }
+      .tr-input { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  
+<link id="dj-qunt-font-preconnect1" rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link id="dj-qunt-font-css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style id="dj-qunt-unified-style">
+  :root {
+    --dj-font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --bg: #ffffff; --panel: #ffffff; --card: #ffffff; --surface: #f7f8fa;
+    --border: #e3e7ef; --card-border: #eef2f6; --border-strong: #cbd3e1;
+    --background: #ffffff; --foreground: #0c1220; --text: #0c1220; --muted: #525d70; --muted-foreground: #525d70;
+    --primary: #163d82; --primary-foreground: #ffffff; --accent: #163d82;
+  }
+  html, body {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0 0 72px !important;
+    font-family: var(--dj-font);
+    overflow-x: clip;
+  }
+  html[data-bg="warm"], html[data-bg="warm"] body { background-color: #faf8f5 !important; color: #1c1917 !important; --bg: #faf8f5; --background: #faf8f5; --panel: #ffffff; --card: #ffffff; --surface: #f3efe8; --border: #e6dfd4; --text: #1c1917; --foreground: #1c1917; --muted: #57534e; --muted-foreground: #57534e; --accent: #1d4078; --primary: #1d4078; }
+  html[data-bg="soft"], html[data-bg="soft"] body { background-color: #f1f5f9 !important; color: #0c1220 !important; --bg: #f1f5f9; --background: #f1f5f9; --panel: #ffffff; --card: #ffffff; --surface: #e6ecf3; --border: #cbd5e1; --text: #0c1220; --foreground: #0c1220; --muted: #475569; --muted-foreground: #475569; --accent: #163d82; --primary: #163d82; }
+  html[data-bg="dark"], html[data-bg="dark"] body { background-color: #0b1120 !important; color: #f1f5f9 !important; --bg: #0b1120; --background: #0b1120; --panel: #0f172a; --card: #0f172a; --surface: #131f35; --border: #1e293b; --card-border: #1e293b; --border-strong: #334155; --text: #f1f5f9; --foreground: #f1f5f9; --muted: #94a3b8; --muted-foreground: #94a3b8; --primary: #60a5fa; --accent: #60a5fa; }
+  html[data-bg="dark"] .kpi-card, html[data-bg="dark"] .chart-box, html[data-bg="dark"] .table-card, html[data-bg="dark"] .stat-card, html[data-bg="dark"] .gen-card, html[data-bg="dark"] .filter-bar, html[data-bg="dark"] .table-wrap, html[data-bg="dark"] .box, html[data-bg="dark"] .kpis .card, html[data-bg="dark"] .topbar, html[data-bg="dark"] article { background: #0f172a !important; border-color: #1e293b !important; color: #f1f5f9 !important; }
+  html[data-bg="dark"] h1, html[data-bg="dark"] h2, html[data-bg="dark"] h3, html[data-bg="dark"] .kpi-val, html[data-bg="dark"] .val, html[data-bg="dark"] table, html[data-bg="dark"] td { color: #f1f5f9 !important; border-color: #1e293b !important; }
+  html[data-bg="dark"] .lbl, html[data-bg="dark"] .sub, html[data-bg="dark"] .subtitle, html[data-bg="dark"] .kpi-label, html[data-bg="dark"] .kpi-sub { color: #94a3b8 !important; }
+  html[data-bg="dark"] th { background: #131f35 !important; color: #cbd5e1 !important; border-color: #334155 !important; }
+  html[data-bg="dark"] tr:hover td { background: #131f35 !important; }
+  html[data-bg="dark"] .autopsy-banner { background: #131f35 !important; border-color: #334155 !important; color: #f1f5f9 !important; }
+
+  /* 하위 페이지 내부의 중복 배경색 스위처 바 숨김 */
+  .bg-pill-bar, .bg-switcher, .topbar .bg-bar, .header .bg-bar { display: none !important; }
+  .container, .page-inner, .wrap, .dw-wrap { font-family: var(--dj-font); }
+
+  /* Universal Subpage Body Harmonization (Swiss Institutional Quant) */
+  .container, body > .wrap, .page-inner { max-width: 1220px !important; margin: 0 auto !important; padding: 28px 24px 0 !important; font-family: var(--dj-font) !important; }
+  .header, .hdr { background: transparent !important; border: none !important; border-bottom: 1px solid var(--border) !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 0 20px !important; margin-bottom: 24px !important; }
+  .header h1, .hdr h1 { font-size: clamp(1.5rem, 2.3vw, 2rem) !important; font-weight: 800 !important; letter-spacing: -0.03em !important; line-height: 1.25 !important; color: var(--text) !important; }
+  .subtitle, .hdr .sub { color: var(--muted) !important; font-size: 0.875rem !important; }
+  .kpi-grid, .kpis { gap: 12px !important; margin-bottom: 24px !important; }
+  .kpi-card, .kpis .card { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; box-shadow: none !important; padding: 14px 16px !important; }
+  .kpi-val, .kpis .val, .mono { font-family: var(--dj-font) !important; font-variant-numeric: tabular-nums !important; }
+  .kpi-label, .kpis .lbl { color: var(--muted) !important; font-size: 0.75rem !important; font-weight: 600 !important; }
+  .chart-box, .table-card, .box { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 12px !important; box-shadow: none !important; }
+  table { font-variant-numeric: tabular-nums; }
+  .badge-info { background: #eef3fb !important; color: #163d82 !important; border-color: rgba(22, 61, 130, 0.22) !important; }
+  html[data-bg="dark"] .badge-info { background: rgba(96, 165, 250, 0.14) !important; color: #93c5fd !important; border-color: rgba(96, 165, 250, 0.3) !important; }
+  .pos { color: #047857 !important; }
+  .neg { color: #be123c !important; }
+  html[data-bg="dark"] .pos { color: #34d399 !important; }
+  html[data-bg="dark"] .neg { color: #fb7185 !important; }
+
+  #dj-qunt-unified-header {
+    position: sticky; top: 0; z-index: 9995;
+    background: var(--bg); color: var(--text);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 0 var(--border);
+    font-family: var(--dj-font);
+    line-height: 1.4;
+  }
+  #dj-qunt-unified-header * { box-sizing: border-box; }
+  #dj-qunt-unified-header .dj-u-row1 {
+    max-width: 1220px; margin: 0 auto; padding: 0 24px; min-height: 58px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  #dj-qunt-unified-header .dj-u-brand {
+    display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+    color: var(--text); font-weight: 800; font-size: 1.125rem; letter-spacing: -0.03em; white-space: nowrap; flex-shrink: 0;
+  }
+  #dj-qunt-unified-header .dj-u-dot {
+    width: 26px; height: 26px; border-radius: 6px; background: var(--text); color: var(--bg);
+    display: inline-flex; align-items: center; justify-content: center; font-size: 0.8125rem; font-weight: 800; letter-spacing: -0.02em;
+  }
+  #dj-qunt-unified-header .dj-u-menus {
+    display: flex; align-items: stretch; gap: 4px; overflow-x: auto; scrollbar-width: none;
+  }
+  #dj-qunt-unified-header .dj-u-menus::-webkit-scrollbar { display: none; }
+  #dj-qunt-unified-header .dj-u-mbtn {
+    text-decoration: none; font-size: 0.8125rem; font-weight: 600; color: var(--muted);
+    padding: 18px 11px; white-space: nowrap; display: inline-flex; align-items: center;
+    border-bottom: 2px solid transparent;
+    transition: color 180ms cubic-bezier(0.22, 1, 0.36, 1), border-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #dj-qunt-unified-header .dj-u-mbtn:hover { color: var(--text); }
+  #dj-qunt-unified-header .dj-u-mbtn.active { color: var(--accent); font-weight: 700; border-bottom-color: var(--accent); }
+
+  #dj-qunt-unified-header .dj-u-bgbar {
+    display: inline-flex; align-items: center; border: 1px solid var(--border);
+    border-radius: 8px; background: var(--surface); padding: 2px; flex-shrink: 0;
+  }
+  #dj-qunt-unified-header .dj-u-bgbtn {
+    border: none; background: transparent; color: var(--muted); font-family: inherit;
+    font-size: 0.8125rem; font-weight: 600; padding: 4px 10px; border-radius: 6px; cursor: pointer; white-space: nowrap;
+    transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1), color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #dj-qunt-unified-header .dj-u-bgbtn:hover { color: var(--text); }
+  #dj-qunt-unified-header .dj-u-bgbtn.active {
+    background: var(--card); color: var(--text); box-shadow: 0 1px 2px rgba(12, 18, 32, 0.08);
+  }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-bgbtn.active { background: #60a5fa; color: #0b1120; }
+
+  #dj-qunt-unified-header .dj-u-row2 {
+    background: var(--surface); border-top: 1px solid var(--border);
+  }
+  #dj-qunt-unified-header .dj-u-row2-in {
+    max-width: 1220px; margin: 0 auto; padding: 8px 24px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 18px; font-size: 0.8125rem;
+  }
+  #dj-qunt-unified-header .dj-bc-trail {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--muted);
+  }
+  #dj-qunt-unified-header .dj-bc-trail a {
+    text-decoration: none; color: var(--muted); font-weight: 500;
+  }
+  #dj-qunt-unified-header .dj-bc-trail a:hover { color: var(--accent); text-decoration: underline; }
+  #dj-qunt-unified-header .dj-bc-cur { color: var(--text); font-weight: 700; }
+  #dj-qunt-unified-header .dj-u-row2-right {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+  }
+  #dj-qunt-unified-header .dj-u-danta-nav {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  }
+  #dj-qunt-unified-header .dj-u-danta-lbl {
+    font-weight: 700; color: #047857;
+  }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-danta-lbl { color: #34d399; }
+  #dj-qunt-unified-header .dj-u-danta-link {
+    text-decoration: none; color: var(--muted); font-weight: 600; white-space: nowrap;
+  }
+  #dj-qunt-unified-header .dj-u-danta-link:hover,
+  #dj-qunt-unified-header .dj-u-danta-link.active { color: var(--accent); text-decoration: underline; }
+
+  #dj-qunt-unified-header .dj-sib-group {
+    display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 2px;
+    border-radius: 8px; border: 1px solid var(--border); background: var(--bg);
+  }
+  #dj-qunt-unified-header .dj-sib-btn {
+    text-decoration: none; font-size: 0.8125rem; font-weight: 600; color: var(--muted);
+    padding: 3px 10px; border-radius: 6px; white-space: nowrap;
+  }
+  #dj-qunt-unified-header .dj-sib-btn:hover { color: var(--text); }
+  #dj-qunt-unified-header .dj-sib-btn.active { background: var(--card); color: var(--accent); font-weight: 700; box-shadow: 0 1px 2px rgba(12, 18, 32, 0.08); }
+  html[data-bg="dark"] #dj-qunt-unified-header .dj-sib-btn.active { background: #60a5fa; color: #0b1120; }
+
+  @media (max-width: 1040px) {
+    #dj-qunt-unified-header .dj-u-row1 { flex-wrap: wrap; padding: 10px 18px; gap: 10px; }
+    #dj-qunt-unified-header .dj-u-menus { order: 3; width: 100%; border-top: 1px solid var(--border); }
+    #dj-qunt-unified-header .dj-u-mbtn { padding: 11px 10px; }
+  }
+  @media (max-width: 780px) {
+    #dj-qunt-unified-header { position: static; }
+    #dj-qunt-unified-header .dj-u-row1 { padding: 10px 16px; }
+    #dj-qunt-unified-header .dj-u-menus { flex-wrap: wrap; overflow-x: visible; padding-top: 4px; }
+    #dj-qunt-unified-header .dj-u-mbtn { padding: 8px 10px; }
+    #dj-qunt-unified-header .dj-u-row2-in { padding: 8px 16px; }
+    .container, body > .wrap, .page-inner { padding: 20px 16px 0 !important; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
+  @media print { #dj-qunt-unified-header { display: none !important; } }
+</style>
+<header id="dj-qunt-unified-header" data-has-home-nav="1" data-has-bg-switcher="1" data-active-menu="tape-replay" data-page-title="테이프 종목분석" data-parent-title="기간별 수익률 랭킹" data-parent-url="/dj-qunt/#ranking-period">
+  <div class="dj-u-row1">
+    <a class="dj-u-brand" href="https://tron1981-maker.github.io/dj-qunt/">
+      <span class="dj-u-dot">DJ</span>
+      <span>Dongju QUNT Lab</span>
+    </a>
+    <nav class="dj-u-menus" aria-label="연구·랭킹">
+      <a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#algo">버전별 알고리즘</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#reports">인터랙티브 리포트</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-pre">프리장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-reg">본장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-period">기간별 수익률</a><a class="dj-u-mbtn active" href="https://tron1981-maker.github.io/tape-replay/">테이프 종목분석</a>
+    </nav>
+    <div class="dj-u-bgbar" role="group" aria-label="배경색 변경">
+      <button type="button" class="dj-u-bgbtn active" onclick="window.__setDocBg('white', this)">화이트</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('warm', this)">웜톤</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('soft', this)">소프트</button>
+      <button type="button" class="dj-u-bgbtn" onclick="window.__setDocBg('dark', this)">다크</button>
+    </div>
+  </div>
+  <div class="dj-u-row2">
+    <div class="dj-u-row2-in">
+      <div class="dj-bc-trail"><a href="https://tron1981-maker.github.io/dj-qunt/">Dongju QUNT Lab 홈</a><span class="dj-sep">›</span><a href="https://tron1981-maker.github.io/tape-replay/">테이프 종목분석</a><span class="dj-sep">›</span><a href="/dj-qunt/#ranking-period">기간별 수익률 랭킹</a><span class="dj-sep">›</span><span class="dj-bc-cur">테이프 종목분석</span></div>
+      <div class="dj-u-row2-right">
+        <nav class="dj-u-danta-nav" aria-label="실전 단타">
+          <span class="dj-u-danta-lbl">실전 단타</span>
+          <a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-daily/">6. 일별 단타 내역</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-auto/">7. 자동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-manual/">8. 수동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-compare/">9. 자동 vs 수동 비교</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-charts/">10. 단타 수익 그래프</a>
+        </nav>
+        
+      </div>
+    </div>
+  </div>
+</header>
+<script id="dj-qunt-unified-script">
+  window.__setDocBg = function(mode, btn) {
+    if (mode === 'white') {
+      document.documentElement.removeAttribute('data-bg');
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.setAttribute('data-bg', mode);
+      document.documentElement.classList.toggle('light', mode !== 'dark');
+    }
+    document.querySelectorAll('#dj-qunt-unified-header .dj-u-bgbtn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const shell = document.getElementById('appShell');
+    if (shell) shell.setAttribute('data-bg', mode);
+    if (typeof window.setBgMode === 'function') {
+      try { window.setBgMode(mode, null); } catch (e) {}
+    }
+    if (window.Plotly) {
+      const isDark = mode === 'dark';
+      const paper = isDark ? '#0f172a' : '#ffffff';
+      const plot = isDark ? '#0b1120' : '#ffffff';
+      const fc = isDark ? '#f1f5f9' : '#0c1220';
+      document.querySelectorAll('.js-plotly-plot').forEach(gd => {
+        try { Plotly.relayout(gd, { paper_bgcolor: paper, plot_bgcolor: plot, 'font.color': fc }); } catch (e) {}
+      });
+    }
+    window.dispatchEvent(new Event('themechange'));
+  };
+  document.documentElement.classList.add('light');
+</script>
+
+  <main class="tr-wrap">
+    <div class="tr-head">
+      <div>
+        <h1>테이프 선별 종목 × 엔진별 수익률</h1>
+        <p>매일 녹화된 프리장·본장 선별 종목 전체에 각 트레이딩 엔진을 적용해 수익률 순위와 체결 내역을 확인합니다.</p>
+      </div>
+      <a class="tr-head-link" href="/dj-qunt/#ranking-period">기간별 수익률 랭킹으로 이동 ↗</a>
+    </div>
+
+    <div class="tr-summary-strip" id="trSummaryStrip">
+      <div class="tr-sum-cell">
+        <div class="tr-sum-lbl">선별 종목 수</div>
+        <div class="tr-sum-val" id="sumSymCount">-</div>
+      </div>
+      <div class="tr-sum-cell">
+        <div class="tr-sum-lbl">거래 발생 종목</div>
+        <div class="tr-sum-val" id="sumActiveSym">-</div>
+      </div>
+      <div class="tr-sum-cell">
+        <div class="tr-sum-lbl">최고 수익 조합</div>
+        <div class="tr-sum-val" id="sumBestPair">-</div>
+      </div>
+      <div class="tr-sum-cell">
+        <div class="tr-sum-lbl">녹화 시간 (프리 / 본장)</div>
+        <div class="tr-sum-val" id="sumHours">-</div>
+      </div>
+      <div class="tr-sum-cell">
+        <div class="tr-sum-lbl">시장 국면</div>
+        <div class="tr-sum-val" id="sumRegime">-</div>
+      </div>
+    </div>
+
+    <div class="tr-controls" role="region" aria-label="필터 및 보기 제어">
+      <div class="tr-ctrl">
+        <span class="tr-ctrl-lbl">날짜</span>
+        <div class="tr-day-nav">
+          <button type="button" class="tr-arrow-btn" id="btnPrevDay" title="이전 거래일">‹</button>
+          <select class="tr-select" id="selDate" aria-label="거래일 선택"></select>
+          <button type="button" class="tr-arrow-btn" id="btnNextDay" title="다음 거래일">›</button>
+        </div>
+      </div>
+      <div class="tr-ctrl">
+        <span class="tr-ctrl-lbl">세션</span>
+        <div class="tr-seg" id="segSession" role="group" aria-label="세션 선택">
+          <button type="button" class="tr-seg-btn active" data-val="all">전체</button>
+          <button type="button" class="tr-seg-btn" data-val="premarket">프리장</button>
+          <button type="button" class="tr-seg-btn" data-val="regular">본장</button>
+        </div>
+      </div>
+      <div class="tr-ctrl">
+        <span class="tr-ctrl-lbl">평가 방식</span>
+        <div class="tr-seg" id="segMode" role="group" aria-label="평가 방식 선택">
+          <button type="button" class="tr-seg-btn active" data-val="independent">종목 단독</button>
+          <button type="button" class="tr-seg-btn" data-val="slotted">실전 슬롯 (3종목)</button>
+        </div>
+      </div>
+      <div class="tr-ctrl">
+        <span class="tr-ctrl-lbl">선별 기준</span>
+        <select class="tr-select" id="selBucket" aria-label="선별 기준 필터">
+          <option value="all">전체 버킷</option>
+          <option value="high_gap">급등갭 (high_gap)</option>
+          <option value="mid_gap">중형갭 (mid_gap)</option>
+          <option value="liquidity">유동성 (liquidity)</option>
+          <option value="core">핵심ETF (core)</option>
+          <option value="unclassified">기타</option>
+        </select>
+      </div>
+      <div class="tr-ctrl">
+        <input type="search" class="tr-input" id="inpSearch" placeholder="종목 검색 (예: SOXL)" aria-label="종목 검색" />
+      </div>
+      <label class="tr-check">
+        <input type="checkbox" id="chkActiveOnly" checked />
+        <span>거래 발생 종목만 보기</span>
+      </label>
+    </div>
+
+    <section class="tr-sec" aria-label="선별 종목 요약">
+      <div class="tr-sec-head">
+        <h2>당일 선별 종목 목록</h2>
+        <p id="selTickersDesc">녹화된 전체 선별 종목과 해당 종목의 최고 수익 엔진을 표시합니다. 행을 클릭하면 상세 체결을 봅니다.</p>
+      </div>
+      <div class="tr-table-box" id="tickersTableBox"></div>
+    </section>
+
+    <section class="tr-sec" aria-label="종목별 엔진 수익률 분석">
+      <div class="tr-sec-head">
+        <h2>종목 × 엔진 수익률 비교</h2>
+        <div class="tr-seg" id="segView" role="group" aria-label="보기 전환">
+          <button type="button" class="tr-seg-btn active" data-val="table">수익률 정렬표</button>
+          <button type="button" class="tr-seg-btn" data-val="matrix">종목×엔진 매트릭스</button>
+        </div>
+      </div>
+      <div class="tr-table-box" id="analysisBox"></div>
+    </section>
+
+    <section class="tr-detail" id="detailPanel" aria-label="종목 상세 체결 내역">
+      <div class="tr-detail-head">
+        <h3 id="detailTitle">종목 상세</h3>
+        <button type="button" class="tr-close-btn" id="btnCloseDetail">닫기</button>
+      </div>
+      <div class="tr-detail-meta" id="detailMeta"></div>
+      <div id="detailBody"></div>
+    </section>
+
+    <footer>
+      본 내용은 투자 유도글이 아닌, 전동주 개인 연구에 대한 내용입니다.
+    </footer>
+  </main>
+
+  <script>
+    const INITIAL_INDEX = {"updated_at": "", "dates": [], "days": []};
+    const INITIAL_LATEST_DAY = null;
+    const BUCKET_LABELS = {"high_gap": "급등갭", "mid_gap": "중형갭", "liquidity": "유동성", "core": "핵심ETF", "unclassified": "기타"};
+    const REASON_LABELS = {"TAKE_PROFIT": "목표 익절", "TRAILING_STOP": "트레일링 스탑", "STOP_LOSS": "손절 매도", "PROFIT_PRESERVE": "수익 보전", "MANUAL_CLOSE": "수동 청산", "BREAKEVEN_GUARD": "본전 수호", "MEAN_REVERSION_TP": "평균회귀 익절", "SVAPO_HOOK_TP": "SVAPO 꺾임 익절", "TIME_STOP": "시간 만료 청산", "STAGNATION_CUT": "정체 컷", "NASDAQ_REVERSAL_EXIT": "나스닥 양전 청산", "EOD_INVERSE_CLOSE": "장마감 일괄청산", "MORNING_WINDOW_END": "오전장 종료 청산", "VWAP_BREAK_EXIT": "원자산 VWAP 이탈", "VWAP_BREAK_SL": "VWAP 이탈 손절", "UND_VWAP_RECLAIM_SL": "원자산 VWAP 회복 손절", "TAPE_END": "녹화 종료 청산"};
+
+    const dayCache = {};
+    if (INITIAL_LATEST_DAY && INITIAL_LATEST_DAY.date_et) {
+      dayCache[INITIAL_LATEST_DAY.date_et] = INITIAL_LATEST_DAY;
+    }
+
+    const state = {
+      date: (INITIAL_INDEX.dates && INITIAL_INDEX.dates[0]) || '',
+      session: 'all',
+      mode: 'independent',
+      bucket: 'all',
+      search: '',
+      activeOnly: true,
+      view: 'table',
+      tableSortKey: 'return_pct',
+      tableSortDir: 'desc',
+      matrixSortEngine: '',
+      matrixSortDir: 'desc',
+      selectedSym: '',
+      selectedStrategy: '',
+      selectedSession: ''
+    };
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function fmtPct(v) {
+      const n = Number(v || 0);
+      const sign = n > 0 ? '+' : '';
+      return sign + n.toFixed(2) + '%';
+    }
+
+    function fmtUsd(v) {
+      const n = Number(v || 0);
+      const sign = n > 0 ? '+' : (n < 0 ? '-' : '');
+      return sign + '$' + Math.abs(n).toFixed(2);
+    }
+
+    function bucketText(buckets) {
+      if (!Array.isArray(buckets) || buckets.length === 0) return '기타';
+      return buckets.map(b => BUCKET_LABELS[b] || b).join(', ');
+    }
+
+    function sessText(s) {
+      if (s === 'premarket') return '프리장';
+      if (s === 'regular') return '본장';
+      return s || '-';
+    }
+
+    async function ensureDayLoaded(dateStr) {
+      if (!dateStr) return null;
+      if (dayCache[dateStr]) return dayCache[dateStr];
+      try {
+        const resp = await fetch('./data/' + encodeURIComponent(dateStr) + '.json');
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const data = await resp.json();
+        dayCache[dateStr] = data;
+        return data;
+      } catch (err) {
+        document.getElementById('analysisBox').innerHTML =
+          '<div class="tr-empty">해당 날짜(' + esc(dateStr) + ') 데이터를 불러오지 못했습니다.</div>';
+        return null;
+      }
+    }
+
+    function getFilteredSymbols(day) {
+      const syms = Array.isArray(day.symbols) ? day.symbols : [];
+      const q = state.search.trim().toUpperCase();
+      return syms.filter(s => {
+        if (state.session !== 'all') {
+          const sessList = Array.isArray(s.sessions) ? s.sessions : [];
+          if (!sessList.includes(state.session)) return false;
+        }
+        if (state.bucket !== 'all') {
+          const bList = Array.isArray(s.buckets) ? s.buckets : ['unclassified'];
+          if (!bList.includes(state.bucket)) return false;
+        }
+        if (q && !String(s.symbol || '').toUpperCase().includes(q)) return false;
+        return true;
+      });
+    }
+
+    function getActiveRows(day, filteredSymSet) {
+      const modeObj = ((day.modes || {})[state.mode]) || {};
+      const rows = [];
+      const sessions = state.session === 'all' ? ['premarket', 'regular'] : [state.session];
+      sessions.forEach(ss => {
+        const list = Array.isArray(modeObj[ss]) ? modeObj[ss] : [];
+        list.forEach(r => {
+          if (!filteredSymSet.has(r.symbol)) return;
+          rows.push(r);
+        });
+      });
+      return rows;
+    }
+
+    function renderSummary(day, filteredSyms, activeRows) {
+      const activeSymSet = new Set(activeRows.map(r => r.symbol));
+      document.getElementById('sumSymCount').textContent = filteredSyms.length + '종목';
+      document.getElementById('sumActiveSym').textContent = activeSymSet.size + '종목';
+      if (activeRows.length > 0) {
+        const best = [...activeRows].sort((a, b) => Number(b.return_pct || 0) - Number(a.return_pct || 0))[0];
+        const cls = Number(best.return_pct || 0) >= 0 ? 'tr-pos' : 'tr-neg';
+        document.getElementById('sumBestPair').innerHTML =
+          esc(best.symbol) + ' · ' + esc(best.strategy) + ' <span class="' + cls + '">' + fmtPct(best.return_pct) + '</span>';
+      } else {
+        document.getElementById('sumBestPair').textContent = '거래 없음';
+      }
+      document.getElementById('sumHours').textContent =
+        Number(day.premarket_hours || 0).toFixed(2) + 'h · ' + Number(day.regular_hours || 0).toFixed(2) + 'h';
+      document.getElementById('sumRegime').textContent = (day.regime && day.regime.label_kr) || '집계 중';
+    }
+
+    function renderSelectedTickers(day, filteredSyms, activeRows) {
+      const box = document.getElementById('tickersTableBox');
+      if (filteredSyms.length === 0) {
+        box.innerHTML = '<div class="tr-empty">조건에 맞는 선별 종목이 없습니다.</div>';
+        return;
+      }
+      const bestBySym = {};
+      const countBySym = {};
+      activeRows.forEach(r => {
+        countBySym[r.symbol] = (countBySym[r.symbol] || 0) + Number(r.trades_count || 0);
+        if (!bestBySym[r.symbol] || Number(r.return_pct || 0) > Number(bestBySym[r.symbol].return_pct || 0)) {
+          bestBySym[r.symbol] = r;
+        }
+      });
+
+      const htmlRows = filteredSyms.map(s => {
+        const best = bestBySym[s.symbol];
+        const tCnt = countBySym[s.symbol] || 0;
+        const pmTxt = s.pm_bars > 0 ? fmtPct(s.pm_change_pct) + ' (' + s.pm_bars + '봉)' : '-';
+        const rgTxt = s.rg_bars > 0 ? fmtPct(s.rg_change_pct) + ' (' + s.rg_bars + '봉)' : '-';
+        const bestHtml = best
+          ? esc(best.strategy) + ' <span class="' + (best.return_pct >= 0 ? 'tr-pos' : 'tr-neg') + '">' + fmtPct(best.return_pct) + '</span>'
+          : '<span class="tr-sub-txt">관망 (0거래)</span>';
+        const selCls = state.selectedSym === s.symbol ? ' row-selected' : '';
+        return '<tr class="clickable' + selCls + '" data-sym="' + esc(s.symbol) + '">' +
+          '<td class="tr-sym">' + esc(s.symbol) + '</td>' +
+          '<td>' + esc(bucketText(s.buckets)) + '</td>' +
+          '<td>' + esc((s.sessions || []).map(sessText).join(' · ') || '-') + '</td>' +
+          '<td class="num">' + pmTxt + '</td>' +
+          '<td class="num">' + rgTxt + '</td>' +
+          '<td class="num">' + (tCnt > 0 ? tCnt + '건' : '-') + '</td>' +
+          '<td>' + bestHtml + '</td>' +
+        '</tr>';
+      }).join('');
+
+      box.innerHTML =
+        '<table class="tr-tbl">' +
+          '<thead><tr>' +
+            '<th>종목</th><th>선별 기준</th><th>녹화 세션</th>' +
+            '<th class="num">프리장 등락</th><th class="num">본장 등락</th>' +
+            '<th class="num">총 체결</th><th>최고 엔진</th>' +
+          '</tr></thead>' +
+          '<tbody>' + htmlRows + '</tbody>' +
+        '</table>';
+
+      box.querySelectorAll('tbody tr').forEach(tr => {
+        tr.addEventListener('click', () => {
+          openDetail(tr.getAttribute('data-sym') || '', '', '');
+        });
+      });
+    }
+
+    function renderSortedTable(day, filteredSyms, activeRows) {
+      const box = document.getElementById('analysisBox');
+      const symMap = Object.fromEntries(filteredSyms.map(s => [s.symbol, s]));
+      let rows = [...activeRows];
+
+      if (!state.activeOnly) {
+        const activeSyms = new Set(rows.map(r => r.symbol));
+        filteredSyms.forEach(s => {
+          if (!activeSyms.has(s.symbol)) {
+            rows.push({
+              symbol: s.symbol,
+              strategy: '-',
+              session: (s.sessions && s.sessions[0]) || '-',
+              trades_count: 0,
+              win_rate_pct: 0,
+              return_pct: 0,
+              pnl_usd: 0,
+              _zero: true
+            });
+          }
+        });
+      }
+
+      if (rows.length === 0) {
+        box.innerHTML = '<div class="tr-empty">해당 조건에서 체결이 발생한 종목×엔진 조합이 없습니다. ("거래 발생 종목만 보기"를 끄면 관망 종목도 확인할 수 있습니다.)</div>';
+        return;
+      }
+
+      const k = state.tableSortKey;
+      const mult = state.tableSortDir === 'asc' ? 1 : -1;
+      rows.sort((a, b) => {
+        if (a._zero && !b._zero) return 1;
+        if (!a._zero && b._zero) return -1;
+        if (k === 'symbol' || k === 'strategy') {
+          return String(a[k] || '').localeCompare(String(b[k] || '')) * mult;
+        }
+        const diff = (Number(a[k] || 0) - Number(b[k] || 0)) * mult;
+        if (diff !== 0) return diff;
+        return Number(b.return_pct || 0) - Number(a.return_pct || 0);
+      });
+
+      const cols = [
+        { key: 'symbol', label: '종목', num: false },
+        { key: 'bucket', label: '선별 기준', num: false, nosort: true },
+        { key: 'session', label: '세션', num: false, nosort: true },
+        { key: 'strategy', label: '엔진', num: false },
+        { key: 'return_pct', label: '수익률(%)', num: true },
+        { key: 'pnl_usd', label: '손익($)', num: true },
+        { key: 'trades_count', label: '거래수', num: true },
+        { key: 'win_rate_pct', label: '승률(%)', num: true }
+      ];
+
+      const ths = '<th>순위</th>' + cols.map(c => {
+        const cls = [c.num ? 'num' : '', c.nosort ? '' : 'sortable', state.tableSortKey === c.key ? 'sort-active' : ''].filter(Boolean).join(' ');
+        const arrow = state.tableSortKey === c.key ? (state.tableSortDir === 'asc' ? ' ▲' : ' ▼') : '';
+        return '<th class="' + cls + '" data-sort="' + (c.nosort ? '' : c.key) + '">' + esc(c.label + arrow) + '</th>';
+      }).join('');
+
+      const trs = rows.map((r, i) => {
+        const symInfo = symMap[r.symbol] || { buckets: ['unclassified'] };
+        const retCls = r._zero ? 'tr-sub-txt' : (Number(r.return_pct) >= 0 ? 'tr-pos' : 'tr-neg');
+        const selCls = (state.selectedSym === r.symbol && state.selectedStrategy === r.strategy && state.selectedSession === r.session) ? ' row-selected' : '';
+        return '<tr class="clickable' + selCls + '" data-sym="' + esc(r.symbol) + '" data-strat="' + esc(r.strategy) + '" data-sess="' + esc(r.session) + '">' +
+          '<td class="tr-sub-txt">' + (r._zero ? '-' : (i + 1)) + '</td>' +
+          '<td class="tr-sym">' + esc(r.symbol) + '</td>' +
+          '<td>' + esc(bucketText(symInfo.buckets)) + '</td>' +
+          '<td>' + esc(sessText(r.session)) + '</td>' +
+          '<td>' + esc(r.strategy) + '</td>' +
+          '<td class="num ' + retCls + '">' + (r._zero ? '-' : fmtPct(r.return_pct)) + '</td>' +
+          '<td class="num ' + retCls + '">' + (r._zero ? '-' : fmtUsd(r.pnl_usd)) + '</td>' +
+          '<td class="num">' + (r._zero ? '0' : r.trades_count) + '</td>' +
+          '<td class="num">' + (r._zero ? '-' : Number(r.win_rate_pct || 0).toFixed(1) + '%') + '</td>' +
+        '</tr>';
+      }).join('');
+
+      box.innerHTML =
+        '<table class="tr-tbl">' +
+          '<thead><tr>' + ths + '</tr></thead>' +
+          '<tbody>' + trs + '</tbody>' +
+        '</table>';
+
+      box.querySelectorAll('th.sortable').forEach(th => {
+        th.addEventListener('click', () => {
+          const key = th.getAttribute('data-sort');
+          if (!key) return;
+          if (state.tableSortKey === key) {
+            state.tableSortDir = state.tableSortDir === 'desc' ? 'asc' : 'desc';
+          } else {
+            state.tableSortKey = key;
+            state.tableSortDir = (key === 'symbol' || key === 'strategy') ? 'asc' : 'desc';
+          }
+          render();
+        });
+      });
+      box.querySelectorAll('tbody tr').forEach(tr => {
+        tr.addEventListener('click', () => {
+          const s = tr.getAttribute('data-sym') || '';
+          const st = tr.getAttribute('data-strat') || '';
+          const ss = tr.getAttribute('data-sess') || '';
+          openDetail(s, st === '-' ? '' : st, ss === '-' ? '' : ss);
+        });
+      });
+    }
+
+    function renderMatrix(day, filteredSyms, activeRows) {
+      const box = document.getElementById('analysisBox');
+      const engObj = day.engines || {};
+      const sessions = state.session === 'all' ? ['premarket', 'regular'] : [state.session];
+      const engineCols = [];
+      sessions.forEach(ss => {
+        (engObj[ss] || []).forEach(e => {
+          engineCols.push({ key: ss + '|' + e.strategy, session: ss, strategy: e.strategy });
+        });
+      });
+
+      const cellMap = {};
+      const activeSymSet = new Set();
+      activeRows.forEach(r => {
+        activeSymSet.add(r.symbol);
+        cellMap[r.symbol + '|' + r.session + '|' + r.strategy] = r;
+      });
+
+      let symsToRender = state.activeOnly
+        ? filteredSyms.filter(s => activeSymSet.has(s.symbol))
+        : [...filteredSyms];
+
+      if (symsToRender.length === 0 || engineCols.length === 0) {
+        box.innerHTML = '<div class="tr-empty">표시할 종목×엔진 매트릭스 데이터가 없습니다.</div>';
+        return;
+      }
+
+      if (state.matrixSortEngine) {
+        const mult = state.matrixSortDir === 'asc' ? 1 : -1;
+        symsToRender.sort((a, b) => {
+          const ca = cellMap[a.symbol + '|' + state.matrixSortEngine];
+          const cb = cellMap[b.symbol + '|' + state.matrixSortEngine];
+          if (!ca && !cb) return a.symbol.localeCompare(b.symbol);
+          if (!ca) return 1;
+          if (!cb) return -1;
+          return (Number(ca.return_pct || 0) - Number(cb.return_pct || 0)) * mult;
+        });
+      }
+
+      const thCols = engineCols.map(ec => {
+        const isActive = state.matrixSortEngine === ec.key;
+        const arrow = isActive ? (state.matrixSortDir === 'asc' ? ' ▲' : ' ▼') : '';
+        const prefix = state.session === 'all' ? (ec.session === 'premarket' ? '[프리] ' : '[본] ') : '';
+        return '<th class="num sortable ' + (isActive ? 'sort-active' : '') + '" data-eng="' + esc(ec.key) + '" title="클릭 시 이 엔진 수익률순 정렬">' +
+          esc(prefix + ec.strategy + arrow) + '</th>';
+      }).join('');
+
+      const trs = symsToRender.map(s => {
+        const cells = engineCols.map(ec => {
+          const r = cellMap[s.symbol + '|' + ec.key];
+          if (!r) return '<td class="m-cell m-zero">-</td>';
+          const cls = Number(r.return_pct) >= 0 ? 'm-pos' : 'm-neg';
+          const act = (state.selectedSym === s.symbol && state.selectedStrategy === ec.strategy && state.selectedSession === ec.session) ? ' cell-active' : '';
+          return '<td class="m-cell ' + cls + act + '" data-sym="' + esc(s.symbol) + '" data-strat="' + esc(ec.strategy) + '" data-sess="' + esc(ec.session) + '">' +
+            fmtPct(r.return_pct) + '</td>';
+        }).join('');
+        return '<tr>' +
+          '<td class="sticky-col"><span class="tr-sym">' + esc(s.symbol) + '</span> <span class="tr-sub-txt">(' + esc(bucketText(s.buckets)) + ')</span></td>' +
+          cells +
+        '</tr>';
+      }).join('');
+
+      box.innerHTML =
+        '<table class="tr-tbl tr-matrix">' +
+          '<thead><tr><th class="sticky-col">종목 (선별 기준)</th>' + thCols + '</tr></thead>' +
+          '<tbody>' + trs + '</tbody>' +
+        '</table>';
+
+      box.querySelectorAll('th.sortable').forEach(th => {
+        th.addEventListener('click', () => {
+          const key = th.getAttribute('data-eng') || '';
+          if (state.matrixSortEngine === key) {
+            state.matrixSortDir = state.matrixSortDir === 'desc' ? 'asc' : 'desc';
+          } else {
+            state.matrixSortEngine = key;
+            state.matrixSortDir = 'desc';
+          }
+          render();
+        });
+      });
+      box.querySelectorAll('td.m-cell[data-sym]').forEach(td => {
+        td.addEventListener('click', () => {
+          openDetail(td.getAttribute('data-sym') || '', td.getAttribute('data-strat') || '', td.getAttribute('data-sess') || '');
+        });
+      });
+    }
+
+    function openDetail(sym, strategy, session) {
+      state.selectedSym = sym;
+      state.selectedStrategy = strategy;
+      state.selectedSession = session;
+      render();
+      const panel = document.getElementById('detailPanel');
+      if (panel && sym) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    function renderDetail(day) {
+      const panel = document.getElementById('detailPanel');
+      if (!state.selectedSym) {
+        panel.classList.remove('open');
+        return;
+      }
+      const symObj = (day.symbols || []).find(s => s.symbol === state.selectedSym);
+      if (!symObj) {
+        panel.classList.remove('open');
+        return;
+      }
+      panel.classList.add('open');
+      const modeName = state.mode === 'independent' ? '종목 단독' : '실전 슬롯(3종목)';
+      document.getElementById('detailTitle').textContent =
+        symObj.symbol + ' 상세 분석 (' + day.date_et + ' · ' + modeName + ')';
+
+      const pmInfo = symObj.pm_bars > 0 ? (symObj.pm_open + ' → ' + symObj.pm_close + ' (' + fmtPct(symObj.pm_change_pct) + ')') : '녹화 없음';
+      const rgInfo = symObj.rg_bars > 0 ? (symObj.rg_open + ' → ' + symObj.rg_close + ' (' + fmtPct(symObj.rg_change_pct) + ')') : '녹화 없음';
+      const hlInfo = symObj.rg_bars > 0 ? (symObj.rg_low + ' / ' + symObj.rg_high) : '-';
+
+      document.getElementById('detailMeta').innerHTML =
+        '<div><div class="lbl">선별 기준</div><div class="val">' + esc(bucketText(symObj.buckets)) + '</div></div>' +
+        '<div><div class="lbl">프리장 흐름</div><div class="val">' + esc(pmInfo) + '</div></div>' +
+        '<div><div class="lbl">본장 흐름</div><div class="val">' + esc(rgInfo) + '</div></div>' +
+        '<div><div class="lbl">본장 저가 / 고가</div><div class="val">' + esc(hlInfo) + '</div></div>';
+
+      const modeObj = ((day.modes || {})[state.mode]) || {};
+      const symRows = [];
+      ['premarket', 'regular'].forEach(ss => {
+        (modeObj[ss] || []).forEach(r => {
+          if (r.symbol === symObj.symbol) symRows.push(r);
+        });
+      });
+      symRows.sort((a, b) => Number(b.return_pct || 0) - Number(a.return_pct || 0));
+
+      if (symRows.length === 0) {
+        document.getElementById('detailBody').innerHTML =
+          '<div class="tr-empty">선택한 평가 모드(' + esc(modeName) + ')에서는 이 종목에 대한 진입 체결이 없었습니다.</div>';
+        return;
+      }
+
+      const targetRows = (state.selectedStrategy && state.selectedSession)
+        ? symRows.filter(r => r.strategy === state.selectedStrategy && r.session === state.selectedSession)
+        : symRows;
+      const showRows = targetRows.length > 0 ? targetRows : symRows;
+
+      const engSummaryRows = symRows.map(r => {
+        const cls = Number(r.return_pct) >= 0 ? 'tr-pos' : 'tr-neg';
+        const sel = (r.strategy === state.selectedStrategy && r.session === state.selectedSession) ? ' row-selected' : '';
+        return '<tr class="clickable' + sel + '" data-strat="' + esc(r.strategy) + '" data-sess="' + esc(r.session) + '">' +
+          '<td>' + esc(sessText(r.session)) + '</td>' +
+          '<td class="tr-sym">' + esc(r.strategy) + '</td>' +
+          '<td class="num ' + cls + '">' + fmtPct(r.return_pct) + '</td>' +
+          '<td class="num ' + cls + '">' + fmtUsd(r.pnl_usd) + '</td>' +
+          '<td class="num">' + r.trades_count + '</td>' +
+          '<td class="num">' + Number(r.win_rate_pct || 0).toFixed(1) + '%</td>' +
+        '</tr>';
+      }).join('');
+
+      const tradeRows = [];
+      showRows.forEach(r => {
+        (r.trades || []).forEach(t => {
+          const cls = Number(t.return_pct) >= 0 ? 'tr-pos' : 'tr-neg';
+          const rLbl = REASON_LABELS[t.close_reason] || t.close_reason || '-';
+          tradeRows.push(
+            '<tr>' +
+              '<td>' + esc(sessText(r.session)) + '</td>' +
+              '<td class="tr-sym">' + esc(r.strategy) + '</td>' +
+              '<td>' + esc(t.entry_time_et || '-') + '</td>' +
+              '<td>' + esc(t.exit_time_et || '-') + '</td>' +
+              '<td class="num">' + Number(t.entry_price || 0).toFixed(4) + '</td>' +
+              '<td class="num">' + Number(t.exit_price || 0).toFixed(4) + '</td>' +
+              '<td class="num ' + cls + '">' + fmtPct(t.return_pct) + '</td>' +
+              '<td class="num ' + cls + '">' + fmtUsd(t.pnl_usd) + '</td>' +
+              '<td>' + esc(rLbl) + '</td>' +
+            '</tr>'
+          );
+        });
+      });
+
+      document.getElementById('detailBody').innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">' +
+          '<strong>엔진별 성과 요약 (클릭 시 해당 엔진 체결만 필터)</strong>' +
+          (state.selectedStrategy ? '<button type="button" class="tr-close-btn" id="btnShowAllEng">전체 엔진 체결 보기</button>' : '') +
+        '</div>' +
+        '<div class="tr-table-box" style="margin-bottom:16px;">' +
+          '<table class="tr-tbl" id="detailEngTbl"><thead><tr><th>세션</th><th>엔진</th><th class="num">수익률(%)</th><th class="num">손익($)</th><th class="num">거래수</th><th class="num">승률(%)</th></tr></thead>' +
+          '<tbody>' + engSummaryRows + '</tbody></table>' +
+        '</div>' +
+        '<div style="margin-bottom:8px;"><strong>개별 체결 내역 (ET 기준)</strong></div>' +
+        '<div class="tr-table-box">' +
+          '<table class="tr-tbl"><thead><tr><th>세션</th><th>엔진</th><th>진입시각</th><th>청산시각</th><th class="num">진입가</th><th class="num">청산가</th><th class="num">수익률(%)</th><th class="num">손익($)</th><th>청산사유</th></tr></thead>' +
+          '<tbody>' + tradeRows.join('') + '</tbody></table>' +
+        '</div>';
+
+      document.querySelectorAll('#detailEngTbl tbody tr').forEach(tr => {
+        tr.addEventListener('click', () => {
+          state.selectedStrategy = tr.getAttribute('data-strat') || '';
+          state.selectedSession = tr.getAttribute('data-sess') || '';
+          render();
+        });
+      });
+      const btnAll = document.getElementById('btnShowAllEng');
+      if (btnAll) {
+        btnAll.addEventListener('click', () => {
+          state.selectedStrategy = '';
+          state.selectedSession = '';
+          render();
+        });
+      }
+    }
+
+    function updateDayControls() {
+      const dates = INITIAL_INDEX.dates || [];
+      const sel = document.getElementById('selDate');
+      const idx = dates.indexOf(state.date);
+      sel.value = state.date;
+      document.getElementById('btnPrevDay').disabled = (idx < 0 || idx >= dates.length - 1);
+      document.getElementById('btnNextDay').disabled = (idx <= 0);
+    }
+
+    async function render() {
+      updateDayControls();
+      const day = await ensureDayLoaded(state.date);
+      if (!day) return;
+      const filteredSyms = getFilteredSymbols(day);
+      const filteredSymSet = new Set(filteredSyms.map(s => s.symbol));
+      const activeRows = getActiveRows(day, filteredSymSet);
+      renderSummary(day, filteredSyms, activeRows);
+      renderSelectedTickers(day, filteredSyms, activeRows);
+      if (state.view === 'matrix') {
+        renderMatrix(day, filteredSyms, activeRows);
+      } else {
+        renderSortedTable(day, filteredSyms, activeRows);
+      }
+      renderDetail(day);
+    }
+
+    function init() {
+      const dates = INITIAL_INDEX.dates || [];
+      const sel = document.getElementById('selDate');
+      if (dates.length === 0) {
+        sel.innerHTML = '<option value="">녹화 데이터 없음</option>';
+        document.getElementById('tickersTableBox').innerHTML = '<div class="tr-empty">아직 리플레이된 테이프 데이터가 없습니다.</div>';
+        document.getElementById('analysisBox').innerHTML = '<div class="tr-empty">장 마감 자동 파이프라인 실행 후 자동으로 채워집니다.</div>';
+        return;
+      }
+      sel.innerHTML = dates.map(d => {
+        const info = (INITIAL_INDEX.days || []).find(x => x.date_et === d);
+        const symCnt = info ? (' (' + info.symbol_count + '종목)') : '';
+        return '<option value="' + esc(d) + '">' + esc(d + symCnt) + '</option>';
+      }).join('');
+      sel.value = state.date;
+
+      sel.addEventListener('change', () => {
+        state.date = sel.value;
+        state.selectedSym = '';
+        state.selectedStrategy = '';
+        state.selectedSession = '';
+        render();
+      });
+      document.getElementById('btnPrevDay').addEventListener('click', () => {
+        const i = dates.indexOf(state.date);
+        if (i >= 0 && i + 1 < dates.length) {
+          state.date = dates[i + 1];
+          state.selectedSym = '';
+          render();
+        }
+      });
+      document.getElementById('btnNextDay').addEventListener('click', () => {
+        const i = dates.indexOf(state.date);
+        if (i > 0) {
+          state.date = dates[i - 1];
+          state.selectedSym = '';
+          render();
+        }
+      });
+
+      document.querySelectorAll('#segSession .tr-seg-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#segSession .tr-seg-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.session = btn.getAttribute('data-val') || 'all';
+          state.matrixSortEngine = '';
+          render();
+        });
+      });
+      document.querySelectorAll('#segMode .tr-seg-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#segMode .tr-seg-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.mode = btn.getAttribute('data-val') || 'independent';
+          render();
+        });
+      });
+      document.querySelectorAll('#segView .tr-seg-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#segView .tr-seg-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.view = btn.getAttribute('data-val') || 'table';
+          render();
+        });
+      });
+
+      document.getElementById('selBucket').addEventListener('change', (e) => {
+        state.bucket = e.target.value || 'all';
+        render();
+      });
+      document.getElementById('inpSearch').addEventListener('input', (e) => {
+        state.search = e.target.value || '';
+        render();
+      });
+      document.getElementById('chkActiveOnly').addEventListener('change', (e) => {
+        state.activeOnly = !!e.target.checked;
+        render();
+      });
+      document.getElementById('btnCloseDetail').addEventListener('click', () => {
+        state.selectedSym = '';
+        state.selectedStrategy = '';
+        state.selectedSession = '';
+        render();
+      });
+
+      render();
+    }
+
+    init();
+  </script>
+</body>
+</html>

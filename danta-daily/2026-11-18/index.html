@@ -28,14 +28,16 @@
     body {
       margin: 0; padding: 0 0 72px; background: var(--bg); color: var(--text);
       font-family: var(--font-sans); font-size: 0.9375rem; line-height: 1.6;
+      word-break: keep-all; overflow-wrap: break-word;
     }
     .dw-wrap { max-width: 1220px; margin: 0 auto; padding: 32px 24px 0; }
     .dw-head {
       display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
       gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 24px;
     }
+    .dw-head > div:first-child { flex: 1 1 560px; min-width: 0; }
     .dw-head h1 { margin: 0; font-size: clamp(1.5rem, 2.3vw, 2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; }
-    .dw-head p { margin: 6px 0 0; font-size: 0.9375rem; color: var(--muted); max-width: 65ch; }
+    .dw-head p { margin: 6px 0 0; font-size: 0.9375rem; color: var(--muted); }
     .dw-meta { font-size: 0.8125rem; color: var(--muted); font-variant-numeric: tabular-nums; }
     .dw-kpi-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -140,6 +142,8 @@
     margin: 0;
     padding: 0 0 72px !important;
     font-family: var(--dj-font);
+    word-break: keep-all;
+    overflow-wrap: break-word;
     overflow-x: clip;
   }
   html[data-bg="warm"], html[data-bg="warm"] body { background-color: #faf8f5 !important; color: #1c1917 !important; --bg: #faf8f5; --background: #faf8f5; --panel: #ffffff; --card: #ffffff; --surface: #f3efe8; --border: #e6dfd4; --text: #1c1917; --foreground: #1c1917; --muted: #57534e; --muted-foreground: #57534e; --accent: #1d4078; --primary: #1d4078; }
@@ -289,7 +293,7 @@
       <span>Dongju QUNT Lab</span>
     </a>
     <nav class="dj-u-menus" aria-label="연구·랭킹">
-      <a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#algo">버전별 알고리즘</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#reports">인터랙티브 리포트</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-pre">프리장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-reg">본장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-period">기간별 수익률</a>
+      <a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#algo">버전별 알고리즘</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#reports">인터랙티브 리포트</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-pre">프리장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-reg">본장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-period">기간별 수익률</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/tape-replay/">테이프 종목분석</a>
     </nav>
     <div class="dj-u-bgbar" role="group" aria-label="배경색 변경">
       <button type="button" class="dj-u-bgbtn active" onclick="window.__setDocBg('white', this)">화이트</button>
@@ -379,7 +383,7 @@
         <h1>2026-11-18 (ET) 단타 수익 내역 & 장중 곡선</h1>
         <p>자동 매매 2건 (+$2.64) · 수동 매매 0건 ($0.00)</p>
       </div>
-      <div class="dw-meta">업데이트: 2026-11-26 00:24:00 KST</div>
+      <div class="dw-meta">업데이트: 2026-11-27 02:18:38 KST</div>
     </div>
 
     <div class="dw-kpi-grid">

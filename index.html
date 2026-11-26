@@ -107,6 +107,8 @@
       font-family: var(--font-sans);
       font-size: var(--text-body);
       line-height: 1.6;
+      word-break: keep-all;
+      overflow-wrap: break-word;
       overflow-x: clip;
     }
     .tabular { font-variant-numeric: tabular-nums; }
@@ -309,6 +311,10 @@
       border-bottom: 1px solid var(--border);
       margin-bottom: 24px;
     }
+    .panel-head > div:first-child {
+      flex: 1 1 560px;
+      min-width: 0;
+    }
     .panel-head h1 {
       margin: 0;
       font-size: clamp(1.625rem, 2.5vw, 2.125rem);
@@ -320,7 +326,6 @@
       margin: 8px 0 0;
       font-size: var(--text-body);
       color: var(--muted);
-      max-width: 65ch;
     }
     .panel-head-actions {
       display: flex;
@@ -445,7 +450,6 @@
       margin: 4px 0 0;
       font-size: var(--text-sm);
       color: var(--muted);
-      max-width: 65ch;
     }
 
     /* 7-Generation Architectural Grid */
@@ -510,7 +514,6 @@
     .gen-row {
       font-size: var(--text-body);
       color: var(--muted);
-      max-width: 65ch;
     }
     .gen-row b { color: var(--text); font-weight: 600; }
     .gen-champ-line {
@@ -586,7 +589,6 @@
       font-size: var(--text-body);
       color: var(--muted);
       flex-grow: 1;
-      max-width: 65ch;
     }
     .card-actions {
       display: flex;
@@ -660,7 +662,6 @@
       margin-top: 8px;
       font-size: var(--text-sm);
       color: var(--text);
-      max-width: 65ch;
     }
     .row-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
     .row-btn {

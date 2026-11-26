@@ -93,6 +93,8 @@
       font-family: var(--font-sans);
       font-size: var(--text-body);
       line-height: 1.65;
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
     .tabular { font-variant-numeric: tabular-nums; }
     .wrap {
@@ -121,13 +123,11 @@
       font-weight: 800;
       letter-spacing: -0.035em;
       line-height: 1.18;
-      max-width: 28ch;
     }
     .hero-sub {
       margin: 10px 0 0;
       font-size: var(--text-body);
       color: var(--muted);
-      max-width: 65ch;
     }
     .hero-sub b { color: var(--text); font-weight: 600; }
     .masthead-actions {
@@ -234,7 +234,7 @@
       letter-spacing: -0.015em;
     }
     .card h3 { margin: 0 0 8px; font-size: var(--text-heading); font-weight: 700; }
-    .card p { margin: 0 0 12px; font-size: var(--text-body); color: var(--muted); max-width: 65ch; }
+    .card p { margin: 0 0 12px; font-size: var(--text-body); color: var(--muted); }
     .card p b, .card li b { color: var(--text); font-weight: 600; }
 
     .callout {
@@ -246,7 +246,7 @@
       border-radius: 0 8px 8px 0;
     }
     .callout.warn { border-left-color: #b45309; }
-    .callout p, .callout ul { max-width: 65ch; }
+    .callout p, .callout ul { margin: 0; }
 
     .traders-grid {
       display: grid;
@@ -451,6 +451,8 @@
     margin: 0;
     padding: 0 0 72px !important;
     font-family: var(--dj-font);
+    word-break: keep-all;
+    overflow-wrap: break-word;
     overflow-x: clip;
   }
   html[data-bg="warm"], html[data-bg="warm"] body { background-color: #faf8f5 !important; color: #1c1917 !important; --bg: #faf8f5; --background: #faf8f5; --panel: #ffffff; --card: #ffffff; --surface: #f3efe8; --border: #e6dfd4; --text: #1c1917; --foreground: #1c1917; --muted: #57534e; --muted-foreground: #57534e; --accent: #1d4078; --primary: #1d4078; }

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Dongju QUNT Lab">
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#0c1220" stroke="#334155" stroke-width="2" />
+  <text x="32" y="34.5" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="Pretendard, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="28" font-weight="800" letter-spacing="-1.2">DJ</text>
+  <rect x="14" y="50" width="36" height="4" rx="2" fill="#10b981" />
+</svg>

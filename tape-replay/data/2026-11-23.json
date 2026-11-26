@@ -1,0 +1,1124 @@
+{
+  "date_et": "2026-11-23",
+  "generated_at": "2026-11-27T01:51:17",
+  "premarket_hours": 5.5,
+  "regular_hours": 1.75,
+  "regime": {
+    "date_et": "2026-11-23",
+    "trend_regime": "BEAR_TREND",
+    "vol_regime": "VIX_ELEVATED",
+    "rate_regime": "RATE_SPIKE_SHOCK",
+    "intraday_ndx": "NDX_DOWN",
+    "smallcap_heat": "COLD",
+    "composite_label": "BEAR_TREND__VIX_ELEVATED",
+    "label_kr": "하락장 · 고변동 · 금리쇼크·방어",
+    "metrics": {
+      "spy_ret_pct": 4.71,
+      "qqq_ret_pct": 7.0,
+      "soxx_ret_pct": 13.63,
+      "vix_close": 26.62,
+      "spy_vol20_pct": 31.88,
+      "high_gap_count": 0
+    }
+  },
+  "symbols": [
+    {
+      "symbol": "GAPPED",
+      "buckets": [
+        "unclassified"
+      ],
+      "sessions": [
+        "premarket",
+        "regular"
+      ],
+      "pm_bars": 34,
+      "rg_bars": 46,
+      "pm_open": 10.0,
+      "pm_close": 11.0721,
+      "pm_change_pct": 10.72,
+      "rg_open": 11.0721,
+      "rg_close": 12.7079,
+      "rg_change_pct": 14.77,
+      "rg_high": 12.7333,
+      "rg_low": 11.05,
+      "rg_volume": 230000.0
+    },
+    {
+      "symbol": "IREN",
+      "buckets": [
+        "unclassified"
+      ],
+      "sessions": [
+        "premarket",
+        "regular"
+      ],
+      "pm_bars": 322,
+      "rg_bars": 391,
+      "pm_open": 12.66,
+      "pm_close": 14.8,
+      "pm_change_pct": 16.9,
+      "rg_open": 14.815,
+      "rg_close": 14.8,
+      "rg_change_pct": -0.1,
+      "rg_high": 15.995,
+      "rg_low": 14.415,
+      "rg_volume": 123536674.0
+    },
+    {
+      "symbol": "KORU",
+      "buckets": [
+        "unclassified"
+      ],
+      "sessions": [
+        "premarket",
+        "regular"
+      ],
+      "pm_bars": 314,
+      "rg_bars": 391,
+      "pm_open": 5.33,
+      "pm_close": 6.3385,
+      "pm_change_pct": 18.92,
+      "rg_open": 6.525,
+      "rg_close": 6.1401,
+      "rg_change_pct": -5.9,
+      "rg_high": 6.525,
+      "rg_low": 6.02,
+      "rg_volume": 69042700.0
+    },
+    {
+      "symbol": "MUU",
+      "buckets": [
+        "unclassified"
+      ],
+      "sessions": [
+        "premarket",
+        "regular"
+      ],
+      "pm_bars": 320,
+      "rg_bars": 391,
+      "pm_open": 11.02,
+      "pm_close": 12.7504,
+      "pm_change_pct": 15.7,
+      "rg_open": 12.76,
+      "rg_close": 13.34,
+      "rg_change_pct": 4.55,
+      "rg_high": 13.725,
+      "rg_low": 11.97,
+      "rg_volume": 69991559.0
+    },
+    {
+      "symbol": "NVDL",
+      "buckets": [
+        "unclassified"
+      ],
+      "sessions": [
+        "premarket",
+        "regular"
+      ],
+      "pm_bars": 324,
+      "rg_bars": 391,
+      "pm_open": 11.8593,
+      "pm_close": 17.0396,
+      "pm_change_pct": 43.68,
+      "rg_open": 17.0003,
+      "rg_close": 16.63,
+      "rg_change_pct": -2.18,
+      "rg_high": 17.73,
+      "rg_low": 15.36,
+      "rg_volume": 149534449.0
+    },
+    {
+      "symbol": "SNXX",
+      "buckets": [
+        "unclassified"
+      ],
+      "sessions": [
+        "premarket",
+        "regular"
+      ],
+      "pm_bars": 309,
+      "rg_bars": 391,
+      "pm_open": 2.0,
+      "pm_close": 2.45,
+      "pm_change_pct": 22.5,
+      "rg_open": 2.55,
+      "rg_close": 2.1399,
+      "rg_change_pct": -16.08,
+      "rg_high": 2.6,
+      "rg_low": 2.08,
+      "rg_volume": 210141356.0
+    }
+  ],
+  "engines": {
+    "premarket": [
+      {
+        "strategy": "pre_v1_gap_pullback",
+        "scenario_code": "PRE_GAP_PULLBACK",
+        "idea": "프리장 갭 모멘텀 VWAP 눌림목"
+      },
+      {
+        "strategy": "pre_v2_vwap_reclaim",
+        "scenario_code": "PRE_VWAP_RECLAIM",
+        "idea": "프리장 VWAP 상향 탈환"
+      }
+    ],
+    "regular": [
+      {
+        "strategy": "v31",
+        "scenario_code": "V31_PULLBACK",
+        "idea": "Cluster 2 오전장 상승추세 망치형 눌림목"
+      },
+      {
+        "strategy": "v32_news",
+        "scenario_code": "V32_NEWS_PULLBACK",
+        "idea": "뉴스 연관도·촉매 가중치 결합 눌림목"
+      },
+      {
+        "strategy": "v_34",
+        "scenario_code": "V34_CATALYST_PULLBACK",
+        "idea": "뉴스 촉매 보강 + RVOL 1.25x 하한 방어 눌림목"
+      },
+      {
+        "strategy": "v_50",
+        "scenario_code": "V50_GEN5_CARBON_CHAMP",
+        "idea": "Gen 5 챔피언: 밑꼬리 흡수(≥50%) + 고RVOL(≥1.55x) 비대칭 사이징"
+      },
+      {
+        "strategy": "v06",
+        "scenario_code": "V06_LIQ_SWEEP",
+        "idea": "1분봉 유동성 스윕 SVAPO 평균회귀"
+      },
+      {
+        "strategy": "nasdaq_bear",
+        "scenario_code": "NASDAQ_BEAR",
+        "idea": "나스닥 하락장 인버스 ETF 단타"
+      },
+      {
+        "strategy": "v_37",
+        "scenario_code": "S2_DAY2_DEEP_DIP_SWEEP",
+        "idea": "전일 대량거래 RVOL 왜곡 보정 · 과매도 하단 흡수 스윕 시나리오"
+      },
+      {
+        "strategy": "v_38",
+        "scenario_code": "S4_PREMARKET_RELAXED_PULLBACK_PLUS_SWEEP",
+        "idea": "프리마켓 검증 종목 하이브리드(완화 VWAP 눌림목 + 과매도 망치 스윕)"
+      },
+      {
+        "strategy": "v_39",
+        "scenario_code": "S3_HIGH_GAP_CATALYST_ABSORPTION",
+        "idea": "고갭(30~115%) 장초반(09:34~09:56 ET) 초고유동성($1.5M+) 촉매 돌파 시나리오"
+      },
+      {
+        "strategy": "v_45",
+        "scenario_code": "S2_DAY2_DEEP_DIP_SWEEP",
+        "idea": "전일 대량거래 RVOL 왜곡 보정 · 과매도 하단 흡수 스윕 시나리오"
+      },
+      {
+        "strategy": "v_36",
+        "scenario_code": "S1_VWAP_RECLAIM_MOMENTUM",
+        "idea": "VWAP 상향 탈환 & 양봉 수급 흡수 시나리오"
+      },
+      {
+        "strategy": "v_41",
+        "scenario_code": "S4_PREMARKET_RELAXED_PULLBACK_PLUS_SWEEP",
+        "idea": "프리마켓 검증 종목 하이브리드(정밀 VWAP 눌림목 + 심층 과매도 망치 스윕)"
+      }
+    ]
+  },
+  "modes": {
+    "independent": {
+      "premarket": [],
+      "regular": [
+        {
+          "symbol": "IREN",
+          "strategy": "v06",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 1,
+          "loss_count": 0,
+          "win_rate_pct": 100.0,
+          "return_pct": 0.44,
+          "pnl_usd": 8.8,
+          "avg_return_pct": 0.44,
+          "max_trade_pct": 0.44,
+          "min_trade_pct": 0.44,
+          "trades": [
+            {
+              "entry_time_et": "11:37",
+              "exit_time_et": "11:52",
+              "entry_price": 14.8487,
+              "exit_price": 14.9448,
+              "return_pct": 0.44,
+              "pnl_usd": 8.8,
+              "close_reason": "MEAN_REVERSION_TP"
+            }
+          ]
+        },
+        {
+          "symbol": "KORU",
+          "strategy": "v06",
+          "session": "regular",
+          "trades_count": 2,
+          "win_count": 1,
+          "loss_count": 1,
+          "win_rate_pct": 50.0,
+          "return_pct": -0.42,
+          "pnl_usd": -8.2,
+          "avg_return_pct": -0.21,
+          "max_trade_pct": 0.88,
+          "min_trade_pct": -1.29,
+          "trades": [
+            {
+              "entry_time_et": "10:45",
+              "exit_time_et": "11:05",
+              "entry_price": 6.2866,
+              "exit_price": 6.2184,
+              "return_pct": -1.29,
+              "pnl_usd": -25.8,
+              "close_reason": "TIME_STOP"
+            },
+            {
+              "entry_time_et": "11:41",
+              "exit_time_et": "11:49",
+              "entry_price": 6.1315,
+              "exit_price": 6.1983,
+              "return_pct": 0.88,
+              "pnl_usd": 17.6,
+              "close_reason": "MEAN_REVERSION_TP"
+            }
+          ]
+        },
+        {
+          "symbol": "MUU",
+          "strategy": "v06",
+          "session": "regular",
+          "trades_count": 2,
+          "win_count": 2,
+          "loss_count": 0,
+          "win_rate_pct": 100.0,
+          "return_pct": 1.57,
+          "pnl_usd": 31.2,
+          "avg_return_pct": 0.78,
+          "max_trade_pct": 0.93,
+          "min_trade_pct": 0.63,
+          "trades": [
+            {
+              "entry_time_et": "10:45",
+              "exit_time_et": "11:05",
+              "entry_price": 13.2954,
+              "exit_price": 13.4066,
+              "return_pct": 0.63,
+              "pnl_usd": 12.6,
+              "close_reason": "MEAN_REVERSION_TP"
+            },
+            {
+              "entry_time_et": "11:41",
+              "exit_time_et": "11:48",
+              "entry_price": 13.0334,
+              "exit_price": 13.1817,
+              "return_pct": 0.93,
+              "pnl_usd": 18.6,
+              "close_reason": "MEAN_REVERSION_TP"
+            }
+          ]
+        },
+        {
+          "symbol": "NVDL",
+          "strategy": "v06",
+          "session": "regular",
+          "trades_count": 3,
+          "win_count": 2,
+          "loss_count": 1,
+          "win_rate_pct": 66.7,
+          "return_pct": -0.77,
+          "pnl_usd": -15.2,
+          "avg_return_pct": -0.25,
+          "max_trade_pct": 0.53,
+          "min_trade_pct": -1.7,
+          "trades": [
+            {
+              "entry_time_et": "10:33",
+              "exit_time_et": "10:37",
+              "entry_price": 17.283,
+              "exit_price": 17.3907,
+              "return_pct": 0.41,
+              "pnl_usd": 8.2,
+              "close_reason": "MEAN_REVERSION_TP"
+            },
+            {
+              "entry_time_et": "11:18",
+              "exit_time_et": "11:38",
+              "entry_price": 16.7864,
+              "exit_price": 16.5359,
+              "return_pct": -1.7,
+              "pnl_usd": -34.0,
+              "close_reason": "TIME_STOP"
+            },
+            {
+              "entry_time_et": "11:39",
+              "exit_time_et": "11:47",
+              "entry_price": 16.5391,
+              "exit_price": 16.6609,
+              "return_pct": 0.53,
+              "pnl_usd": 10.6,
+              "close_reason": "MEAN_REVERSION_TP"
+            }
+          ]
+        },
+        {
+          "symbol": "SNXX",
+          "strategy": "v06",
+          "session": "regular",
+          "trades_count": 3,
+          "win_count": 2,
+          "loss_count": 1,
+          "win_rate_pct": 66.7,
+          "return_pct": -2.6,
+          "pnl_usd": -50.8,
+          "avg_return_pct": -0.85,
+          "max_trade_pct": 0.94,
+          "min_trade_pct": -4.23,
+          "trades": [
+            {
+              "entry_time_et": "10:29",
+              "exit_time_et": "10:30",
+              "entry_price": 2.3958,
+              "exit_price": 2.4234,
+              "return_pct": 0.94,
+              "pnl_usd": 18.8,
+              "close_reason": "MEAN_REVERSION_TP"
+            },
+            {
+              "entry_time_et": "10:42",
+              "exit_time_et": "11:02",
+              "entry_price": 2.3737,
+              "exit_price": 2.2783,
+              "return_pct": -4.23,
+              "pnl_usd": -84.6,
+              "close_reason": "STOP_LOSS"
+            },
+            {
+              "entry_time_et": "11:38",
+              "exit_time_et": "11:54",
+              "entry_price": 2.2567,
+              "exit_price": 2.2783,
+              "return_pct": 0.75,
+              "pnl_usd": 15.0,
+              "close_reason": "MEAN_REVERSION_TP"
+            }
+          ]
+        },
+        {
+          "symbol": "IREN",
+          "strategy": "v_38",
+          "session": "regular",
+          "trades_count": 2,
+          "win_count": 1,
+          "loss_count": 1,
+          "win_rate_pct": 50.0,
+          "return_pct": 0.42,
+          "pnl_usd": 3.72,
+          "avg_return_pct": 0.22,
+          "max_trade_pct": 1.36,
+          "min_trade_pct": -0.93,
+          "trades": [
+            {
+              "entry_time_et": "10:15",
+              "exit_time_et": "10:19",
+              "entry_price": 15.4589,
+              "exit_price": 15.7023,
+              "return_pct": 1.36,
+              "pnl_usd": 11.77,
+              "close_reason": "TAKE_PROFIT"
+            },
+            {
+              "entry_time_et": "10:22",
+              "exit_time_et": "10:37",
+              "entry_price": 15.6489,
+              "exit_price": 15.5361,
+              "return_pct": -0.93,
+              "pnl_usd": -8.05,
+              "close_reason": "TIME_STOP"
+            }
+          ]
+        },
+        {
+          "symbol": "MUU",
+          "strategy": "v_38",
+          "session": "regular",
+          "trades_count": 5,
+          "win_count": 2,
+          "loss_count": 3,
+          "win_rate_pct": 40.0,
+          "return_pct": -1.48,
+          "pnl_usd": -12.29,
+          "avg_return_pct": -0.29,
+          "max_trade_pct": 1.43,
+          "min_trade_pct": -2.88,
+          "trades": [
+            {
+              "entry_time_et": "10:15",
+              "exit_time_et": "10:20",
+              "entry_price": 13.3033,
+              "exit_price": 13.5214,
+              "return_pct": 1.43,
+              "pnl_usd": 12.29,
+              "close_reason": "TAKE_PROFIT"
+            },
+            {
+              "entry_time_et": "10:21",
+              "exit_time_et": "10:36",
+              "entry_price": 13.5334,
+              "exit_price": 13.6802,
+              "return_pct": 0.87,
+              "pnl_usd": 7.48,
+              "close_reason": "TIME_STOP"
+            },
+            {
+              "entry_time_et": "10:40",
+              "exit_time_et": "10:45",
+              "entry_price": 13.6534,
+              "exit_price": 13.2888,
+              "return_pct": -2.88,
+              "pnl_usd": -24.75,
+              "close_reason": "STOP_LOSS"
+            },
+            {
+              "entry_time_et": "11:00",
+              "exit_time_et": "11:15",
+              "entry_price": 13.3383,
+              "exit_price": 13.3417,
+              "return_pct": -0.18,
+              "pnl_usd": -1.55,
+              "close_reason": "TIME_STOP"
+            },
+            {
+              "entry_time_et": "11:16",
+              "exit_time_et": "11:31",
+              "entry_price": 13.3933,
+              "exit_price": 13.3317,
+              "return_pct": -0.67,
+              "pnl_usd": -5.76,
+              "close_reason": "TIME_STOP"
+            }
+          ]
+        },
+        {
+          "symbol": "NVDL",
+          "strategy": "v_38",
+          "session": "regular",
+          "trades_count": 3,
+          "win_count": 2,
+          "loss_count": 1,
+          "win_rate_pct": 66.7,
+          "return_pct": 1.51,
+          "pnl_usd": 13.23,
+          "avg_return_pct": 0.51,
+          "max_trade_pct": 1.49,
+          "min_trade_pct": -1.42,
+          "trades": [
+            {
+              "entry_time_et": "10:18",
+              "exit_time_et": "10:20",
+              "entry_price": 17.1344,
+              "exit_price": 17.4256,
+              "return_pct": 1.49,
+              "pnl_usd": 12.89,
+              "close_reason": "TAKE_PROFIT"
+            },
+            {
+              "entry_time_et": "10:23",
+              "exit_time_et": "10:25",
+              "entry_price": 17.4144,
+              "exit_price": 17.7056,
+              "return_pct": 1.46,
+              "pnl_usd": 12.63,
+              "close_reason": "TAKE_PROFIT"
+            },
+            {
+              "entry_time_et": "10:27",
+              "exit_time_et": "10:32",
+              "entry_price": 17.5994,
+              "exit_price": 17.3857,
+              "return_pct": -1.42,
+              "pnl_usd": -12.29,
+              "close_reason": "STAGNATION_CUT"
+            }
+          ]
+        },
+        {
+          "symbol": "IREN",
+          "strategy": "v_36",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 0,
+          "loss_count": 1,
+          "win_rate_pct": 0.0,
+          "return_pct": -1.01,
+          "pnl_usd": -8.74,
+          "avg_return_pct": -1.01,
+          "max_trade_pct": -1.01,
+          "min_trade_pct": -1.01,
+          "trades": [
+            {
+              "entry_time_et": "10:53",
+              "exit_time_et": "11:08",
+              "entry_price": 15.3738,
+              "exit_price": 15.2512,
+              "return_pct": -1.01,
+              "pnl_usd": -8.74,
+              "close_reason": "TIME_STOP"
+            }
+          ]
+        },
+        {
+          "symbol": "KORU",
+          "strategy": "v_36",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 1,
+          "loss_count": 0,
+          "win_rate_pct": 100.0,
+          "return_pct": 1.71,
+          "pnl_usd": 11.97,
+          "avg_return_pct": 1.71,
+          "max_trade_pct": 1.71,
+          "min_trade_pct": 1.71,
+          "trades": [
+            {
+              "entry_time_et": "10:17",
+              "exit_time_et": "10:25",
+              "entry_price": 6.3316,
+              "exit_price": 6.4534,
+              "return_pct": 1.71,
+              "pnl_usd": 11.97,
+              "close_reason": "TAKE_PROFIT"
+            }
+          ]
+        },
+        {
+          "symbol": "NVDL",
+          "strategy": "v_36",
+          "session": "regular",
+          "trades_count": 2,
+          "win_count": 1,
+          "loss_count": 1,
+          "win_rate_pct": 50.0,
+          "return_pct": -1.61,
+          "pnl_usd": -13.93,
+          "avg_return_pct": -0.81,
+          "max_trade_pct": 0.19,
+          "min_trade_pct": -1.8,
+          "trades": [
+            {
+              "entry_time_et": "11:22",
+              "exit_time_et": "11:37",
+              "entry_price": 16.8742,
+              "exit_price": 16.6058,
+              "return_pct": -1.8,
+              "pnl_usd": -15.57,
+              "close_reason": "TIME_STOP"
+            },
+            {
+              "entry_time_et": "11:55",
+              "exit_time_et": "12:10",
+              "entry_price": 16.8192,
+              "exit_price": 16.8858,
+              "return_pct": 0.19,
+              "pnl_usd": 1.64,
+              "close_reason": "TIME_STOP"
+            }
+          ]
+        },
+        {
+          "symbol": "SNXX",
+          "strategy": "v_36",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 0,
+          "loss_count": 1,
+          "win_rate_pct": 0.0,
+          "return_pct": -0.96,
+          "pnl_usd": -6.72,
+          "avg_return_pct": -0.96,
+          "max_trade_pct": -0.96,
+          "min_trade_pct": -0.96,
+          "trades": [
+            {
+              "entry_time_et": "10:34",
+              "exit_time_et": "10:39",
+              "entry_price": 2.4315,
+              "exit_price": 2.4132,
+              "return_pct": -0.96,
+              "pnl_usd": -6.72,
+              "close_reason": "STAGNATION_CUT"
+            }
+          ]
+        },
+        {
+          "symbol": "MUU",
+          "strategy": "v_41",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 1,
+          "loss_count": 0,
+          "win_rate_pct": 100.0,
+          "return_pct": 0.34,
+          "pnl_usd": 2.92,
+          "avg_return_pct": 0.34,
+          "max_trade_pct": 0.34,
+          "min_trade_pct": 0.34,
+          "trades": [
+            {
+              "entry_time_et": "11:01",
+              "exit_time_et": "11:14",
+              "entry_price": 13.2833,
+              "exit_price": 13.3567,
+              "return_pct": 0.34,
+              "pnl_usd": 2.92,
+              "close_reason": "TRAILING_STOP"
+            }
+          ]
+        }
+      ]
+    },
+    "slotted": {
+      "premarket": [],
+      "regular": [
+        {
+          "symbol": "IREN",
+          "strategy": "v06",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 1,
+          "loss_count": 0,
+          "win_rate_pct": 100.0,
+          "return_pct": 0.44,
+          "pnl_usd": 8.8,
+          "avg_return_pct": 0.44,
+          "max_trade_pct": 0.44,
+          "min_trade_pct": 0.44,
+          "trades": [
+            {
+              "entry_time_et": "11:37",
+              "exit_time_et": "11:52",
+              "entry_price": 14.8487,
+              "exit_price": 14.9448,
+              "return_pct": 0.44,
+              "pnl_usd": 8.8,
+              "close_reason": "MEAN_REVERSION_TP"
+            }
+          ]
+        },
+        {
+          "symbol": "KORU",
+          "strategy": "v06",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 0,
+          "loss_count": 1,
+          "win_rate_pct": 0.0,
+          "return_pct": -1.29,
+          "pnl_usd": -25.8,
+          "avg_return_pct": -1.29,
+          "max_trade_pct": -1.29,
+          "min_trade_pct": -1.29,
+          "trades": [
+            {
+              "entry_time_et": "10:45",
+              "exit_time_et": "11:05",
+              "entry_price": 6.2866,
+              "exit_price": 6.2184,
+              "return_pct": -1.29,
+              "pnl_usd": -25.8,
+              "close_reason": "TIME_STOP"
+            }
+          ]
+        },
+        {
+          "symbol": "MUU",
+          "strategy": "v06",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 1,
+          "loss_count": 0,
+          "win_rate_pct": 100.0,
+          "return_pct": 0.63,
+          "pnl_usd": 12.6,
+          "avg_return_pct": 0.63,
+          "max_trade_pct": 0.63,
+          "min_trade_pct": 0.63,
+          "trades": [
+            {
+              "entry_time_et": "10:45",
+              "exit_time_et": "11:05",
+              "entry_price": 13.2954,
+              "exit_price": 13.4066,
+              "return_pct": 0.63,
+              "pnl_usd": 12.6,
+              "close_reason": "MEAN_REVERSION_TP"
+            }
+          ]
+        },
+        {
+          "symbol": "NVDL",
+          "strategy": "v06",
+          "session": "regular",
+          "trades_count": 3,
+          "win_count": 2,
+          "loss_count": 1,
+          "win_rate_pct": 66.7,
+          "return_pct": -0.77,
+          "pnl_usd": -15.2,
+          "avg_return_pct": -0.25,
+          "max_trade_pct": 0.53,
+          "min_trade_pct": -1.7,
+          "trades": [
+            {
+              "entry_time_et": "10:33",
+              "exit_time_et": "10:37",
+              "entry_price": 17.283,
+              "exit_price": 17.3907,
+              "return_pct": 0.41,
+              "pnl_usd": 8.2,
+              "close_reason": "MEAN_REVERSION_TP"
+            },
+            {
+              "entry_time_et": "11:18",
+              "exit_time_et": "11:38",
+              "entry_price": 16.7864,
+              "exit_price": 16.5359,
+              "return_pct": -1.7,
+              "pnl_usd": -34.0,
+              "close_reason": "TIME_STOP"
+            },
+            {
+              "entry_time_et": "11:39",
+              "exit_time_et": "11:47",
+              "entry_price": 16.5391,
+              "exit_price": 16.6609,
+              "return_pct": 0.53,
+              "pnl_usd": 10.6,
+              "close_reason": "MEAN_REVERSION_TP"
+            }
+          ]
+        },
+        {
+          "symbol": "SNXX",
+          "strategy": "v06",
+          "session": "regular",
+          "trades_count": 3,
+          "win_count": 2,
+          "loss_count": 1,
+          "win_rate_pct": 66.7,
+          "return_pct": -2.6,
+          "pnl_usd": -50.8,
+          "avg_return_pct": -0.85,
+          "max_trade_pct": 0.94,
+          "min_trade_pct": -4.23,
+          "trades": [
+            {
+              "entry_time_et": "10:29",
+              "exit_time_et": "10:30",
+              "entry_price": 2.3958,
+              "exit_price": 2.4234,
+              "return_pct": 0.94,
+              "pnl_usd": 18.8,
+              "close_reason": "MEAN_REVERSION_TP"
+            },
+            {
+              "entry_time_et": "10:42",
+              "exit_time_et": "11:02",
+              "entry_price": 2.3737,
+              "exit_price": 2.2783,
+              "return_pct": -4.23,
+              "pnl_usd": -84.6,
+              "close_reason": "STOP_LOSS"
+            },
+            {
+              "entry_time_et": "11:38",
+              "exit_time_et": "11:54",
+              "entry_price": 2.2567,
+              "exit_price": 2.2783,
+              "return_pct": 0.75,
+              "pnl_usd": 15.0,
+              "close_reason": "MEAN_REVERSION_TP"
+            }
+          ]
+        },
+        {
+          "symbol": "IREN",
+          "strategy": "v_38",
+          "session": "regular",
+          "trades_count": 2,
+          "win_count": 1,
+          "loss_count": 1,
+          "win_rate_pct": 50.0,
+          "return_pct": 0.42,
+          "pnl_usd": 3.72,
+          "avg_return_pct": 0.22,
+          "max_trade_pct": 1.36,
+          "min_trade_pct": -0.93,
+          "trades": [
+            {
+              "entry_time_et": "10:15",
+              "exit_time_et": "10:19",
+              "entry_price": 15.4589,
+              "exit_price": 15.7023,
+              "return_pct": 1.36,
+              "pnl_usd": 11.77,
+              "close_reason": "TAKE_PROFIT"
+            },
+            {
+              "entry_time_et": "10:22",
+              "exit_time_et": "10:37",
+              "entry_price": 15.6489,
+              "exit_price": 15.5361,
+              "return_pct": -0.93,
+              "pnl_usd": -8.05,
+              "close_reason": "TIME_STOP"
+            }
+          ]
+        },
+        {
+          "symbol": "MUU",
+          "strategy": "v_38",
+          "session": "regular",
+          "trades_count": 5,
+          "win_count": 2,
+          "loss_count": 3,
+          "win_rate_pct": 40.0,
+          "return_pct": -1.48,
+          "pnl_usd": -12.29,
+          "avg_return_pct": -0.29,
+          "max_trade_pct": 1.43,
+          "min_trade_pct": -2.88,
+          "trades": [
+            {
+              "entry_time_et": "10:15",
+              "exit_time_et": "10:20",
+              "entry_price": 13.3033,
+              "exit_price": 13.5214,
+              "return_pct": 1.43,
+              "pnl_usd": 12.29,
+              "close_reason": "TAKE_PROFIT"
+            },
+            {
+              "entry_time_et": "10:21",
+              "exit_time_et": "10:36",
+              "entry_price": 13.5334,
+              "exit_price": 13.6802,
+              "return_pct": 0.87,
+              "pnl_usd": 7.48,
+              "close_reason": "TIME_STOP"
+            },
+            {
+              "entry_time_et": "10:40",
+              "exit_time_et": "10:45",
+              "entry_price": 13.6534,
+              "exit_price": 13.2888,
+              "return_pct": -2.88,
+              "pnl_usd": -24.75,
+              "close_reason": "STOP_LOSS"
+            },
+            {
+              "entry_time_et": "11:00",
+              "exit_time_et": "11:15",
+              "entry_price": 13.3383,
+              "exit_price": 13.3417,
+              "return_pct": -0.18,
+              "pnl_usd": -1.55,
+              "close_reason": "TIME_STOP"
+            },
+            {
+              "entry_time_et": "11:16",
+              "exit_time_et": "11:31",
+              "entry_price": 13.3933,
+              "exit_price": 13.3317,
+              "return_pct": -0.67,
+              "pnl_usd": -5.76,
+              "close_reason": "TIME_STOP"
+            }
+          ]
+        },
+        {
+          "symbol": "NVDL",
+          "strategy": "v_38",
+          "session": "regular",
+          "trades_count": 3,
+          "win_count": 2,
+          "loss_count": 1,
+          "win_rate_pct": 66.7,
+          "return_pct": 1.51,
+          "pnl_usd": 13.23,
+          "avg_return_pct": 0.51,
+          "max_trade_pct": 1.49,
+          "min_trade_pct": -1.42,
+          "trades": [
+            {
+              "entry_time_et": "10:18",
+              "exit_time_et": "10:20",
+              "entry_price": 17.1344,
+              "exit_price": 17.4256,
+              "return_pct": 1.49,
+              "pnl_usd": 12.89,
+              "close_reason": "TAKE_PROFIT"
+            },
+            {
+              "entry_time_et": "10:23",
+              "exit_time_et": "10:25",
+              "entry_price": 17.4144,
+              "exit_price": 17.7056,
+              "return_pct": 1.46,
+              "pnl_usd": 12.63,
+              "close_reason": "TAKE_PROFIT"
+            },
+            {
+              "entry_time_et": "10:27",
+              "exit_time_et": "10:32",
+              "entry_price": 17.5994,
+              "exit_price": 17.3857,
+              "return_pct": -1.42,
+              "pnl_usd": -12.29,
+              "close_reason": "STAGNATION_CUT"
+            }
+          ]
+        },
+        {
+          "symbol": "IREN",
+          "strategy": "v_36",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 0,
+          "loss_count": 1,
+          "win_rate_pct": 0.0,
+          "return_pct": -1.01,
+          "pnl_usd": -8.74,
+          "avg_return_pct": -1.01,
+          "max_trade_pct": -1.01,
+          "min_trade_pct": -1.01,
+          "trades": [
+            {
+              "entry_time_et": "10:53",
+              "exit_time_et": "11:08",
+              "entry_price": 15.3738,
+              "exit_price": 15.2512,
+              "return_pct": -1.01,
+              "pnl_usd": -8.74,
+              "close_reason": "TIME_STOP"
+            }
+          ]
+        },
+        {
+          "symbol": "KORU",
+          "strategy": "v_36",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 1,
+          "loss_count": 0,
+          "win_rate_pct": 100.0,
+          "return_pct": 1.71,
+          "pnl_usd": 11.97,
+          "avg_return_pct": 1.71,
+          "max_trade_pct": 1.71,
+          "min_trade_pct": 1.71,
+          "trades": [
+            {
+              "entry_time_et": "10:17",
+              "exit_time_et": "10:25",
+              "entry_price": 6.3316,
+              "exit_price": 6.4534,
+              "return_pct": 1.71,
+              "pnl_usd": 11.97,
+              "close_reason": "TAKE_PROFIT"
+            }
+          ]
+        },
+        {
+          "symbol": "NVDL",
+          "strategy": "v_36",
+          "session": "regular",
+          "trades_count": 2,
+          "win_count": 1,
+          "loss_count": 1,
+          "win_rate_pct": 50.0,
+          "return_pct": -1.61,
+          "pnl_usd": -13.93,
+          "avg_return_pct": -0.81,
+          "max_trade_pct": 0.19,
+          "min_trade_pct": -1.8,
+          "trades": [
+            {
+              "entry_time_et": "11:22",
+              "exit_time_et": "11:37",
+              "entry_price": 16.8742,
+              "exit_price": 16.6058,
+              "return_pct": -1.8,
+              "pnl_usd": -15.57,
+              "close_reason": "TIME_STOP"
+            },
+            {
+              "entry_time_et": "11:55",
+              "exit_time_et": "12:10",
+              "entry_price": 16.8192,
+              "exit_price": 16.8858,
+              "return_pct": 0.19,
+              "pnl_usd": 1.64,
+              "close_reason": "TIME_STOP"
+            }
+          ]
+        },
+        {
+          "symbol": "SNXX",
+          "strategy": "v_36",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 0,
+          "loss_count": 1,
+          "win_rate_pct": 0.0,
+          "return_pct": -0.96,
+          "pnl_usd": -6.72,
+          "avg_return_pct": -0.96,
+          "max_trade_pct": -0.96,
+          "min_trade_pct": -0.96,
+          "trades": [
+            {
+              "entry_time_et": "10:34",
+              "exit_time_et": "10:39",
+              "entry_price": 2.4315,
+              "exit_price": 2.4132,
+              "return_pct": -0.96,
+              "pnl_usd": -6.72,
+              "close_reason": "STAGNATION_CUT"
+            }
+          ]
+        },
+        {
+          "symbol": "MUU",
+          "strategy": "v_41",
+          "session": "regular",
+          "trades_count": 1,
+          "win_count": 1,
+          "loss_count": 0,
+          "win_rate_pct": 100.0,
+          "return_pct": 0.34,
+          "pnl_usd": 2.92,
+          "avg_return_pct": 0.34,
+          "max_trade_pct": 0.34,
+          "min_trade_pct": 0.34,
+          "trades": [
+            {
+              "entry_time_et": "11:01",
+              "exit_time_et": "11:14",
+              "entry_price": 13.2833,
+              "exit_price": 13.3567,
+              "return_pct": 0.34,
+              "pnl_usd": 2.92,
+              "close_reason": "TRAILING_STOP"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

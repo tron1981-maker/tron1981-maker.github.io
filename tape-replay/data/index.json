@@ -1,5 +1,61 @@
 {
-  "updated_at": "",
-  "dates": [],
-  "days": []
+  "updated_at": "2026-11-27T01:52:02",
+  "dates": [
+    "2026-11-25",
+    "2026-11-24",
+    "2026-11-23"
+  ],
+  "days": [
+    {
+      "date_et": "2026-11-25",
+      "premarket_hours": 5.5,
+      "regular_hours": 4.8,
+      "symbol_count": 106,
+      "pm_symbol_count": 99,
+      "rg_symbol_count": 106,
+      "regime_kr": "하락장 · 고변동 · 금리쇼크·방어",
+      "independent_trade_pairs": 333,
+      "slotted_trade_pairs": 262,
+      "best_independent": {
+        "symbol": "FFAI",
+        "strategy": "v06",
+        "session": "regular",
+        "return_pct": 19.2
+      }
+    },
+    {
+      "date_et": "2026-11-24",
+      "premarket_hours": 5.5,
+      "regular_hours": 1.58,
+      "symbol_count": 38,
+      "pm_symbol_count": 34,
+      "rg_symbol_count": 38,
+      "regime_kr": "하락장 · 고변동 · 금리쇼크·방어",
+      "independent_trade_pairs": 114,
+      "slotted_trade_pairs": 101,
+      "best_independent": {
+        "symbol": "JAGX",
+        "strategy": "v_41",
+        "session": "regular",
+        "return_pct": 18.38
+      }
+    },
+    {
+      "date_et": "2026-11-23",
+      "premarket_hours": 5.5,
+      "regular_hours": 1.75,
+      "symbol_count": 6,
+      "pm_symbol_count": 6,
+      "rg_symbol_count": 6,
+      "regime_kr": "하락장 · 고변동 · 금리쇼크·방어",
+      "independent_trade_pairs": 13,
+      "slotted_trade_pairs": 13,
+      "best_independent": {
+        "symbol": "KORU",
+        "strategy": "v_36",
+        "session": "regular",
+        "return_pct": 1.71
+      }
+    }
+  ]
 }

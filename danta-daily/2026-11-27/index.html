@@ -384,26 +384,26 @@
     <div class="dw-head">
       <div>
         <h1>2026-11-27 (ET) 단타 수익 내역 & 장중 곡선</h1>
-        <p>자동 매매 1건 (+$1.03) · 수동 매매 0건 ($0.00)</p>
+        <p>자동 매매 2건 (+$2.50) · 수동 매매 0건 ($0.00)</p>
       </div>
-      <div class="dw-meta">업데이트: 2026-11-27 23:49:07 KST</div>
+      <div class="dw-meta">업데이트: 2026-11-28 00:19:17 KST</div>
     </div>
 
     <div class="dw-kpi-grid">
       <div class="dw-kpi">
         <div class="dw-kpi-lbl">당일 총 실현손익</div>
-        <div class="dw-kpi-val pos">+$1.03</div>
-        <div class="dw-kpi-sub">투자금 $40.00 · ROI +2.58%</div>
+        <div class="dw-kpi-val pos">+$2.50</div>
+        <div class="dw-kpi-sub">투자금 $138.25 · ROI +1.81%</div>
       </div>
       <div class="dw-kpi">
         <div class="dw-kpi-lbl">체결 / 승률</div>
-        <div class="dw-kpi-val">1건 (100.0%)</div>
-        <div class="dw-kpi-sub">1승 0패</div>
+        <div class="dw-kpi-val">2건 (100.0%)</div>
+        <div class="dw-kpi-sub">2승 0패</div>
       </div>
       <div class="dw-kpi">
         <div class="dw-kpi-lbl">당일 자동 매매</div>
-        <div class="dw-kpi-val pos">+$1.03</div>
-        <div class="dw-kpi-sub">1건 · ROI +2.58%</div>
+        <div class="dw-kpi-val pos">+$2.50</div>
+        <div class="dw-kpi-sub">2건 · ROI +1.81%</div>
       </div>
       <div class="dw-kpi">
         <div class="dw-kpi-lbl">당일 수동 매매</div>
@@ -422,7 +422,7 @@
 
     <section class="dw-card">
       <div class="dw-card-head">
-        <h2>2026-11-27 체결 상세 원장 (1건)</h2>
+        <h2>2026-11-27 체결 상세 원장 (2건)</h2>
       </div>
       
     <div class="dw-table-wrap">
@@ -458,6 +458,21 @@
               <td>목표 익절</td>
               <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 급상승">자동단타, 급상승</td>
             </tr>
+            
+            <tr>
+              <td>2026-11-27</td>
+              <td>10:18:57 → 10:19:11 <span style="color:var(--muted);font-size:11px;">(0분)</span></td>
+              <td><span class="dw-badge auto">자동</span></td>
+              <td><b>WETO</b> <span style="color:var(--muted);font-size:11px;">위투어 로보틱스</span></td>
+              <td><code>v_31</code></td>
+              <td class="num">$0.6751 → $0.6852</td>
+              <td class="num">$98.25</td>
+              <td class="num pos"><b>+$1.47</b></td>
+              <td class="num pos"><b>+1.50%</b></td>
+              <td class="num pos">$+1.50</td>
+              <td>목표 익절</td>
+              <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="자동단타, 급상승">자동단타, 급상승</td>
+            </tr>
             </tbody>
       </table>
     </div>
@@ -466,9 +481,9 @@
     <script>
       (function() {
         const t = _chartTheme();
-        const labels = ["AREC (09:36)"];
-        const cumVals = [1.03];
-        const barVals = [1.03];
+        const labels = ["AREC (09:36)", "WETO (10:19)"];
+        const cumVals = [1.03, 2.5];
+        const barVals = [1.03, 1.47];
         const ctx = document.getElementById('dayChart').getContext('2d');
         const ch = new Chart(ctx, {
           data: {

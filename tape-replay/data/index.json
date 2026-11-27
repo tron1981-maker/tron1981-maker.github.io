@@ -1,11 +1,24 @@
 {
-  "updated_at": "2026-11-27T05:15:19",
+  "updated_at": "2026-11-27T09:27:27",
   "dates": [
+    "2026-11-26",
     "2026-11-25",
     "2026-11-24",
     "2026-11-23"
   ],
   "days": [
+    {
+      "date_et": "2026-11-26",
+      "premarket_hours": 5.5,
+      "regular_hours": 5.98,
+      "symbol_count": 35,
+      "pm_symbol_count": 33,
+      "rg_symbol_count": 35,
+      "regime_kr": "하락장 · 고변동 · 금리쇼크·방어",
+      "independent_trade_pairs": 0,
+      "slotted_trade_pairs": 0,
+      "best_independent": null
+    },
     {
       "date_et": "2026-11-25",
       "premarket_hours": 5.5,

@@ -1,12 +1,30 @@
 {
-  "updated_at": "2026-11-28T05:15:16",
+  "updated_at": "2026-11-28T06:07:58",
   "dates": [
+    "2026-11-27",
     "2026-11-26",
     "2026-11-25",
     "2026-11-24",
     "2026-11-23"
   ],
   "days": [
+    {
+      "date_et": "2026-11-27",
+      "premarket_hours": 5.5,
+      "regular_hours": 6.43,
+      "symbol_count": 120,
+      "pm_symbol_count": 112,
+      "rg_symbol_count": 120,
+      "regime_kr": "하락장 · 고변동 · 금리쇼크·방어",
+      "independent_trade_pairs": 247,
+      "slotted_trade_pairs": 202,
+      "best_independent": {
+        "symbol": "DCX",
+        "strategy": "v_38",
+        "session": "regular",
+        "return_pct": 36.16
+      }
+    },
     {
       "date_et": "2026-11-26",
       "premarket_hours": 5.5,

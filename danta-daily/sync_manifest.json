@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-27 23:34:03 KST",
-  "active_sig": "0954f127f06f",
+  "updated_at": "2026-11-27 23:49:07 KST",
+  "active_sig": "4f6e0e86de28",
   "days": {
     "2026-11-02": {
       "count": 1,
@@ -106,6 +106,13 @@
       "manual_count": 0,
       "pnl_usd": -4.67,
       "last_updated": "2026-11-25T23:53:58"
+    },
+    "2026-11-27": {
+      "count": 1,
+      "auto_count": 1,
+      "manual_count": 0,
+      "pnl_usd": 1.03,
+      "last_updated": "2026-11-27T23:36:38"
     }
   }
 }

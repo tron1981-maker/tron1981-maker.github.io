@@ -217,18 +217,19 @@
     width: 26px; height: 26px; border-radius: 6px; background: var(--text); color: var(--bg);
     display: inline-flex; align-items: center; justify-content: center; font-size: 0.8125rem; font-weight: 800; letter-spacing: -0.02em;
   }
-  #dj-qunt-unified-header .dj-u-menus {
-    display: flex; align-items: stretch; gap: 4px; overflow-x: auto; scrollbar-width: none;
+  #dj-qunt-unified-header .dj-u-d1-nav {
+    display: flex; align-items: stretch; gap: 6px; overflow-x: auto; scrollbar-width: none;
   }
-  #dj-qunt-unified-header .dj-u-menus::-webkit-scrollbar { display: none; }
-  #dj-qunt-unified-header .dj-u-mbtn {
-    text-decoration: none; font-size: 0.8125rem; font-weight: 600; color: var(--muted);
-    padding: 18px 11px; white-space: nowrap; display: inline-flex; align-items: center;
+  #dj-qunt-unified-header .dj-u-d1-nav::-webkit-scrollbar { display: none; }
+  #dj-qunt-unified-header .dj-u-d1-btn {
+    border: none; background: transparent; font-family: inherit;
+    font-size: 0.875rem; font-weight: 700; color: var(--muted);
+    padding: 16px 14px; white-space: nowrap; display: inline-flex; align-items: center; cursor: pointer;
     border-bottom: 2px solid transparent;
     transition: color 180ms cubic-bezier(0.22, 1, 0.36, 1), border-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  #dj-qunt-unified-header .dj-u-mbtn:hover { color: var(--text); }
-  #dj-qunt-unified-header .dj-u-mbtn.active { color: var(--accent); font-weight: 700; border-bottom-color: var(--accent); }
+  #dj-qunt-unified-header .dj-u-d1-btn:hover { color: var(--text); }
+  #dj-qunt-unified-header .dj-u-d1-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 
   #dj-qunt-unified-header .dj-u-bgbar {
     display: inline-flex; align-items: center; border: 1px solid var(--border);
@@ -249,7 +250,30 @@
     background: var(--surface); border-top: 1px solid var(--border);
   }
   #dj-qunt-unified-header .dj-u-row2-in {
-    max-width: 1220px; margin: 0 auto; padding: 8px 24px;
+    max-width: 1220px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between; overflow-x: auto; scrollbar-width: none;
+  }
+  #dj-qunt-unified-header .dj-u-row2-in::-webkit-scrollbar { display: none; }
+  #dj-qunt-unified-header .dj-u-d2-group {
+    display: none; align-items: center; gap: 4px;
+  }
+  #dj-qunt-unified-header .dj-u-d2-group.active {
+    display: flex;
+  }
+  #dj-qunt-unified-header .dj-u-d2-btn {
+    text-decoration: none; font-size: 0.8125rem; font-weight: 600; color: var(--muted);
+    padding: 10px 12px; white-space: nowrap; display: inline-flex; align-items: center;
+    border-bottom: 2px solid transparent;
+    transition: color 160ms cubic-bezier(0.22, 1, 0.36, 1), border-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #dj-qunt-unified-header .dj-u-d2-btn:hover { color: var(--text); }
+  #dj-qunt-unified-header .dj-u-d2-btn.active { color: var(--accent); font-weight: 700; border-bottom-color: var(--accent); }
+
+  #dj-qunt-unified-header .dj-u-row3 {
+    background: var(--bg); border-top: 1px solid var(--border);
+  }
+  #dj-qunt-unified-header .dj-u-row3-in {
+    max-width: 1220px; margin: 0 auto; padding: 7px 24px;
     display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 18px; font-size: 0.8125rem;
   }
   #dj-qunt-unified-header .dj-bc-trail {
@@ -260,21 +284,9 @@
   }
   #dj-qunt-unified-header .dj-bc-trail a:hover { color: var(--accent); text-decoration: underline; }
   #dj-qunt-unified-header .dj-bc-cur { color: var(--text); font-weight: 700; }
-  #dj-qunt-unified-header .dj-u-row2-right {
+  #dj-qunt-unified-header .dj-u-row3-right {
     display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
   }
-  #dj-qunt-unified-header .dj-u-danta-nav {
-    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
-  }
-  #dj-qunt-unified-header .dj-u-danta-lbl {
-    font-weight: 700; color: #047857;
-  }
-  html[data-bg="dark"] #dj-qunt-unified-header .dj-u-danta-lbl { color: #34d399; }
-  #dj-qunt-unified-header .dj-u-danta-link {
-    text-decoration: none; color: var(--muted); font-weight: 600; white-space: nowrap;
-  }
-  #dj-qunt-unified-header .dj-u-danta-link:hover,
-  #dj-qunt-unified-header .dj-u-danta-link.active { color: var(--accent); text-decoration: underline; }
 
   #dj-qunt-unified-header .dj-sib-group {
     display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 2px;
@@ -290,28 +302,33 @@
 
   @media (max-width: 1040px) {
     #dj-qunt-unified-header .dj-u-row1 { flex-wrap: wrap; padding: 10px 18px; gap: 10px; }
-    #dj-qunt-unified-header .dj-u-menus { order: 3; width: 100%; border-top: 1px solid var(--border); }
-    #dj-qunt-unified-header .dj-u-mbtn { padding: 11px 10px; }
+    #dj-qunt-unified-header .dj-u-d1-nav { order: 3; width: 100%; border-top: 1px solid var(--border); }
+    #dj-qunt-unified-header .dj-u-d1-btn { padding: 11px 10px; }
+    #dj-qunt-unified-header .dj-u-row2-in { padding: 0 18px; }
+    #dj-qunt-unified-header .dj-u-row3-in { padding: 7px 18px; }
   }
   @media (max-width: 780px) {
     #dj-qunt-unified-header { position: static; }
     #dj-qunt-unified-header .dj-u-row1 { padding: 10px 16px; }
-    #dj-qunt-unified-header .dj-u-menus { flex-wrap: wrap; overflow-x: visible; padding-top: 4px; }
-    #dj-qunt-unified-header .dj-u-mbtn { padding: 8px 10px; }
-    #dj-qunt-unified-header .dj-u-row2-in { padding: 8px 16px; }
+    #dj-qunt-unified-header .dj-u-d1-nav { flex-wrap: wrap; overflow-x: visible; padding-top: 4px; }
+    #dj-qunt-unified-header .dj-u-d1-btn { padding: 8px 10px; }
+    #dj-qunt-unified-header .dj-u-row2-in { padding: 0 16px; }
+    #dj-qunt-unified-header .dj-u-d2-group.active { flex-wrap: wrap; }
+    #dj-qunt-unified-header .dj-u-d2-btn { padding: 8px 10px; }
+    #dj-qunt-unified-header .dj-u-row3-in { padding: 7px 16px; }
     .container, body > .wrap, .page-inner { padding: 20px 16px 0 !important; }
   }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
   @media print { #dj-qunt-unified-header { display: none !important; } }
 </style>
-<header id="dj-qunt-unified-header" data-has-home-nav="1" data-has-bg-switcher="1" data-active-menu="reports" data-page-title="Plotly 6단 상세 (v_73 통합챔피언)" data-parent-title="SOXL · SOXS 1년 티어시트" data-parent-url="/soxl-soxs-1y/">
+<header id="dj-qunt-unified-header" data-has-home-nav="1" data-has-bg-switcher="1" data-active-d1="research" data-active-menu="reports" data-page-title="Plotly 6단 상세 (v_73 통합챔피언)" data-parent-title="SOXL · SOXS 1년 티어시트" data-parent-url="/soxl-soxs-1y/">
   <div class="dj-u-row1">
     <a class="dj-u-brand" href="https://tron1981-maker.github.io/dj-qunt/">
       <span class="dj-u-dot">DJ</span>
       <span>Dongju QUNT Lab</span>
     </a>
-    <nav class="dj-u-menus" aria-label="연구·랭킹">
-      <a class="dj-u-mbtn " href="https://tron1981-maker.github.io/tape-replay/">테이프 종목분석</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/engine-rank-chart/">엔진 순위 차트</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#algo">버전별 알고리즘</a><a class="dj-u-mbtn active" href="https://tron1981-maker.github.io/dj-qunt/#reports">인터랙티브 리포트</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-pre">프리장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-reg">본장 랭킹</a><a class="dj-u-mbtn " href="https://tron1981-maker.github.io/dj-qunt/#ranking-period">기간별 수익률</a>
+    <nav class="dj-u-d1-nav" aria-label="1뎁스 대분류">
+      <button type="button" class="dj-u-d1-btn " data-d1="danta" onclick="window.__switchDepth1('danta', this)">실전 단타</button><button type="button" class="dj-u-d1-btn " data-d1="perf" onclick="window.__switchDepth1('perf', this)">테이프 · 엔진 성적</button><button type="button" class="dj-u-d1-btn active" data-d1="research" onclick="window.__switchDepth1('research', this)">알고리즘 · 리포트</button>
     </nav>
     <div class="dj-u-bgbar" role="group" aria-label="배경색 변경">
       <button type="button" class="dj-u-bgbtn active" onclick="window.__setDocBg('white', this)">화이트</button>
@@ -321,19 +338,44 @@
     </div>
   </div>
   <div class="dj-u-row2">
-    <div class="dj-u-row2-in">
-      <div class="dj-bc-trail"><a href="https://tron1981-maker.github.io/dj-qunt/">Dongju QUNT Lab 홈</a><span class="dj-sep">›</span><a href="https://tron1981-maker.github.io/dj-qunt/#reports">인터랙티브 리포트</a><span class="dj-sep">›</span><a href="/soxl-soxs-1y/">SOXL · SOXS 1년 티어시트</a><span class="dj-sep">›</span><span class="dj-bc-cur">Plotly 6단 상세 (v_73 통합챔피언)</span></div>
-      <div class="dj-u-row2-right">
-        <nav class="dj-u-danta-nav" aria-label="실전 단타">
-          <span class="dj-u-danta-lbl">실전 단타</span>
-          <a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-daily/">일별 단타 내역</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-auto/">자동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-manual/">수동 매매</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-compare/">자동 vs 수동 비교</a><a class="dj-u-danta-link " href="https://tron1981-maker.github.io/danta-charts/">단타 수익 그래프</a>
-        </nav>
+    <div class="dj-u-row2-in" aria-label="연구·랭킹 중분류">
+      <nav class="dj-u-d2-group" data-d1="danta" aria-label="실전 단타"><a class="dj-u-d2-btn " data-menu="danta-daily" href="https://tron1981-maker.github.io/danta-daily/">일별 단타 내역</a><a class="dj-u-d2-btn " data-menu="danta-engine-daily" href="https://tron1981-maker.github.io/engine-daily/?source=danta">엔진별 일일 수익률</a><a class="dj-u-d2-btn " data-menu="danta-auto" href="https://tron1981-maker.github.io/danta-auto/">자동 매매</a><a class="dj-u-d2-btn " data-menu="danta-manual" href="https://tron1981-maker.github.io/danta-manual/">수동 매매</a><a class="dj-u-d2-btn " data-menu="danta-compare" href="https://tron1981-maker.github.io/danta-compare/">자동 vs 수동 비교</a><a class="dj-u-d2-btn " data-menu="danta-charts" href="https://tron1981-maker.github.io/danta-charts/">단타 수익 그래프</a></nav><nav class="dj-u-d2-group" data-d1="perf" aria-label="테이프 · 엔진 성적"><a class="dj-u-d2-btn " data-menu="tape-replay" href="https://tron1981-maker.github.io/tape-replay/">테이프 종목분석</a><a class="dj-u-d2-btn " data-menu="engine-daily" href="https://tron1981-maker.github.io/engine-daily/">엔진별 일일 수익률</a><a class="dj-u-d2-btn " data-menu="engine-rank-chart" href="https://tron1981-maker.github.io/engine-rank-chart/">엔진 순위 차트</a><a class="dj-u-d2-btn " data-menu="ranking-period" href="https://tron1981-maker.github.io/dj-qunt/#ranking-period">기간별 수익률</a><a class="dj-u-d2-btn " data-menu="ranking-pre" href="https://tron1981-maker.github.io/dj-qunt/#ranking-pre">프리장 랭킹</a><a class="dj-u-d2-btn " data-menu="ranking-reg" href="https://tron1981-maker.github.io/dj-qunt/#ranking-reg">본장 랭킹</a></nav><nav class="dj-u-d2-group active" data-d1="research" aria-label="알고리즘 · 리포트"><a class="dj-u-d2-btn " data-menu="algo" href="https://tron1981-maker.github.io/dj-qunt/#algo">버전별 알고리즘</a><a class="dj-u-d2-btn active" data-menu="reports" href="https://tron1981-maker.github.io/dj-qunt/#reports">인터랙티브 리포트</a></nav>
+    </div>
+  </div>
+  <div class="dj-u-row3">
+    <div class="dj-u-row3-in">
+      <div class="dj-bc-trail"><a href="https://tron1981-maker.github.io/dj-qunt/">Dongju QUNT Lab 홈</a><span class="dj-sep">›</span><a href="https://tron1981-maker.github.io/dj-qunt/#reports" id="djBcDepth1">알고리즘 · 리포트</a><span class="dj-sep">›</span><a href="https://tron1981-maker.github.io/dj-qunt/#reports">인터랙티브 리포트</a><span class="dj-sep">›</span><a href="/soxl-soxs-1y/">SOXL · SOXS 1년 티어시트</a><span class="dj-sep">›</span><span class="dj-bc-cur">Plotly 6단 상세 (v_73 통합챔피언)</span></div>
+      <div class="dj-u-row3-right">
         <div class="dj-sib-group"><a class="dj-sib-btn " href="/v73-easy-guide/">💡 v_73 쉬운 해설</a><a class="dj-sib-btn " href="/soxl-soxs-1y/">📊 5대 장르 통합 뷰어</a><a class="dj-sib-btn active" href="/soxl-soxs-1y/report_v_73.html">v_73 통합챔피언</a><a class="dj-sib-btn " href="/soxl-soxs-1y/report_v_71.html">v_71 장투</a><a class="dj-sib-btn " href="/soxl-soxs-1y/report_v_68.html">v_68 스윙</a><a class="dj-sib-btn " href="/soxl-soxs-1y/report_v_61.html">v_61 초단기</a><a class="dj-sib-btn " href="/soxl-soxs-1y/report_v_53.html">v_53 단타</a></div>
       </div>
     </div>
   </div>
 </header>
 <script id="dj-qunt-unified-script">
+  window.__switchDepth1 = function(d1) {
+    document.querySelectorAll('#dj-qunt-unified-header .dj-u-d1-btn').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-d1') === d1);
+    });
+    document.querySelectorAll('#dj-qunt-unified-header .dj-u-d2-group').forEach(g => {
+      g.classList.toggle('active', g.getAttribute('data-d1') === d1);
+    });
+  };
+  (function() {
+    try {
+      var hdr = document.getElementById('dj-qunt-unified-header');
+      if (hdr && hdr.getAttribute('data-active-menu') === 'engine-daily') {
+        var sp = new URLSearchParams(location.search || '');
+        if (sp.get('source') === 'danta') {
+          window.__switchDepth1('danta');
+          document.querySelectorAll('#dj-qunt-unified-header .dj-u-d2-btn').forEach(function(a) {
+            a.classList.toggle('active', a.getAttribute('data-menu') === 'danta-engine-daily');
+          });
+          var bc1 = document.getElementById('djBcDepth1');
+          if (bc1) { bc1.textContent = '실전 단타'; bc1.href = '/danta-daily/'; }
+        }
+      }
+    } catch (e) {}
+  })();
   window.__setDocBg = function(mode, btn) {
     if (mode === 'white') {
       document.documentElement.removeAttribute('data-bg');

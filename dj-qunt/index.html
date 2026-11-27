@@ -246,7 +246,53 @@
     .dj-row2-inner {
       max-width: 1220px;
       margin: 0 auto;
-      padding: 8px 24px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .dj-row2-inner::-webkit-scrollbar { display: none; }
+    .dj-d2-group {
+      display: none;
+      align-items: center;
+      gap: 4px;
+    }
+    .dj-d2-group.active {
+      display: flex;
+    }
+    .dj-d2-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      padding: 10px 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      border-bottom: 2px solid transparent;
+      transition: color 160ms cubic-bezier(0.22, 1, 0.36, 1), border-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .dj-d2-btn:hover { color: var(--text); }
+    .dj-d2-btn.active {
+      color: var(--accent);
+      font-weight: 700;
+      border-bottom-color: var(--accent);
+    }
+    .dj-row3 {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+    .dj-row3-inner {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 7px 24px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -268,36 +314,16 @@
     }
     .dj-bc-trail a:hover { color: var(--accent); text-decoration: underline; }
     .dj-bc-cur { color: var(--text); font-weight: 700; }
-    .dj-row2-right {
+    .dj-row3-right {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 14px;
     }
-    .dj-danta-nav {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px;
-    }
-    .dj-danta-lbl {
-      color: var(--pos);
-      font-weight: 700;
-    }
-    .dj-danta-item {
-      color: var(--muted);
-      text-decoration: none;
-      font-weight: 600;
-      white-space: nowrap;
-      transition: color 160ms cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .dj-danta-item:hover { color: var(--accent); text-decoration: underline; }
     .dj-meta-chip {
       font-size: var(--text-sm);
       color: var(--muted);
       font-variant-numeric: tabular-nums;
-      padding-left: 14px;
-      border-left: 1px solid var(--border);
     }
 
     /* Layout Container */
@@ -835,6 +861,8 @@
       .dj-row1 { flex-wrap: wrap; padding: 10px 18px; gap: 10px; }
       .dj-menu-bar { order: 3; width: 100%; border-top: 1px solid var(--border); }
       .dj-menu-btn { padding: 11px 10px; }
+      .dj-row2-inner { padding: 0 18px; }
+      .dj-row3-inner { padding: 7px 18px; }
       .dj-meta-chip { padding-left: 0; border-left: none; }
       .pr-coverage-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .pr-cov-card { border-bottom: 1px solid var(--border); }
@@ -846,7 +874,10 @@
       .dj-row1 { padding: 10px 16px; }
       .dj-menu-bar { flex-wrap: wrap; overflow-x: visible; padding-top: 4px; }
       .dj-menu-btn { padding: 8px 10px; }
-      .dj-row2-inner { padding: 8px 16px; }
+      .dj-row2-inner { padding: 0 16px; }
+      .dj-d2-group.active { flex-wrap: wrap; }
+      .dj-d2-btn { padding: 8px 10px; }
+      .dj-row3-inner { padding: 7px 16px; }
       .gen-grid, .grid { grid-template-columns: 1fr; }
       .gen-card.gen-featured { grid-template-columns: 1fr; gap: 18px; padding: 20px; }
       .gen-featured-aside { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 16px; }
@@ -861,19 +892,16 @@
 </head>
 <body data-has-bg-switcher="1" data-has-home-nav="1">
   <header id="dj-qunt-unified-header">
+    <!-- 1뎁스: 대분류 3개 -->
     <div class="dj-row1">
       <a class="dj-brand" href="#algo" onclick="switchMenu('algo'); return false;">
         <span class="dj-brand-dot">DJ</span>
         <span>Dongju QUNT Lab</span>
       </a>
-      <nav class="dj-menu-bar" aria-label="주제 메뉴">
-        <a class="dj-menu-btn" id="nav-tape-replay" href="/tape-replay/">테이프 종목분석</a>
-        <a class="dj-menu-btn" id="nav-engine-rank-chart" href="/engine-rank-chart/">엔진 순위 차트</a>
-        <button type="button" class="dj-menu-btn active" id="nav-algo" onclick="switchMenu('algo')">버전별 알고리즘</button>
-        <button type="button" class="dj-menu-btn" id="nav-reports" onclick="switchMenu('reports')">인터랙티브 리포트 <span class="nav-count">7</span></button>
-        <button type="button" class="dj-menu-btn" id="nav-ranking-pre" onclick="switchMenu('ranking-pre')">프리장 랭킹 <span class="nav-count">8</span></button>
-        <button type="button" class="dj-menu-btn" id="nav-ranking-reg" onclick="switchMenu('ranking-reg')">본장 랭킹 <span class="nav-count">8</span></button>
-        <button type="button" class="dj-menu-btn" id="nav-ranking-period" onclick="switchMenu('ranking-period')">기간별 수익률</button>
+      <nav class="dj-menu-bar" aria-label="1뎁스 대분류">
+        <button type="button" class="dj-menu-btn" id="d1-danta" data-d1="danta" onclick="switchDepth1('danta', this)">실전 단타</button>
+        <button type="button" class="dj-menu-btn" id="d1-perf" data-d1="perf" onclick="switchDepth1('perf', this)">테이프 · 엔진 성적</button>
+        <button type="button" class="dj-menu-btn active" id="d1-research" data-d1="research" onclick="switchDepth1('research', this)">알고리즘 · 리포트</button>
       </nav>
       <div class="bg-bar" role="group" aria-label="배경색 변경">
         <button type="button" class="bg-btn active" onclick="setHubBg('white', this)">화이트</button>
@@ -882,20 +910,38 @@
         <button type="button" class="bg-btn" onclick="setHubBg('dark', this)">다크</button>
       </div>
     </div>
+    <!-- 2뎁스: 선택된 대분류의 중분류 메뉴 바 -->
     <div class="dj-row2">
-      <div class="dj-row2-inner">
+      <div class="dj-row2-inner" aria-label="2뎁스 중분류">
+        <nav class="dj-d2-group" id="d2-danta" data-d1="danta" aria-label="실전 단타">
+          <a class="dj-d2-btn" id="nav-danta-daily" href="/danta-daily/">일별 단타 내역</a>
+          <a class="dj-d2-btn" id="nav-danta-engine-daily" href="/engine-daily/?source=danta">엔진별 일일 수익률</a>
+          <a class="dj-d2-btn" id="nav-danta-auto" href="/danta-auto/">자동 매매</a>
+          <a class="dj-d2-btn" id="nav-danta-manual" href="/danta-manual/">수동 매매</a>
+          <a class="dj-d2-btn" id="nav-danta-compare" href="/danta-compare/">자동 vs 수동 비교</a>
+          <a class="dj-d2-btn" id="nav-danta-charts" href="/danta-charts/">단타 수익 그래프</a>
+        </nav>
+        <nav class="dj-d2-group" id="d2-perf" data-d1="perf" aria-label="테이프 · 엔진 성적">
+          <a class="dj-d2-btn" id="nav-tape-replay" href="/tape-replay/">테이프 종목분석</a>
+          <a class="dj-d2-btn" id="nav-engine-daily" href="/engine-daily/">엔진별 일일 수익률</a>
+          <a class="dj-d2-btn" id="nav-engine-rank-chart" href="/engine-rank-chart/">엔진 순위 차트</a>
+          <button type="button" class="dj-d2-btn" id="nav-ranking-period" onclick="switchMenu('ranking-period')">기간별 수익률</button>
+          <button type="button" class="dj-d2-btn" id="nav-ranking-pre" onclick="switchMenu('ranking-pre')">프리장 랭킹 <span class="nav-count">8</span></button>
+          <button type="button" class="dj-d2-btn" id="nav-ranking-reg" onclick="switchMenu('ranking-reg')">본장 랭킹 <span class="nav-count">8</span></button>
+        </nav>
+        <nav class="dj-d2-group active" id="d2-research" data-d1="research" aria-label="알고리즘 · 리포트">
+          <button type="button" class="dj-d2-btn active" id="nav-algo" onclick="switchMenu('algo')">버전별 알고리즘</button>
+          <button type="button" class="dj-d2-btn" id="nav-reports" onclick="switchMenu('reports')">인터랙티브 리포트 <span class="nav-count">7</span></button>
+        </nav>
+      </div>
+    </div>
+    <!-- 3뎁스: 브레드크럼 & 세부 메타 -->
+    <div class="dj-row3">
+      <div class="dj-row3-inner">
         <div class="dj-bc-trail" id="djBreadcrumb">
-          <span>Dongju QUNT Lab 홈</span><span>›</span><span class="dj-bc-cur">버전별 알고리즘</span>
+          <span>Dongju QUNT Lab 홈</span><span>›</span><span>알고리즘 · 리포트</span><span>›</span><span class="dj-bc-cur">버전별 알고리즘</span>
         </div>
-        <div class="dj-row2-right">
-          <nav class="dj-danta-nav" aria-label="실전 페이퍼 단타">
-            <span class="dj-danta-lbl">실전 단타</span>
-            <a class="dj-danta-item" id="nav-danta-daily" href="/danta-daily/">일별 내역</a>
-            <a class="dj-danta-item" id="nav-danta-auto" href="/danta-auto/">자동 매매</a>
-            <a class="dj-danta-item" id="nav-danta-manual" href="/danta-manual/">수동 매매</a>
-            <a class="dj-danta-item" id="nav-danta-compare" href="/danta-compare/">자동 vs 수동</a>
-            <a class="dj-danta-item" id="nav-danta-charts" href="/danta-charts/">수익 그래프</a>
-          </nav>
+        <div class="dj-row3-right">
           <div class="dj-meta-chip">누적 93버전 · 합격 29종 · 리포트 7건</div>
         </div>
       </div>
@@ -1252,8 +1298,24 @@
       }
     }
 
+    function switchDepth1(d1) {
+      document.querySelectorAll('.dj-menu-bar .dj-menu-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-d1') === d1);
+      });
+      document.querySelectorAll('.dj-d2-group').forEach(g => {
+        g.classList.toggle('active', g.getAttribute('data-d1') === d1);
+      });
+    }
+
     function updateBreadcrumb() {
       const bc = document.getElementById('djBreadcrumb');
+      const d1Map = {
+        'algo': ['research', '알고리즘 · 리포트'],
+        'reports': ['research', '알고리즘 · 리포트'],
+        'ranking-pre': ['perf', '테이프 · 엔진 성적'],
+        'ranking-reg': ['perf', '테이프 · 엔진 성적'],
+        'ranking-period': ['perf', '테이프 · 엔진 성적'],
+      };
       const labels = {
         'algo': '버전별 알고리즘',
         'reports': '인터랙티브 리포트',
@@ -1261,7 +1323,9 @@
         'ranking-reg': '본장 랭킹',
         'ranking-period': '기간별 수익률'
       };
+      const [d1Key, d1Lbl] = d1Map[curMenu] || ['research', '알고리즘 · 리포트'];
       let trail = `<a href="#algo" onclick="switchMenu('algo');return false;">Dongju QUNT Lab 홈</a><span>›</span>`;
+      trail += `<a href="#${curMenu}" onclick="switchDepth1('${d1Key}');return false;">${d1Lbl}</a><span>›</span>`;
       if (curMenu === 'algo') {
         const subLbl = curAlgoSub === 'gens' ? '7대 세대 요약' : `전체 ${VERSIONS.length}버전 장부`;
         trail += `<a href="#algo" onclick="switchAlgoSub('gens');return false;">${labels.algo}</a><span>›</span><span class="dj-bc-cur">${subLbl}</span>`;
@@ -1274,8 +1338,10 @@
     function switchMenu(menu, updateHash = true) {
       if (!['algo','reports','ranking-pre','ranking-reg','ranking-period'].includes(menu)) menu = 'algo';
       curMenu = menu;
+      const d1 = (menu === 'algo' || menu === 'reports') ? 'research' : 'perf';
+      switchDepth1(d1);
       document.querySelectorAll('.topic-panel').forEach(el => el.classList.toggle('active', el.id === 'panel-' + menu));
-      document.querySelectorAll('.dj-menu-btn').forEach(b => b.classList.toggle('active', b.id === 'nav-' + menu));
+      document.querySelectorAll('.dj-d2-btn').forEach(b => b.classList.toggle('active', b.id === 'nav-' + menu));
       if (updateHash && location.hash !== '#' + menu) history.replaceState(null, '', '#' + menu);
       updateBreadcrumb();
       if (menu === 'ranking-period' && typeof renderPeriodRankings === 'function') {

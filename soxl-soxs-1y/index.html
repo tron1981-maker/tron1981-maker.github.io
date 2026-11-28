@@ -51,6 +51,7 @@
       font-size: 0.8125rem; font-weight: 600; color: var(--tx-main); cursor: pointer;
     }
     #kpiGrid, #hoverBar, #tblSplit, #tblAut { font-variant-numeric: tabular-nums; }
+    canvas { display: block; width: 100%; }
   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link id="dj-qunt-favicon-ico" rel="icon" href="/favicon.ico" sizes="any" />
@@ -364,32 +365,32 @@
           <span class="font-semibold">① 누적 자산곡선 (기준 = 100) — 전략 vs SPY 벤치마크</span>
           <span class="tx-muted">우측 음영: Sealed OOS (SOXL -73.3% 폭락장)</span>
         </div>
-        <canvas id="cEq" class="w-full block" height="210"></canvas>
+        <canvas id="cEq" class="w-full block" data-height="210" height="210" style="width:100%;height:210px;display:block;"></canvas>
       </div>
       <div class="border-t sub-div pt-2.5">
         <div class="text-xs font-semibold mb-1">② 낙폭 분석 — 수중 낙폭(Underwater %) & gs_quant 63일 롤링 MDD (%)</div>
-        <canvas id="cDd" class="w-full block" height="125"></canvas>
+        <canvas id="cDd" class="w-full block" data-height="125" height="125" style="width:100%;height:125px;display:block;"></canvas>
       </div>
       <div class="border-t sub-div pt-2.5 grid grid-cols-1 md:grid-cols-2 gap-3">
         <div>
           <div class="text-xs font-semibold mb-1">③ gs_quant 63일 롤링 연율화 변동성 (%)</div>
-          <canvas id="cVol" class="w-full block" height="120"></canvas>
+          <canvas id="cVol" class="w-full block" data-height="120" height="120" style="width:100%;height:120px;display:block;"></canvas>
         </div>
         <div>
           <div class="text-xs font-semibold mb-1">④ gs_quant 63일 롤링 샤프 비율 (Sharpe)</div>
-          <canvas id="cSh" class="w-full block" height="120"></canvas>
+          <canvas id="cSh" class="w-full block" data-height="120" height="120" style="width:100%;height:120px;display:block;"></canvas>
         </div>
       </div>
       <div class="border-t sub-div pt-2.5">
         <div class="text-xs font-semibold mb-1">⑤ gs_quant SPY 대비 63일 롤링 베타(β) 및 상관계수(ρ)</div>
-        <canvas id="cBe" class="w-full block" height="120"></canvas>
+        <canvas id="cBe" class="w-full block" data-height="120" height="120" style="width:100%;height:120px;display:block;"></canvas>
       </div>
       <div class="border-t sub-div pt-2.5">
         <div class="flex items-center justify-between text-xs mb-1">
           <span class="font-semibold">⑥ 포트폴리오 일별 노출 비중 (SOXL 롱 vs SOXS 인버스, 동시 보유 0일)</span>
           <span class="tx-muted">잔여 비중 = 100% 현금(Cash)</span>
         </div>
-        <canvas id="cWt" class="w-full block" height="120"></canvas>
+        <canvas id="cWt" class="w-full block" data-height="120" height="120" style="width:100%;height:120px;display:block;"></canvas>
       </div>
     </div>
 
@@ -535,13 +536,21 @@ function updateMeta() {
 
 function setupCanvas(canvas) {
   const dpr = window.devicePixelRatio || 1;
+  if (!canvas.dataset.baseH) {
+    canvas.dataset.baseH = canvas.getAttribute('data-height') || canvas.getAttribute('height') || '130';
+  }
+  const h = Number(canvas.dataset.baseH) || 130;
+  canvas.style.width = '100%';
+  canvas.style.height = h + 'px';
   const rect = canvas.getBoundingClientRect();
-  const w = Math.max(260, rect.width);
-  const h = Number(canvas.getAttribute('height')) || 130;
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
+  const parentW = canvas.parentElement ? canvas.parentElement.clientWidth : 0;
+  const w = Math.max(260, Math.round(rect.width || parentW || 800));
+  const targetW = Math.round(w * dpr);
+  const targetH = Math.round(h * dpr);
+  if (canvas.width !== targetW) canvas.width = targetW;
+  if (canvas.height !== targetH) canvas.height = targetH;
   const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   return { ctx, w, h };
 }
 
@@ -711,6 +720,19 @@ document.getElementById('chkSoxl').onchange = drawAll;
 document.getElementById('chkLog').onchange = drawAll;
 window.addEventListener('resize', drawAll);
 window.addEventListener('themechange', drawAll);
+window.addEventListener('load', drawAll);
+if (typeof ResizeObserver !== 'undefined') {
+  let lastShellW = 0;
+  const ro = new ResizeObserver(entries => {
+    const w = entries[0] ? Math.round(entries[0].contentRect.width) : 0;
+    if (w > 0 && Math.abs(w - lastShellW) > 1) {
+      lastShellW = w;
+      drawAll();
+    }
+  });
+  const shellEl = document.getElementById('appShell');
+  if (shellEl) ro.observe(shellEl);
+}
 
 buildTabs();
 updateMeta();

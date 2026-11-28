@@ -1,8 +1,7 @@
 {
-  "updated_at": "2026-11-28T06:15:12",
+  "updated_at": "2026-11-28T12:13:21",
   "dates": [
     "2026-11-27",
-    "2026-11-26",
     "2026-11-25",
     "2026-11-24",
     "2026-11-23"
@@ -10,14 +9,18 @@
   "days": [
     {
       "date_et": "2026-11-27",
+      "weekday_kr": "금",
+      "date_label_kr": "2026-11-27 (금)",
+      "kst_window_desc": "미국장 2026-11-27 (금) ET · 한국시간 11/27(금) 18:00 ~ 11/28(토) 03:00 (블랙프라이데이 조기폐장 13:00 ET)",
+      "early_close_note": "블랙프라이데이 조기폐장 13:00 ET",
       "premarket_hours": 5.5,
-      "regular_hours": 6.43,
+      "regular_hours": 3.5,
       "symbol_count": 120,
       "pm_symbol_count": 112,
-      "rg_symbol_count": 120,
+      "rg_symbol_count": 118,
       "regime_kr": "하락장 · 고변동 · 금리쇼크·방어",
-      "independent_trade_pairs": 247,
-      "slotted_trade_pairs": 202,
+      "independent_trade_pairs": 244,
+      "slotted_trade_pairs": 199,
       "best_independent": {
         "symbol": "DCX",
         "strategy": "v_38",
@@ -26,19 +29,11 @@
       }
     },
     {
-      "date_et": "2026-11-26",
-      "premarket_hours": 5.5,
-      "regular_hours": 5.98,
-      "symbol_count": 35,
-      "pm_symbol_count": 33,
-      "rg_symbol_count": 35,
-      "regime_kr": "하락장 · 고변동 · 금리쇼크·방어",
-      "independent_trade_pairs": 0,
-      "slotted_trade_pairs": 0,
-      "best_independent": null
-    },
-    {
       "date_et": "2026-11-25",
+      "weekday_kr": "수",
+      "date_label_kr": "2026-11-25 (수)",
+      "kst_window_desc": "미국장 2026-11-25 (수) ET · 한국시간 11/25(수) 18:00 ~ 11/26(목) 06:00",
+      "early_close_note": "",
       "premarket_hours": 5.5,
       "regular_hours": 4.8,
       "symbol_count": 106,
@@ -56,6 +51,10 @@
     },
     {
       "date_et": "2026-11-24",
+      "weekday_kr": "화",
+      "date_label_kr": "2026-11-24 (화)",
+      "kst_window_desc": "미국장 2026-11-24 (화) ET · 한국시간 11/24(화) 18:00 ~ 11/25(수) 06:00",
+      "early_close_note": "",
       "premarket_hours": 5.5,
       "regular_hours": 1.58,
       "symbol_count": 38,
@@ -73,6 +72,10 @@
     },
     {
       "date_et": "2026-11-23",
+      "weekday_kr": "월",
+      "date_label_kr": "2026-11-23 (월)",
+      "kst_window_desc": "미국장 2026-11-23 (월) ET · 한국시간 11/23(월) 18:00 ~ 11/24(화) 06:00",
+      "early_close_note": "",
       "premarket_hours": 5.5,
       "regular_hours": 1.75,
       "symbol_count": 6,

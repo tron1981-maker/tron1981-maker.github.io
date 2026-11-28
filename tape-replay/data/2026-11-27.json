@@ -1,8 +1,12 @@
 {
   "date_et": "2026-11-27",
-  "generated_at": "2026-11-28T06:07:42",
+  "weekday_kr": "금",
+  "date_label_kr": "2026-11-27 (금)",
+  "kst_window_desc": "미국장 2026-11-27 (금) ET · 한국시간 11/27(금) 18:00 ~ 11/28(토) 03:00 (블랙프라이데이 조기폐장 13:00 ET)",
+  "early_close_note": "블랙프라이데이 조기폐장 13:00 ET",
+  "generated_at": "2026-11-28T12:13:12",
   "premarket_hours": 5.5,
-  "regular_hours": 6.43,
+  "regular_hours": 3.5,
   "regime": {
     "date_et": "2026-11-27",
     "trend_regime": "BEAR_TREND",
@@ -32,16 +36,16 @@
         "regular"
       ],
       "pm_bars": 42,
-      "rg_bars": 293,
+      "rg_bars": 178,
       "pm_open": 0.0842,
       "pm_close": 0.09,
       "pm_change_pct": 6.89,
       "rg_open": 0.09,
-      "rg_close": 0.1281,
-      "rg_change_pct": 42.33,
-      "rg_high": 0.1579,
+      "rg_close": 0.0879,
+      "rg_change_pct": -2.33,
+      "rg_high": 0.0928,
       "rg_low": 0.0828,
-      "rg_volume": 1548485.0
+      "rg_volume": 41759858.0
     },
     {
       "symbol": "BRZL",
@@ -75,13 +79,13 @@
         "regular"
       ],
       "pm_bars": 321,
-      "rg_bars": 337,
+      "rg_bars": 210,
       "pm_open": 0.0702,
       "pm_close": 0.0691,
       "pm_change_pct": -1.57,
       "rg_open": 0.0689,
-      "rg_close": 0.066,
-      "rg_change_pct": -4.21,
+      "rg_close": 0.07,
+      "rg_change_pct": 1.6,
       "rg_high": 0.0734,
       "rg_low": 0.064,
       "rg_volume": 69711527.0
@@ -98,16 +102,16 @@
         "regular"
       ],
       "pm_bars": 88,
-      "rg_bars": 380,
+      "rg_bars": 200,
       "pm_open": 0.5052,
       "pm_close": 0.5586,
       "pm_change_pct": 10.57,
       "rg_open": 0.5569,
-      "rg_close": 1.15,
-      "rg_change_pct": 106.5,
+      "rg_close": 1.17,
+      "rg_change_pct": 110.09,
       "rg_high": 1.58,
       "rg_low": 0.536,
-      "rg_volume": 78378374.0
+      "rg_volume": 83028022.0
     },
     {
       "symbol": "DOGZ",
@@ -120,16 +124,16 @@
         "regular"
       ],
       "pm_bars": 261,
-      "rg_bars": 387,
+      "rg_bars": 209,
       "pm_open": 0.3,
       "pm_close": 0.2415,
       "pm_change_pct": -19.5,
       "rg_open": 0.245,
-      "rg_close": 0.411,
-      "rg_change_pct": 67.76,
-      "rg_high": 0.4896,
+      "rg_close": 0.352,
+      "rg_change_pct": 43.67,
+      "rg_high": 0.4036,
       "rg_low": 0.242,
-      "rg_volume": 71097455.0
+      "rg_volume": 91409214.0
     },
     {
       "symbol": "EVRL",
@@ -142,14 +146,14 @@
         "regular"
       ],
       "pm_bars": 39,
-      "rg_bars": 133,
+      "rg_bars": 60,
       "pm_open": 0.9204,
       "pm_close": 0.9101,
       "pm_change_pct": -1.12,
       "rg_open": 0.9618,
-      "rg_close": 1.0201,
-      "rg_change_pct": 6.06,
-      "rg_high": 1.9199,
+      "rg_close": 0.8445,
+      "rg_change_pct": -12.2,
+      "rg_high": 0.9618,
       "rg_low": 0.8273,
       "rg_volume": 175065.0
     },
@@ -162,16 +166,16 @@
         "regular"
       ],
       "pm_bars": 0,
-      "rg_bars": 39,
+      "rg_bars": 3,
       "pm_open": 0.0,
       "pm_close": 0.0,
       "pm_change_pct": 0.0,
       "rg_open": 2.55,
-      "rg_close": 2.2,
-      "rg_change_pct": -13.73,
-      "rg_high": 4.4974,
-      "rg_low": 2.1,
-      "rg_volume": 240285.0
+      "rg_close": 2.62,
+      "rg_change_pct": 2.75,
+      "rg_high": 2.62,
+      "rg_low": 2.55,
+      "rg_volume": 256509.0
     },
     {
       "symbol": "GDEV",
@@ -179,20 +183,18 @@
         "high_gap",
         "mid_gap"
       ],
-      "sessions": [
-        "regular"
-      ],
+      "sessions": [],
       "pm_bars": 0,
-      "rg_bars": 160,
+      "rg_bars": 0,
       "pm_open": 0.0,
       "pm_close": 0.0,
       "pm_change_pct": 0.0,
-      "rg_open": 11.12,
-      "rg_close": 9.15,
-      "rg_change_pct": -17.72,
-      "rg_high": 21.18,
-      "rg_low": 8.75,
-      "rg_volume": 9079.0
+      "rg_open": 0.0,
+      "rg_close": 0.0,
+      "rg_change_pct": 0.0,
+      "rg_high": 0.0,
+      "rg_low": 0.0,
+      "rg_volume": 0
     },
     {
       "symbol": "KIDZ",
@@ -204,16 +206,16 @@
         "regular"
       ],
       "pm_bars": 5,
-      "rg_bars": 208,
+      "rg_bars": 46,
       "pm_open": 0.6473,
       "pm_close": 0.72,
       "pm_change_pct": 11.23,
       "rg_open": 0.6502,
-      "rg_close": 1.0599,
-      "rg_change_pct": 63.01,
-      "rg_high": 1.33,
+      "rg_close": 1.03,
+      "rg_change_pct": 58.41,
+      "rg_high": 1.3099,
       "rg_low": 0.6501,
-      "rg_volume": 4133838.0
+      "rg_volume": 10782252.0
     },
     {
       "symbol": "LAES",
@@ -226,16 +228,16 @@
         "regular"
       ],
       "pm_bars": 148,
-      "rg_bars": 363,
+      "rg_bars": 211,
       "pm_open": 1.13,
       "pm_close": 1.16,
       "pm_change_pct": 2.65,
       "rg_open": 1.16,
-      "rg_close": 1.6515,
-      "rg_change_pct": 42.37,
-      "rg_high": 1.94,
+      "rg_close": 1.37,
+      "rg_change_pct": 18.1,
+      "rg_high": 1.38,
       "rg_low": 1.11,
-      "rg_volume": 10618153.0
+      "rg_volume": 15285266.0
     },
     {
       "symbol": "LOT",
@@ -248,13 +250,13 @@
         "regular"
       ],
       "pm_bars": 296,
-      "rg_bars": 319,
+      "rg_bars": 211,
       "pm_open": 0.25,
       "pm_close": 0.2345,
       "pm_change_pct": -6.2,
       "rg_open": 0.236,
-      "rg_close": 0.2515,
-      "rg_change_pct": 6.57,
+      "rg_close": 0.2685,
+      "rg_change_pct": 13.77,
       "rg_high": 0.3141,
       "rg_low": 0.231,
       "rg_volume": 90507583.0
@@ -271,14 +273,14 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 386,
+      "rg_bars": 211,
       "pm_open": 0.5583,
       "pm_close": 0.78,
       "pm_change_pct": 39.71,
       "rg_open": 0.7801,
-      "rg_close": 1.03,
-      "rg_change_pct": 32.03,
-      "rg_high": 1.2,
+      "rg_close": 0.9216,
+      "rg_change_pct": 18.14,
+      "rg_high": 0.9681,
       "rg_low": 0.7245,
       "rg_volume": 53278976.0
     },
@@ -313,13 +315,13 @@
         "regular"
       ],
       "pm_bars": 10,
-      "rg_bars": 257,
+      "rg_bars": 199,
       "pm_open": 0.28,
       "pm_close": 0.2817,
       "pm_change_pct": 0.61,
       "rg_open": 0.287,
-      "rg_close": 0.2015,
-      "rg_change_pct": -29.79,
+      "rg_close": 0.2215,
+      "rg_change_pct": -22.82,
       "rg_high": 0.4423,
       "rg_low": 0.1937,
       "rg_volume": 19813829.0
@@ -335,16 +337,16 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 382,
+      "rg_bars": 210,
       "pm_open": 0.0179,
       "pm_close": 0.0164,
       "pm_change_pct": -8.38,
       "rg_open": 0.0166,
-      "rg_close": 0.0137,
-      "rg_change_pct": -17.47,
+      "rg_close": 0.0139,
+      "rg_change_pct": -16.27,
       "rg_high": 0.0166,
-      "rg_low": 0.0136,
-      "rg_volume": 245255331.0
+      "rg_low": 0.0138,
+      "rg_volume": 263837462.0
     },
     {
       "symbol": "NXAT",
@@ -358,16 +360,16 @@
         "regular"
       ],
       "pm_bars": 328,
-      "rg_bars": 362,
+      "rg_bars": 211,
       "pm_open": 0.8341,
       "pm_close": 0.8157,
       "pm_change_pct": -2.21,
       "rg_open": 0.85,
-      "rg_close": 0.84,
-      "rg_change_pct": -1.18,
+      "rg_close": 0.8604,
+      "rg_change_pct": 1.22,
       "rg_high": 0.99,
       "rg_low": 0.74,
-      "rg_volume": 46927089.0
+      "rg_volume": 47581509.0
     },
     {
       "symbol": "PDC",
@@ -380,13 +382,13 @@
         "regular"
       ],
       "pm_bars": 20,
-      "rg_bars": 291,
+      "rg_bars": 180,
       "pm_open": 0.54,
       "pm_close": 0.6025,
       "pm_change_pct": 11.57,
       "rg_open": 0.6388,
-      "rg_close": 0.7,
-      "rg_change_pct": 9.58,
+      "rg_close": 0.77,
+      "rg_change_pct": 20.54,
       "rg_high": 0.9876,
       "rg_low": 0.5501,
       "rg_volume": 18343554.0
@@ -402,13 +404,13 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 380,
+      "rg_bars": 211,
       "pm_open": 2.66,
       "pm_close": 2.93,
       "pm_change_pct": 10.15,
       "rg_open": 2.92,
-      "rg_close": 2.91,
-      "rg_change_pct": -0.34,
+      "rg_close": 3.12,
+      "rg_change_pct": 6.85,
       "rg_high": 3.6,
       "rg_low": 2.6301,
       "rg_volume": 48115823.0
@@ -444,13 +446,13 @@
         "regular"
       ],
       "pm_bars": 193,
-      "rg_bars": 339,
+      "rg_bars": 211,
       "pm_open": 4.0,
       "pm_close": 5.08,
       "pm_change_pct": 27.0,
       "rg_open": 5.05,
-      "rg_close": 5.04,
-      "rg_change_pct": -0.2,
+      "rg_close": 5.48,
+      "rg_change_pct": 8.51,
       "rg_high": 8.8,
       "rg_low": 4.62,
       "rg_volume": 16517823.0
@@ -466,16 +468,16 @@
         "regular"
       ],
       "pm_bars": 13,
-      "rg_bars": 296,
+      "rg_bars": 162,
       "pm_open": 0.6799,
       "pm_close": 0.68,
       "pm_change_pct": 0.01,
       "rg_open": 0.65,
-      "rg_close": 0.2735,
-      "rg_change_pct": -57.92,
+      "rg_close": 0.293,
+      "rg_change_pct": -54.92,
       "rg_high": 0.6766,
       "rg_low": 0.2606,
-      "rg_volume": 1351167.0
+      "rg_volume": 1346961.0
     },
     {
       "symbol": "SLGL",
@@ -487,16 +489,16 @@
         "regular"
       ],
       "pm_bars": 2,
-      "rg_bars": 137,
+      "rg_bars": 26,
       "pm_open": 60.1,
       "pm_close": 59.98,
       "pm_change_pct": -0.2,
       "rg_open": 59.52,
-      "rg_close": 81.2,
-      "rg_change_pct": 36.42,
-      "rg_high": 81.98,
+      "rg_close": 54.78,
+      "rg_change_pct": -7.96,
+      "rg_high": 61.42,
       "rg_low": 53.99,
-      "rg_volume": 70730.0
+      "rg_volume": 66976.0
     },
     {
       "symbol": "SNXX",
@@ -510,14 +512,14 @@
         "regular"
       ],
       "pm_bars": 329,
-      "rg_bars": 375,
+      "rg_bars": 200,
       "pm_open": 1.73,
       "pm_close": 1.71,
       "pm_change_pct": -1.16,
       "rg_open": 1.705,
-      "rg_close": 1.91,
-      "rg_change_pct": 12.02,
-      "rg_high": 1.97,
+      "rg_close": 1.9,
+      "rg_change_pct": 11.44,
+      "rg_high": 1.91,
       "rg_low": 1.59,
       "rg_volume": 206384580.0
     },
@@ -533,13 +535,13 @@
         "regular"
       ],
       "pm_bars": 326,
-      "rg_bars": 315,
+      "rg_bars": 207,
       "pm_open": 0.3474,
       "pm_close": 0.2335,
       "pm_change_pct": -32.79,
       "rg_open": 0.2345,
-      "rg_close": 0.2421,
-      "rg_change_pct": 3.24,
+      "rg_close": 0.2656,
+      "rg_change_pct": 13.26,
       "rg_high": 0.2786,
       "rg_low": 0.217,
       "rg_volume": 26368200.0
@@ -554,16 +556,16 @@
         "regular"
       ],
       "pm_bars": 151,
-      "rg_bars": 340,
+      "rg_bars": 211,
       "pm_open": 1.85,
       "pm_close": 3.22,
       "pm_change_pct": 74.05,
       "rg_open": 3.21,
-      "rg_close": 2.35,
-      "rg_change_pct": -26.79,
+      "rg_close": 2.41,
+      "rg_change_pct": -24.92,
       "rg_high": 3.44,
       "rg_low": 2.2198,
-      "rg_volume": 40741152.0
+      "rg_volume": 41193234.0
     },
     {
       "symbol": "VESI",
@@ -575,14 +577,14 @@
         "regular"
       ],
       "pm_bars": 13,
-      "rg_bars": 146,
+      "rg_bars": 50,
       "pm_open": 0.76,
       "pm_close": 0.71,
       "pm_change_pct": -6.58,
       "rg_open": 0.702,
-      "rg_close": 1.23,
-      "rg_change_pct": 75.21,
-      "rg_high": 1.47,
+      "rg_close": 0.7634,
+      "rg_change_pct": 8.75,
+      "rg_high": 0.8299,
       "rg_low": 0.7,
       "rg_volume": 90179.0
     },
@@ -597,16 +599,16 @@
         "regular"
       ],
       "pm_bars": 256,
-      "rg_bars": 368,
+      "rg_bars": 211,
       "pm_open": 0.5378,
       "pm_close": 0.6491,
       "pm_change_pct": 20.7,
       "rg_open": 0.6491,
-      "rg_close": 0.6501,
-      "rg_change_pct": 0.15,
-      "rg_high": 0.6998,
+      "rg_close": 0.6885,
+      "rg_change_pct": 6.07,
+      "rg_high": 0.6972,
       "rg_low": 0.605,
-      "rg_volume": 66831973.0
+      "rg_volume": 67456379.0
     },
     {
       "symbol": "AEHL",
@@ -618,14 +620,14 @@
         "regular"
       ],
       "pm_bars": 3,
-      "rg_bars": 303,
+      "rg_bars": 149,
       "pm_open": 7.45,
       "pm_close": 7.36,
       "pm_change_pct": -1.21,
       "rg_open": 7.14,
-      "rg_close": 13.4193,
-      "rg_change_pct": 87.95,
-      "rg_high": 15.94,
+      "rg_close": 12.9,
+      "rg_change_pct": 80.67,
+      "rg_high": 13.9695,
       "rg_low": 7.14,
       "rg_volume": 3991809.0
     },
@@ -641,16 +643,16 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 389,
+      "rg_bars": 211,
       "pm_open": 88.2,
       "pm_close": 85.0,
       "pm_change_pct": -3.63,
       "rg_open": 84.99,
-      "rg_close": 91.73,
-      "rg_change_pct": 7.93,
+      "rg_close": 91.88,
+      "rg_change_pct": 8.11,
       "rg_high": 93.22,
       "rg_low": 84.53,
-      "rg_volume": 142394095.0
+      "rg_volume": 142392784.0
     },
     {
       "symbol": "AXTX",
@@ -662,14 +664,14 @@
         "regular"
       ],
       "pm_bars": 259,
-      "rg_bars": 291,
+      "rg_bars": 197,
       "pm_open": 4.44,
       "pm_close": 4.4466,
       "pm_change_pct": 0.15,
       "rg_open": 4.45,
-      "rg_close": 4.67,
-      "rg_change_pct": 4.94,
-      "rg_high": 4.9,
+      "rg_close": 4.77,
+      "rg_change_pct": 7.19,
+      "rg_high": 4.77,
       "rg_low": 3.77,
       "rg_volume": 10119166.0
     },
@@ -683,13 +685,13 @@
         "regular"
       ],
       "pm_bars": 207,
-      "rg_bars": 280,
+      "rg_bars": 209,
       "pm_open": 2.63,
       "pm_close": 2.86,
       "pm_change_pct": 8.75,
       "rg_open": 2.875,
-      "rg_close": 2.83,
-      "rg_change_pct": -1.57,
+      "rg_close": 2.8,
+      "rg_change_pct": -2.61,
       "rg_high": 2.89,
       "rg_low": 2.79,
       "rg_volume": 109464952.0
@@ -704,16 +706,16 @@
         "regular"
       ],
       "pm_bars": 3,
-      "rg_bars": 56,
+      "rg_bars": 10,
       "pm_open": 2.2,
       "pm_close": 2.26,
       "pm_change_pct": 2.73,
       "rg_open": 2.43,
-      "rg_close": 2.208,
-      "rg_change_pct": -9.14,
-      "rg_high": 2.54,
-      "rg_low": 2.208,
-      "rg_volume": 19156.0
+      "rg_close": 2.2516,
+      "rg_change_pct": -7.34,
+      "rg_high": 2.43,
+      "rg_low": 2.2501,
+      "rg_volume": 18981.0
     },
     {
       "symbol": "BENF",
@@ -725,16 +727,16 @@
         "regular"
       ],
       "pm_bars": 229,
-      "rg_bars": 298,
+      "rg_bars": 211,
       "pm_open": 0.9548,
       "pm_close": 1.04,
       "pm_change_pct": 8.92,
       "rg_open": 1.05,
-      "rg_close": 1.0231,
-      "rg_change_pct": -2.56,
+      "rg_close": 1.01,
+      "rg_change_pct": -3.81,
       "rg_high": 1.2,
       "rg_low": 0.84,
-      "rg_volume": 15721780.0
+      "rg_volume": 16134497.0
     },
     {
       "symbol": "DRAM",
@@ -747,14 +749,14 @@
         "regular"
       ],
       "pm_bars": 313,
-      "rg_bars": 353,
+      "rg_bars": 197,
       "pm_open": 36.11,
       "pm_close": 37.09,
       "pm_change_pct": 2.71,
       "rg_open": 36.87,
-      "rg_close": 37.5,
-      "rg_change_pct": 1.71,
-      "rg_high": 40.0666,
+      "rg_close": 37.57,
+      "rg_change_pct": 1.9,
+      "rg_high": 37.57,
       "rg_low": 35.8881,
       "rg_volume": 25069280.0
     },
@@ -767,14 +769,14 @@
         "regular"
       ],
       "pm_bars": 0,
-      "rg_bars": 32,
+      "rg_bars": 17,
       "pm_open": 0.0,
       "pm_close": 0.0,
       "pm_change_pct": 0.0,
       "rg_open": 1.07,
-      "rg_close": 1.19,
-      "rg_change_pct": 11.21,
-      "rg_high": 1.19,
+      "rg_close": 1.0601,
+      "rg_change_pct": -0.93,
+      "rg_high": 1.07,
       "rg_low": 0.8461,
       "rg_volume": 9389.0
     },
@@ -789,14 +791,14 @@
         "regular"
       ],
       "pm_bars": 66,
-      "rg_bars": 234,
+      "rg_bars": 197,
       "pm_open": 57.69,
       "pm_close": 57.9,
       "pm_change_pct": 0.36,
       "rg_open": 57.81,
-      "rg_close": 58.3,
-      "rg_change_pct": 0.85,
-      "rg_high": 58.83,
+      "rg_close": 58.1,
+      "rg_change_pct": 0.5,
+      "rg_high": 58.13,
       "rg_low": 57.4,
       "rg_volume": 15569425.0
     },
@@ -810,13 +812,13 @@
         "regular"
       ],
       "pm_bars": 26,
-      "rg_bars": 200,
+      "rg_bars": 177,
       "pm_open": 0.19,
       "pm_close": 0.1969,
       "pm_change_pct": 3.63,
       "rg_open": 0.1999,
-      "rg_close": 0.229,
-      "rg_change_pct": 14.56,
+      "rg_close": 0.2238,
+      "rg_change_pct": 11.96,
       "rg_high": 0.2654,
       "rg_low": 0.1997,
       "rg_volume": 4087951.0
@@ -833,16 +835,16 @@
         "regular"
       ],
       "pm_bars": 289,
-      "rg_bars": 262,
+      "rg_bars": 200,
       "pm_open": 32.67,
       "pm_close": 34.21,
       "pm_change_pct": 4.71,
       "rg_open": 34.01,
-      "rg_close": 33.22,
-      "rg_change_pct": -2.32,
+      "rg_close": 33.12,
+      "rg_change_pct": -2.62,
       "rg_high": 34.01,
       "rg_low": 33.02,
-      "rg_volume": 87947127.0
+      "rg_volume": 87946688.0
     },
     {
       "symbol": "GDHG",
@@ -854,13 +856,13 @@
         "regular"
       ],
       "pm_bars": 306,
-      "rg_bars": 308,
+      "rg_bars": 211,
       "pm_open": 0.0678,
       "pm_close": 0.0556,
       "pm_change_pct": -17.99,
       "rg_open": 0.0541,
-      "rg_close": 0.0545,
-      "rg_change_pct": 0.74,
+      "rg_close": 0.0633,
+      "rg_change_pct": 17.01,
       "rg_high": 0.0745,
       "rg_low": 0.0541,
       "rg_volume": 56591779.0
@@ -876,14 +878,14 @@
         "regular"
       ],
       "pm_bars": 272,
-      "rg_bars": 322,
+      "rg_bars": 211,
       "pm_open": 77.8,
       "pm_close": 77.01,
       "pm_change_pct": -1.02,
       "rg_open": 77.125,
-      "rg_close": 78.87,
-      "rg_change_pct": 2.26,
-      "rg_high": 81.8562,
+      "rg_close": 79.18,
+      "rg_change_pct": 2.66,
+      "rg_high": 79.18,
       "rg_low": 76.52,
       "rg_volume": 22200929.0
     },
@@ -897,16 +899,16 @@
         "regular"
       ],
       "pm_bars": 24,
-      "rg_bars": 188,
+      "rg_bars": 60,
       "pm_open": 1.33,
       "pm_close": 1.36,
       "pm_change_pct": 2.26,
       "rg_open": 1.36,
-      "rg_close": 1.67,
-      "rg_change_pct": 22.79,
-      "rg_high": 1.99,
+      "rg_close": 1.38,
+      "rg_change_pct": 1.47,
+      "rg_high": 1.38,
       "rg_low": 1.18,
-      "rg_volume": 128972.0
+      "rg_volume": 1260221.0
     },
     {
       "symbol": "HQ",
@@ -918,16 +920,16 @@
         "regular"
       ],
       "pm_bars": 1,
-      "rg_bars": 92,
+      "rg_bars": 50,
       "pm_open": 9.0,
       "pm_close": 9.0,
       "pm_change_pct": 0.0,
       "rg_open": 9.0,
-      "rg_close": 9.311,
-      "rg_change_pct": 3.46,
-      "rg_high": 12.32,
+      "rg_close": 9.3,
+      "rg_change_pct": 3.33,
+      "rg_high": 9.68,
       "rg_low": 9.0,
-      "rg_volume": 52653.0
+      "rg_volume": 116013.0
     },
     {
       "symbol": "HTCR",
@@ -938,16 +940,16 @@
         "regular"
       ],
       "pm_bars": 0,
-      "rg_bars": 42,
+      "rg_bars": 3,
       "pm_open": 0.0,
       "pm_close": 0.0,
       "pm_change_pct": 0.0,
       "rg_open": 1.22,
-      "rg_close": 1.2001,
-      "rg_change_pct": -1.63,
-      "rg_high": 1.55,
+      "rg_close": 1.17,
+      "rg_change_pct": -4.1,
+      "rg_high": 1.22,
       "rg_low": 1.17,
-      "rg_volume": 3652.0
+      "rg_volume": 21903.0
     },
     {
       "symbol": "IMNN",
@@ -959,16 +961,16 @@
         "regular"
       ],
       "pm_bars": 1,
-      "rg_bars": 106,
+      "rg_bars": 62,
       "pm_open": 0.49,
       "pm_close": 0.49,
       "pm_change_pct": 0.0,
       "rg_open": 0.46,
-      "rg_close": 0.4,
-      "rg_change_pct": -13.04,
-      "rg_high": 0.6386,
-      "rg_low": 0.3726,
-      "rg_volume": 242581.0
+      "rg_close": 0.4327,
+      "rg_change_pct": -5.93,
+      "rg_high": 0.4859,
+      "rg_low": 0.4158,
+      "rg_volume": 242519.0
     },
     {
       "symbol": "INTC",
@@ -981,16 +983,16 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 57.23,
       "pm_close": 56.5,
       "pm_change_pct": -1.28,
       "rg_open": 56.475,
-      "rg_close": 57.1699,
-      "rg_change_pct": 1.23,
+      "rg_close": 57.4,
+      "rg_change_pct": 1.64,
       "rg_high": 58.38,
       "rg_low": 54.55,
-      "rg_volume": 76217137.0
+      "rg_volume": 76206386.0
     },
     {
       "symbol": "INTR",
@@ -1003,16 +1005,16 @@
         "regular"
       ],
       "pm_bars": 118,
-      "rg_bars": 239,
+      "rg_bars": 211,
       "pm_open": 4.32,
       "pm_close": 4.74,
       "pm_change_pct": 9.72,
       "rg_open": 4.7,
-      "rg_close": 4.8,
-      "rg_change_pct": 2.13,
-      "rg_high": 4.8,
+      "rg_close": 4.66,
+      "rg_change_pct": -0.85,
+      "rg_high": 4.77,
       "rg_low": 4.58,
-      "rg_volume": 18610880.0
+      "rg_volume": 18716044.0
     },
     {
       "symbol": "JAGX",
@@ -1024,36 +1026,34 @@
         "regular"
       ],
       "pm_bars": 19,
-      "rg_bars": 181,
+      "rg_bars": 145,
       "pm_open": 12.95,
       "pm_close": 13.9073,
       "pm_change_pct": 7.39,
       "rg_open": 14.16,
-      "rg_close": 13.95,
-      "rg_change_pct": -1.48,
+      "rg_close": 12.25,
+      "rg_change_pct": -13.49,
       "rg_high": 16.66,
       "rg_low": 12.25,
-      "rg_volume": 393229.0
+      "rg_volume": 390441.0
     },
     {
       "symbol": "KUST",
       "buckets": [
         "mid_gap"
       ],
-      "sessions": [
-        "regular"
-      ],
+      "sessions": [],
       "pm_bars": 0,
-      "rg_bars": 15,
+      "rg_bars": 0,
       "pm_open": 0.0,
       "pm_close": 0.0,
       "pm_change_pct": 0.0,
-      "rg_open": 2.77,
-      "rg_close": 2.77,
+      "rg_open": 0.0,
+      "rg_close": 0.0,
       "rg_change_pct": 0.0,
-      "rg_high": 2.77,
-      "rg_low": 2.77,
-      "rg_volume": 0.0
+      "rg_high": 0.0,
+      "rg_low": 0.0,
+      "rg_volume": 0
     },
     {
       "symbol": "MIRA",
@@ -1065,16 +1065,16 @@
         "regular"
       ],
       "pm_bars": 10,
-      "rg_bars": 131,
+      "rg_bars": 89,
       "pm_open": 0.2878,
       "pm_close": 0.2525,
       "pm_change_pct": -12.27,
       "rg_open": 0.254,
-      "rg_close": 0.216,
-      "rg_change_pct": -14.96,
+      "rg_close": 0.2111,
+      "rg_change_pct": -16.89,
       "rg_high": 0.2654,
-      "rg_low": 0.2015,
-      "rg_volume": 216381.0
+      "rg_low": 0.21,
+      "rg_volume": 377482.0
     },
     {
       "symbol": "MRVL",
@@ -1086,16 +1086,16 @@
         "regular"
       ],
       "pm_bars": 268,
-      "rg_bars": 335,
+      "rg_bars": 211,
       "pm_open": 141.66,
       "pm_close": 139.6,
       "pm_change_pct": -1.45,
       "rg_open": 139.41,
-      "rg_close": 139.99,
-      "rg_change_pct": 0.42,
+      "rg_close": 140.54,
+      "rg_change_pct": 0.81,
       "rg_high": 141.82,
       "rg_low": 132.3205,
-      "rg_volume": 18237847.0
+      "rg_volume": 18352707.0
     },
     {
       "symbol": "MTEX",
@@ -1106,14 +1106,14 @@
         "regular"
       ],
       "pm_bars": 0,
-      "rg_bars": 28,
+      "rg_bars": 11,
       "pm_open": 0.0,
       "pm_close": 0.0,
       "pm_change_pct": 0.0,
       "rg_open": 2.49,
-      "rg_close": 2.68,
-      "rg_change_pct": 7.63,
-      "rg_high": 3.17,
+      "rg_close": 2.81,
+      "rg_change_pct": 12.85,
+      "rg_high": 2.82,
       "rg_low": 2.49,
       "rg_volume": 8873.0
     },
@@ -1126,16 +1126,16 @@
         "regular"
       ],
       "pm_bars": 0,
-      "rg_bars": 22,
+      "rg_bars": 1,
       "pm_open": 0.0,
       "pm_close": 0.0,
       "pm_change_pct": 0.0,
       "rg_open": 0.86,
-      "rg_close": 0.9066,
-      "rg_change_pct": 5.42,
-      "rg_high": 1.0,
+      "rg_close": 0.86,
+      "rg_change_pct": 0.0,
+      "rg_high": 0.86,
       "rg_low": 0.86,
-      "rg_volume": 1086.0
+      "rg_volume": 1072.0
     },
     {
       "symbol": "MU",
@@ -1147,13 +1147,13 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 643.89,
       "pm_close": 630.25,
       "pm_change_pct": -2.12,
       "rg_open": 630.28,
-      "rg_close": 645.5,
-      "rg_change_pct": 2.41,
+      "rg_close": 646.95,
+      "rg_change_pct": 2.64,
       "rg_high": 654.44,
       "rg_low": 607.2704,
       "rg_volume": 26158851.0
@@ -1168,16 +1168,16 @@
         "regular"
       ],
       "pm_bars": 267,
-      "rg_bars": 287,
+      "rg_bars": 211,
       "pm_open": 7.81,
       "pm_close": 7.7,
       "pm_change_pct": -1.41,
       "rg_open": 7.6,
-      "rg_close": 7.7422,
-      "rg_change_pct": 1.87,
+      "rg_close": 7.8,
+      "rg_change_pct": 2.63,
       "rg_high": 7.9,
       "rg_low": 6.96,
-      "rg_volume": 5793973.0
+      "rg_volume": 6009681.0
     },
     {
       "symbol": "NCPL",
@@ -1189,16 +1189,16 @@
         "regular"
       ],
       "pm_bars": 247,
-      "rg_bars": 389,
+      "rg_bars": 211,
       "pm_open": 2.39,
       "pm_close": 2.36,
       "pm_change_pct": -1.26,
       "rg_open": 2.35,
-      "rg_close": 1.9756,
-      "rg_change_pct": -15.93,
+      "rg_close": 2.03,
+      "rg_change_pct": -13.62,
       "rg_high": 2.5,
       "rg_low": 1.82,
-      "rg_volume": 4900605.0
+      "rg_volume": 5128129.0
     },
     {
       "symbol": "NSTR",
@@ -1209,16 +1209,16 @@
         "regular"
       ],
       "pm_bars": 0,
-      "rg_bars": 56,
+      "rg_bars": 22,
       "pm_open": 0.0,
       "pm_close": 0.0,
       "pm_change_pct": 0.0,
       "rg_open": 1.33,
-      "rg_close": 1.26,
-      "rg_change_pct": -5.26,
-      "rg_high": 1.74,
+      "rg_close": 1.25,
+      "rg_change_pct": -6.02,
+      "rg_high": 1.3431,
       "rg_low": 1.165,
-      "rg_volume": 45611.0
+      "rg_volume": 45433.0
     },
     {
       "symbol": "NU",
@@ -1230,14 +1230,14 @@
         "regular"
       ],
       "pm_bars": 237,
-      "rg_bars": 302,
+      "rg_bars": 197,
       "pm_open": 13.06,
       "pm_close": 13.8,
       "pm_change_pct": 5.67,
       "rg_open": 13.42,
-      "rg_close": 13.05,
-      "rg_change_pct": -2.76,
-      "rg_high": 13.9438,
+      "rg_close": 12.91,
+      "rg_change_pct": -3.8,
+      "rg_high": 13.515,
       "rg_low": 12.91,
       "rg_volume": 52605280.0
     },
@@ -1251,13 +1251,13 @@
         "regular"
       ],
       "pm_bars": 96,
-      "rg_bars": 299,
+      "rg_bars": 209,
       "pm_open": 0.3231,
       "pm_close": 0.286,
       "pm_change_pct": -11.48,
       "rg_open": 0.2895,
-      "rg_close": 0.2551,
-      "rg_change_pct": -11.88,
+      "rg_close": 0.28,
+      "rg_change_pct": -3.28,
       "rg_high": 0.3112,
       "rg_low": 0.2501,
       "rg_volume": 44253428.0
@@ -1273,13 +1273,13 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 156.09,
       "pm_close": 151.9,
       "pm_change_pct": -2.68,
       "rg_open": 151.94,
-      "rg_close": 150.0484,
-      "rg_change_pct": -1.24,
+      "rg_close": 150.49,
+      "rg_change_pct": -0.95,
       "rg_high": 151.98,
       "rg_low": 145.39,
       "rg_volume": 214575894.0
@@ -1294,16 +1294,16 @@
         "regular"
       ],
       "pm_bars": 1,
-      "rg_bars": 212,
+      "rg_bars": 97,
       "pm_open": 1.0381,
       "pm_close": 1.0381,
       "pm_change_pct": 0.0,
       "rg_open": 1.06,
-      "rg_close": 1.51,
-      "rg_change_pct": 42.45,
-      "rg_high": 1.75,
+      "rg_close": 1.16,
+      "rg_change_pct": 9.43,
+      "rg_high": 1.19,
       "rg_low": 1.05,
-      "rg_volume": 765153.0
+      "rg_volume": 3532604.0
     },
     {
       "symbol": "RAIN",
@@ -1315,16 +1315,16 @@
         "regular"
       ],
       "pm_bars": 1,
-      "rg_bars": 55,
+      "rg_bars": 29,
       "pm_open": 0.588,
       "pm_close": 0.588,
       "pm_change_pct": 0.0,
       "rg_open": 0.649,
-      "rg_close": 0.617,
-      "rg_change_pct": -4.93,
-      "rg_high": 0.8356,
+      "rg_close": 0.6252,
+      "rg_change_pct": -3.67,
+      "rg_high": 0.6663,
       "rg_low": 0.5811,
-      "rg_volume": 95268.0
+      "rg_volume": 211341.0
     },
     {
       "symbol": "RAYA",
@@ -1337,13 +1337,13 @@
         "regular"
       ],
       "pm_bars": 289,
-      "rg_bars": 291,
+      "rg_bars": 202,
       "pm_open": 0.7626,
       "pm_close": 0.7535,
       "pm_change_pct": -1.19,
       "rg_open": 0.72,
-      "rg_close": 0.86,
-      "rg_change_pct": 19.44,
+      "rg_close": 0.8747,
+      "rg_change_pct": 21.49,
       "rg_high": 0.9578,
       "rg_low": 0.7059,
       "rg_volume": 8225533.0
@@ -1358,16 +1358,16 @@
         "regular"
       ],
       "pm_bars": 105,
-      "rg_bars": 387,
+      "rg_bars": 211,
       "pm_open": 0.56,
       "pm_close": 0.68,
       "pm_change_pct": 21.43,
       "rg_open": 0.66,
-      "rg_close": 0.648,
-      "rg_change_pct": -1.82,
+      "rg_close": 0.6316,
+      "rg_change_pct": -4.3,
       "rg_high": 0.6772,
       "rg_low": 0.6265,
-      "rg_volume": 7050907.0
+      "rg_volume": 7048959.0
     },
     {
       "symbol": "SLV",
@@ -1380,13 +1380,13 @@
         "regular"
       ],
       "pm_bars": 311,
-      "rg_bars": 339,
+      "rg_bars": 197,
       "pm_open": 40.08,
       "pm_close": 39.35,
       "pm_change_pct": -1.82,
       "rg_open": 39.565,
-      "rg_close": 39.5,
-      "rg_change_pct": -0.16,
+      "rg_close": 39.4,
+      "rg_change_pct": -0.42,
       "rg_high": 39.655,
       "rg_low": 38.95,
       "rg_volume": 18970078.0
@@ -1402,14 +1402,14 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 80.52,
       "pm_close": 79.9,
       "pm_change_pct": -0.77,
       "rg_open": 79.92,
-      "rg_close": 85.1418,
-      "rg_change_pct": 6.53,
-      "rg_high": 86.49,
+      "rg_close": 85.36,
+      "rg_change_pct": 6.81,
+      "rg_high": 85.44,
       "rg_low": 77.1,
       "rg_volume": 96234051.0
     },
@@ -1424,14 +1424,14 @@
         "regular"
       ],
       "pm_bars": 290,
-      "rg_bars": 345,
+      "rg_bars": 197,
       "pm_open": 2.5899,
       "pm_close": 2.62,
       "pm_change_pct": 1.16,
       "rg_open": 2.55,
-      "rg_close": 2.8585,
-      "rg_change_pct": 12.1,
-      "rg_high": 2.94,
+      "rg_close": 2.85,
+      "rg_change_pct": 11.76,
+      "rg_high": 2.85,
       "rg_low": 2.385,
       "rg_volume": 21872022.0
     },
@@ -1446,16 +1446,16 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 134.89,
       "pm_close": 132.2,
       "pm_change_pct": -1.99,
       "rg_open": 132.175,
-      "rg_close": 133.25,
-      "rg_change_pct": 0.81,
+      "rg_close": 134.07,
+      "rg_change_pct": 1.43,
       "rg_high": 134.86,
       "rg_low": 128.01,
-      "rg_volume": 36093924.0
+      "rg_volume": 36082862.0
     },
     {
       "symbol": "SPCX",
@@ -1468,16 +1468,16 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 134.0,
       "pm_close": 131.2,
       "pm_change_pct": -2.09,
       "rg_open": 131.195,
-      "rg_close": 132.5406,
-      "rg_change_pct": 1.03,
+      "rg_close": 133.59,
+      "rg_change_pct": 1.83,
       "rg_high": 134.44,
       "rg_low": 129.1,
-      "rg_volume": 50023648.0
+      "rg_volume": 50020548.0
     },
     {
       "symbol": "STAK",
@@ -1489,16 +1489,16 @@
         "regular"
       ],
       "pm_bars": 203,
-      "rg_bars": 306,
+      "rg_bars": 203,
       "pm_open": 2.34,
       "pm_close": 2.68,
       "pm_change_pct": 14.53,
       "rg_open": 2.65,
-      "rg_close": 2.2706,
-      "rg_change_pct": -14.32,
+      "rg_close": 2.185,
+      "rg_change_pct": -17.55,
       "rg_high": 2.73,
       "rg_low": 2.05,
-      "rg_volume": 3528211.0
+      "rg_volume": 3685235.0
     },
     {
       "symbol": "TOPP",
@@ -1510,14 +1510,14 @@
         "regular"
       ],
       "pm_bars": 228,
-      "rg_bars": 306,
+      "rg_bars": 183,
       "pm_open": 0.5326,
       "pm_close": 0.4801,
       "pm_change_pct": -9.86,
       "rg_open": 0.4911,
-      "rg_close": 0.55,
-      "rg_change_pct": 11.99,
-      "rg_high": 0.829,
+      "rg_close": 0.534,
+      "rg_change_pct": 8.74,
+      "rg_high": 0.6259,
       "rg_low": 0.4517,
       "rg_volume": 2338513.0
     },
@@ -1532,16 +1532,16 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 49.14,
       "pm_close": 47.73,
       "pm_change_pct": -2.87,
       "rg_open": 47.735,
-      "rg_close": 48.77,
-      "rg_change_pct": 2.17,
-      "rg_high": 49.01,
+      "rg_close": 48.85,
+      "rg_change_pct": 2.34,
+      "rg_high": 48.93,
       "rg_low": 45.81,
-      "rg_volume": 72488303.0
+      "rg_volume": 72485845.0
     },
     {
       "symbol": "TSM",
@@ -1554,15 +1554,15 @@
         "regular"
       ],
       "pm_bars": 308,
-      "rg_bars": 321,
+      "rg_bars": 197,
       "pm_open": 356.21,
       "pm_close": 354.93,
       "pm_change_pct": -0.36,
       "rg_open": 352.64,
-      "rg_close": 353.5,
-      "rg_change_pct": 0.24,
-      "rg_high": 410.922,
-      "rg_low": 327.6622,
+      "rg_close": 353.34,
+      "rg_change_pct": 0.2,
+      "rg_high": 354.36,
+      "rg_low": 344.5953,
       "rg_volume": 7604109.0
     },
     {
@@ -1576,16 +1576,16 @@
         "regular"
       ],
       "pm_bars": 220,
-      "rg_bars": 387,
+      "rg_bars": 211,
       "pm_open": 15.6599,
       "pm_close": 17.32,
       "pm_change_pct": 10.6,
       "rg_open": 17.29,
-      "rg_close": 16.92,
-      "rg_change_pct": -2.14,
-      "rg_high": 17.5,
+      "rg_close": 16.99,
+      "rg_change_pct": -1.74,
+      "rg_high": 17.34,
       "rg_low": 16.65,
-      "rg_volume": 23526065.0
+      "rg_volume": 23438087.0
     },
     {
       "symbol": "ZTG",
@@ -1597,16 +1597,16 @@
         "regular"
       ],
       "pm_bars": 7,
-      "rg_bars": 81,
+      "rg_bars": 61,
       "pm_open": 0.2502,
       "pm_close": 0.2637,
       "pm_change_pct": 5.4,
       "rg_open": 0.2472,
-      "rg_close": 0.246,
-      "rg_change_pct": -0.49,
+      "rg_close": 0.26,
+      "rg_change_pct": 5.18,
       "rg_high": 0.31,
-      "rg_low": 0.24,
-      "rg_volume": 149978.0
+      "rg_low": 0.2472,
+      "rg_volume": 158164.0
     },
     {
       "symbol": "ZYN",
@@ -1618,16 +1618,16 @@
         "regular"
       ],
       "pm_bars": 4,
-      "rg_bars": 253,
+      "rg_bars": 95,
       "pm_open": 10.29,
       "pm_close": 10.19,
       "pm_change_pct": -0.97,
       "rg_open": 10.2,
-      "rg_close": 1.9815,
-      "rg_change_pct": -80.57,
+      "rg_close": 2.43,
+      "rg_change_pct": -76.18,
       "rg_high": 10.2,
       "rg_low": 1.77,
-      "rg_volume": 4315492.0
+      "rg_volume": 5023873.0
     },
     {
       "symbol": "AAPL",
@@ -1639,16 +1639,16 @@
         "regular"
       ],
       "pm_bars": 262,
-      "rg_bars": 324,
+      "rg_bars": 211,
       "pm_open": 358.98,
       "pm_close": 358.1,
       "pm_change_pct": -0.25,
       "rg_open": 358.44,
-      "rg_close": 359.0769,
-      "rg_change_pct": 0.18,
+      "rg_close": 358.54,
+      "rg_change_pct": 0.03,
       "rg_high": 359.5,
       "rg_low": 355.64,
-      "rg_volume": 21337675.0
+      "rg_volume": 22683910.0
     },
     {
       "symbol": "AMD",
@@ -1660,13 +1660,13 @@
         "regular"
       ],
       "pm_bars": 317,
-      "rg_bars": 380,
+      "rg_bars": 211,
       "pm_open": 428.47,
       "pm_close": 419.79,
       "pm_change_pct": -2.03,
       "rg_open": 419.745,
-      "rg_close": 422.73,
-      "rg_change_pct": 0.71,
+      "rg_close": 424.54,
+      "rg_change_pct": 1.14,
       "rg_high": 426.88,
       "rg_low": 398.5901,
       "rg_volume": 21954706.0
@@ -1681,16 +1681,16 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 388,
+      "rg_bars": 211,
       "pm_open": 89.56,
       "pm_close": 90.04,
       "pm_change_pct": 0.54,
       "rg_open": 89.885,
-      "rg_close": 90.04,
-      "rg_change_pct": 0.17,
+      "rg_close": 89.98,
+      "rg_change_pct": 0.11,
       "rg_high": 90.5795,
       "rg_low": 89.39,
-      "rg_volume": 10532977.0
+      "rg_volume": 10526114.0
     },
     {
       "symbol": "CVNA",
@@ -1702,16 +1702,16 @@
         "regular"
       ],
       "pm_bars": 17,
-      "rg_bars": 216,
+      "rg_bars": 196,
       "pm_open": 69.0,
       "pm_close": 69.0356,
       "pm_change_pct": 0.05,
       "rg_open": 68.93,
-      "rg_close": 70.2719,
-      "rg_change_pct": 1.95,
+      "rg_close": 70.23,
+      "rg_change_pct": 1.89,
       "rg_high": 70.97,
       "rg_low": 68.47,
-      "rg_volume": 3260236.0
+      "rg_volume": 3260212.0
     },
     {
       "symbol": "EW",
@@ -1723,7 +1723,7 @@
         "regular"
       ],
       "pm_bars": 2,
-      "rg_bars": 211,
+      "rg_bars": 197,
       "pm_open": 106.85,
       "pm_close": 106.28,
       "pm_change_pct": -0.53,
@@ -1732,7 +1732,7 @@
       "rg_change_pct": -0.79,
       "rg_high": 107.5,
       "rg_low": 105.71,
-      "rg_volume": 1068887.0
+      "rg_volume": 1068878.0
     },
     {
       "symbol": "GLD",
@@ -1744,16 +1744,16 @@
         "regular"
       ],
       "pm_bars": 297,
-      "rg_bars": 313,
+      "rg_bars": 197,
       "pm_open": 335.23,
       "pm_close": 332.9007,
       "pm_change_pct": -0.69,
       "rg_open": 333.22,
-      "rg_close": 334.79,
-      "rg_change_pct": 0.47,
-      "rg_high": 335.01,
+      "rg_close": 334.4,
+      "rg_change_pct": 0.35,
+      "rg_high": 334.4,
       "rg_low": 331.25,
-      "rg_volume": 4955514.0
+      "rg_volume": 4953818.0
     },
     {
       "symbol": "HYG",
@@ -1765,14 +1765,14 @@
         "regular"
       ],
       "pm_bars": 1,
-      "rg_bars": 213,
+      "rg_bars": 197,
       "pm_open": 76.51,
       "pm_close": 76.51,
       "pm_change_pct": 0.0,
       "rg_open": 76.67,
-      "rg_close": 76.69,
-      "rg_change_pct": 0.03,
-      "rg_high": 76.8045,
+      "rg_close": 76.61,
+      "rg_change_pct": -0.08,
+      "rg_high": 76.69,
       "rg_low": 76.545,
       "rg_volume": 11591427.0
     },
@@ -1786,16 +1786,16 @@
         "regular"
       ],
       "pm_bars": 207,
-      "rg_bars": 347,
+      "rg_bars": 209,
       "pm_open": 272.95,
       "pm_close": 272.29,
       "pm_change_pct": -0.24,
       "rg_open": 271.82,
-      "rg_close": 274.64,
-      "rg_change_pct": 1.04,
-      "rg_high": 274.92,
+      "rg_close": 273.79,
+      "rg_change_pct": 0.72,
+      "rg_high": 273.79,
       "rg_low": 270.68,
-      "rg_volume": 11198584.0
+      "rg_volume": 11185009.0
     },
     {
       "symbol": "KWEB",
@@ -1807,15 +1807,15 @@
         "regular"
       ],
       "pm_bars": 206,
-      "rg_bars": 273,
+      "rg_bars": 197,
       "pm_open": 22.0,
       "pm_close": 22.13,
       "pm_change_pct": 0.59,
       "rg_open": 22.12,
-      "rg_close": 22.12,
-      "rg_change_pct": 0.0,
-      "rg_high": 22.6,
-      "rg_low": 21.4176,
+      "rg_close": 22.11,
+      "rg_change_pct": -0.05,
+      "rg_high": 22.325,
+      "rg_low": 22.04,
       "rg_volume": 23406600.0
     },
     {
@@ -1828,13 +1828,13 @@
         "regular"
       ],
       "pm_bars": 255,
-      "rg_bars": 323,
+      "rg_bars": 211,
       "pm_open": 83.0,
       "pm_close": 84.69,
       "pm_change_pct": 2.04,
       "rg_open": 84.565,
-      "rg_close": 81.92,
-      "rg_change_pct": -3.13,
+      "rg_close": 81.62,
+      "rg_change_pct": -3.48,
       "rg_high": 84.674,
       "rg_low": 78.84,
       "rg_volume": 16036393.0
@@ -1849,13 +1849,13 @@
         "regular"
       ],
       "pm_bars": 327,
-      "rg_bars": 361,
+      "rg_bars": 211,
       "pm_open": 10.74,
       "pm_close": 10.31,
       "pm_change_pct": -4.0,
       "rg_open": 10.315,
-      "rg_close": 10.7807,
-      "rg_change_pct": 4.51,
+      "rg_close": 10.82,
+      "rg_change_pct": 4.9,
       "rg_high": 11.054,
       "rg_low": 9.5901,
       "rg_volume": 39299617.0
@@ -1870,16 +1870,16 @@
         "regular"
       ],
       "pm_bars": 18,
-      "rg_bars": 220,
+      "rg_bars": 197,
       "pm_open": 85.15,
       "pm_close": 85.3,
       "pm_change_pct": 0.18,
       "rg_open": 84.325,
-      "rg_close": 85.01,
-      "rg_change_pct": 0.81,
+      "rg_close": 84.95,
+      "rg_change_pct": 0.74,
       "rg_high": 85.155,
-      "rg_low": 83.9747,
-      "rg_volume": 2641730.0
+      "rg_low": 84.325,
+      "rg_volume": 2641712.0
     },
     {
       "symbol": "ORCL",
@@ -1891,15 +1891,15 @@
         "regular"
       ],
       "pm_bars": 245,
-      "rg_bars": 330,
+      "rg_bars": 196,
       "pm_open": 109.39,
       "pm_close": 107.62,
       "pm_change_pct": -1.62,
       "rg_open": 106.8,
-      "rg_close": 107.4913,
-      "rg_change_pct": 0.65,
-      "rg_high": 107.75,
-      "rg_low": 101.21,
+      "rg_close": 106.51,
+      "rg_change_pct": -0.27,
+      "rg_high": 107.54,
+      "rg_low": 104.03,
       "rg_volume": 11920461.0
     },
     {
@@ -1912,7 +1912,7 @@
         "regular"
       ],
       "pm_bars": 15,
-      "rg_bars": 216,
+      "rg_bars": 197,
       "pm_open": 183.0,
       "pm_close": 183.08,
       "pm_change_pct": 0.04,
@@ -1921,7 +1921,7 @@
       "rg_change_pct": 2.27,
       "rg_high": 188.158,
       "rg_low": 183.59,
-      "rg_volume": 2135920.0
+      "rg_volume": 2135894.0
     },
     {
       "symbol": "SGOV",
@@ -1933,16 +1933,16 @@
         "regular"
       ],
       "pm_bars": 260,
-      "rg_bars": 359,
+      "rg_bars": 197,
       "pm_open": 100.71,
       "pm_close": 100.71,
       "pm_change_pct": 0.0,
       "rg_open": 100.7,
       "rg_close": 100.71,
       "rg_change_pct": 0.01,
-      "rg_high": 100.72,
+      "rg_high": 100.71,
       "rg_low": 100.7,
-      "rg_volume": 16389455.0
+      "rg_volume": 16388031.0
     },
     {
       "symbol": "SMH",
@@ -1954,16 +1954,16 @@
         "regular"
       ],
       "pm_bars": 226,
-      "rg_bars": 288,
+      "rg_bars": 211,
       "pm_open": 444.1,
       "pm_close": 434.98,
       "pm_change_pct": -2.05,
       "rg_open": 435.0,
-      "rg_close": 437.4,
-      "rg_change_pct": 0.55,
+      "rg_close": 440.06,
+      "rg_change_pct": 1.16,
       "rg_high": 440.265,
       "rg_low": 421.88,
-      "rg_volume": 7667844.0
+      "rg_volume": 7666558.0
     },
     {
       "symbol": "SO",
@@ -1975,7 +1975,7 @@
         "regular"
       ],
       "pm_bars": 4,
-      "rg_bars": 211,
+      "rg_bars": 197,
       "pm_open": 95.01,
       "pm_close": 95.33,
       "pm_change_pct": 0.34,
@@ -1984,7 +1984,7 @@
       "rg_change_pct": 0.05,
       "rg_high": 95.17,
       "rg_low": 94.675,
-      "rg_volume": 1389597.0
+      "rg_volume": 1363991.0
     },
     {
       "symbol": "SPXU",
@@ -1996,16 +1996,16 @@
         "regular"
       ],
       "pm_bars": 160,
-      "rg_bars": 261,
+      "rg_bars": 197,
       "pm_open": 38.61,
       "pm_close": 39.02,
       "pm_change_pct": 1.06,
       "rg_open": 39.27,
-      "rg_close": 38.59,
-      "rg_change_pct": -1.73,
+      "rg_close": 38.77,
+      "rg_change_pct": -1.27,
       "rg_high": 40.35,
-      "rg_low": 38.5866,
-      "rg_volume": 5008961.0
+      "rg_low": 38.77,
+      "rg_volume": 5007401.0
     },
     {
       "symbol": "SPYU",
@@ -2017,16 +2017,16 @@
         "regular"
       ],
       "pm_bars": 99,
-      "rg_bars": 263,
+      "rg_bars": 183,
       "pm_open": 25.33,
       "pm_close": 25.1282,
       "pm_change_pct": -0.8,
       "rg_open": 24.93,
-      "rg_close": 25.5648,
-      "rg_change_pct": 2.55,
-      "rg_high": 25.6,
+      "rg_close": 25.31,
+      "rg_change_pct": 1.52,
+      "rg_high": 25.31,
       "rg_low": 24.1,
-      "rg_volume": 1060489.0
+      "rg_volume": 1057140.0
     },
     {
       "symbol": "TBLL",
@@ -2038,12 +2038,12 @@
         "regular"
       ],
       "pm_bars": 16,
-      "rg_bars": 71,
+      "rg_bars": 68,
       "pm_open": 105.54,
       "pm_close": 105.57,
       "pm_change_pct": 0.03,
       "rg_open": 105.575,
-      "rg_close": 105.5704,
+      "rg_close": 105.57,
       "rg_change_pct": -0.0,
       "rg_high": 105.58,
       "rg_low": 105.57,
@@ -2059,7 +2059,7 @@
         "regular"
       ],
       "pm_bars": 3,
-      "rg_bars": 211,
+      "rg_bars": 197,
       "pm_open": 48.35,
       "pm_close": 48.38,
       "pm_change_pct": 0.06,
@@ -2080,13 +2080,13 @@
         "regular"
       ],
       "pm_bars": 261,
-      "rg_bars": 301,
+      "rg_bars": 199,
       "pm_open": 0.2481,
       "pm_close": 0.2445,
       "pm_change_pct": -1.45,
       "rg_open": 0.2397,
-      "rg_close": 0.276,
-      "rg_change_pct": 15.14,
+      "rg_close": 0.2764,
+      "rg_change_pct": 15.31,
       "rg_high": 0.289,
       "rg_low": 0.2344,
       "rg_volume": 7621234.0
@@ -2101,16 +2101,16 @@
         "regular"
       ],
       "pm_bars": 203,
-      "rg_bars": 283,
+      "rg_bars": 211,
       "pm_open": 81.68,
       "pm_close": 81.8,
       "pm_change_pct": 0.15,
       "rg_open": 81.815,
-      "rg_close": 81.3478,
-      "rg_change_pct": -0.57,
+      "rg_close": 81.27,
+      "rg_change_pct": -0.67,
       "rg_high": 81.9358,
-      "rg_low": 81.12,
-      "rg_volume": 36420478.0
+      "rg_low": 81.23,
+      "rg_volume": 37456641.0
     },
     {
       "symbol": "XLF",
@@ -2122,16 +2122,16 @@
         "regular"
       ],
       "pm_bars": 63,
-      "rg_bars": 244,
+      "rg_bars": 200,
       "pm_open": 56.82,
       "pm_close": 57.03,
       "pm_change_pct": 0.37,
       "rg_open": 56.99,
-      "rg_close": 57.27,
-      "rg_change_pct": 0.49,
+      "rg_close": 57.16,
+      "rg_change_pct": 0.3,
       "rg_high": 57.335,
       "rg_low": 56.89,
-      "rg_volume": 17929720.0
+      "rg_volume": 17919306.0
     },
     {
       "symbol": "XLY",
@@ -2143,7 +2143,7 @@
         "regular"
       ],
       "pm_bars": 19,
-      "rg_bars": 202,
+      "rg_bars": 197,
       "pm_open": 118.92,
       "pm_close": 119.24,
       "pm_change_pct": 0.27,
@@ -2164,16 +2164,16 @@
         "regular"
       ],
       "pm_bars": 319,
-      "rg_bars": 388,
+      "rg_bars": 211,
       "pm_open": 13.25,
       "pm_close": 13.05,
       "pm_change_pct": -1.51,
       "rg_open": 13.005,
-      "rg_close": 12.9131,
-      "rg_change_pct": -0.71,
-      "rg_high": 13.125,
+      "rg_close": 12.99,
+      "rg_change_pct": -0.12,
+      "rg_high": 13.045,
       "rg_low": 12.1,
-      "rg_volume": 15957947.0
+      "rg_volume": 15935967.0
     },
     {
       "symbol": "APLZ",
@@ -2185,16 +2185,16 @@
         "regular"
       ],
       "pm_bars": 302,
-      "rg_bars": 386,
+      "rg_bars": 211,
       "pm_open": 43.88,
       "pm_close": 37.9,
       "pm_change_pct": -13.63,
       "rg_open": 38.03,
-      "rg_close": 39.69,
-      "rg_change_pct": 4.36,
+      "rg_close": 38.95,
+      "rg_change_pct": 2.42,
       "rg_high": 45.11,
       "rg_low": 38.03,
-      "rg_volume": 37358.0
+      "rg_volume": 37183.0
     },
     {
       "symbol": "CORD",
@@ -2206,16 +2206,16 @@
         "regular"
       ],
       "pm_bars": 319,
-      "rg_bars": 386,
+      "rg_bars": 211,
       "pm_open": 4.1,
       "pm_close": 4.49,
       "pm_change_pct": 9.51,
       "rg_open": 4.48,
-      "rg_close": 4.5,
-      "rg_change_pct": 0.45,
+      "rg_close": 4.43,
+      "rg_change_pct": -1.12,
       "rg_high": 5.16,
-      "rg_low": 4.32,
-      "rg_volume": 20579017.0
+      "rg_low": 4.43,
+      "rg_volume": 20555515.0
     },
     {
       "symbol": "CRWV",
@@ -2227,16 +2227,16 @@
         "regular"
       ],
       "pm_bars": 326,
-      "rg_bars": 390,
+      "rg_bars": 211,
       "pm_open": 45.8,
       "pm_close": 43.8207,
       "pm_change_pct": -4.32,
       "rg_open": 43.81,
-      "rg_close": 43.8,
-      "rg_change_pct": -0.02,
-      "rg_high": 44.69,
+      "rg_close": 44.15,
+      "rg_change_pct": 0.78,
+      "rg_high": 44.22,
       "rg_low": 40.8801,
-      "rg_volume": 41534935.0
+      "rg_volume": 41517676.0
     },
     {
       "symbol": "QQQ",
@@ -2248,16 +2248,16 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 651.78,
       "pm_close": 645.67,
       "pm_change_pct": -0.94,
       "rg_open": 645.722,
-      "rg_close": 650.56,
-      "rg_change_pct": 0.75,
-      "rg_high": 651.6,
+      "rg_close": 650.99,
+      "rg_change_pct": 0.82,
+      "rg_high": 651.34,
       "rg_low": 636.72,
-      "rg_volume": 32968102.0
+      "rg_volume": 32966948.0
     },
     {
       "symbol": "SMCI",
@@ -2269,16 +2269,16 @@
         "regular"
       ],
       "pm_bars": 321,
-      "rg_bars": 389,
+      "rg_bars": 211,
       "pm_open": 24.3854,
       "pm_close": 24.13,
       "pm_change_pct": -1.05,
       "rg_open": 24.1475,
-      "rg_close": 23.66,
-      "rg_change_pct": -2.02,
+      "rg_close": 23.76,
+      "rg_change_pct": -1.6,
       "rg_high": 24.19,
       "rg_low": 22.91,
-      "rg_volume": 21338405.0
+      "rg_volume": 21711540.0
     },
     {
       "symbol": "SMCZ",
@@ -2290,16 +2290,16 @@
         "regular"
       ],
       "pm_bars": 303,
-      "rg_bars": 385,
+      "rg_bars": 211,
       "pm_open": 8.1849,
       "pm_close": 8.51,
       "pm_change_pct": 3.97,
       "rg_open": 8.5,
-      "rg_close": 8.85,
-      "rg_change_pct": 4.12,
+      "rg_close": 8.81,
+      "rg_change_pct": 3.65,
       "rg_high": 9.4524,
       "rg_low": 8.48,
-      "rg_volume": 196935.0
+      "rg_volume": 199915.0
     },
     {
       "symbol": "SOXL",
@@ -2311,14 +2311,14 @@
         "regular"
       ],
       "pm_bars": 330,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 36.85,
       "pm_close": 35.06,
       "pm_change_pct": -4.86,
       "rg_open": 34.46,
-      "rg_close": 35.91,
-      "rg_change_pct": 4.21,
-      "rg_high": 36.96,
+      "rg_close": 36.57,
+      "rg_change_pct": 6.12,
+      "rg_high": 36.57,
       "rg_low": 32.02,
       "rg_volume": 267907513.0
     },
@@ -2332,16 +2332,16 @@
         "regular"
       ],
       "pm_bars": 329,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 53.89,
       "pm_close": 56.13,
       "pm_change_pct": 4.16,
       "rg_open": 56.29,
-      "rg_close": 54.2964,
-      "rg_change_pct": -3.54,
+      "rg_close": 52.94,
+      "rg_change_pct": -5.95,
       "rg_high": 62.2,
-      "rg_low": 52.86,
-      "rg_volume": 78504329.0
+      "rg_low": 52.94,
+      "rg_volume": 78491721.0
     },
     {
       "symbol": "SPY",
@@ -2353,16 +2353,16 @@
         "regular"
       ],
       "pm_bars": 327,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 730.15,
       "pm_close": 726.05,
       "pm_change_pct": -0.56,
       "rg_open": 725.86,
-      "rg_close": 731.0,
-      "rg_change_pct": 0.71,
-      "rg_high": 731.04,
-      "rg_low": 694.2311,
-      "rg_volume": 28580031.0
+      "rg_close": 728.32,
+      "rg_change_pct": 0.34,
+      "rg_high": 728.32,
+      "rg_low": 719.61,
+      "rg_volume": 28578648.0
     },
     {
       "symbol": "SQQQ",
@@ -2374,16 +2374,16 @@
         "regular"
       ],
       "pm_bars": 329,
-      "rg_bars": 391,
+      "rg_bars": 211,
       "pm_open": 45.5,
       "pm_close": 46.92,
       "pm_change_pct": 3.12,
       "rg_open": 46.92,
-      "rg_close": 45.8003,
-      "rg_change_pct": -2.39,
+      "rg_close": 45.76,
+      "rg_change_pct": -2.47,
       "rg_high": 49.03,
-      "rg_low": 45.57,
-      "rg_volume": 40317809.0
+      "rg_low": 45.61,
+      "rg_volume": 41512823.0
     },
     {
       "symbol": "AAOG",
@@ -2395,16 +2395,16 @@
         "regular"
       ],
       "pm_bars": 89,
-      "rg_bars": 386,
+      "rg_bars": 211,
       "pm_open": 0.22,
       "pm_close": 0.228,
       "pm_change_pct": 3.64,
       "rg_open": 0.2299,
-      "rg_close": 0.2251,
-      "rg_change_pct": -2.09,
-      "rg_high": 0.23,
+      "rg_close": 0.2153,
+      "rg_change_pct": -6.35,
+      "rg_high": 0.2299,
       "rg_low": 0.195,
-      "rg_volume": 6185028.0
+      "rg_volume": 6183675.0
     },
     {
       "symbol": "ALA",
@@ -2416,7 +2416,7 @@
         "regular"
       ],
       "pm_bars": 13,
-      "rg_bars": 386,
+      "rg_bars": 211,
       "pm_open": 3.51,
       "pm_close": 3.7,
       "pm_change_pct": 5.41,
@@ -2425,7 +2425,7 @@
       "rg_change_pct": -5.95,
       "rg_high": 3.7,
       "rg_low": 3.03,
-      "rg_volume": 36477.0
+      "rg_volume": 36473.0
     },
     {
       "symbol": "AREC",
@@ -2437,13 +2437,13 @@
         "regular"
       ],
       "pm_bars": 90,
-      "rg_bars": 217,
+      "rg_bars": 207,
       "pm_open": 0.76,
       "pm_close": 0.8962,
       "pm_change_pct": 17.92,
       "rg_open": 0.9206,
-      "rg_close": 0.931,
-      "rg_change_pct": 1.13,
+      "rg_close": 0.9382,
+      "rg_change_pct": 1.91,
       "rg_high": 0.9989,
       "rg_low": 0.83,
       "rg_volume": 5032471.0
@@ -2458,16 +2458,16 @@
         "regular"
       ],
       "pm_bars": 49,
-      "rg_bars": 386,
+      "rg_bars": 211,
       "pm_open": 71.81,
       "pm_close": 75.0,
       "pm_change_pct": 4.44,
       "rg_open": 74.85,
-      "rg_close": 72.68,
-      "rg_change_pct": -2.9,
+      "rg_close": 71.43,
+      "rg_change_pct": -4.57,
       "rg_high": 74.85,
       "rg_low": 71.04,
-      "rg_volume": 270613.0
+      "rg_volume": 270435.0
     },
     {
       "symbol": "CIFG",
@@ -2479,7 +2479,7 @@
         "regular"
       ],
       "pm_bars": 8,
-      "rg_bars": 386,
+      "rg_bars": 211,
       "pm_open": 0.33,
       "pm_close": 0.3759,
       "pm_change_pct": 13.91,
@@ -2488,7 +2488,7 @@
       "rg_change_pct": -5.61,
       "rg_high": 0.3759,
       "rg_low": 0.2701,
-      "rg_volume": 863317.0
+      "rg_volume": 863309.0
     },
     {
       "symbol": "UBR",
@@ -2500,7 +2500,7 @@
         "regular"
       ],
       "pm_bars": 4,
-      "rg_bars": 386,
+      "rg_bars": 211,
       "pm_open": 24.49,
       "pm_close": 25.35,
       "pm_change_pct": 3.51,
@@ -2509,7 +2509,7 @@
       "rg_change_pct": -4.93,
       "rg_high": 24.76,
       "rg_low": 23.54,
-      "rg_volume": 17553.0
+      "rg_volume": 17541.0
     },
     {
       "symbol": "XCUR",
@@ -2521,16 +2521,16 @@
         "regular"
       ],
       "pm_bars": 73,
-      "rg_bars": 257,
+      "rg_bars": 211,
       "pm_open": 1.13,
       "pm_close": 1.39,
       "pm_change_pct": 23.01,
       "rg_open": 1.3994,
-      "rg_close": 1.38,
-      "rg_change_pct": -1.39,
+      "rg_close": 1.4,
+      "rg_change_pct": 0.04,
       "rg_high": 1.45,
       "rg_low": 1.12,
-      "rg_volume": 3282659.0
+      "rg_volume": 3327059.0
     },
     {
       "symbol": "INLF",
@@ -2542,16 +2542,16 @@
         "regular"
       ],
       "pm_bars": 8,
-      "rg_bars": 191,
+      "rg_bars": 116,
       "pm_open": 3.0,
       "pm_close": 2.508,
       "pm_change_pct": -16.4,
       "rg_open": 2.575,
-      "rg_close": 2.46,
-      "rg_change_pct": -4.47,
+      "rg_close": 2.42,
+      "rg_change_pct": -6.02,
       "rg_high": 2.7,
       "rg_low": 2.321,
-      "rg_volume": 220963.0
+      "rg_volume": 363145.0
     },
     {
       "symbol": "YMAT",
@@ -2563,16 +2563,16 @@
         "regular"
       ],
       "pm_bars": 8,
-      "rg_bars": 151,
+      "rg_bars": 40,
       "pm_open": 0.8136,
       "pm_close": 0.81,
       "pm_change_pct": -0.44,
       "rg_open": 0.81,
-      "rg_close": 0.781,
-      "rg_change_pct": -3.58,
+      "rg_close": 0.7805,
+      "rg_change_pct": -3.64,
       "rg_high": 0.81,
       "rg_low": 0.76,
-      "rg_volume": 81013.0
+      "rg_volume": 96728.0
     }
   ],
   "engines": {
@@ -8370,31 +8370,6 @@
           ]
         },
         {
-          "symbol": "KIDZ",
-          "strategy": "v_37",
-          "session": "regular",
-          "trades_count": 1,
-          "win_count": 1,
-          "loss_count": 0,
-          "win_rate_pct": 100.0,
-          "return_pct": 15.74,
-          "pnl_usd": 119.62,
-          "avg_return_pct": 15.74,
-          "max_trade_pct": 15.74,
-          "min_trade_pct": 15.74,
-          "trades": [
-            {
-              "entry_time_et": "13:00",
-              "exit_time_et": "13:01",
-              "entry_price": 1.06,
-              "exit_price": 1.2291,
-              "return_pct": 15.74,
-              "pnl_usd": 119.62,
-              "close_reason": "TAKE_PROFIT"
-            }
-          ]
-        },
-        {
           "symbol": "MTEN",
           "strategy": "v_37",
           "session": "regular",
@@ -8520,11 +8495,11 @@
           "win_count": 2,
           "loss_count": 3,
           "win_rate_pct": 40.0,
-          "return_pct": -5.43,
-          "pnl_usd": -41.13,
-          "avg_return_pct": -1.08,
+          "return_pct": -3.33,
+          "pnl_usd": -24.94,
+          "avg_return_pct": -0.66,
           "max_trade_pct": 1.75,
-          "min_trade_pct": -3.76,
+          "min_trade_pct": -2.88,
           "trades": [
             {
               "entry_time_et": "12:07",
@@ -8564,12 +8539,12 @@
             },
             {
               "entry_time_et": "12:57",
-              "exit_time_et": "13:03",
+              "exit_time_et": "13:00",
               "entry_price": 0.0141,
-              "exit_price": 0.0136,
-              "return_pct": -3.76,
-              "pnl_usd": -28.58,
-              "close_reason": "STOP_LOSS"
+              "exit_price": 0.0139,
+              "return_pct": -1.63,
+              "pnl_usd": -12.39,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -8710,20 +8685,20 @@
           "win_count": 0,
           "loss_count": 1,
           "win_rate_pct": 0.0,
-          "return_pct": -1.19,
-          "pnl_usd": -9.04,
-          "avg_return_pct": -1.19,
-          "max_trade_pct": -1.19,
-          "min_trade_pct": -1.19,
+          "return_pct": -0.3,
+          "pnl_usd": -2.28,
+          "avg_return_pct": -0.3,
+          "max_trade_pct": -0.3,
+          "min_trade_pct": -0.3,
           "trades": [
             {
               "entry_time_et": "12:59",
-              "exit_time_et": "13:05",
+              "exit_time_et": "13:00",
               "entry_price": 53.9,
-              "exit_price": 53.37,
-              "return_pct": -1.19,
-              "pnl_usd": -9.04,
-              "close_reason": "STAGNATION_CUT"
+              "exit_price": 53.85,
+              "return_pct": -0.3,
+              "pnl_usd": -2.28,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -9361,14 +9336,14 @@
           "symbol": "DOGZ",
           "strategy": "v_38",
           "session": "regular",
-          "trades_count": 9,
+          "trades_count": 10,
           "win_count": 0,
-          "loss_count": 9,
+          "loss_count": 10,
           "win_rate_pct": 0.0,
-          "return_pct": -31.18,
-          "pnl_usd": -298.08,
-          "avg_return_pct": -4.05,
-          "max_trade_pct": -2.47,
+          "return_pct": -31.45,
+          "pnl_usd": -301.27,
+          "avg_return_pct": -3.68,
+          "max_trade_pct": -0.38,
           "min_trade_pct": -8.06,
           "trades": [
             {
@@ -9451,6 +9426,15 @@
               "return_pct": -4.57,
               "pnl_usd": -38.39,
               "close_reason": "STOP_LOSS"
+            },
+            {
+              "entry_time_et": "13:00",
+              "exit_time_et": "13:00",
+              "entry_price": 0.3523,
+              "exit_price": 0.3517,
+              "return_pct": -0.38,
+              "pnl_usd": -3.19,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -9602,11 +9586,11 @@
           "win_count": 2,
           "loss_count": 0,
           "win_rate_pct": 100.0,
-          "return_pct": 12.11,
-          "pnl_usd": 100.54,
-          "avg_return_pct": 5.99,
-          "max_trade_pct": 10.66,
-          "min_trade_pct": 1.31,
+          "return_pct": 1.68,
+          "pnl_usd": 14.11,
+          "avg_return_pct": 0.84,
+          "max_trade_pct": 1.31,
+          "min_trade_pct": 0.37,
           "trades": [
             {
               "entry_time_et": "11:46",
@@ -9619,12 +9603,12 @@
             },
             {
               "entry_time_et": "12:59",
-              "exit_time_et": "13:43",
+              "exit_time_et": "13:00",
               "entry_price": 1.371,
-              "exit_price": 1.52,
-              "return_pct": 10.66,
-              "pnl_usd": 89.54,
-              "close_reason": "TAKE_PROFIT"
+              "exit_price": 1.379,
+              "return_pct": 0.37,
+              "pnl_usd": 3.11,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -9727,15 +9711,15 @@
           "symbol": "KIDZ",
           "strategy": "v_38",
           "session": "regular",
-          "trades_count": 2,
-          "win_count": 2,
+          "trades_count": 1,
+          "win_count": 1,
           "loss_count": 0,
           "win_rate_pct": 100.0,
-          "return_pct": 34.42,
-          "pnl_usd": 255.04,
-          "avg_return_pct": 15.94,
+          "return_pct": 16.14,
+          "pnl_usd": 129.12,
+          "avg_return_pct": 16.14,
           "max_trade_pct": 16.14,
-          "min_trade_pct": 15.74,
+          "min_trade_pct": 16.14,
           "trades": [
             {
               "entry_time_et": "12:45",
@@ -9744,15 +9728,6 @@
               "exit_price": 1.1992,
               "return_pct": 16.14,
               "pnl_usd": 129.12,
-              "close_reason": "TAKE_PROFIT"
-            },
-            {
-              "entry_time_et": "13:00",
-              "exit_time_et": "13:01",
-              "entry_price": 1.06,
-              "exit_price": 1.2291,
-              "return_pct": 15.74,
-              "pnl_usd": 125.92,
               "close_reason": "TAKE_PROFIT"
             }
           ]
@@ -10065,9 +10040,9 @@
           "win_count": 3,
           "loss_count": 2,
           "win_rate_pct": 60.0,
-          "return_pct": 2.19,
-          "pnl_usd": 18.39,
-          "avg_return_pct": 0.44,
+          "return_pct": 2.37,
+          "pnl_usd": 19.91,
+          "avg_return_pct": 0.47,
           "max_trade_pct": 1.8,
           "min_trade_pct": -0.65,
           "trades": [
@@ -10109,12 +10084,12 @@
             },
             {
               "entry_time_et": "13:00",
-              "exit_time_et": "13:15",
+              "exit_time_et": "13:00",
               "entry_price": 10.8227,
-              "exit_price": 10.7973,
-              "return_pct": -0.44,
-              "pnl_usd": -3.7,
-              "close_reason": "TIME_STOP"
+              "exit_price": 10.8173,
+              "return_pct": -0.26,
+              "pnl_usd": -2.18,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -10331,13 +10306,13 @@
           "strategy": "v_38",
           "session": "regular",
           "trades_count": 3,
-          "win_count": 2,
-          "loss_count": 1,
-          "win_rate_pct": 66.7,
-          "return_pct": 2.73,
-          "pnl_usd": 22.93,
-          "avg_return_pct": 0.91,
-          "max_trade_pct": 2.22,
+          "win_count": 1,
+          "loss_count": 2,
+          "win_rate_pct": 33.3,
+          "return_pct": 0.13,
+          "pnl_usd": 1.17,
+          "avg_return_pct": 0.05,
+          "max_trade_pct": 1.31,
           "min_trade_pct": -0.8,
           "trades": [
             {
@@ -10360,12 +10335,12 @@
             },
             {
               "entry_time_et": "13:00",
-              "exit_time_et": "13:05",
+              "exit_time_et": "13:00",
               "entry_price": 1.1609,
-              "exit_price": 1.1891,
-              "return_pct": 2.22,
-              "pnl_usd": 18.65,
-              "close_reason": "TAKE_PROFIT"
+              "exit_price": 1.1591,
+              "return_pct": -0.37,
+              "pnl_usd": -3.11,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -10796,12 +10771,12 @@
             },
             {
               "entry_time_et": "12:58",
-              "exit_time_et": "13:02",
+              "exit_time_et": "13:00",
               "entry_price": 1.92,
               "exit_price": 1.89,
               "return_pct": -1.77,
               "pnl_usd": -14.87,
-              "close_reason": "TAKE_PROFIT"
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -11125,9 +11100,9 @@
           "win_count": 2,
           "loss_count": 6,
           "win_rate_pct": 25.0,
-          "return_pct": -10.22,
-          "pnl_usd": -88.96,
-          "avg_return_pct": -1.32,
+          "return_pct": -8.26,
+          "pnl_usd": -71.06,
+          "avg_return_pct": -1.06,
           "max_trade_pct": 1.8,
           "min_trade_pct": -2.66,
           "trades": [
@@ -11196,12 +11171,12 @@
             },
             {
               "entry_time_et": "13:00",
-              "exit_time_et": "13:01",
+              "exit_time_et": "13:00",
               "entry_price": 1.401,
-              "exit_price": 1.369,
-              "return_pct": -2.49,
-              "pnl_usd": -20.92,
-              "close_reason": "STOP_LOSS"
+              "exit_price": 1.3989,
+              "return_pct": -0.36,
+              "pnl_usd": -3.02,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -11478,31 +11453,6 @@
           ]
         },
         {
-          "symbol": "KIDZ",
-          "strategy": "v_45",
-          "session": "regular",
-          "trades_count": 1,
-          "win_count": 1,
-          "loss_count": 0,
-          "win_rate_pct": 100.0,
-          "return_pct": 15.74,
-          "pnl_usd": 119.62,
-          "avg_return_pct": 15.74,
-          "max_trade_pct": 15.74,
-          "min_trade_pct": 15.74,
-          "trades": [
-            {
-              "entry_time_et": "13:00",
-              "exit_time_et": "13:01",
-              "entry_price": 1.06,
-              "exit_price": 1.2291,
-              "return_pct": 15.74,
-              "pnl_usd": 119.62,
-              "close_reason": "TAKE_PROFIT"
-            }
-          ]
-        },
-        {
           "symbol": "NIVF",
           "strategy": "v_45",
           "session": "regular",
@@ -11621,20 +11571,20 @@
           "win_count": 0,
           "loss_count": 1,
           "win_rate_pct": 0.0,
-          "return_pct": -1.19,
-          "pnl_usd": -9.04,
-          "avg_return_pct": -1.19,
-          "max_trade_pct": -1.19,
-          "min_trade_pct": -1.19,
+          "return_pct": -0.3,
+          "pnl_usd": -2.28,
+          "avg_return_pct": -0.3,
+          "max_trade_pct": -0.3,
+          "min_trade_pct": -0.3,
           "trades": [
             {
               "entry_time_et": "12:59",
-              "exit_time_et": "13:03",
+              "exit_time_et": "13:00",
               "entry_price": 53.9,
-              "exit_price": 53.37,
-              "return_pct": -1.19,
-              "pnl_usd": -9.04,
-              "close_reason": "STAGNATION_CUT"
+              "exit_price": 53.85,
+              "return_pct": -0.3,
+              "pnl_usd": -2.28,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -12942,31 +12892,6 @@
           ]
         },
         {
-          "symbol": "KIDZ",
-          "strategy": "v_41",
-          "session": "regular",
-          "trades_count": 1,
-          "win_count": 1,
-          "loss_count": 0,
-          "win_rate_pct": 100.0,
-          "return_pct": 15.74,
-          "pnl_usd": 125.92,
-          "avg_return_pct": 15.74,
-          "max_trade_pct": 15.74,
-          "min_trade_pct": 15.74,
-          "trades": [
-            {
-              "entry_time_et": "13:00",
-              "exit_time_et": "13:01",
-              "entry_price": 1.06,
-              "exit_price": 1.2291,
-              "return_pct": 15.74,
-              "pnl_usd": 125.92,
-              "close_reason": "TAKE_PROFIT"
-            }
-          ]
-        },
-        {
           "symbol": "LAES",
           "strategy": "v_41",
           "session": "regular",
@@ -13209,13 +13134,13 @@
           "strategy": "v_41",
           "session": "regular",
           "trades_count": 4,
-          "win_count": 2,
-          "loss_count": 2,
-          "win_rate_pct": 50.0,
-          "return_pct": -0.3,
-          "pnl_usd": -2.28,
-          "avg_return_pct": -0.07,
-          "max_trade_pct": 1.51,
+          "win_count": 1,
+          "loss_count": 3,
+          "win_rate_pct": 25.0,
+          "return_pct": -2.15,
+          "pnl_usd": -18.07,
+          "avg_return_pct": -0.54,
+          "max_trade_pct": 0.88,
           "min_trade_pct": -1.37,
           "trades": [
             {
@@ -13247,12 +13172,12 @@
             },
             {
               "entry_time_et": "13:00",
-              "exit_time_et": "13:03",
+              "exit_time_et": "13:00",
               "entry_price": 0.8754,
-              "exit_price": 0.8905,
-              "return_pct": 1.51,
-              "pnl_usd": 12.68,
-              "close_reason": "TAKE_PROFIT"
+              "exit_price": 0.874,
+              "return_pct": -0.37,
+              "pnl_usd": -3.11,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -16743,31 +16668,6 @@
           ]
         },
         {
-          "symbol": "KIDZ",
-          "strategy": "v_37",
-          "session": "regular",
-          "trades_count": 1,
-          "win_count": 1,
-          "loss_count": 0,
-          "win_rate_pct": 100.0,
-          "return_pct": 15.74,
-          "pnl_usd": 119.62,
-          "avg_return_pct": 15.74,
-          "max_trade_pct": 15.74,
-          "min_trade_pct": 15.74,
-          "trades": [
-            {
-              "entry_time_et": "13:00",
-              "exit_time_et": "13:01",
-              "entry_price": 1.06,
-              "exit_price": 1.2291,
-              "return_pct": 15.74,
-              "pnl_usd": 119.62,
-              "close_reason": "TAKE_PROFIT"
-            }
-          ]
-        },
-        {
           "symbol": "MTEN",
           "strategy": "v_37",
           "session": "regular",
@@ -16893,11 +16793,11 @@
           "win_count": 2,
           "loss_count": 3,
           "win_rate_pct": 40.0,
-          "return_pct": -5.43,
-          "pnl_usd": -41.13,
-          "avg_return_pct": -1.08,
+          "return_pct": -3.33,
+          "pnl_usd": -24.94,
+          "avg_return_pct": -0.66,
           "max_trade_pct": 1.75,
-          "min_trade_pct": -3.76,
+          "min_trade_pct": -2.88,
           "trades": [
             {
               "entry_time_et": "12:07",
@@ -16937,12 +16837,12 @@
             },
             {
               "entry_time_et": "12:57",
-              "exit_time_et": "13:03",
+              "exit_time_et": "13:00",
               "entry_price": 0.0141,
-              "exit_price": 0.0136,
-              "return_pct": -3.76,
-              "pnl_usd": -28.58,
-              "close_reason": "STOP_LOSS"
+              "exit_price": 0.0139,
+              "return_pct": -1.63,
+              "pnl_usd": -12.39,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -17074,20 +16974,20 @@
           "win_count": 0,
           "loss_count": 1,
           "win_rate_pct": 0.0,
-          "return_pct": -1.19,
-          "pnl_usd": -9.04,
-          "avg_return_pct": -1.19,
-          "max_trade_pct": -1.19,
-          "min_trade_pct": -1.19,
+          "return_pct": -0.3,
+          "pnl_usd": -2.28,
+          "avg_return_pct": -0.3,
+          "max_trade_pct": -0.3,
+          "min_trade_pct": -0.3,
           "trades": [
             {
               "entry_time_et": "12:59",
-              "exit_time_et": "13:05",
+              "exit_time_et": "13:00",
               "entry_price": 53.9,
-              "exit_price": 53.37,
-              "return_pct": -1.19,
-              "pnl_usd": -9.04,
-              "close_reason": "STAGNATION_CUT"
+              "exit_price": 53.85,
+              "return_pct": -0.3,
+              "pnl_usd": -2.28,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -17545,13 +17445,13 @@
           "symbol": "DOGZ",
           "strategy": "v_38",
           "session": "regular",
-          "trades_count": 4,
+          "trades_count": 5,
           "win_count": 2,
-          "loss_count": 2,
-          "win_rate_pct": 50.0,
-          "return_pct": 2.17,
-          "pnl_usd": 18.74,
-          "avg_return_pct": 0.66,
+          "loss_count": 3,
+          "win_rate_pct": 40.0,
+          "return_pct": 1.79,
+          "pnl_usd": 15.55,
+          "avg_return_pct": 0.45,
           "max_trade_pct": 8.36,
           "min_trade_pct": -4.57,
           "trades": [
@@ -17590,6 +17490,15 @@
               "return_pct": -4.57,
               "pnl_usd": -38.39,
               "close_reason": "STOP_LOSS"
+            },
+            {
+              "entry_time_et": "13:00",
+              "exit_time_et": "13:00",
+              "entry_price": 0.3523,
+              "exit_price": 0.3517,
+              "return_pct": -0.38,
+              "pnl_usd": -3.19,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -17687,20 +17596,20 @@
           "win_count": 1,
           "loss_count": 0,
           "win_rate_pct": 100.0,
-          "return_pct": 10.66,
-          "pnl_usd": 89.54,
-          "avg_return_pct": 10.66,
-          "max_trade_pct": 10.66,
-          "min_trade_pct": 10.66,
+          "return_pct": 0.37,
+          "pnl_usd": 3.11,
+          "avg_return_pct": 0.37,
+          "max_trade_pct": 0.37,
+          "min_trade_pct": 0.37,
           "trades": [
             {
               "entry_time_et": "12:59",
-              "exit_time_et": "13:43",
+              "exit_time_et": "13:00",
               "entry_price": 1.371,
-              "exit_price": 1.52,
-              "return_pct": 10.66,
-              "pnl_usd": 89.54,
-              "close_reason": "TAKE_PROFIT"
+              "exit_price": 1.379,
+              "return_pct": 0.37,
+              "pnl_usd": 3.11,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -17776,15 +17685,15 @@
           "symbol": "KIDZ",
           "strategy": "v_38",
           "session": "regular",
-          "trades_count": 2,
-          "win_count": 2,
+          "trades_count": 1,
+          "win_count": 1,
           "loss_count": 0,
           "win_rate_pct": 100.0,
-          "return_pct": 34.42,
-          "pnl_usd": 255.04,
-          "avg_return_pct": 15.94,
+          "return_pct": 16.14,
+          "pnl_usd": 129.12,
+          "avg_return_pct": 16.14,
           "max_trade_pct": 16.14,
-          "min_trade_pct": 15.74,
+          "min_trade_pct": 16.14,
           "trades": [
             {
               "entry_time_et": "12:45",
@@ -17793,15 +17702,6 @@
               "exit_price": 1.1992,
               "return_pct": 16.14,
               "pnl_usd": 129.12,
-              "close_reason": "TAKE_PROFIT"
-            },
-            {
-              "entry_time_et": "13:00",
-              "exit_time_et": "13:01",
-              "entry_price": 1.06,
-              "exit_price": 1.2291,
-              "return_pct": 15.74,
-              "pnl_usd": 125.92,
               "close_reason": "TAKE_PROFIT"
             }
           ]
@@ -18496,12 +18396,12 @@
             },
             {
               "entry_time_et": "12:59",
-              "exit_time_et": "13:02",
+              "exit_time_et": "13:00",
               "entry_price": 1.92,
               "exit_price": 1.89,
               "return_pct": -1.77,
               "pnl_usd": -14.87,
-              "close_reason": "TAKE_PROFIT"
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -19043,31 +18943,6 @@
           ]
         },
         {
-          "symbol": "KIDZ",
-          "strategy": "v_45",
-          "session": "regular",
-          "trades_count": 1,
-          "win_count": 1,
-          "loss_count": 0,
-          "win_rate_pct": 100.0,
-          "return_pct": 15.74,
-          "pnl_usd": 119.62,
-          "avg_return_pct": 15.74,
-          "max_trade_pct": 15.74,
-          "min_trade_pct": 15.74,
-          "trades": [
-            {
-              "entry_time_et": "13:00",
-              "exit_time_et": "13:01",
-              "entry_price": 1.06,
-              "exit_price": 1.2291,
-              "return_pct": 15.74,
-              "pnl_usd": 119.62,
-              "close_reason": "TAKE_PROFIT"
-            }
-          ]
-        },
-        {
           "symbol": "NIVF",
           "strategy": "v_45",
           "session": "regular",
@@ -19186,20 +19061,20 @@
           "win_count": 0,
           "loss_count": 1,
           "win_rate_pct": 0.0,
-          "return_pct": -1.19,
-          "pnl_usd": -9.04,
-          "avg_return_pct": -1.19,
-          "max_trade_pct": -1.19,
-          "min_trade_pct": -1.19,
+          "return_pct": -0.3,
+          "pnl_usd": -2.28,
+          "avg_return_pct": -0.3,
+          "max_trade_pct": -0.3,
+          "min_trade_pct": -0.3,
           "trades": [
             {
               "entry_time_et": "12:59",
-              "exit_time_et": "13:03",
+              "exit_time_et": "13:00",
               "entry_price": 53.9,
-              "exit_price": 53.37,
-              "return_pct": -1.19,
-              "pnl_usd": -9.04,
-              "close_reason": "STAGNATION_CUT"
+              "exit_price": 53.85,
+              "return_pct": -0.3,
+              "pnl_usd": -2.28,
+              "close_reason": "TAPE_END"
             }
           ]
         },
@@ -20362,31 +20237,6 @@
           ]
         },
         {
-          "symbol": "KIDZ",
-          "strategy": "v_41",
-          "session": "regular",
-          "trades_count": 1,
-          "win_count": 1,
-          "loss_count": 0,
-          "win_rate_pct": 100.0,
-          "return_pct": 15.74,
-          "pnl_usd": 125.92,
-          "avg_return_pct": 15.74,
-          "max_trade_pct": 15.74,
-          "min_trade_pct": 15.74,
-          "trades": [
-            {
-              "entry_time_et": "13:00",
-              "exit_time_et": "13:01",
-              "entry_price": 1.06,
-              "exit_price": 1.2291,
-              "return_pct": 15.74,
-              "pnl_usd": 125.92,
-              "close_reason": "TAKE_PROFIT"
-            }
-          ]
-        },
-        {
           "symbol": "LAES",
           "strategy": "v_41",
           "session": "regular",
@@ -20604,13 +20454,13 @@
           "strategy": "v_41",
           "session": "regular",
           "trades_count": 4,
-          "win_count": 2,
-          "loss_count": 2,
-          "win_rate_pct": 50.0,
-          "return_pct": -0.3,
-          "pnl_usd": -2.28,
-          "avg_return_pct": -0.07,
-          "max_trade_pct": 1.51,
+          "win_count": 1,
+          "loss_count": 3,
+          "win_rate_pct": 25.0,
+          "return_pct": -2.15,
+          "pnl_usd": -18.07,
+          "avg_return_pct": -0.54,
+          "max_trade_pct": 0.88,
           "min_trade_pct": -1.37,
           "trades": [
             {
@@ -20642,12 +20492,12 @@
             },
             {
               "entry_time_et": "13:00",
-              "exit_time_et": "13:03",
+              "exit_time_et": "13:00",
               "entry_price": 0.8754,
-              "exit_price": 0.8905,
-              "return_pct": 1.51,
-              "pnl_usd": 12.68,
-              "close_reason": "TAKE_PROFIT"
+              "exit_price": 0.874,
+              "return_pct": -0.37,
+              "pnl_usd": -3.11,
+              "close_reason": "TAPE_END"
             }
           ]
         },
